@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Link, makeStyles, Button } from '@material-ui/core';
+import HomeLoginModal from '../HomeLoginModal';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -18,8 +19,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 const HomeTopBar = () => {
-    const classes = useStyles();
 
+    const [modalOpen, setmodalOpen] = useState(false)
+
+    const classes = useStyles();
     return (
         <React.Fragment>
             <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
@@ -38,11 +41,13 @@ const HomeTopBar = () => {
                             Support
                         </Link>
                     </nav>
-                    <Button href="#" color="primary" variant="outlined" className={classes.link}>
+                    <Button color="primary" variant="outlined" className={classes.link} onClick={() => { setmodalOpen(true) }}>
                         Login
                     </Button>
                 </Toolbar>
             </AppBar>
+
+            <HomeLoginModal open={modalOpen} close={() => { setmodalOpen(false) }} />
         </React.Fragment>
     )
 };
