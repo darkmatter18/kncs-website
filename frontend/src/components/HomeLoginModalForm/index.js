@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Button, CircularProgress, withStyles } from '@material-ui/core';
-// import api from './../../api';
+import api from './../../api';
 
 import { API_ROUTE_LOGIN } from "../../constant";
 
@@ -32,23 +32,23 @@ class HomeLoginModalForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({ submitting: true, buttonBackgroundColor: '#dbdbdb' });
+        this.setState({ submitting: true });
         this.submitRequest();
     }
 
     submitRequest = async () => {
-        // await api.post(API_ROUTE_LOGIN, {
-        //     email: this.state.email,
-        //     password: this.state.password
-        // }).then((response) => {
-        //     if (response.status === 200) {
-        //         if (response.data.status === 'Y') {
-        //             this.setState({ submitted: true })
-        //         }
-        //     }
-        // }).catch((e) => {
-        //     this.setState({ submitting: false, buttonBackgroundColor: '#00ad45', submitFailed: true })
-        // });
+        await api.post(API_ROUTE_LOGIN, {
+            email: this.state.email,
+            password: this.state.password
+        }).then((response) => {
+            if (response.status === 200) {
+                if (response.data.status === 'Y') {
+                    this.setState({ submitted: true })
+                }
+            }
+        }).catch((e) => {
+            this.setState({ submitting: false, submitFailed: true })
+        });
     }
 
     render() {
