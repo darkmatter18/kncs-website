@@ -8,3 +8,5 @@ const App = () => (
         <RouteComponent />
     </React.Fragment>
 );
+
+export default App;

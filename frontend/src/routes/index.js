@@ -12,7 +12,6 @@ const RouteComponent = () => {
             <Router>
                 <Switch>
                     <Route path={HOME} exact component={Home} />
-                    <Route path={} exact component={} />
                     {/* <Route path="*" component={}/> 404 */}
                 </Switch>
             </Router>
