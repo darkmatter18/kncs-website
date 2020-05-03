@@ -45,4 +45,6 @@ const HomeTopBar = () => {
             </AppBar>
         </React.Fragment>
     )
-}
+};
+
+export default HomeTopBar;
