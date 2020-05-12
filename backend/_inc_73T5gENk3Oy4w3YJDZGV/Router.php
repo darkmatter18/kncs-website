@@ -1,5 +1,11 @@
 <?php
-class Router_if9pWh0B3BGiQD4JMejZ{
+/**
+ * Router Class
+ * Definition of routers
+ * Created by: Arkadip Bhattachaya 12/05/2020 09:40PM
+ */
+
+class Router{
 
     private static $routes = Array();
     private static $pathNotFound = null;
@@ -54,7 +60,7 @@ class Router_if9pWh0B3BGiQD4JMejZ{
         // Add 'find string end' automatically
         $route['expression'] = $route['expression'].'$';
     
-        // echo $route['expression'].'<br/>';
+        //echo $route['expression'].'<br/>';
     
         // Check path match	
         if(preg_match('#'.$route['expression'].'#',$path,$matches)){
