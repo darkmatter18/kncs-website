@@ -1,3 +1,19 @@
+DirectoryIndex index.php
+
+# enable apache rewrite engine
+RewriteEngine on
+
+# set your rewrite base
+# Edit this in your init method too if you script lives in a subfolder
+RewriteBase /kncs-website/backend
+
+# Deliver the folder or file directly if it exists on the server
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+ 
+# Push every request to index.php
+RewriteRule ^(.*)$ index.php [QSA]
+
 SetEnv HTTP_MYSQL_DB_HOST "localhost"
 SetEnv HTTP_MYSQL_DB_USER "root"
 SetEnv HTTP_MYSQL_DB_PASS ""
