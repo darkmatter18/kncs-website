@@ -6,8 +6,12 @@
             
             protected static $con;
 
-            private function __construct($dsn,$user,$pass){
+            private function __construct(){
 
+                $dsn = 'mysql:charset=utf8mb4;dbname='.$_SERVER['HTTP_MYSQL_DB_NAME'].';host='.$_SERVER['HTTP_MYSQL_DB_HOST'].';port=3306;';
+                $user = $_SERVER['HTTP_MYSQL_DB_USER'];
+                $pass = $_SERVER['HTTP_MYSQL_DB_PASS'];
+                
                 try {
                     self::$con = new PDO($dsn,$user,$pass);
                     self::$con->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
@@ -20,16 +24,10 @@
                 }    
             }
 
-            public static function getConnection($dsn, $user, $pass) {
-
+            public static function getConnection() {
                 //If this instance was not been started, start it.
                 if (!self::$con) {
-                    
-                    // $dsn = 'mysql:charset=utf8mb4;dbname='.DB_NAME.';host='.DB_HOST.';port=3306;';
-                    // $user = DB_USER;
-                    // $pass = DB_PASSWORD;
-
-                    new PDODB($dsn, $user, $pass);
+                    new PDODB_vxw500n8koN4Y3vW0pi();
                 }
 
                 //Return the writteable db connection

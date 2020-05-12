@@ -1,0 +1,4 @@
+SetEnv HTTP_MYSQL_DB_HOST "localhost"
+SetEnv HTTP_MYSQL_DB_USER "root"
+SetEnv HTTP_MYSQL_DB_PASS ""
+SetEnv HTTP_MYSQL_DB_NAME "kncs"
