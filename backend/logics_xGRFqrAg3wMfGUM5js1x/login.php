@@ -1,8 +1,37 @@
 <?php
+
+function chechRecapta($re_response, $secret = "6LeehWIUAAAAAE83_TmuUYp8VaOY2uc2SXd2aOw9"){
+    if(isset($re_response) && !empty($re_response)){
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$re_response.'&remoteip');
+        $respone =  json_decode($verifyResponse); //Decode the json return obj
+        if($respone->success){
+            return true;
+        }
+    }
+    return false;
+}
+
+function login($pdocon, $id, $password){
+    //Check if admin already exist or not
+    $smt_admin = $pdocon->prepare("SELECT id, password FROM admins WHERE id =:id LIMIT 1");
+    $smt_admin->bindParam(':id', $id, PDO::PARAM_STR);
+    $smt_admin->execute();
+    if($smt_admin->rowCount() > 0){
+        //Admin exists
+        $admin_details  = $smt_admin->fetch(PDO::FETCH_ASSOC);
+        $admin_id       = $admin_details['id'];
+        $hashed         = $admin_details['password'];
+
+        if(password_verify($password,$hashed)){
+            return true;
+        }
+    return false;
+}
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-    define('_incFuncwwrfbhdjrt',true);
-    require '../inc2357v3cn425073p4y53w79/func.php';
+    define('_inc', true);
+    require './../_inc_73T5gENk3Oy4w3YJDZGV/index.php';
 
     //return array
     $return = [];
@@ -11,35 +40,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $token = $_POST['token'];
     $id = $_POST['id'];
     $password = $_POST['password'];
-
-    function chechRecapta($re_response, $secret = "6LeehWIUAAAAAE83_TmuUYp8VaOY2uc2SXd2aOw9"){
-        if(isset($re_response) && !empty($re_response)){
-            $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$re_response.'&remoteip');
-            $respone =  json_decode($verifyResponse); //Decode the json return obj
-            if($respone->success){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function login($pdocon, $id, $password){
-        //Check if admin already exist or not
-        $smt_admin = $pdocon->prepare("SELECT id, password FROM admins WHERE id =:id LIMIT 1");
-        $smt_admin->bindParam(':id', $id, PDO::PARAM_STR);
-        $smt_admin->execute();
-        if($smt_admin->rowCount() > 0){
-            //Admin exists
-            $admin_details  = $smt_admin->fetch(PDO::FETCH_ASSOC);
-            $admin_id       = $admin_details['id'];
-            $hashed         = $admin_details['password'];
-
-            if(password_verify($password,$hashed)){
-                return true;
-            }
-        return false;
-    }
-
 
     if(true){
         //If token matched
@@ -50,7 +50,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         //Request for recaptcha
         $re_response = $_POST['g_recaptcha_response'];
             
-        if(chechRecapta($re_response)){      //Checks the  success parameter
+        //if(chechRecapta($re_response)){      //Checks the  success parameter
+        if(true){
             //If not a robot(varified by captcha)
 
             $current_time = date("Y/M/d g:i:s A T P");
@@ -72,7 +73,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             else{
                 //Invalid user email/password
                 $return['msg'] = "Invalid User email/password";
-                $return['status']: false;
+                $return['status'] = false;
             }
         }
     }
