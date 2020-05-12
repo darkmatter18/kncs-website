@@ -41,6 +41,7 @@ class HomeLoginModalForm extends React.Component {
             email: this.state.email,
             password: this.state.password
         }).then((response) => {
+            console.log(response);
             if (response.status === 200) {
                 if (response.data.status === 'Y') {
                     this.setState({ submitted: true })

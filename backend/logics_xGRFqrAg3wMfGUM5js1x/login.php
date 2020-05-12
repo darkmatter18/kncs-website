@@ -28,18 +28,13 @@ function login($pdocon, $id, $password){
     return false;
 }
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if(true){
 
     define('_inc', true);
     require './../_inc_73T5gENk3Oy4w3YJDZGV/index.php';
 
     //return array
     $return = [];
-
-    //POST variable
-    $token = $_POST['token'];
-    $id = $_POST['id'];
-    $password = $_POST['password'];
 
     if(true){
         //If token matched
@@ -48,9 +43,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         header('Content-Type: application/json');  
 
         //Request for recaptcha
-        $re_response = $_POST['g_recaptcha_response'];
             
-        //if(chechRecapta($re_response)){      //Checks the  success parameter
+        //if(chechRecapta($_POST['g_recaptcha_response'];)){
         if(true){
             //If not a robot(varified by captcha)
 
@@ -58,8 +52,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $current_ip = get_client_ip();
 
             //Escaping variables
-            $id_clean = Filter::String(clean($id));
-            $password_clean = Filter::String(clean($password));
+            $id_clean = Filter::String(clean($_POST['id']));
+            $password_clean = Filter::String(clean($_POST['password']));
 
 
             if(login($pdocon, $id_clean, $password_clean)){
@@ -76,12 +70,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $return['status'] = false;
             }
         }
+        else {
+            $return['msg'] = "Capta failed";
+            $return['status'] = false;
+        }
     }
     else{
         $return['msg'] = "X-CSRF mismatched";
-        $return['status']: false;
+        $return['status']= false;
     }
 
     echo json_encode($return, JSON_PRETTY_PRINT);
     exit;
 }
+else {
+    echo "Go POST";
+}
+
+
+?>
