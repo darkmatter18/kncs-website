@@ -5,6 +5,11 @@
  * 
  */
 
+if(!defined('_R')){
+    http_response_code(400);
+    exit;
+}
+
 require './_inc_73T5gENk3Oy4w3YJDZGV/Router.php';
 
 define('LOGIC_DIR', './logics_xGRFqrAg3wMfGUM5js1x/');
@@ -14,12 +19,12 @@ Router::add('/',function(){
 });
 
 Router::add('/api/login',function(){
-    //echo 'Welcome :-)';
     require LOGIC_DIR.'login.php';
 },'post');
 
-Router::add('/api/logout',function(){
-    echo '<form method="post"><input type="text" name="test" /><input type="submit" value="send" /></form>';
+//Example Protected route
+Router::add('/api/admin/1',function(){
+    require LOGIC_DIR.'admin1.php';
 },'get');
 
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
