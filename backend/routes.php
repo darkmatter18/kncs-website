@@ -22,4 +22,4 @@ Router::add('/api/logout',function(){
     echo '<form method="post"><input type="text" name="test" /><input type="submit" value="send" /></form>';
 },'get');
 
-Router::run('/kncs-website/backend');
+Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
