@@ -1,8 +1,8 @@
 <?php
     //IF there is no constant defined called _CONFIG_, do not load file
-    if(defined('_CON1swys135em856uv346_')){
+    if(defined('_incUse')){
 
-        class PDODB_vxw500n8koN4Y3vW0pi{
+        class PDODB{
             
             protected static $con;
 
@@ -27,7 +27,7 @@
             public static function getConnection() {
                 //If this instance was not been started, start it.
                 if (!self::$con) {
-                    new PDODB_vxw500n8koN4Y3vW0pi();
+                    new PDODB();
                 }
 
                 //Return the writteable db connection
