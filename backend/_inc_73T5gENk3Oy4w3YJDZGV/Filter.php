@@ -4,7 +4,7 @@
  * Created by: Arkadip Bhattachaya 12/05/2020 09:40PM
  */
 
-if(defined('_incUse')){
+if(!defined('_incUse')){
     http_response_code(400);
     exit;
 }

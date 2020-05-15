@@ -96,6 +96,7 @@ if (isset($_POST['id']) && isset($_POST['password']) && isset($_POST['g_recaptch
                 
                 $return['user'] = array(
                     "id" => $id_clean,
+                    "role" => $role,
                     "loginAt" => $issusedAt,
                     "jwt" => $jwt,
                     "expiresAt" => $expiredAt
