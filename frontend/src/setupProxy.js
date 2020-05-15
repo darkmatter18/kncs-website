@@ -1,5 +1,5 @@
 const proxy = require('http-proxy-middleware')
 
 module.exports = function(app) {
-    app.use(proxy('/api/*', { target: 'http://localhost:80/kncs-website/backend/api/' }))
+    app.use(proxy('/api/*', { target: 'http://localhost/kncs-website/backend' }))
 }

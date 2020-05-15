@@ -13,10 +13,10 @@ Router::add('/',function(){
     echo 'Welcome :-)';
 });
 
-Router::add('/api/login/',function(){
+Router::add('/api/login',function(){
     //echo 'Welcome :-)';
     require LOGIC_DIR.'login.php';
-});
+},'post');
 
 Router::add('/api/logout',function(){
     echo '<form method="post"><input type="text" name="test" /><input type="submit" value="send" /></form>';
