@@ -1,6 +1,6 @@
 <?php
 
 define('_R', true);
-define('BASE_PATH', dirname(__FILE__));
+define('BASE_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR);
 
 require './routes.php';

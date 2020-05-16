@@ -1,5 +1,5 @@
 <?php
-require dirname(dirname(__FILE__))."/vendor/autoload.php";
+require BASE_DIR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 use \Firebase\JWT\JWT;
 function getAuthorizationHeader(){
     $headers = null;

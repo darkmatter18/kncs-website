@@ -10,10 +10,10 @@ if(!defined('_R')){
     exit;
 }
 
-define('LOGIC_DIR', BASE_DIR.DIRECTORY_SEPARATOR.'logics_xGRFqrAg3wMfGUM5js1x');
-define('INC_DIR', BASE_DIR.DIRECTORY_SEPARATOR.'_inc_73T5gENk3Oy4w3YJDZGV');
+define('LOGIC_DIR', BASE_DIR.'logics_xGRFqrAg3wMfGUM5js1x'.DIRECTORY_SEPARATOR);
+define('INC_DIR', BASE_DIR.'_inc_73T5gENk3Oy4w3YJDZGV'.DIRECTORY_SEPARATOR);
 
-require INC_DIR.DIRECTORY_SEPARATOR.'Router.php';
+require INC_DIR.'Router.php';
 
 Router::add('/',function(){
     echo 'Welcome :-)';

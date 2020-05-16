@@ -10,9 +10,9 @@ if(!defined('_inc')){
 }
 
 define('_incUse', true);
-require_once dirname(__FILE__).'/PDODB.php';
-require_once dirname(__FILE__).'/Filter.php';
-require_once dirname(__FILE__).'/Router.php';
+require_once INC_DIR.'PDODB.php';
+require_once INC_DIR.'Filter.php';
+require_once INC_DIR.'Router.php';
 
 $pdocon = PDODB::getConnection();
 
