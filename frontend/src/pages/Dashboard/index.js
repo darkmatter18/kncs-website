@@ -4,8 +4,10 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div>
-                Hello World
+                Hello Logged In user
             </div>
         )
     }
 }
+
+export default Dashboard
