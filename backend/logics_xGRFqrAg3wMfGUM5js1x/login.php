@@ -61,16 +61,16 @@ use \Firebase\JWT\JWT;
 
 //return array
 $return = [];
-
-if (isset($_POST['id']) && isset($_POST['password']) && isset($_POST['g_recaptcha_response'])) {
+$_INPUT = json_decode(file_get_contents('php://input'), true);
+if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['g_recaptcha_response'])) {
 
     //Set the return content type
     header('Content-Type: application/json');
 
-    if(chechRecapta($_POST['g_recaptcha_response'])){
+    if(chechRecapta($_INPUT['g_recaptcha_response'])){
         //Escaping variables
-        $id_clean = Filter::String($_POST['id']);
-        $password_clean = Filter::String($_POST['password']);
+        $id_clean = Filter::String($_INPUT['id']);
+        $password_clean = Filter::String($_INPUT['password']);
 
         if(login($pdocon, $id_clean, $password_clean)){
             
@@ -78,8 +78,8 @@ if (isset($_POST['id']) && isset($_POST['password']) && isset($_POST['g_recaptch
 
             if(!empty($role)){
                 //JWT config
-                $issusedAt = time();
-                $expiredAt = time() + 2 * 60* 60; //Exprired after 2 hours
+                $issusedAt = (time() * 1000);
+                $expiredAt = (time() + (2 * 60* 60)) * 1000; //Exprired after 2 hours
 
                 // JWT token
                 $token = array (
@@ -97,11 +97,13 @@ if (isset($_POST['id']) && isset($_POST['password']) && isset($_POST['g_recaptch
                 $return['user'] = array(
                     "id" => $id_clean,
                     "role" => $role,
+                );
+                $return['login'] = array(
                     "loginAt" => $issusedAt,
                     "jwt" => $jwt,
                     "expiresAt" => $expiredAt
                 );
-                $return['status'] = "Login Successfully";
+                $return['status'] = true;
                 http_response_code(200);
             }
         }
