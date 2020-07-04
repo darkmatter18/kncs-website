@@ -40,14 +40,14 @@ const AdmissionNew = () => {
         e.preventDefault()
         setFormData({...formData, [name]: e.target.value})
     }
-    const handleDateChange = (date) => {
-        setFormData({...formData, dob: date})
-    };
 
     const handleReset = (e) => {
         e.preventDefault()
         setFormData(initialState)
     }
+    const handleDateChange = (date) => {
+        setFormData({...formData, dob: date})
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault()

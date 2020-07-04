@@ -13,6 +13,7 @@ import CardContent from "@material-ui/core/CardContent";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import {ValidateEmail} from "../utils/validate";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -27,6 +28,7 @@ const AdmissionExisting = () => {
     const classes = useStyle()
     const initialState = {application_no: '', email: '', dob: new Date()}
     const [formData, setFormData] = React.useState(initialState)
+    const [errors, setErrors] = React.useState({application_no: [false, ""], email: [false, ""]})
 
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
@@ -36,15 +38,46 @@ const AdmissionExisting = () => {
     const handleDateChange = (date) => {
         setFormData({...formData, dob: date})
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(formData)
-    }
-
     const handleReset = (e) => {
         e.preventDefault()
         setFormData(initialState)
+    }
+
+    const checkApplicationId = () => {
+        if (formData.application_no.length === 10) {
+            setErrors(prevState => ({...prevState, application_no: [false, ""]}))
+            return true
+        } else {
+            setErrors(prevState => ({
+                ...prevState, application_no: [true, "Invalid Application No " +
+                "(Must be a 10 digits long)"]
+            }))
+            return false
+        }
+    }
+
+    const checkEmailId = () => {
+        if (ValidateEmail(formData.email)) {
+            setErrors(prevState => ({...prevState, email: [false, ""]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, email: [true, "Invalid Email-ID"]}))
+            return false
+        }
+    }
+
+    const validate = () => {
+        const x = checkApplicationId()
+        const y = checkEmailId()
+        return x && y
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(formData)
+        if (validate()) {
+            //submit the form
+            console.log("Submitting")
+        }
     }
 
     return (
@@ -61,15 +94,18 @@ const AdmissionExisting = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <Grid container spacing={5} alignItems={"flex-end"}>
+                                <Grid container spacing={5} alignItems={"flex-start"}>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"Application No."}
-                                                   id={"application_no"}
+                                        <TextField required fullWidth error={errors.application_no[0]}
+                                                   helperText={errors.application_no[1]}
+                                                   label={"Application No."} id={"application_no"}
                                                    variant={"outlined"} value={formData.application_no}
                                                    onChange={handleFormDataChange('application_no')}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"Email Id"} id={"email"}
+                                        <TextField required fullWidth error={errors.email[0]}
+                                                   helperText={errors.email[1]}
+                                                   label={"Email Id"} id={"email"}
                                                    variant={"outlined"} value={formData.email}
                                                    onChange={handleFormDataChange('email')}/>
                                     </Grid>
@@ -84,7 +120,7 @@ const AdmissionExisting = () => {
                                                 label="Date of Birth"
                                                 value={formData.dob}
                                                 maxDate={new Date()}
-                                                InputAdornmentProps={{ position: "start" }}
+                                                InputAdornmentProps={{position: "start"}}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{
                                                     'aria-label': 'change date',
