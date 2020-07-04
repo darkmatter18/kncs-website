@@ -35,7 +35,13 @@ const AdmissionNew = () => {
         dob: new Date()
     }
     const [formData, setFormData] = React.useState(initialState)
-
+    const [errors, setErrors] = React.useState({
+        first_name: [false, "Enter your First Name"],
+        last_name: [false, "Enter your Last Name"],
+        aadhar_no: [false, "Enter your 12 digit Aadhar No"],
+        email: [false, "Enter your E-Mail Id"],
+        mobile: [false, "Enter 10 Digit Mobile Number"],
+    })
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
         setFormData({...formData, [name]: e.target.value})
@@ -69,34 +75,45 @@ const AdmissionNew = () => {
                             <CardContent>
                                 <Grid container spacing={5} justify={"center"}>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"First Name"} id={"first_name"}
+                                        <TextField required fullWidth error={errors.first_name[0]}
+                                                   helperText={errors.first_name[1]}
+                                                   label={"First Name"} id={"first_name"}
                                                    variant={"outlined"} value={formData.first_name}
                                                    onChange={handleFormDataChange("first_name")}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField fullWidth label={"Middle Name"} id={"middle_name"}
+                                        <TextField fullWidth helperText={"Enter your Middle Name"}
+                                                   label={"Middle Name"} id={"middle_name"}
                                                    variant={"outlined"} value={formData.middle_name}
                                                    onChange={handleFormDataChange("middle_name")}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"Last Name"} id={"last_name"}
+                                        <TextField required fullWidth error={errors.last_name[0]}
+                                                   helperText={errors.last_name[1]}
+                                                   label={"Last Name"} id={"last_name"}
                                                    variant={"outlined"} value={formData.last_name}
                                                    onChange={handleFormDataChange("last_name")}/>
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
                                     <Grid item md={3}>
-                                        <TextField fullWidth required label={"Aadhar No"} id={"aadhar_no"}
+                                        <TextField fullWidth required error={errors.aadhar_no[0]}
+                                                   helperText={errors.aadhar_no[1]}
+                                                   label={"Aadhar No"} id={"aadhar_no"}
                                                    variant={"outlined"} value={formData.aadhar_no}
                                                    onChange={handleFormDataChange("aadhar_no")}/>
                                     </Grid>
                                     <Grid item md={3}>
-                                        <TextField fullWidth required type={"email"} label={"E-Mail Id"} id={"email"}
+                                        <TextField fullWidth required error={errors.email[0]}
+                                                   helperText={errors.email[1]}
+                                                   type={"email"} label={"E-Mail Id"} id={"email"}
                                                    variant={"outlined"} value={formData.email}
                                                    onChange={handleFormDataChange("email")}/>
                                     </Grid>
                                     <Grid item md={3}>
-                                        <TextField fullWidth required label={"Mobile No"} id={"mobile"}
+                                        <TextField fullWidth required error={errors.mobile[0]}
+                                                   helperText={errors.mobile[1]}
+                                                   label={"Mobile No"} id={"mobile"}
                                                    variant={"outlined"} value={formData.mobile}
                                                    onChange={handleFormDataChange("mobile")}/>
                                     </Grid>

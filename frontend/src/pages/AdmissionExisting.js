@@ -28,7 +28,10 @@ const AdmissionExisting = () => {
     const classes = useStyle()
     const initialState = {application_no: '', email: '', dob: new Date()}
     const [formData, setFormData] = React.useState(initialState)
-    const [errors, setErrors] = React.useState({application_no: [false, ""], email: [false, ""]})
+    const [errors, setErrors] = React.useState({
+        application_no: [false, "Enter Your 10 digit Application No"],
+        email: [false, "Enter your E-Mail Id"]
+    })
 
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
