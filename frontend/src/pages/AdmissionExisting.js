@@ -14,6 +14,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {ValidateEmail} from "../utils/validate";
+import NetworkSubmit from "../components/NetworkSubmit";
+import {netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
+import api from "../api";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -32,6 +35,7 @@ const AdmissionExisting = () => {
         application_no: [false, "Enter Your 10 digit Application No"],
         email: [false, "Enter your E-Mail Id"]
     })
+    const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
@@ -76,10 +80,24 @@ const AdmissionExisting = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(formData)
         if (validate()) {
-            //submit the form
-            console.log("Submitting")
+            setNetworkState(netState.BUSY)
+            window.grecaptcha.ready(()=>{
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                    api.post(PRE_REGISTRATION_LOGIN, {
+                        ...formData,
+                        recaptcha_token: token
+                    }).then((res)=>{
+                        if(res.data.status){
+                        }
+                        else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e)=>{
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
         }
     }
 
@@ -132,16 +150,19 @@ const AdmissionExisting = () => {
                                         </MuiPickersUtilsProvider>
                                     </Grid>
                                 </Grid>
-                                <Grid container style={{marginTop: 16}} spacing={3}>
+                                <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"primary"} onClick={handleSubmit}>
-                                            submit
-                                        </Button>
+                                        <NetworkSubmit handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant={"subtitle2"} color={"error"}>
+                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" :""}
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </CardContent>
