@@ -16,7 +16,9 @@ import {makeStyles} from "@material-ui/core/styles";
 import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../utils/validate";
 import {netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../constant";
 import NetworkSubmit from "../components/NetworkSubmit";
+import {useHistory} from 'react-router-dom';
 import api from './../api'
+import {ADMISSION_NEW_DONE} from "../routes/route";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -29,6 +31,8 @@ const useStyle = makeStyles((theme) => ({
 
 const AdmissionNew = () => {
     const classes = useStyle()
+    const history = useHistory()
+
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -102,7 +106,7 @@ const AdmissionNew = () => {
     }
 
     const checkMobileNum = () => {
-        if(validateMobileNo(formData.mobile)){
+        if (validateMobileNo(formData.mobile)) {
             setErrors(prevState => ({...prevState, mobile: [false, "Enter 10 Digit Mobile Number"]}))
             return true
         } else {
@@ -125,21 +129,23 @@ const AdmissionNew = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(formData)
-        if(validate()){
+        if (validate()) {
             setNetworkState(netState.BUSY)
-            window.grecaptcha.ready(()=>{
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION, {
                         ...formData,
                         recaptcha_token: token
-                    }).then((res)=>{
-                        if(res.data.status){
-
-                        }
-                        else {
+                    }).then((res) => {
+                        if (res.data.status) {
+                            history.push(ADMISSION_NEW_DONE, {
+                                application_no: res.data.application_no,
+                                email: res.data.email
+                            })
+                        } else {
                             setNetworkState(netState.ERROR)
                         }
-                    }).catch((e)=>{
+                    }).catch((e) => {
                         setNetworkState(netState.ERROR)
                     })
                 })
@@ -237,7 +243,7 @@ const AdmissionNew = () => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant={"subtitle2"} color={"error"}>
-                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" :""}
+                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -249,7 +255,6 @@ const AdmissionNew = () => {
         </React.Fragment>
     )
 }
-
 
 
 export default AdmissionNew
