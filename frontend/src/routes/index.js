@@ -9,7 +9,7 @@ import {
     STUDENT_DASHBOARD,
     ADMISSION_HOME,
     ADMISSION_NEW,
-    ADMISSION_EXISTING, ADMISSION_NEW_DONE
+    ADMISSION_EXISTING, ADMISSION_NEW_DONE, ADMISSION_PROGRESS_1
 } from './route';
 
 import Home from '../pages/Home';
@@ -18,6 +18,7 @@ import AdmissionHome from '../pages/AdmissionHome';
 import AdmissionNew from "../pages/AdmissionNew";
 import AdmissionExisting from "../pages/AdmissionExisting";
 import AdmissionNewDone from "../pages/AdmissionNewDone";
+import AdmissionProgress1 from "../pages/AdmissionProgress/AdmissionProgress1";
 
 
 const RouteComponent = () => {
@@ -29,6 +30,7 @@ const RouteComponent = () => {
                 <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
+                <Route path={ADMISSION_PROGRESS_1} component={AdmissionProgress1} exact/>
                 <PrivateRoute component={Dashboard} path={ADMIN_DASHBOARD} loginPath={HOME} exact/>
                 <PrivateRoute component={Dashboard} path={TEACHER_DASHBOARD} loginPath={HOME} exact/>
                 <PrivateRoute component={Dashboard} path={STUDENT_DASHBOARD} loginPath={HOME} exact/>
