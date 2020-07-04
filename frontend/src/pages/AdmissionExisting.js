@@ -31,7 +31,6 @@ const AdmissionExisting = () => {
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
         setFormData({...formData, [name]: e.target.value})
-        console.log(formData)
     }
 
     const handleDateChange = (date) => {

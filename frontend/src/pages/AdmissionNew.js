@@ -14,7 +14,7 @@ import Button from "@material-ui/core/Button";
 import SubHeader from "../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 
-const useStyle = makeStyles((theme)=> ({
+const useStyle = makeStyles((theme) => ({
     subLine: {
         marginBottom: theme.spacing(1)
     },
@@ -25,11 +25,35 @@ const useStyle = makeStyles((theme)=> ({
 
 const AdmissionNew = () => {
     const classes = useStyle()
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const initialState = {
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        aadhar_no: '',
+        email: '',
+        mobile: '',
+        dob: new Date()
+    }
+    const [formData, setFormData] = React.useState(initialState)
 
+    const handleFormDataChange = (name) => (e) => {
+        e.preventDefault()
+        setFormData({...formData, [name]: e.target.value})
+    }
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        setFormData({...formData, dob: date})
     };
+
+    const handleReset = (e) => {
+        e.preventDefault()
+        setFormData(initialState)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(formData)
+    }
+
     return (
         <React.Fragment>
             <Header/>
@@ -38,7 +62,7 @@ const AdmissionNew = () => {
             <Container>
                 <Paper elevation={0} square>
                     <CardContent>
-                        <Typography variant={"h6"}  color={"textPrimary"}>
+                        <Typography variant={"h6"} color={"textPrimary"}>
                             Applicant information
                         </Typography>
                         <Card variant={"outlined"}>
@@ -46,41 +70,49 @@ const AdmissionNew = () => {
                                 <Grid container spacing={5} justify={"center"}>
                                     <Grid item md={4}>
                                         <TextField required fullWidth label={"First Name"} id={"first_name"}
-                                                   variant={"outlined"}/>
+                                                   variant={"outlined"} value={formData.first_name}
+                                                   onChange={handleFormDataChange("first_name")}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"Middle Name"} id={"middle_name"}
-                                                   variant={"outlined"}/>
+                                        <TextField fullWidth label={"Middle Name"} id={"middle_name"}
+                                                   variant={"outlined"} value={formData.middle_name}
+                                                   onChange={handleFormDataChange("middle_name")}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <TextField required fullWidth label={"Last Name"} id={"last_name"}
-                                                   variant={"outlined"}/>
+                                                   variant={"outlined"} value={formData.last_name}
+                                                   onChange={handleFormDataChange("last_name")}/>
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
                                     <Grid item md={3}>
-                                        <TextField fullWidth required label={"Aadhar No"} id={"aadhar"}
-                                                   variant={"outlined"}/>
+                                        <TextField fullWidth required label={"Aadhar No"} id={"aadhar_no"}
+                                                   variant={"outlined"} value={formData.aadhar_no}
+                                                   onChange={handleFormDataChange("aadhar_no")}/>
                                     </Grid>
                                     <Grid item md={3}>
                                         <TextField fullWidth required type={"email"} label={"E-Mail Id"} id={"email"}
-                                                   variant={"outlined"}/>
+                                                   variant={"outlined"} value={formData.email}
+                                                   onChange={handleFormDataChange("email")}/>
                                     </Grid>
                                     <Grid item md={3}>
                                         <TextField fullWidth required label={"Mobile No"} id={"mobile"}
-                                                   variant={"outlined"}/>
+                                                   variant={"outlined"} value={formData.mobile}
+                                                   onChange={handleFormDataChange("mobile")}/>
                                     </Grid>
                                 </Grid>
                                 <div className={classes.spacer}>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <KeyboardDatePicker
-
-                                            disableToolbar
+                                            autoOk
                                             variant="inline"
+                                            inputVariant="outlined"
                                             format="dd/MM/yyyy"
                                             id="dob"
                                             label="Date of Birth"
-                                            value={selectedDate}
+                                            value={formData.dob}
+                                            maxDate={new Date()}
+                                            InputAdornmentProps={{position: "start"}}
                                             onChange={handleDateChange}
                                             KeyboardButtonProps={{
                                                 'aria-label': 'change date',
@@ -91,12 +123,12 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3}>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"primary"}>
+                                        <Button variant={"outlined"} color={"primary"} onClick={handleSubmit}>
                                             submit
                                         </Button>
                                     </Grid>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"secondary"}>
+                                        <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
                                     </Grid>
