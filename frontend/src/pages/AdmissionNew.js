@@ -13,6 +13,10 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers
 import Button from "@material-ui/core/Button";
 import SubHeader from "../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
+import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../utils/validate";
+import {netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../constant";
+import NetworkSubmit from "../components/NetworkSubmit";
+import api from './../api'
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -37,13 +41,16 @@ const AdmissionNew = () => {
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
         first_name: [false, "Enter your First Name"],
+        middle_name: [false, "Enter your Middle Name"],
         last_name: [false, "Enter your Last Name"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     })
+    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+
     const handleFormDataChange = (name) => (e) => {
-        e.preventDefault()
+        e.persist()
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
@@ -55,9 +62,89 @@ const AdmissionNew = () => {
         setFormData(prevState => ({...prevState, dob: date}))
     };
 
+    const validateName = (name_type) => {
+        if (ValidateName(formData[name_type])) {
+            const _n = name_type === 'first_name' ? 'First' : 'Last'
+            setErrors(prevState => ({...prevState, [name_type]: [false, `Enter your ${_n} Name`]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [name_type]: [true, "Invalid Input"]}))
+        }
+    }
+
+    const validateMiddleName = () => {
+        if (formData.middle_name.length === 0) {
+            setErrors(prevState => ({...prevState, middle_name: [false, "Enter your Middle Name"]}))
+            return true
+        } else {
+            return validateName('middle_name')
+        }
+    }
+
+    const validateAadharNum = () => {
+        if (validateAadhar(formData.aadhar_no)) {
+            setErrors(prevState => ({...prevState, aadhar_no: [false, "Enter your 12 digit Aadhar No"]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, aadhar_no: [true, "Invalid Aadhar Number"]}))
+            return false
+        }
+    }
+
+    const checkEmailId = () => {
+        if (ValidateEmail(formData.email)) {
+            setErrors(prevState => ({...prevState, email: [false, "Enter your E-Mail Id"]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, email: [true, "Invalid Email-ID"]}))
+            return false
+        }
+    }
+
+    const checkMobileNum = () => {
+        if(validateMobileNo(formData.mobile)){
+            setErrors(prevState => ({...prevState, mobile: [false, "Enter 10 Digit Mobile Number"]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, mobile: [true, "Invalid Mobile Number"]}))
+            return false
+        }
+    }
+
+    const validate = () => {
+        const _fname = validateName('first_name')
+        const _mname = validateMiddleName()
+        const _lname = validateName('last_name')
+        const _aadhar = validateAadharNum()
+        const _email = checkEmailId()
+        const _mobile = checkMobileNum()
+
+        return _fname && _mname && _lname && _aadhar && _email && _mobile
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault()
         console.log(formData)
+        if(validate()){
+            setNetworkState(netState.BUSY)
+            window.grecaptcha.ready(()=>{
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                    api.post(PRE_REGISTRATION, {
+                        ...formData,
+                        recaptcha_token: token
+                    }).then((res)=>{
+                        if(res.data.status){
+
+                        }
+                        else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e)=>{
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
+        }
     }
 
     return (
@@ -82,7 +169,8 @@ const AdmissionNew = () => {
                                                    onChange={handleFormDataChange("first_name")}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField fullWidth helperText={"Enter your Middle Name"}
+                                        <TextField fullWidth error={errors.middle_name[0]}
+                                                   helperText={errors.middle_name[1]}
                                                    label={"Middle Name"} id={"middle_name"}
                                                    variant={"outlined"} value={formData.middle_name}
                                                    onChange={handleFormDataChange("middle_name")}/>
@@ -138,16 +226,19 @@ const AdmissionNew = () => {
                                     </MuiPickersUtilsProvider>
                                 </div>
 
-                                <Grid container style={{marginTop: 16}} spacing={3}>
+                                <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"primary"} onClick={handleSubmit}>
-                                            submit
-                                        </Button>
+                                        <NetworkSubmit handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant={"subtitle2"} color={"error"}>
+                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" :""}
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -158,5 +249,7 @@ const AdmissionNew = () => {
         </React.Fragment>
     )
 }
+
+
 
 export default AdmissionNew
