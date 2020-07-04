@@ -44,7 +44,7 @@ const AdmissionNew = () => {
     })
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
-        setFormData({...formData, [name]: e.target.value})
+        setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
     const handleReset = (e) => {
@@ -52,7 +52,7 @@ const AdmissionNew = () => {
         setFormData(initialState)
     }
     const handleDateChange = (date) => {
-        setFormData({...formData, dob: date})
+        setFormData(prevState => ({...prevState, dob: date}))
     };
 
     const handleSubmit = (e) => {
