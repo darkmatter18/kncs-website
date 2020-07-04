@@ -25,11 +25,29 @@ const useStyle = makeStyles((theme) => ({
 
 const AdmissionExisting = () => {
     const classes = useStyle()
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    const initialState = {application_no: '', email: '', dob: new Date()}
+    const [formData, setFormData] = React.useState(initialState)
+
+    const handleFormDataChange = (name) => (e) => {
+        e.preventDefault()
+        setFormData({...formData, [name]: e.target.value})
+        console.log(formData)
+    }
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        setFormData({...formData, dob: date})
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(formData)
+    }
+
+    const handleReset = (e) => {
+        e.preventDefault()
+        setFormData(initialState)
+    }
+
     return (
         <React.Fragment>
             <Header/>
@@ -46,23 +64,28 @@ const AdmissionExisting = () => {
                             <CardContent>
                                 <Grid container spacing={5} alignItems={"flex-end"}>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth label={"Application No."} id={"application_no"}
-                                                   variant={"outlined"}/>
+                                        <TextField required fullWidth label={"Application No."}
+                                                   id={"application_no"}
+                                                   variant={"outlined"} value={formData.application_no}
+                                                   onChange={handleFormDataChange('application_no')}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <TextField required fullWidth label={"Email Id"} id={"email"}
-                                                   variant={"outlined"}/>
+                                                   variant={"outlined"} value={formData.email}
+                                                   onChange={handleFormDataChange('email')}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                             <KeyboardDatePicker
-
-                                                disableToolbar
+                                                autoOk
                                                 variant="inline"
+                                                inputVariant="outlined"
                                                 format="dd/MM/yyyy"
                                                 id="dob"
                                                 label="Date of Birth"
-                                                value={selectedDate}
+                                                value={formData.dob}
+                                                maxDate={new Date()}
+                                                InputAdornmentProps={{ position: "start" }}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{
                                                     'aria-label': 'change date',
@@ -73,12 +96,12 @@ const AdmissionExisting = () => {
                                 </Grid>
                                 <Grid container style={{marginTop: 16}} spacing={3}>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"primary"}>
+                                        <Button variant={"outlined"} color={"primary"} onClick={handleSubmit}>
                                             submit
                                         </Button>
                                     </Grid>
                                     <Grid item>
-                                        <Button variant={"outlined"} color={"secondary"}>
+                                        <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
                                     </Grid>
