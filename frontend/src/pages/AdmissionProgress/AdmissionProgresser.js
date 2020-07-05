@@ -12,29 +12,26 @@ import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../routes/route";
 
-const getStepContent = (step) => {
-    switch (step) {
-        case 0:
-            return <Progress1PersonalInfo/>
-        case 1:
-            return <Progress2AcademicInfo/>
-        case 2:
-            return <Progress3PaymentInfo/>
-        case 3:
-            return <Progress4Declaration/>
-        default:
-            return <Redirect to={ADMISSION_EXISTING}/>
-    }
-}
-const getSteps = () => {
-    return ['Personal Info', 'Academic Info', 'Payment Info', "Declaration"];
-}
-
 const AdmissionProgresser = ({user_id, progress}) => {
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number
+    const steps = ['Personal Info', 'Academic Info', 'Payment Info', "Declaration"]
 
-    const steps = getSteps();
 
+
+    const getStepContent = (step) => {
+        switch (step) {
+            case 0:
+                return <Progress1PersonalInfo/>
+            case 1:
+                return <Progress2AcademicInfo/>
+            case 2:
+                return <Progress3PaymentInfo/>
+            case 3:
+                return <Progress4Declaration/>
+            default:
+                return <Redirect to={ADMISSION_EXISTING}/>
+        }
+    }
     return (
         <React.Fragment>
             <Header/>
