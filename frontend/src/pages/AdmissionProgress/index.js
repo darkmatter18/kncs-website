@@ -5,11 +5,11 @@ import {ADMISSION_NEW} from "../../routes/route";
 import AdmissionProgresser from "./AdmissionProgresser";
 
 const AdmissionProgress = () => {
-    let { user_id, progress } = useParams();
-    if (!ADMISSION_PROGRESS.includes(progress)){
+    let {progress} = useParams();
+    if (!ADMISSION_PROGRESS.includes(progress)) {
         return <Redirect to={ADMISSION_NEW}/>
-    }else {
-        return <AdmissionProgresser progress={progress} user_id={user_id}/>
+    } else {
+        return <AdmissionProgresser progress={progress}/>
     }
 }
 

@@ -12,10 +12,9 @@ import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../routes/route";
 
-const AdmissionProgresser = ({user_id, progress}) => {
+const AdmissionProgresser = ({progress}) => {
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number
     const steps = ['Personal Info', 'Academic Info', 'Payment Info', "Declaration"]
-
 
 
     const getStepContent = (step) => {
@@ -37,7 +36,7 @@ const AdmissionProgresser = ({user_id, progress}) => {
             <Header/>
             <Container>
                 <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
+                    {steps.map((label) => {
                         return (
                             <Step key={label}>
                                 <StepLabel>{label}</StepLabel>
