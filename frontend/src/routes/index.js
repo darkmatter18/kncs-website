@@ -9,7 +9,7 @@ import {
     STUDENT_DASHBOARD,
     ADMISSION_HOME,
     ADMISSION_NEW,
-    ADMISSION_EXISTING, ADMISSION_NEW_DONE, ADMISSION_PROGRESS
+    ADMISSION_EXISTING, ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE
 } from './route';
 
 import Home from '../pages/Home';
@@ -30,7 +30,7 @@ const RouteComponent = () => {
                 <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
-                <Route path={ADMISSION_PROGRESS} component={AdmissionProgress} exact/>
+                <Route path={ADMISSION_PROGRESS_ROUTE} component={AdmissionProgress} exact/>
                 <PrivateRoute component={Dashboard} path={ADMIN_DASHBOARD} loginPath={HOME} exact/>
                 <PrivateRoute component={Dashboard} path={TEACHER_DASHBOARD} loginPath={HOME} exact/>
                 <PrivateRoute component={Dashboard} path={STUDENT_DASHBOARD} loginPath={HOME} exact/>
