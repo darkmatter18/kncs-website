@@ -7,5 +7,5 @@ export const ADMISSION_NEW = '/admission/new'
 export const ADMISSION_NEW_DONE = '/admission/new/done'
 export const ADMISSION_EXISTING = '/admission/existing'
 
-// [personal_info, academic_info, payment_info]
+// [personal_info, academic_info, payment_info, declaration]
 export const ADMISSION_PROGRESS_ROUTE = '/admission/progress/:user_id/:progress'

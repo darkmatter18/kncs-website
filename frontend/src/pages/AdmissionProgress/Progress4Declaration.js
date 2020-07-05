@@ -1,13 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-const Progress1PersonalInfo = () => {
+const Progress4Declaration = () => {
     let { user_id } = useParams();
     return (
         <React.Fragment>
-            {user_id}
+            {user_id} Declaration
         </React.Fragment>
     )
 }
 
-export default Progress1PersonalInfo
+export default Progress4Declaration
