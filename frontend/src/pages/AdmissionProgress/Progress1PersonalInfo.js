@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../components/Header";
 
-const AdmissionProgress1 = () => {
+const Progress1PersonalInfo = () => {
     let { user_id } = useParams();
     return (
         <React.Fragment>
@@ -12,4 +12,4 @@ const AdmissionProgress1 = () => {
     )
 }
 
-export default AdmissionProgress1
+export default Progress1PersonalInfo
