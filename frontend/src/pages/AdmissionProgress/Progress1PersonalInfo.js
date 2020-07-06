@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
@@ -18,7 +18,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: theme.spacing(3)
     },
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme)=>({
 
 const Progress1PersonalInfo = () => {
     const classes = useStyles()
-    let { user_id } = useParams();
+    let {user_id} = useParams();
 
     const initialState = {
         first_name: '',
@@ -91,7 +91,7 @@ const Progress1PersonalInfo = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
-                                    <Grid item md={4}>
+                                    <Grid item md={3}>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                             <KeyboardDatePicker
                                                 autoOk
@@ -110,7 +110,7 @@ const Progress1PersonalInfo = () => {
                                             />
                                         </MuiPickersUtilsProvider>
                                     </Grid>
-                                    <Grid item md={4}>
+                                    <Grid item md={3}>
                                         <FormControl variant="outlined" fullWidth error={errors.gender[0]}>
                                             <InputLabel id="form-gender-label">Gender</InputLabel>
                                             <Select
@@ -122,7 +122,8 @@ const Progress1PersonalInfo = () => {
                                             >
                                                 <MenuItem value={'male'}>Male</MenuItem>
                                                 <MenuItem value={'female'}>Female</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem>
+                                                <MenuItem value={'third_gender'}>Third Gender</MenuItem>
+                                                <MenuItem value={'not_applicable'}>Not Applicable</MenuItem>
                                             </Select>
                                             <FormHelperText>{errors.gender[1]}</FormHelperText>
                                         </FormControl>
