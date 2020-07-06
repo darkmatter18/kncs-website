@@ -36,19 +36,21 @@ const Progress1PersonalInfo = () => {
         middle_name: '',
         last_name: '',
         dob: new Date(),
-        gender: 'male',
-        cast: 'general',
+        gender: '',
+        religion: '',
+        cast: '',
         aadhar_no: '',
         email: '',
         mobile: '',
     }
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
-        first_name: [false, "Enter your First Name"],
-        middle_name: [false, "Enter your Middle Name"],
-        last_name: [false, "Enter your Last Name"],
-        dob: [false, "Enter your Date of Birth"],
+        first_name: [false, ""],
+        middle_name: [false, ""],
+        last_name: [false, ""],
+        dob: [false, ""],
         gender: [false, "Enter your Gender"],
+        religion: [false, "Enter your Religion"],
         cast: [false, "Enter your Cast"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
@@ -122,16 +124,39 @@ const Progress1PersonalInfo = () => {
                                                 onChange={handleFormDataChange('gender')}
                                                 label="Gender"
                                             >
-                                                <MenuItem value={'male'}>Male</MenuItem>
-                                                <MenuItem value={'female'}>Female</MenuItem>
-                                                <MenuItem value={'third_gender'}>Third Gender</MenuItem>
-                                                <MenuItem value={'not_applicable'}>Not Applicable</MenuItem>
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Male'}>Male</MenuItem>
+                                                <MenuItem value={'Female'}>Female</MenuItem>
+                                                <MenuItem value={'Third Gender'}>Third Gender</MenuItem>
+                                                <MenuItem value={'Not Applicable'}>Not Applicable</MenuItem>
                                             </Select>
                                             <FormHelperText>{errors.gender[1]}</FormHelperText>
                                         </FormControl>
                                     </Grid>
                                     <Grid item md={3}>
-
+                                        <FormControl variant="outlined" fullWidth error={errors.religion[0]}>
+                                            <InputLabel id="form-religion-label">Religion</InputLabel>
+                                            <Select
+                                                labelId="form-religion-label"
+                                                id="form-religion"
+                                                value={formData.religion}
+                                                onChange={handleFormDataChange('religion')}
+                                                label="Religion"
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Hindu'}>Hindu</MenuItem>
+                                                <MenuItem value={'Muslim'}>Muslim</MenuItem>
+                                                <MenuItem value={'Cristian'}>Cristian</MenuItem>
+                                                <MenuItem value={'Sikh'}>Sikh</MenuItem>
+                                                <MenuItem value={'Jain'}>Jain</MenuItem>
+                                                <MenuItem value={'Parshi'}>Parshi</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.religion[1]}</FormHelperText>
+                                        </FormControl>
                                     </Grid>
                                     <Grid item md={3}>
                                         <FormControl variant="outlined" fullWidth error={errors.cast[0]}>
@@ -143,11 +168,14 @@ const Progress1PersonalInfo = () => {
                                                 onChange={handleFormDataChange('cast')}
                                                 label="Cast"
                                             >
-                                                <MenuItem value={'general'}>General</MenuItem>
-                                                <MenuItem value={'sc'}>SC</MenuItem>
-                                                <MenuItem value={'st'}>ST</MenuItem>
-                                                <MenuItem value={'obc-a'}>OBC-A</MenuItem>
-                                                <MenuItem value={'obc-b'}>OBC-B</MenuItem>
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'General'}>General</MenuItem>
+                                                <MenuItem value={'SC'}>SC</MenuItem>
+                                                <MenuItem value={'ST'}>ST</MenuItem>
+                                                <MenuItem value={'OBC-A'}>OBC-A</MenuItem>
+                                                <MenuItem value={'OBC-B'}>OBC-B</MenuItem>
                                             </Select>
                                             <FormHelperText>{errors.cast[1]}</FormHelperText>
                                         </FormControl>
