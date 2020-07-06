@@ -52,8 +52,7 @@ const Progress1PersonalInfo = () => {
         email: '',
         mobile: '',
     }
-    const [formData, setFormData] = React.useState(initialState)
-    const [errors, setErrors] = React.useState({
+    const initialErrorState = {
         first_name: [false, ""],
         middle_name: [false, ""],
         last_name: [false, ""],
@@ -70,7 +69,11 @@ const Progress1PersonalInfo = () => {
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
-    })
+    }
+
+    const [formData, setFormData] = React.useState(initialState)
+    const [errors, setErrors] = React.useState(initialErrorState)
+    const [guardianDisabled, setGuardianDisabled] = React.useState(false)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
@@ -79,8 +82,15 @@ const Progress1PersonalInfo = () => {
     }
 
     const handleChangeGuardianSameFather = (e)=> {
-        console.log(e.target.value)
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
+        if(e.target.checked){
+            setFormData(prevState => ({...prevState, guardian_name: prevState.father_name}))
+            setFormData(prevState => ({...prevState, guardian_occupation: prevState.guardian_occupation}))
+            setGuardianDisabled(true)
+        }
+        else{
+            setGuardianDisabled(false)
+        }
     }
 
     return (
@@ -241,14 +251,16 @@ const Progress1PersonalInfo = () => {
                                 </Grid>
                                 <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
                                     <Grid item md={5}>
-                                        <TextField required fullWidth error={errors.guardian_name[0]}
+                                        <TextField required fullWidth disabled={guardianDisabled}
+                                                   error={errors.guardian_name[0]}
                                                    helperText={errors.guardian_name[1]}
                                                    label={"Guardian's Name"} id={"guardian-name"}
                                                    variant={"outlined"} value={formData.guardian_name}
                                                    onChange={handleFormDataChange('guardian_name')}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.guardian_occupation[0]}
+                                        <TextField required fullWidth disabled={guardianDisabled}
+                                                   error={errors.guardian_occupation[0]}
                                                    helperText={errors.guardian_occupation[1]}
                                                    label={"Guardian's Occupation"} id={"guardian-occupation"}
                                                    variant={"outlined"} value={formData.guardian_occupation}
