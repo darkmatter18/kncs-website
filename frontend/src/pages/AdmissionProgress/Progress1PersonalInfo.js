@@ -41,6 +41,7 @@ const Progress1PersonalInfo = () => {
         gender: '',
         religion: '',
         cast: '',
+        aadhar_no: '',
         father_name: '',
         father_occupation: '',
         mother_name: '',
@@ -48,7 +49,6 @@ const Progress1PersonalInfo = () => {
         guardian_name: '',
         guardian_occupation: '',
         guardian_same_father: false,
-        aadhar_no: '',
         email: '',
         mobile: '',
     }
@@ -60,13 +60,13 @@ const Progress1PersonalInfo = () => {
         gender: [false, "Enter your Gender"],
         religion: [false, "Enter your Religion"],
         cast: [false, "Enter your Cast"],
+        aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
         mother_name: [false, "Enter your Mother's Name"],
         mother_occupation: [false, "Enter your Mother's Occupation"],
         guardian_name: [false, "Enter your Guardian's Name"],
         guardian_occupation: [false, "Enter your Guardian's Occupation"],
-        aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     }
@@ -81,14 +81,13 @@ const Progress1PersonalInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
-    const handleChangeGuardianSameFather = (e)=> {
+    const handleChangeGuardianSameFather = (e) => {
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
-        if(e.target.checked){
+        if (e.target.checked) {
             setFormData(prevState => ({...prevState, guardian_name: prevState.father_name}))
             setFormData(prevState => ({...prevState, guardian_occupation: prevState.guardian_occupation}))
             setGuardianDisabled(true)
-        }
-        else{
+        } else {
             setGuardianDisabled(false)
         }
     }
@@ -208,6 +207,15 @@ const Progress1PersonalInfo = () => {
                                             </Select>
                                             <FormHelperText>{errors.cast[1]}</FormHelperText>
                                         </FormControl>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} className={classes.spacer}>
+                                    <Grid item md={3}>
+                                        <TextField fullWidth required error={errors.aadhar_no[0]}
+                                                   helperText={errors.aadhar_no[1]}
+                                                   label={"Aadhar No"} id={"aadhar_no"}
+                                                   variant={"outlined"} value={formData.aadhar_no}
+                                                   onChange={handleFormDataChange("aadhar_no")}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
