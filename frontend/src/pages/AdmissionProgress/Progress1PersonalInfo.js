@@ -39,6 +39,8 @@ const Progress1PersonalInfo = () => {
         gender: '',
         religion: '',
         cast: '',
+        father_name: '',
+        father_occupation: '',
         aadhar_no: '',
         email: '',
         mobile: '',
@@ -52,6 +54,8 @@ const Progress1PersonalInfo = () => {
         gender: [false, "Enter your Gender"],
         religion: [false, "Enter your Religion"],
         cast: [false, "Enter your Cast"],
+        father_name: [false, "Enter your Father's Name"],
+        father_occupation: [false, "Enter your Father's Occupation"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
@@ -183,7 +187,29 @@ const Progress1PersonalInfo = () => {
                                 </Grid>
                             </CardContent>
                         </Card>
-
+                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                            Guardian's Information
+                        </Typography>
+                        <Card variant={"outlined"}>
+                            <CardContent>
+                                <Grid container spacing={5} justify={"flex-start"}>
+                                    <Grid item md={6}>
+                                        <TextField required fullWidth error={errors.father_name[0]}
+                                                   helperText={errors.father_name[1]}
+                                                   label={"Father's Name"} id={"father-name"}
+                                                   variant={"outlined"} value={formData.father_name}
+                                                   onChange={handleFormDataChange('father_name')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.father_name[0]}
+                                                   helperText={errors.father_name[1]}
+                                                   label={"Father's Occupation"} id={"father-occupation"}
+                                                   variant={"outlined"} value={formData.father_occupation}
+                                                   onChange={handleFormDataChange('father_occupation')}/>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Card>
                         <AdmissionProgressBack/>
                     </CardContent>
                 </Paper>
