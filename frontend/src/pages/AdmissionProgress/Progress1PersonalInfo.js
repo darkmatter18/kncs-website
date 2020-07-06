@@ -42,6 +42,7 @@ const Progress1PersonalInfo = () => {
         religion: '',
         cast: '',
         aadhar_no: '',
+        mother_tongue: '',
         father_name: '',
         father_occupation: '',
         mother_name: '',
@@ -61,6 +62,7 @@ const Progress1PersonalInfo = () => {
         religion: [false, "Enter your Religion"],
         cast: [false, "Enter your Cast"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
+        mother_tongue: [false, "Enter your Mother Tongue"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
         mother_name: [false, "Enter your Mother's Name"],
@@ -210,12 +212,35 @@ const Progress1PersonalInfo = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
-                                    <Grid item md={3}>
+                                    <Grid item md={4}>
                                         <TextField fullWidth required error={errors.aadhar_no[0]}
                                                    helperText={errors.aadhar_no[1]}
                                                    label={"Aadhar No"} id={"aadhar_no"}
                                                    variant={"outlined"} value={formData.aadhar_no}
                                                    onChange={handleFormDataChange("aadhar_no")}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
+                                            <InputLabel id="form-mother-tongue-label">Mother Tongue</InputLabel>
+                                            <Select
+                                                labelId="form-mother-tongue-label"
+                                                id="form-mother-tongue"
+                                                value={formData.mother_tongue}
+                                                onChange={handleFormDataChange('mother_tongue')}
+                                                label="Mother Tongue"
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Bengali'}>Bengali</MenuItem>
+                                                <MenuItem value={'English'}>English</MenuItem>
+                                                <MenuItem value={'Hindi'}>Hindi</MenuItem>
+                                                <MenuItem value={'Nepali'}>Nepali</MenuItem>
+                                                <MenuItem value={'Santal'}>Santal</MenuItem>
+                                                <MenuItem value={'Others'}>Others</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.mother_tongue[1]}</FormHelperText>
+                                        </FormControl>
                                     </Grid>
                                 </Grid>
                             </CardContent>
