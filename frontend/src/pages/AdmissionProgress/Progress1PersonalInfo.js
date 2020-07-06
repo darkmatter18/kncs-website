@@ -17,6 +17,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +45,9 @@ const Progress1PersonalInfo = () => {
         father_occupation: '',
         mother_name: '',
         mother_occupation: '',
+        guardian_name: '',
+        guardian_occupation: '',
+        guardian_same_father: false,
         aadhar_no: '',
         email: '',
         mobile: '',
@@ -60,6 +65,8 @@ const Progress1PersonalInfo = () => {
         father_occupation: [false, "Enter your Father's Occupation"],
         mother_name: [false, "Enter your Mother's Name"],
         mother_occupation: [false, "Enter your Mother's Occupation"],
+        guardian_name: [false, "Enter your Guardian's Name"],
+        guardian_occupation: [false, "Enter your Guardian's Occupation"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
@@ -71,6 +78,10 @@ const Progress1PersonalInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
+    const handleChangeGuardianSameFather = (e)=> {
+        console.log(e.target.value)
+        setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
+    }
 
     return (
         <React.Fragment>
@@ -226,6 +237,34 @@ const Progress1PersonalInfo = () => {
                                                    label={"Mother's Occupation"} id={"mother-occupation"}
                                                    variant={"outlined"} value={formData.mother_occupation}
                                                    onChange={handleFormDataChange('mother_occupation')}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
+                                    <Grid item md={5}>
+                                        <TextField required fullWidth error={errors.guardian_name[0]}
+                                                   helperText={errors.guardian_name[1]}
+                                                   label={"Guardian's Name"} id={"guardian-name"}
+                                                   variant={"outlined"} value={formData.guardian_name}
+                                                   onChange={handleFormDataChange('guardian_name')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.guardian_occupation[0]}
+                                                   helperText={errors.guardian_occupation[1]}
+                                                   label={"Guardian's Occupation"} id={"guardian-occupation"}
+                                                   variant={"outlined"} value={formData.guardian_occupation}
+                                                   onChange={handleFormDataChange('guardian_occupation')}/>
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        <FormControlLabel
+                                            value={"Guardian Same as Father"}
+                                            control={<Switch
+                                                checked={formData.guardian_same_father}
+                                                onChange={handleChangeGuardianSameFather}
+                                                color="secondary"
+                                                name="guardian_same_father"
+                                            />}
+                                            label={"Guardian Same as Father"}
+                                            labelPlacement={"bottom"}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
