@@ -37,6 +37,7 @@ const Progress1PersonalInfo = () => {
         last_name: '',
         dob: new Date(),
         gender: 'male',
+        cast: 'general',
         aadhar_no: '',
         email: '',
         mobile: '',
@@ -47,7 +48,8 @@ const Progress1PersonalInfo = () => {
         middle_name: [false, "Enter your Middle Name"],
         last_name: [false, "Enter your Last Name"],
         dob: [false, "Enter your Date of Birth"],
-        gender: [false, "Enter your gender"],
+        gender: [false, "Enter your Gender"],
+        cast: [false, "Enter your Cast"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
@@ -126,6 +128,28 @@ const Progress1PersonalInfo = () => {
                                                 <MenuItem value={'not_applicable'}>Not Applicable</MenuItem>
                                             </Select>
                                             <FormHelperText>{errors.gender[1]}</FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item md={3}>
+
+                                    </Grid>
+                                    <Grid item md={3}>
+                                        <FormControl variant="outlined" fullWidth error={errors.cast[0]}>
+                                            <InputLabel id="form-caste-label">Cast</InputLabel>
+                                            <Select
+                                                labelId="form-caste-label"
+                                                id="form-cast"
+                                                value={formData.cast}
+                                                onChange={handleFormDataChange('cast')}
+                                                label="Cast"
+                                            >
+                                                <MenuItem value={'general'}>General</MenuItem>
+                                                <MenuItem value={'sc'}>SC</MenuItem>
+                                                <MenuItem value={'st'}>ST</MenuItem>
+                                                <MenuItem value={'obc-a'}>OBC-A</MenuItem>
+                                                <MenuItem value={'obc-b'}>OBC-B</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.cast[1]}</FormHelperText>
                                         </FormControl>
                                     </Grid>
                                 </Grid>
