@@ -41,6 +41,8 @@ const Progress1PersonalInfo = () => {
         cast: '',
         father_name: '',
         father_occupation: '',
+        mother_name: '',
+        mother_occupation: '',
         aadhar_no: '',
         email: '',
         mobile: '',
@@ -56,6 +58,8 @@ const Progress1PersonalInfo = () => {
         cast: [false, "Enter your Cast"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
+        mother_name: [false, "Enter your Mother's Name"],
+        mother_occupation: [false, "Enter your Mother's Occupation"],
         aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
@@ -201,11 +205,27 @@ const Progress1PersonalInfo = () => {
                                                    onChange={handleFormDataChange('father_name')}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.father_name[0]}
-                                                   helperText={errors.father_name[1]}
+                                        <TextField required fullWidth error={errors.father_occupation[0]}
+                                                   helperText={errors.father_occupation[1]}
                                                    label={"Father's Occupation"} id={"father-occupation"}
                                                    variant={"outlined"} value={formData.father_occupation}
                                                    onChange={handleFormDataChange('father_occupation')}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
+                                    <Grid item md={6}>
+                                        <TextField required fullWidth error={errors.mother_name[0]}
+                                                   helperText={errors.mother_name[1]}
+                                                   label={"Mother's Name"} id={"mother-name"}
+                                                   variant={"outlined"} value={formData.mother_name}
+                                                   onChange={handleFormDataChange('mother_name')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.mother_occupation[0]}
+                                                   helperText={errors.mother_occupation[1]}
+                                                   label={"Mother's Occupation"} id={"mother-occupation"}
+                                                   variant={"outlined"} value={formData.mother_occupation}
+                                                   onChange={handleFormDataChange('mother_occupation')}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
