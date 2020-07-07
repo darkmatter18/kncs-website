@@ -40,8 +40,8 @@ const Progress1PersonalInfo = () => {
         dob: new Date(),
         gender: '',
         religion: '',
-        cast: '',
-        aadhar_no: '',
+        caste: '',
+        aadhaar_no: '',
         mother_tongue: '',
         father_name: '',
         father_occupation: '',
@@ -60,8 +60,8 @@ const Progress1PersonalInfo = () => {
         dob: [false, ""],
         gender: [false, "Enter your Gender"],
         religion: [false, "Enter your Religion"],
-        cast: [false, "Enter your Cast"],
-        aadhar_no: [false, "Enter your 12 digit Aadhar No"],
+        caste: [false, "Enter your Cast"],
+        aadhaar_no: [false, "Enter your 12 digit Aadhar No"],
         mother_tongue: [false, "Enter your Mother Tongue"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
@@ -189,13 +189,13 @@ const Progress1PersonalInfo = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item md={3}>
-                                        <FormControl variant="outlined" fullWidth error={errors.cast[0]}>
-                                            <InputLabel id="form-caste-label">Cast</InputLabel>
+                                        <FormControl variant="outlined" fullWidth error={errors.caste[0]}>
+                                            <InputLabel id="form-caste-label">Caste</InputLabel>
                                             <Select
                                                 labelId="form-caste-label"
-                                                id="form-cast"
-                                                value={formData.cast}
-                                                onChange={handleFormDataChange('cast')}
+                                                id="form-caste"
+                                                value={formData.caste}
+                                                onChange={handleFormDataChange('caste')}
                                                 label="Cast"
                                             >
                                                 <MenuItem value="">
@@ -207,17 +207,17 @@ const Progress1PersonalInfo = () => {
                                                 <MenuItem value={'OBC-A'}>OBC-A</MenuItem>
                                                 <MenuItem value={'OBC-B'}>OBC-B</MenuItem>
                                             </Select>
-                                            <FormHelperText>{errors.cast[1]}</FormHelperText>
+                                            <FormHelperText>{errors.caste[1]}</FormHelperText>
                                         </FormControl>
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
                                     <Grid item md={4}>
-                                        <TextField fullWidth required error={errors.aadhar_no[0]}
-                                                   helperText={errors.aadhar_no[1]}
-                                                   label={"Aadhar No"} id={"aadhar_no"}
-                                                   variant={"outlined"} value={formData.aadhar_no}
-                                                   onChange={handleFormDataChange("aadhar_no")}/>
+                                        <TextField fullWidth required error={errors.aadhaar_no[0]}
+                                                   helperText={errors.aadhaar_no[1]}
+                                                   label={"Aadhaar No"} id={"aadhaar_no"}
+                                                   variant={"outlined"} value={formData.aadhaar_no}
+                                                   onChange={handleFormDataChange("aadhaar_no")}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
@@ -246,7 +246,7 @@ const Progress1PersonalInfo = () => {
                             </CardContent>
                         </Card>
                         <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
-                            Guardian's Information
+                            Family Information
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
