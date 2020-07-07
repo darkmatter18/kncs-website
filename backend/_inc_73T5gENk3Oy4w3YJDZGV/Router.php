@@ -15,7 +15,7 @@ class Router{
     private static $pathNotFound = null;
     private static $methodNotAllowed = null;
     
-    public static function add($expression, $function, $method = 'get'){
+    public static function add($expression, $method, $function){
       	array_push(self::$routes,Array(
         	'expression' => $expression,
         	'function' => $function,
