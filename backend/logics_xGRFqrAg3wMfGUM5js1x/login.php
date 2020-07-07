@@ -4,17 +4,13 @@
  * Created by: Arkadip Bhattachaya 15/05/2020 12.17PM
  */
 
-function chechRecapta($re_response){
-    if(isset($re_response) && !empty($re_response)){
-        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$_SERVER['HTTP_RECAPTA_SERECT'].'&response='.$re_response.'&remoteip');
-        $respone =  json_decode($verifyResponse); //Decode the json return obj
-        if($respone->success){
-            return true;
-        }
-    }
-    return true;
-}
 
+/**
+ * @param $pdocon
+ * @param $id
+ * @param $password
+ * @return bool
+ */
 function login($pdocon, $id, $password){
     //Check if admin already exist or not
     $smt = $pdocon->prepare("SELECT id, password FROM `users_login` WHERE id =:id LIMIT 1");
@@ -40,6 +36,11 @@ function login($pdocon, $id, $password){
     return false;
 }
 
+/**
+ * @param $pdocon
+ * @param $id
+ * @return mixed|void
+ */
 function get_user_role($pdocon, $id){
     $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
     $smt->bindParam(':id', $id, PDO::PARAM_STR);
@@ -67,7 +68,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['g_recap
     //Set the return content type
     header('Content-Type: application/json');
 
-    if(chechRecapta($_INPUT['g_recaptcha_response'])){
+    if(checkRecaptca($_INPUT['g_recaptcha_response'])){
         //Escaping variables
         $id_clean = Filter::String($_INPUT['id']);
         $password_clean = Filter::String($_INPUT['password']);
