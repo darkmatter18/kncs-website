@@ -19,8 +19,18 @@ Router::add('/', 'get', function(){
     echo 'Welcome :-)';
 });
 
+Router::add('/api/preregistration', 'post', function (){
+    require LOGIC_DIR.'student_preregistration.php';
+});
+
+
 Router::add('/api/login', 'post', function(){
     require LOGIC_DIR.'login.php';
+});
+
+// Preregistration_login fetching....
+Router::add('/api/preregistration/login','post', function(){
+    require LOGIC_DIR.'student_preregistration_login.php';
 });
 
 //Example Protected route
@@ -29,3 +39,4 @@ Router::add('/api/admin/1','get',function(){
 });
 
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
+
