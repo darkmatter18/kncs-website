@@ -54,6 +54,9 @@ const Progress1PersonalInfo = () => {
         guardian_name: '',
         guardian_occupation: '',
         guardian_same_father: false,
+        address_line_1: '',
+        address_line_2: '',
+        city: '',
         email: '',
         mobile: '',
     }
@@ -77,6 +80,9 @@ const Progress1PersonalInfo = () => {
         mother_occupation: [false, "Enter your Mother's Occupation"],
         guardian_name: [false, "Enter your Guardian's Name"],
         guardian_occupation: [false, "Enter your Guardian's Occupation"],
+        address_line_1: [false, "Enter Your Address/Area"],
+        address_line_2: [false, "Enter Your Locality"],
+        city: [false, "Enter your City/Village"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     }
@@ -371,6 +377,33 @@ const Progress1PersonalInfo = () => {
                                             />}
                                             label={"Guardian Same as Father"}
                                             labelPlacement={"bottom"}/>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Card>
+                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                            Contact Information
+                        </Typography>
+                        <Card variant={"outlined"}>
+                            <CardContent>
+                                <Grid container spacing={5} justify={"center"}>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.address_line_1[0]}
+                                                   helperText={errors.address_line_1[1]}
+                                                   label={"Address Line 1"} id={"address_line_1"}
+                                                   variant={"outlined"} value={formData.address_line_1}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.address_line_2[0]}
+                                                   helperText={errors.address_line_2[1]}
+                                                   label={"Address Line 2"} id={"address_line_2"}
+                                                   variant={"outlined"} value={formData.address_line_1}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.city[0]}
+                                                   helperText={errors.city[1]}
+                                                   label={"City / Village"} id={"city"}
+                                                   variant={"outlined"} value={formData.city}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
