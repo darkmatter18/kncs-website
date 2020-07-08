@@ -43,6 +43,10 @@ const Progress1PersonalInfo = () => {
         caste: '',
         aadhaar_no: '',
         mother_tongue: '',
+        apply_for_reserved_seat: false,
+        caste_certificate_no: '',
+        weather_bpl: false,
+        bpl_card_no: '',
         father_name: '',
         father_occupation: '',
         mother_name: '',
@@ -63,6 +67,10 @@ const Progress1PersonalInfo = () => {
         caste: [false, "Enter your Cast"],
         aadhaar_no: [false, "Enter your 12 digit Aadhar No"],
         mother_tongue: [false, "Enter your Mother Tongue"],
+        apply_for_reserved_seat: [false, "Apply for a Reserved Seat"],
+        caste_certificate_no: [false, "Enter the Caste Certificate No"],
+        weather_bpl: [false, "Apply for a Reserved Seat"],
+        bpl_card_no: [false, "Enter the BPL card No"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
         mother_name: [false, "Enter your Mother's Name"],
@@ -212,6 +220,7 @@ const Progress1PersonalInfo = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
+
                                     <Grid item md={4}>
                                         <TextField fullWidth required error={errors.aadhaar_no[0]}
                                                    helperText={errors.aadhaar_no[1]}
@@ -243,8 +252,60 @@ const Progress1PersonalInfo = () => {
                                         </FormControl>
                                     </Grid>
                                 </Grid>
+
+
+                                <Grid container justify={"space-around"} className={classes.spacer}>
+
+                                    <Grid container item md={6} justify={"center"}>
+                                        {/*//TODO: Complete On change apply_for_reserved_seat function*/}
+                                        <Grid item md={5}>
+                                            <FormControlLabel
+                                                value={"Apply for Reserved Seat"}
+                                                control={<Switch
+                                                    checked={formData.apply_for_reserved_seat}
+                                                    onChange={handleChangeGuardianSameFather}
+                                                    color="secondary"
+                                                    name="apply_for_reserved_seat"
+                                                />}
+                                                label={"Apply for Reserved Seat"}
+                                                labelPlacement={"bottom"}/>
+                                        </Grid>
+                                        <Grid item md={7}>
+                                            <TextField fullWidth required error={errors.caste_certificate_no[0]}
+                                                       helperText={errors.caste_certificate_no[1]}
+                                                       label={"Caste Certificate No"} id={"caste_certificate_no"}
+                                                       variant={"outlined"} value={formData.caste_certificate_no}
+                                                       onChange={handleFormDataChange("caste_certificate_no")}/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item md={6} justify={"center"}>
+                                        <Grid item md={5}>
+                                            {/*//TODO: Complete On change weather_bpl function*/}
+                                            <FormControlLabel
+                                                value={"Weather BPL"}
+                                                control={<Switch
+                                                    checked={formData.weather_bpl}
+                                                    onChange={handleChangeGuardianSameFather}
+                                                    color="secondary"
+                                                    name="weather_bpl"
+                                                />}
+                                                label={"Weather BPL"}
+                                                labelPlacement={"bottom"}/>
+                                        </Grid>
+                                        <Grid item md={7}>
+                                            <TextField fullWidth required error={errors.bpl_card_no[0]}
+                                                       helperText={errors.bpl_card_no[1]}
+                                                       label={"BPL Card No"} id={"bpl_card_no"}
+                                                       variant={"outlined"} value={formData.bpl_card_no}
+                                                       onChange={handleFormDataChange("bpl_card_no")}/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </CardContent>
                         </Card>
+
+
                         <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
                             Family Information
                         </Typography>
