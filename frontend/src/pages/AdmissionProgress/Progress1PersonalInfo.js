@@ -19,10 +19,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import NetworkSubmit from "../../components/NetworkSubmit";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: theme.spacing(3)
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(5)
     },
     spacer: {
         marginTop: theme.spacing(2)
@@ -61,6 +63,7 @@ const Progress1PersonalInfo = () => {
         pin: '',
         email: '',
         mobile: '',
+        whatsapp_no: ''
     }
     const initialErrorState = {
         first_name: [false, ""],
@@ -89,11 +92,14 @@ const Progress1PersonalInfo = () => {
         pin: [false, "Enter your Pin"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
+        whatsapp_no: [false, "Enter 10 Digit Whatsapp Number"],
     }
 
     const [formData, setFormData] = React.useState(initialState)
+    // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
     const [guardianDisabled, setGuardianDisabled] = React.useState(false)
+    // Todo: work in submiiting
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
@@ -110,6 +116,11 @@ const Progress1PersonalInfo = () => {
         } else {
             setGuardianDisabled(false)
         }
+    }
+
+    //TODO: complete handle submit
+    const handleSubmit = () => {
+
     }
 
     return (
@@ -413,7 +424,7 @@ const Progress1PersonalInfo = () => {
                                                    onChange={handleFormDataChange('city')}/>
                                     </Grid>
                                 </Grid>
-                                <Grid container spacing={5} justify={"center"}>
+                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
                                     <Grid item md={4}>
                                         <TextField required fullWidth error={errors.district[0]}
                                                    helperText={errors.district[1]}
@@ -429,9 +440,37 @@ const Progress1PersonalInfo = () => {
                                                    onChange={handleFormDataChange('pin')}/>
                                     </Grid>
                                 </Grid>
+                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                    <Grid item md={4}>
+                                        <TextField disabled required fullWidth error={errors.email[0]}
+                                                   helperText={errors.email[1]}
+                                                   label={"Email"} id={"email"}
+                                                   variant={"outlined"} value={formData.email}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField disabled required fullWidth error={errors.mobile[0]}
+                                                   helperText={errors.mobile[1]}
+                                                   label={"Mobile"} id={"mobile"}
+                                                   variant={"outlined"} value={formData.mobile}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.whatsapp_no[0]}
+                                                   helperText={errors.whatsapp_no[1]}
+                                                   label={"Whatsapp No"} id={"whatsapp_no"}
+                                                   variant={"outlined"} value={formData.whatsapp_no}
+                                                   onChange={handleFormDataChange('whatsapp_no')}/>
+                                    </Grid>
+                                </Grid>
                             </CardContent>
                         </Card>
-                        <AdmissionProgressBack/>
+                        <Grid container className={classes.spacer} justify={"flex-start"}>
+                            <Grid item md={1}>
+                                <AdmissionProgressBack/>
+                            </Grid>
+                            <Grid item md={6}>
+                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Paper>
             </Container>
