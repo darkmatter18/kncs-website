@@ -57,6 +57,8 @@ const Progress1PersonalInfo = () => {
         address_line_1: '',
         address_line_2: '',
         city: '',
+        district: '',
+        pin: '',
         email: '',
         mobile: '',
     }
@@ -83,6 +85,8 @@ const Progress1PersonalInfo = () => {
         address_line_1: [false, "Enter Your Address/Area"],
         address_line_2: [false, "Enter Your Locality"],
         city: [false, "Enter your City/Village"],
+        district: [false, "Enter your District"],
+        pin: [false, "Enter your Pin"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     }
@@ -391,19 +395,38 @@ const Progress1PersonalInfo = () => {
                                         <TextField required fullWidth error={errors.address_line_1[0]}
                                                    helperText={errors.address_line_1[1]}
                                                    label={"Address Line 1"} id={"address_line_1"}
-                                                   variant={"outlined"} value={formData.address_line_1}/>
+                                                   variant={"outlined"} value={formData.address_line_1}
+                                                   onChange={handleFormDataChange('address_line_1')}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <TextField required fullWidth error={errors.address_line_2[0]}
                                                    helperText={errors.address_line_2[1]}
                                                    label={"Address Line 2"} id={"address_line_2"}
-                                                   variant={"outlined"} value={formData.address_line_1}/>
+                                                   variant={"outlined"} value={formData.address_line_2}
+                                                   onChange={handleFormDataChange('address_line_2')}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <TextField required fullWidth error={errors.city[0]}
                                                    helperText={errors.city[1]}
                                                    label={"City / Village"} id={"city"}
-                                                   variant={"outlined"} value={formData.city}/>
+                                                   variant={"outlined"} value={formData.city}
+                                                   onChange={handleFormDataChange('city')}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} justify={"center"}>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.district[0]}
+                                                   helperText={errors.district[1]}
+                                                   label={"District"} id={"district"}
+                                                   variant={"outlined"} value={formData.district}
+                                                   onChange={handleFormDataChange('district')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.pin[0]}
+                                                   helperText={errors.pin[1]}
+                                                   label={"PIN"} id={"pin"}
+                                                   variant={"outlined"} value={formData.pin}
+                                                   onChange={handleFormDataChange('pin')}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
