@@ -146,6 +146,7 @@ const AdmissionNew = () => {
                             setNetworkState(netState.ERROR)
                         }
                     }).catch((e) => {
+                        console.error(e)
                         setNetworkState(netState.ERROR)
                     })
                 })

@@ -19,10 +19,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import NetworkSubmit from "../../components/NetworkSubmit";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginTop: theme.spacing(3)
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(5)
     },
     spacer: {
         marginTop: theme.spacing(2)
@@ -43,6 +45,10 @@ const Progress1PersonalInfo = () => {
         caste: '',
         aadhaar_no: '',
         mother_tongue: '',
+        apply_for_reserved_seat: false,
+        caste_certificate_no: '',
+        weather_bpl: false,
+        bpl_card_no: '',
         father_name: '',
         father_occupation: '',
         mother_name: '',
@@ -50,8 +56,14 @@ const Progress1PersonalInfo = () => {
         guardian_name: '',
         guardian_occupation: '',
         guardian_same_father: false,
+        address_line_1: '',
+        address_line_2: '',
+        city: '',
+        district: '',
+        pin: '',
         email: '',
         mobile: '',
+        whatsapp_no: ''
     }
     const initialErrorState = {
         first_name: [false, ""],
@@ -63,19 +75,31 @@ const Progress1PersonalInfo = () => {
         caste: [false, "Enter your Cast"],
         aadhaar_no: [false, "Enter your 12 digit Aadhar No"],
         mother_tongue: [false, "Enter your Mother Tongue"],
+        apply_for_reserved_seat: [false, "Apply for a Reserved Seat"],
+        caste_certificate_no: [false, "Enter the Caste Certificate No"],
+        weather_bpl: [false, "Apply for a Reserved Seat"],
+        bpl_card_no: [false, "Enter the BPL card No"],
         father_name: [false, "Enter your Father's Name"],
         father_occupation: [false, "Enter your Father's Occupation"],
         mother_name: [false, "Enter your Mother's Name"],
         mother_occupation: [false, "Enter your Mother's Occupation"],
         guardian_name: [false, "Enter your Guardian's Name"],
         guardian_occupation: [false, "Enter your Guardian's Occupation"],
+        address_line_1: [false, "Enter Your Address/Area"],
+        address_line_2: [false, "Enter Your Locality"],
+        city: [false, "Enter your City/Village"],
+        district: [false, "Enter your District"],
+        pin: [false, "Enter your Pin"],
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
+        whatsapp_no: [false, "Enter 10 Digit Whatsapp Number"],
     }
 
     const [formData, setFormData] = React.useState(initialState)
+    // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
     const [guardianDisabled, setGuardianDisabled] = React.useState(false)
+    // Todo: work in submiiting
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
@@ -92,6 +116,11 @@ const Progress1PersonalInfo = () => {
         } else {
             setGuardianDisabled(false)
         }
+    }
+
+    //TODO: complete handle submit
+    const handleSubmit = () => {
+
     }
 
     return (
@@ -212,6 +241,7 @@ const Progress1PersonalInfo = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
+
                                     <Grid item md={4}>
                                         <TextField fullWidth required error={errors.aadhaar_no[0]}
                                                    helperText={errors.aadhaar_no[1]}
@@ -243,8 +273,60 @@ const Progress1PersonalInfo = () => {
                                         </FormControl>
                                     </Grid>
                                 </Grid>
+
+
+                                <Grid container justify={"space-around"} className={classes.spacer}>
+
+                                    <Grid container item md={6} justify={"center"}>
+                                        {/*//TODO: Complete On change apply_for_reserved_seat function*/}
+                                        <Grid item md={5}>
+                                            <FormControlLabel
+                                                value={"Apply for Reserved Seat"}
+                                                control={<Switch
+                                                    checked={formData.apply_for_reserved_seat}
+                                                    onChange={handleChangeGuardianSameFather}
+                                                    color="secondary"
+                                                    name="apply_for_reserved_seat"
+                                                />}
+                                                label={"Apply for Reserved Seat"}
+                                                labelPlacement={"bottom"}/>
+                                        </Grid>
+                                        <Grid item md={7}>
+                                            <TextField fullWidth required error={errors.caste_certificate_no[0]}
+                                                       helperText={errors.caste_certificate_no[1]}
+                                                       label={"Caste Certificate No"} id={"caste_certificate_no"}
+                                                       variant={"outlined"} value={formData.caste_certificate_no}
+                                                       onChange={handleFormDataChange("caste_certificate_no")}/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid container item md={6} justify={"center"}>
+                                        <Grid item md={5}>
+                                            {/*//TODO: Complete On change weather_bpl function*/}
+                                            <FormControlLabel
+                                                value={"Weather BPL"}
+                                                control={<Switch
+                                                    checked={formData.weather_bpl}
+                                                    onChange={handleChangeGuardianSameFather}
+                                                    color="secondary"
+                                                    name="weather_bpl"
+                                                />}
+                                                label={"Weather BPL"}
+                                                labelPlacement={"bottom"}/>
+                                        </Grid>
+                                        <Grid item md={7}>
+                                            <TextField fullWidth required error={errors.bpl_card_no[0]}
+                                                       helperText={errors.bpl_card_no[1]}
+                                                       label={"BPL Card No"} id={"bpl_card_no"}
+                                                       variant={"outlined"} value={formData.bpl_card_no}
+                                                       onChange={handleFormDataChange("bpl_card_no")}/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
                             </CardContent>
                         </Card>
+
+
                         <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
                             Family Information
                         </Typography>
@@ -314,7 +396,81 @@ const Progress1PersonalInfo = () => {
                                 </Grid>
                             </CardContent>
                         </Card>
-                        <AdmissionProgressBack/>
+                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                            Contact Information
+                        </Typography>
+                        <Card variant={"outlined"}>
+                            <CardContent>
+                                <Grid container spacing={5} justify={"center"}>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.address_line_1[0]}
+                                                   helperText={errors.address_line_1[1]}
+                                                   label={"Address Line 1"} id={"address_line_1"}
+                                                   variant={"outlined"} value={formData.address_line_1}
+                                                   onChange={handleFormDataChange('address_line_1')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.address_line_2[0]}
+                                                   helperText={errors.address_line_2[1]}
+                                                   label={"Address Line 2"} id={"address_line_2"}
+                                                   variant={"outlined"} value={formData.address_line_2}
+                                                   onChange={handleFormDataChange('address_line_2')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.city[0]}
+                                                   helperText={errors.city[1]}
+                                                   label={"City / Village"} id={"city"}
+                                                   variant={"outlined"} value={formData.city}
+                                                   onChange={handleFormDataChange('city')}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.district[0]}
+                                                   helperText={errors.district[1]}
+                                                   label={"District"} id={"district"}
+                                                   variant={"outlined"} value={formData.district}
+                                                   onChange={handleFormDataChange('district')}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.pin[0]}
+                                                   helperText={errors.pin[1]}
+                                                   label={"PIN"} id={"pin"}
+                                                   variant={"outlined"} value={formData.pin}
+                                                   onChange={handleFormDataChange('pin')}/>
+                                    </Grid>
+                                </Grid>
+                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                    <Grid item md={4}>
+                                        <TextField disabled required fullWidth error={errors.email[0]}
+                                                   helperText={errors.email[1]}
+                                                   label={"Email"} id={"email"}
+                                                   variant={"outlined"} value={formData.email}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField disabled required fullWidth error={errors.mobile[0]}
+                                                   helperText={errors.mobile[1]}
+                                                   label={"Mobile"} id={"mobile"}
+                                                   variant={"outlined"} value={formData.mobile}/>
+                                    </Grid>
+                                    <Grid item md={4}>
+                                        <TextField required fullWidth error={errors.whatsapp_no[0]}
+                                                   helperText={errors.whatsapp_no[1]}
+                                                   label={"Whatsapp No"} id={"whatsapp_no"}
+                                                   variant={"outlined"} value={formData.whatsapp_no}
+                                                   onChange={handleFormDataChange('whatsapp_no')}/>
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Card>
+                        <Grid container className={classes.spacer} justify={"flex-start"}>
+                            <Grid item md={1}>
+                                <AdmissionProgressBack/>
+                            </Grid>
+                            <Grid item md={6}>
+                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Paper>
             </Container>
