@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress2AcademicInfo = () => {
     const classes = useStyles()
+    const scienceSubjects = ['PHYSICS', 'NUTRITION', 'CHEMISTRY', 'ECONOMICS', 'MATHEMATICS', 'BIOLOGICAL SCIENCES',
+        'GEOGRAPHY', 'COMPUTER SCIENCE', 'COMPUTER APPLICATION']
+
+    const humanitiesSubjects = ['POLITICAL SCIENCE', 'NUTRITION', 'ECONOMICS', 'SANSKRIT', 'PHILOSOPHY', 'HISTORY',
+        'MATHEMATICS', 'GEOGRAPHY', 'COMPUTER  APPLICATION']
 
     const initialState = {
         previous_school_name: '',
@@ -45,7 +50,11 @@ const Progress2AcademicInfo = () => {
         marks_percentage: 0,
         stream: '',
         first_language: 'BENA',
-        second_language: 'ENGB'
+        second_language: 'ENGB',
+        first_major: '',
+        second_major: '',
+        third_major: '',
+        forth_major: '',
     }
     const initialErrorState = {
         previous_school_name: [false, "Enter name of your Previous School"],
@@ -58,7 +67,11 @@ const Progress2AcademicInfo = () => {
         marks_lsc: [false, "Life Science"],
         marks_geo: [false, "Geography"],
         marks_hist: [false, "History"],
-        stream: [false, "Which Stream, you are applying for"]
+        stream: [false, "Which Stream, you are applying for"],
+        first_major: [false, "Enter your first Major choice"],
+        second_major: [false, "Enter your second Major choice"],
+        third_major: [false, "Enter your third Major choice"],
+        forth_major: [false, "Enter your forth Major choice"],
     }
     const [formData, setFormData] = React.useState(initialState)
     // Todo: work with errors
@@ -80,8 +93,8 @@ const Progress2AcademicInfo = () => {
 
         setFormData(prevState => {
             const total = Number(prevState.marks_beng) + Number(prevState.marks_engb) + Number(prevState.marks_maths)
-            + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
-            + Number(prevState.marks_hist)
+                + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
+                + Number(prevState.marks_hist)
 
             return {...prevState, marks_total: total}
         })
@@ -95,10 +108,9 @@ const Progress2AcademicInfo = () => {
     }
 
     const renderStreamSubjectSelector = () => {
-        if (formData.stream === ''){
-            return <React.Fragment />
-        }
-        else if (formData.stream === 'Science'){
+        if (formData.stream === '') {
+            return <React.Fragment/>
+        } else if (formData.stream === 'Science') {
             return (
                 <React.Fragment>
                     <Grid container spacing={1}>
@@ -122,8 +134,7 @@ const Progress2AcademicInfo = () => {
                     </Grid>
                 </React.Fragment>
             )
-        }
-        else if(formData.stream === 'Humanities'){
+        } else if (formData.stream === 'Humanities') {
             return (
                 <React.Fragment>
                     <Grid container spacing={1}>
