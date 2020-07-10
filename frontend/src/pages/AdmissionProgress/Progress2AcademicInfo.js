@@ -44,6 +44,8 @@ const Progress2AcademicInfo = () => {
         marks_total: 0,
         marks_percentage: 0,
         stream: '',
+        first_language: 'BENA',
+        second_language: 'ENGB'
     }
     const initialErrorState = {
         previous_school_name: [false, "Enter name of your Previous School"],
@@ -90,6 +92,62 @@ const Progress2AcademicInfo = () => {
 
             return {...prevState, marks_percentage: (total / 7)}
         })
+    }
+
+    const renderStreamSubjectSelector = () => {
+        if (formData.stream === ''){
+            return <React.Fragment />
+        }
+        else if (formData.stream === 'Science'){
+            return (
+                <React.Fragment>
+                    <Grid container spacing={1}>
+                        <Grid item>
+                            <TextField disabled fullWidth required label={"First Language"} id={"first_language"}
+                                       variant={"outlined"} value={formData.first_language}/>
+                        </Grid>
+                        <Grid item>
+                            <TextField disabled fullWidth required label={"Second Language"} id={"second_language"}
+                                       variant={"outlined"} value={formData.second_language}/>
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                    </Grid>
+                </React.Fragment>
+            )
+        }
+        else if(formData.stream === 'Humanities'){
+            return (
+                <React.Fragment>
+                    <Grid container spacing={1}>
+                        <Grid item>
+                            <TextField disabled fullWidth required label={"First Language"} id={"first_language"}
+                                       variant={"outlined"} value={formData.first_language}/>
+                        </Grid>
+                        <Grid item>
+                            <TextField disabled fullWidth required label={"Second Language"} id={"second_language"}
+                                       variant={"outlined"} value={formData.second_language}/>
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                        <Grid item>
+
+                        </Grid>
+                    </Grid>
+                </React.Fragment>
+            )
+        }
     }
 
     return (
@@ -234,6 +292,14 @@ const Progress2AcademicInfo = () => {
                                         </FormControl>
                                     </Grid>
                                 </Grid>
+                                <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
+                                    Subject Combination
+                                </Typography>
+                                <Card variant={"outlined"}>
+                                    <CardContent>
+                                        {renderStreamSubjectSelector()}
+                                    </CardContent>
+                                </Card>
                             </CardContent>
                         </Card>
                     </CardContent>
