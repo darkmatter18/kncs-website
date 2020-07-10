@@ -11,6 +11,11 @@ import {netState} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,6 +43,7 @@ const Progress2AcademicInfo = () => {
         marks_hist: '',
         marks_total: 0,
         marks_percentage: 0,
+        stream: '',
     }
     const initialErrorState = {
         previous_school_name: [false, "Enter name of your Previous School"],
@@ -50,6 +56,7 @@ const Progress2AcademicInfo = () => {
         marks_lsc: [false, "Life Science"],
         marks_geo: [false, "Geography"],
         marks_hist: [false, "History"],
+        stream: [false, "Which Stream, you are applying for"]
     }
     const [formData, setFormData] = React.useState(initialState)
     // Todo: work with errors
@@ -199,6 +206,34 @@ const Progress2AcademicInfo = () => {
                                         </Grid>
                                     </CardContent>
                                 </Card>
+                            </CardContent>
+                        </Card>
+                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                            Admission Info
+                        </Typography>
+                        <Card variant={"outlined"}>
+                            <CardContent>
+                                <Grid container justify={"flex-start"}>
+                                    <Grid item>
+                                        <FormControl variant="outlined" fullWidth error={errors.stream[0]}>
+                                            <InputLabel id="form-stream-label">Stream</InputLabel>
+                                            <Select
+                                                labelId="form-stream-label"
+                                                id="form-stream"
+                                                value={formData.stream}
+                                                onChange={handleFormDataChange('stream')}
+                                                label="Stream"
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Science'}>Science</MenuItem>
+                                                <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.stream[1]}</FormHelperText>
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
                             </CardContent>
                         </Card>
                     </CardContent>
