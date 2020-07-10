@@ -29,11 +29,27 @@ const Progress2AcademicInfo = () => {
         previous_school_name: '',
         year_of_madhyamik: new Date(),
         previous_student_id: '',
+        marks_beng: '',
+        marks_engb: '',
+        marks_maths: '',
+        marks_psc: '',
+        marks_lsc: '',
+        marks_geo: '',
+        marks_hist: '',
+        marks_total: 0,
+        marks_percentage: 0,
     }
     const initialErrorState = {
         previous_school_name: [false, "Enter name of your Previous School"],
         year_of_madhyamik: [false, "Enter year of Passing Madhyamik"],
-        previous_student_id: [false, "Enter Previous Student Id, if any"]
+        previous_student_id: [false, "Enter Previous Student Id, if any"],
+        marks_beng: [false, "Bengali"],
+        marks_engb: [false, "English"],
+        marks_maths: [false, "Maths"],
+        marks_psc: [false, "Physical Science"],
+        marks_lsc: [false, "Life Science"],
+        marks_geo: [false, "Geography"],
+        marks_hist: [false, "History"],
     }
     const [formData, setFormData] = React.useState(initialState)
     // Todo: work with errors
@@ -49,6 +65,25 @@ const Progress2AcademicInfo = () => {
     const handleDateChange = (date) => {
         setFormData(prevState => ({...prevState, year_of_madhyamik: date}))
     };
+    const handleMarksChange = (name) => (e) => {
+        e.persist()
+        setFormData(prevState => ({...prevState, [name]: e.target.value}))
+
+        setFormData(prevState => {
+            const total = Number(prevState.marks_beng) + Number(prevState.marks_engb) + Number(prevState.marks_maths)
+            + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
+            + Number(prevState.marks_hist)
+
+            return {...prevState, marks_total: total}
+        })
+        setFormData(prevState => {
+            const total = Number(prevState.marks_beng) + Number(prevState.marks_engb) + Number(prevState.marks_maths)
+                + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
+                + Number(prevState.marks_hist)
+
+            return {...prevState, marks_percentage: (total / 7)}
+        })
+    }
 
     return (
         <React.Fragment>
@@ -100,9 +135,66 @@ const Progress2AcademicInfo = () => {
                                 </Typography>
                                 <Card variant={"outlined"}>
                                     <CardContent>
-                                        <Grid container justify={"flex-start"}>
+                                        <Grid container justify={"flex-start"} spacing={2}>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_beng[0]}
+                                                           helperText={errors.marks_beng[1]}
+                                                           label={"BENG"} id={"marks_beng"}
+                                                           variant={"outlined"} value={formData.marks_beng}
+                                                           onChange={handleMarksChange("marks_beng")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_engb[0]}
+                                                           helperText={errors.marks_engb[1]}
+                                                           label={"ENGB"} id={"marks_engb"}
+                                                           variant={"outlined"} value={formData.marks_engb}
+                                                           onChange={handleMarksChange("marks_engb")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_maths[0]}
+                                                           helperText={errors.marks_maths[1]}
+                                                           label={"Mathematics"} id={"marks_maths"}
+                                                           variant={"outlined"} value={formData.marks_maths}
+                                                           onChange={handleMarksChange("marks_maths")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_psc[0]}
+                                                           helperText={errors.marks_psc[1]}
+                                                           label={"Physical Science"} id={"marks_psc"}
+                                                           variant={"outlined"} value={formData.marks_psc}
+                                                           onChange={handleMarksChange("marks_psc")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_lsc[0]}
+                                                           helperText={errors.marks_lsc[1]}
+                                                           label={"Life Science"} id={"marks_lsc"}
+                                                           variant={"outlined"} value={formData.marks_lsc}
+                                                           onChange={handleMarksChange("marks_lsc")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_geo[0]}
+                                                           helperText={errors.marks_geo[1]}
+                                                           label={"Geography"} id={"marks_geo"}
+                                                           variant={"outlined"} value={formData.marks_geo}
+                                                           onChange={handleMarksChange("marks_geo")}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField fullWidth required error={errors.marks_hist[0]}
+                                                           helperText={errors.marks_hist[1]}
+                                                           label={"History"} id={"marks_hist"}
+                                                           variant={"outlined"} value={formData.marks_hist}
+                                                           onChange={handleMarksChange("marks_hist")}/>
+                                            </Grid>
+                                        </Grid>
+                                        <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>
                                             <Grid item md={3}>
-
+                                                <TextField disabled fullWidth required label={"Total"} id={"total"}
+                                                           variant={"filled"} value={formData.marks_total}/>
+                                            </Grid>
+                                            <Grid item md={3}>
+                                                <TextField disabled fullWidth required label={"Percentage"}
+                                                           id={"percentage"} variant={"filled"}
+                                                           value={`${formData.marks_percentage} %`}/>
                                             </Grid>
                                         </Grid>
                                     </CardContent>
