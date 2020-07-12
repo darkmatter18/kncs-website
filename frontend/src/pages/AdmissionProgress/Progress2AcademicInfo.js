@@ -150,7 +150,7 @@ const Progress2AcademicInfo = () => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
-                                <FormHelperText>{errors.second_major[1]}</FormHelperText>
+                                <FormHelperText>{errors.forth_major[1]}</FormHelperText>
                             </FormControl>
                         </Grid>
                         <Grid item md={2}>
@@ -166,8 +166,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {scienceSecondMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.second_major[1]}</FormHelperText>
                             </FormControl>
@@ -185,8 +186,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {scienceThirdMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.third_major[1]}</FormHelperText>
                             </FormControl>
@@ -204,8 +206,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {scienceForthMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.forth_major[1]}</FormHelperText>
                             </FormControl>
@@ -238,8 +241,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {humanitiesFirstMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.second_major[1]}</FormHelperText>
                             </FormControl>
@@ -257,8 +261,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {humanitiesSecondMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.second_major[1]}</FormHelperText>
                             </FormControl>
@@ -276,8 +281,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {humanitiesThirdMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.third_major[1]}</FormHelperText>
                             </FormControl>
@@ -295,8 +301,9 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    <MenuItem value={'Science'}>Science</MenuItem>
-                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                    {humanitiesForthMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
                                 </Select>
                                 <FormHelperText>{errors.forth_major[1]}</FormHelperText>
                             </FormControl>
