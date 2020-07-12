@@ -117,6 +117,14 @@ const Progress2AcademicInfo = () => {
         })
     }
 
+    const handleScienceSubjectChange = (name) => (e) => {
+        setFormData(prevState => ({...prevState, [name]: e.target.value}))
+    }
+
+    const handleHumanitiesSubjectChange = (name) => (e) => {
+        setFormData(prevState => ({...prevState, [name]: e.target.value}))
+    }
+
 
     const renderStreamSubjectSelector = () => {
         if (formData.stream === '') {
@@ -140,7 +148,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-first_major-label"
                                     id="form-first_major"
                                     value={formData.first_major}
-                                    onChange={handleFormDataChange('first_major')}
+                                    onChange={handleScienceSubjectChange('first_major')}
                                     label="First Major"
                                 >
                                     <MenuItem value="">
@@ -160,7 +168,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-second_major-label"
                                     id="form-second_major"
                                     value={formData.second_major}
-                                    onChange={handleFormDataChange('second_major')}
+                                    onChange={handleScienceSubjectChange('second_major')}
                                     label="Second Major"
                                 >
                                     <MenuItem value="">
@@ -180,7 +188,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-third_major-label"
                                     id="form-third_major"
                                     value={formData.third_major}
-                                    onChange={handleFormDataChange('third_major')}
+                                    onChange={handleScienceSubjectChange('third_major')}
                                     label="Third Major"
                                 >
                                     <MenuItem value="">
@@ -200,7 +208,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-forth_major-label"
                                     id="form-forth_major"
                                     value={formData.forth_major}
-                                    onChange={handleFormDataChange('forth_major')}
+                                    onChange={handleScienceSubjectChange('forth_major')}
                                     label="Forth Major"
                                 >
                                     <MenuItem value="">
@@ -235,7 +243,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-first_major-label"
                                     id="form-first_major"
                                     value={formData.first_major}
-                                    onChange={handleFormDataChange('first_major')}
+                                    onChange={handleHumanitiesSubjectChange('first_major')}
                                     label="First Major"
                                 >
                                     <MenuItem value="">
@@ -255,7 +263,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-second_major-label"
                                     id="form-second_major"
                                     value={formData.second_major}
-                                    onChange={handleFormDataChange('second_major')}
+                                    onChange={handleHumanitiesSubjectChange('second_major')}
                                     label="Second Major"
                                 >
                                     <MenuItem value="">
@@ -275,7 +283,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-third_major-label"
                                     id="form-third_major"
                                     value={formData.third_major}
-                                    onChange={handleFormDataChange('third_major')}
+                                    onChange={handleHumanitiesSubjectChange('third_major')}
                                     label="Third Major"
                                 >
                                     <MenuItem value="">
@@ -295,7 +303,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-forth_major-label"
                                     id="form-forth_major"
                                     value={formData.forth_major}
-                                    onChange={handleFormDataChange('forth_major')}
+                                    onChange={handleHumanitiesSubjectChange('forth_major')}
                                     label="Forth Major"
                                 >
                                     <MenuItem value="">
