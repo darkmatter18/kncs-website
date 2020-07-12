@@ -74,9 +74,19 @@ const Progress2AcademicInfo = () => {
         forth_major: [false, "Enter your forth Major choice"],
     }
     const [formData, setFormData] = React.useState(initialState)
+
+    const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(scienceSubjects)
+    const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(scienceSubjects)
+    const [scienceThirdMajorList, setScienceThirdMajorList] = React.useState(scienceSubjects)
+    const [scienceForthMajorList, setScienceForthMajorList] = React.useState(scienceSubjects)
+
+    const [humanitiesFirstMajorList, setHumanitiesFirstMajorList] = React.useState(humanitiesSubjects)
+    const [humanitiesSecondMajorList, setHumanitiesSecondMajorList] = React.useState(humanitiesSubjects)
+    const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(humanitiesSubjects)
+    const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
+
     // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [guardianDisabled, setGuardianDisabled] = React.useState(false)
     // Todo: work in submiiting
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
@@ -107,6 +117,7 @@ const Progress2AcademicInfo = () => {
         })
     }
 
+
     const renderStreamSubjectSelector = () => {
         if (formData.stream === '') {
             return <React.Fragment/>
@@ -114,22 +125,90 @@ const Progress2AcademicInfo = () => {
             return (
                 <React.Fragment>
                     <Grid container spacing={1}>
-                        <Grid item>
+                        <Grid item md={2}>
                             <TextField disabled fullWidth required label={"First Language"} id={"first_language"}
                                        variant={"outlined"} value={formData.first_language}/>
                         </Grid>
-                        <Grid item>
+                        <Grid item md={2}>
                             <TextField disabled fullWidth required label={"Second Language"} id={"second_language"}
                                        variant={"outlined"} value={formData.second_language}/>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.first_major[0]}>
+                                <InputLabel id="form-first_major-label">First Major</InputLabel>
+                                <Select
+                                    labelId="form-first_major-label"
+                                    id="form-first_major"
+                                    value={formData.first_major}
+                                    onChange={handleFormDataChange('first_major')}
+                                    label="First Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {scienceFirstMajorList.map((v, i)=> {
+                                        return <MenuItem key={i} value={v}>{v}</MenuItem>
+                                    })}
+                                </Select>
+                                <FormHelperText>{errors.second_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.second_major[0]}>
+                                <InputLabel id="form-second_major-label">Second Major</InputLabel>
+                                <Select
+                                    labelId="form-second_major-label"
+                                    id="form-second_major"
+                                    value={formData.second_major}
+                                    onChange={handleFormDataChange('second_major')}
+                                    label="Second Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.second_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.third_major[0]}>
+                                <InputLabel id="form-third_major-label">Third Major</InputLabel>
+                                <Select
+                                    labelId="form-third_major-label"
+                                    id="form-third_major"
+                                    value={formData.third_major}
+                                    onChange={handleFormDataChange('third_major')}
+                                    label="Third Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.third_major[1]}</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.forth_major[0]}>
+                                <InputLabel id="form-forth_major-label">Forth Major</InputLabel>
+                                <Select
+                                    labelId="form-forth_major-label"
+                                    id="form-forth_major"
+                                    value={formData.forth_major}
+                                    onChange={handleFormDataChange('forth_major')}
+                                    label="Forth Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.forth_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
                     </Grid>
                 </React.Fragment>
@@ -138,22 +217,89 @@ const Progress2AcademicInfo = () => {
             return (
                 <React.Fragment>
                     <Grid container spacing={1}>
-                        <Grid item>
+                        <Grid item md={2}>
                             <TextField disabled fullWidth required label={"First Language"} id={"first_language"}
                                        variant={"outlined"} value={formData.first_language}/>
                         </Grid>
-                        <Grid item>
+                        <Grid item md={2}>
                             <TextField disabled fullWidth required label={"Second Language"} id={"second_language"}
                                        variant={"outlined"} value={formData.second_language}/>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.first_major[0]}>
+                                <InputLabel id="form-first_major-label">First Major</InputLabel>
+                                <Select
+                                    labelId="form-first_major-label"
+                                    id="form-first_major"
+                                    value={formData.first_major}
+                                    onChange={handleFormDataChange('first_major')}
+                                    label="First Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.second_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.second_major[0]}>
+                                <InputLabel id="form-second_major-label">Second Major</InputLabel>
+                                <Select
+                                    labelId="form-second_major-label"
+                                    id="form-second_major"
+                                    value={formData.second_major}
+                                    onChange={handleFormDataChange('second_major')}
+                                    label="Second Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.second_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
-                        <Grid item>
-
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.third_major[0]}>
+                                <InputLabel id="form-third_major-label">Third Major</InputLabel>
+                                <Select
+                                    labelId="form-third_major-label"
+                                    id="form-third_major"
+                                    value={formData.third_major}
+                                    onChange={handleFormDataChange('third_major')}
+                                    label="Third Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.third_major[1]}</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item md={2}>
+                            <FormControl variant="outlined" fullWidth error={errors.forth_major[0]}>
+                                <InputLabel id="form-forth_major-label">Forth Major</InputLabel>
+                                <Select
+                                    labelId="form-forth_major-label"
+                                    id="form-forth_major"
+                                    value={formData.forth_major}
+                                    onChange={handleFormDataChange('forth_major')}
+                                    label="Forth Major"
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={'Science'}>Science</MenuItem>
+                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.forth_major[1]}</FormHelperText>
+                            </FormControl>
                         </Grid>
                     </Grid>
                 </React.Fragment>
