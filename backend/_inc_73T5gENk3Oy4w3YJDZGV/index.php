@@ -18,26 +18,25 @@ $pdocon = PDODB::getConnection();
 
 
 function get_client_ip() {
-    $ipaddress = '';
     if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        $ip_address = $_SERVER['HTTP_CLIENT_IP'];
     else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
     else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        $ip_address = $_SERVER['HTTP_X_FORWARDED'];
     else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        $ip_address = $_SERVER['HTTP_FORWARDED_FOR'];
     else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        $ip_address = $_SERVER['HTTP_FORWARDED'];
     else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
+        $ip_address = $_SERVER['REMOTE_ADDR'];
     else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
+        $ip_address = 'UNKNOWN';
+    return $ip_address;
 }
 
 /**
- * Check the Recaptcha Toknn
+ * Check the Recaptcha Token
  * @param $re_response
  * @return bool
  */

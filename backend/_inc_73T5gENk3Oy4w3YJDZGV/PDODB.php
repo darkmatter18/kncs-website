@@ -38,7 +38,7 @@ class PDODB{
             new PDODB();
         }
 
-        //Return the writteable db connection
+        //Return the writeable db connection
         return self::$con;
     }
 }
