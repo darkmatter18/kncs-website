@@ -40,7 +40,7 @@ function get_client_ip() {
  * @param $re_response
  * @return bool
  */
-function checkRecaptca($re_response){
+function checkRecaptcha($re_response){
     if(isset($re_response) && !empty($re_response)){
         $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$_SERVER['HTTP_RECAPTA_SERECT'].'&response='.$re_response.'&remoteip');
         $response =  json_decode($verifyResponse); //Decode the json return obj
