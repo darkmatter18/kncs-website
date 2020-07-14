@@ -10,6 +10,9 @@ require INC_DIR.'index.php';
 
 $_INPUT = json_decode(file_get_contents('php://input'), true);
 
+$return = [];
+header('Content-Type: application/json');
+
 if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPUT['last_name']) 
 && isset($_INPUT['aadhar_no']) && isset($_INPUT['email']) && isset($_INPUT['mobile']) && isset($_INPUT['dob'])
 && isset($_INPUT['recaptcha_token'])){
@@ -38,8 +41,8 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
         $smt->bindParam(':dob', $dob_clean, PDO::PARAM_STR);
 
         if($smt->execute()){
-            // student_preregistration_login PDO will go here
 
+            // student_preregistration_login PDO will go here
             $smt = $pdocon->prepare('INSERT INTO student_preregistration_login(application_no, email, dob) VALUES(:application_no, :email, :dob)');
 
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
@@ -47,18 +50,42 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
             $smt->bindParam(':dob', $dob_clean, PDO::PARAM_STR);
             
             if($smt->execute()){
-
+                    //final page
+                    //{status:true, statusText: text,
+                    //application_no:number, error:null}
+                    $return['status'] = true;
+                    $return['statusText'] = "Successfully Submittied";
+                    $return['application_no'] = $application_no;
+                    $return['error'] = null;
             }else{
                 http_response_code(500);
+                $return['status'] = false;
+                $return['statusText'] = null;
+                $return['application_no'] = null;
+                $return['error'] = "Failed to record on Database";
             }
-
         }else {
             http_response_code(500);
+            $return['status'] = false;
+            $return['statusText'] = null;
+            $return['application_no'] = null;
+            $return['error'] = "Failed to record on Database" ;
         }
     }else {
         http_response_code(401);
+        $return['status'] = false;
+        $return['statusText'] =  null;
+        $return['application_no'] = null;
+        $return['error'] = "recaptcha verification failed";
     }
 }else {
     http_response_code(400);
-
+    $return['status'] = false;
+    $return['statusText'] = null;
+    $return['application_no'] = null;
+    $return['error'] = "Invalid Request ";
+    //{status:false, statusText: null, error:text}
 }
+
+echo json_encode($return);
+exit;
