@@ -17,6 +17,8 @@ import {netState} from "../../constant";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
+import DateFnsUtils from "@date-io/date-fns";
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,8 +89,29 @@ const Progress4Declaration = () => {
         forth_major: '',
 
     }
+
+    const initialDeclarationForm = {
+        date: new Date(),
+        place: '',
+        full_name: ''
+    }
+    const initialDeclarationError = {
+        date: [false, "Enter Today's date"],
+        place: [false, "Enter Your current place"],
+        full_name: [false, ""]
+    }
     const [formState, setFormState] = React.useState(formValue)
+    const [declarationFormState, setDeclarationFormState] = React.useState(initialDeclarationForm)
+    const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
+
+    const handleFormDataChange = (name) => (e) => {
+        e.persist()
+        setDeclarationFormState(prevState => ({...prevState, [name]: e.target.value}))
+    }
+    const handleDateChange = (date) => {
+        setDeclarationFormState(prevState => ({...prevState, year_of_madhyamik: date}))
+    };
 
     //TODO: complete handle submit
     const handleSubmit = () => {
@@ -479,7 +502,7 @@ const Progress4Declaration = () => {
                                     </Container>
                                 </div>
                                 <Typography align={"center"} className={classes.spacer}>
-                                    <ReactToPrint content={()=> printRef.current} trigger={()=>{
+                                    <ReactToPrint content={() => printRef.current} trigger={() => {
                                         return (
                                             <Button variant={"outlined"} color={"secondary"}
                                                     startIcon={<ArrowDownward/>}>
@@ -508,14 +531,40 @@ const Progress4Declaration = () => {
                                     </Typography>
                                     <Grid container alignItems={"center"} className={classes.spacer}>
                                         <Grid item style={{float: "left"}} md={6}>
-                                            <TextField variant={"outlined"} label={"Date"}/><br/><br/>
-                                            <TextField variant={"outlined"} label={"Place"}/>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    autoOk
+
+                                                    variant="inline"
+                                                    inputVariant="outlined"
+                                                    format="dd/MM/yyyy"
+                                                    id="dob"
+                                                    label="Date"
+                                                    value={declarationFormState.date}
+                                                    helperText={declarationFormErrorState.date[1]}
+                                                    maxDate={new Date()}
+                                                    InputAdornmentProps={{position: "start"}}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                            <br/><br/>
+                                            <TextField variant={"outlined"} label={"Place"}
+                                                       error={declarationFormErrorState.place[0]}
+                                                       value={declarationFormState.place}
+                                                       onChange={handleFormDataChange('place')}
+                                                       helperText={declarationFormErrorState.place[1]}/>
                                         </Grid>
                                         <Grid item style={{float: "right"}} md={6}>
                                             <Typography variant={"body2"} align={"center"}>
                                                 Enter your full legal name
                                             </Typography>
-                                            <TextField fullWidth variant={"outlined"} label={"Full Name of Applicant"}/>
+                                            <TextField fullWidth variant={"outlined"} label={"Full Name of Applicant"}
+                                                       error={declarationFormErrorState.full_name[0]}
+                                                       value={declarationFormState.full_name}
+                                                       onChange={handleFormDataChange('full_name')}
+                                                       helperText={declarationFormErrorState.full_name[1]}/>
                                         </Grid>
                                     </Grid>
                                 </Container>
