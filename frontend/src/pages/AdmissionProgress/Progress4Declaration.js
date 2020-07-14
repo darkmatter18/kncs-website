@@ -13,12 +13,14 @@ import ReactToPrint from 'react-to-print';
 import * as banner from '../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
 import NetworkSubmit from "../../components/NetworkSubmit";
-import {netState} from "../../constant";
+import {netState, PRE_REGISTRATION_DECLARATION, RECAPTCHA_SITE_KEY} from "../../constant";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import api from './../../api'
+import {ValidateName} from "../../utils/validate";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,17 +107,62 @@ const Progress4Declaration = () => {
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
+
+    // TODO: onload event
+    React.useEffect(()=> {
+        console.log("Loading")
+    }, [])
+
     const handleFormDataChange = (name) => (e) => {
         e.persist()
         setDeclarationFormState(prevState => ({...prevState, [name]: e.target.value}))
     }
     const handleDateChange = (date) => {
-        setDeclarationFormState(prevState => ({...prevState, year_of_madhyamik: date}))
+        setDeclarationFormState(prevState => ({...prevState, date: date}))
     };
 
-    //TODO: complete handle submit
-    const handleSubmit = () => {
+    const validateName = (name_type) => {
+        if (ValidateName(declarationFormState[name_type])) {
+            const _n = name_type === 'date' ? "Enter Today's date" : ''
+            setDeclarationFormErrorState(prevState => ({...prevState, [name_type]: [false, _n]}))
+            return true
+        } else {
+            setDeclarationFormErrorState(prevState => ({...prevState, [name_type]: [true, "Invalid Input"]}))
+        }
+    }
 
+    const validate = () => {
+        const _place = validateName('place')
+        const _name = validateName('full_name')
+
+        return _name && _place
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(validate()){
+            setNetworkState(netState.BUSY)
+            window.grecaptcha.ready(()=>{
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
+                    api.post(PRE_REGISTRATION_DECLARATION, {
+                        ...declarationFormState,
+                        recaptcha_token: token
+                    }).then((res)=>{
+                        if (res.data.status) {
+                            // history.push(ADMISSION_NEW_DONE, {
+                            //     application_no: res.data.application_no,
+                            //     email: res.data.email
+                            // })
+                        } else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e)=>{
+                        console.error(e)
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
+        }
     }
 
     return (
@@ -543,6 +590,7 @@ const Progress4Declaration = () => {
                                                     value={declarationFormState.date}
                                                     helperText={declarationFormErrorState.date[1]}
                                                     maxDate={new Date()}
+                                                    onChange={handleDateChange}
                                                     InputAdornmentProps={{position: "start"}}
                                                     KeyboardButtonProps={{
                                                         'aria-label': 'change date',
