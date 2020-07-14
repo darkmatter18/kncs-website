@@ -29,7 +29,7 @@ const AdmissionNewDone = () => {
                                     <Typography variant={"body1"} align={"center"}>
                                         Thank You for your Registration. Your Application No is {applicationNo}.
                                         Complete the remaining registration. <br/>
-                                        Remember "Your account will be invalid after 30 days."
+                                        Remember "Your account will be invalid after 30 days."<br/>
                                         <LinkRouter to={ADMISSION_EXISTING}>
                                             Proceed to Application
                                         </LinkRouter>
