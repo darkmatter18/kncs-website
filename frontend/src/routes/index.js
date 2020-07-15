@@ -23,7 +23,7 @@ import AdmissionProgress from "../pages/AdmissionProgress";
 
 const RouteComponent = () => {
     return (
-        <Router>
+        <Router basename={'/portal'}>
             <Switch>
                 <Route path={HOME} component={Home} exact/>
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
