@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * POST
  * student_preregistration BASIC INFO processing logics
  * Manojit Karmakar (14/07/2020)
  */
@@ -12,11 +13,6 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 
 $return = [];
 header('Content-Type: application/json');
-
-$smt = $pdocon-> prepare('');
-
-
-
 
 //input submission checking logic
 //isset($_INPUT['']) &&
@@ -37,7 +33,8 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $bpl_card_no_clean = Filter::Int($_INPUT['bpl_card_no']);
         $whatsapp_no_clean = Filter::Int($_INPUT['whatsapp_no']);
 
-
+        //TODO: Setup Application Id
+        $application_no=1234567890;
 
         // $_clean = Filter::String($_INPUT['']);
 
