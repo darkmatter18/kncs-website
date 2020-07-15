@@ -38,22 +38,29 @@ Router::add('/api/admin/1','get',function(){
     require LOGIC_DIR.'admin1.php';
 });
 
-//student preregistration personal info
-Router::add('/api/preregistration/process/presonal_info','post',function(){
+//student preregistration personal info 
+///api/admission/preregistration/process/presonal_info[POST]
+//POST------
+Router::add('api/admission/preregistration/process/presonal_info','post',function(){
     require LOGIC_DIR.'student_preregistration_personal_info.php';
 });
 
-//preregistration academic info
+// GET-----
+Router::add('api/admission/preregistration/process/presonal_info','get',function(){
+    require LOGIC_DIR.'';
+});
+
+//academic info
 Router::add('/api/preregistration/process/academic_info','post',function(){
     require LOGIC_DIR.'student_preregistration_academic_info.php';
 });
 
-//preregistration Payment info
+//Payment info
 Router::add('/api/preregistration/process/payment_info','post',function(){
     require LOGIC_DIR.'student_preregistration_academic_info.php';
 });
 
-//preregistration Declaration info
+//Declaration info
 Router::add('/api/preregistration/process/declaration','post',function(){
     require LOGIC_DIR.'student_preregistration_academic_info.php';
 });

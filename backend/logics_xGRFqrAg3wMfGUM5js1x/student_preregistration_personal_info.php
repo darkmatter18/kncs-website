@@ -1,7 +1,7 @@
 <?php
 
 /**
- * student_preregistration PERSONAL INFO processing logics
+ * student_preregistration BASIC INFO processing logics
  * Manojit Karmakar (14/07/2020)
  */
 
@@ -12,6 +12,11 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 
 $return = [];
 header('Content-Type: application/json');
+
+$smt = $pdocon-> prepare('');
+
+
+
 
 //input submission checking logic
 //isset($_INPUT['']) &&
