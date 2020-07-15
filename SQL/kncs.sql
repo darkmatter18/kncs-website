@@ -3,14 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 06:17 PM
+-- Generation Time: Jul 15, 2020 at 08:36 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+05:30";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -93,6 +93,55 @@ CREATE TABLE `student_preregistration_draft_family_info` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_preregistration_draft_present_academic`
+--
+
+CREATE TABLE `student_preregistration_draft_present_academic` (
+  `application_no` int(10) NOT NULL,
+  `stream` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `second_language` int(15) NOT NULL,
+  `first_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `forth_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_previous_academic_info`
+--
+
+CREATE TABLE `student_preregistration_draft_previous_academic_info` (
+  `application_no` int(10) NOT NULL,
+  `previous_school_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year_of_madhyamik` int(4) NOT NULL,
+  `previous_student_id` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_previous_academic_marks`
+--
+
+CREATE TABLE `student_preregistration_draft_previous_academic_marks` (
+  `application_no` int(10) NOT NULL,
+  `marks_beng` int(3) NOT NULL,
+  `marks_engb` int(3) NOT NULL,
+  `marks_maths` int(3) NOT NULL,
+  `marks_psc` int(3) NOT NULL,
+  `marks_lsc` int(3) NOT NULL,
+  `marks_geo` int(3) NOT NULL,
+  `marks_hist` int(3) NOT NULL,
+  `marks_total` int(3) NOT NULL,
+  `marks_percentage` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_preregistration_login`
 --
 
@@ -169,6 +218,24 @@ ALTER TABLE `student_preregistration_draft_family_info`
   ADD PRIMARY KEY (`application_no`);
 
 --
+-- Indexes for table `student_preregistration_draft_present_academic`
+--
+ALTER TABLE `student_preregistration_draft_present_academic`
+  ADD PRIMARY KEY (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_previous_academic_info`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_info`
+  ADD PRIMARY KEY (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_previous_academic_marks`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_marks`
+  ADD PRIMARY KEY (`application_no`);
+
+--
 -- Indexes for table `student_preregistration_login`
 --
 ALTER TABLE `student_preregistration_login`
@@ -201,6 +268,24 @@ ALTER TABLE `student_preregistration_draft_address`
 --
 ALTER TABLE `student_preregistration_draft_basic_info`
   ADD CONSTRAINT `basic_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_present_academic`
+--
+ALTER TABLE `student_preregistration_draft_present_academic`
+  ADD CONSTRAINT `present_academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_previous_academic_info`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_info`
+  ADD CONSTRAINT `previous_academic_info_application_no` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_previous_academic_marks`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_marks`
+  ADD CONSTRAINT `academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
 
 --
 -- Constraints for table `student_preregistration_login`
