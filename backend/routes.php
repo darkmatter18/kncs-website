@@ -38,5 +38,28 @@ Router::add('/api/admin/1','get',function(){
     require LOGIC_DIR.'admin1.php';
 });
 
+//student preregistration personal info
+Router::add('/api/preregistration/process/presonal_info','post',function(){
+    require LOGIC_DIR.'student_preregistration_personal_info.php';
+});
+
+//preregistration academic info
+Router::add('/api/preregistration/process/academic_info','post',function(){
+    require LOGIC_DIR.'student_preregistration_academic_info.php';
+});
+
+//preregistration Payment info
+Router::add('/api/preregistration/process/payment_info','post',function(){
+    require LOGIC_DIR.'student_preregistration_academic_info.php';
+});
+
+//preregistration Declaration info
+Router::add('/api/preregistration/process/declaration','post',function(){
+    require LOGIC_DIR.'student_preregistration_academic_info.php';
+});
+
+
+
+
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
 
