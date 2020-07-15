@@ -3,14 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 27, 2020 at 09:07 AM
+-- Generation Time: Jul 14, 2020 at 06:17 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+05:30";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,59 +25,81 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `calender`
+-- Table structure for table `student_preregistration_details`
 --
 
-CREATE TABLE `calender` (
-  `id` int(11) NOT NULL,
-  `day_of_week` int(11) NOT NULL
+CREATE TABLE `student_preregistration_details` (
+  `application_no` int(10) NOT NULL,
+  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `aadhar_no` int(12) NOT NULL,
+  `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mobile` int(10) NOT NULL,
+  `dob` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `class_detail`
+-- Table structure for table `student_preregistration_draft_address`
 --
 
-CREATE TABLE `class_detail` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Details to be filled';
+CREATE TABLE `student_preregistration_draft_address` (
+  `application_no` int(10) NOT NULL,
+  `address_line_1` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address_line_2` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `district` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pin` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subject_detail`
+-- Table structure for table `student_preregistration_draft_basic_info`
 --
 
-CREATE TABLE `subject_detail` (
-  `id` int(11) NOT NULL,
-  `subject_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Details to be filled';
+CREATE TABLE `student_preregistration_draft_basic_info` (
+  `application_no` int(10) NOT NULL,
+  `gender` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `religion` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caste` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mother_tongue` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apply_for_reserved_seat` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caste_certificate_no` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weather_bpl` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bpl_card_no` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `whatsapp_no` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teacher_detail`
+-- Table structure for table `student_preregistration_draft_family_info`
 --
 
-CREATE TABLE `teacher_detail` (
-  `id` int(11) NOT NULL,
-  `teacher name` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Details to be filled';
+CREATE TABLE `student_preregistration_draft_family_info` (
+  `application_no` int(10) NOT NULL,
+  `father_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `father_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mother_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mother_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guardian_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guardian_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guardian_same_father` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `timetable`
+-- Table structure for table `student_preregistration_login`
 --
 
-CREATE TABLE `timetable` (
-  `subject_id` int(11) NOT NULL,
-  `calender_date_id` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL,
-  `teacher_id` int(11) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL
+CREATE TABLE `student_preregistration_login` (
+  `application_no` int(10) NOT NULL,
+  `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dob` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -123,37 +145,34 @@ INSERT INTO `users_role` (`id`, `role`) VALUES
 --
 
 --
--- Indexes for table `calender`
+-- Indexes for table `student_preregistration_details`
 --
-ALTER TABLE `calender`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `student_preregistration_details`
+  ADD PRIMARY KEY (`application_no`);
 
 --
--- Indexes for table `class_detail`
+-- Indexes for table `student_preregistration_draft_address`
 --
-ALTER TABLE `class_detail`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `student_preregistration_draft_address`
+  ADD PRIMARY KEY (`application_no`);
 
 --
--- Indexes for table `subject_detail`
+-- Indexes for table `student_preregistration_draft_basic_info`
 --
-ALTER TABLE `subject_detail`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `student_preregistration_draft_basic_info`
+  ADD PRIMARY KEY (`application_no`);
 
 --
--- Indexes for table `teacher_detail`
+-- Indexes for table `student_preregistration_draft_family_info`
 --
-ALTER TABLE `teacher_detail`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `student_preregistration_draft_family_info`
+  ADD PRIMARY KEY (`application_no`);
 
 --
--- Indexes for table `timetable`
+-- Indexes for table `student_preregistration_login`
 --
-ALTER TABLE `timetable`
-  ADD PRIMARY KEY (`subject_id`,`calender_date_id`,`class_id`,`teacher_id`,`start_time`),
-  ADD KEY `class_timetable_constraint` (`class_id`),
-  ADD KEY `teacher_timetable_constraint` (`teacher_id`),
-  ADD KEY `calender_timetable_constraint` (`calender_date_id`);
+ALTER TABLE `student_preregistration_login`
+  ADD PRIMARY KEY (`application_no`);
 
 --
 -- Indexes for table `users_login`
@@ -172,13 +191,22 @@ ALTER TABLE `users_role`
 --
 
 --
--- Constraints for table `timetable`
+-- Constraints for table `student_preregistration_draft_address`
 --
-ALTER TABLE `timetable`
-  ADD CONSTRAINT `calender_timetable_constraint` FOREIGN KEY (`calender_date_id`) REFERENCES `calender` (`id`),
-  ADD CONSTRAINT `class_timetable_constraint` FOREIGN KEY (`class_id`) REFERENCES `class_detail` (`id`),
-  ADD CONSTRAINT `subject_timetable_constraint` FOREIGN KEY (`subject_id`) REFERENCES `subject_detail` (`id`),
-  ADD CONSTRAINT `teacher_timetable_constraint` FOREIGN KEY (`teacher_id`) REFERENCES `teacher_detail` (`id`);
+ALTER TABLE `student_preregistration_draft_address`
+  ADD CONSTRAINT `address_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_basic_info`
+--
+ALTER TABLE `student_preregistration_draft_basic_info`
+  ADD CONSTRAINT `basic_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_login`
+--
+ALTER TABLE `student_preregistration_login`
+  ADD CONSTRAINT `login_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
 
 --
 -- Constraints for table `users_role`
