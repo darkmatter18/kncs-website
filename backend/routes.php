@@ -42,12 +42,12 @@ Router::add('/api/admin/1','get',function(){
 ///api/admission/preregistration/process/presonal_info[POST]
 //POST------
 Router::add('api/admission/preregistration/process/presonal_info','post',function(){
-    require LOGIC_DIR.'student_preregistration_personal_info.php';
+    require LOGIC_DIR.'post_student_preregistration_personal_info.php';
 });
 
 // GET-----
 Router::add('api/admission/preregistration/process/presonal_info','get',function(){
-    require LOGIC_DIR.'';
+    require LOGIC_DIR.'get_';
 });
 
 //academic info

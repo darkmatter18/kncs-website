@@ -16,20 +16,12 @@ header('Content-Type: application/json');
 //input submission checking logic
 //isset($_INPUT['']) &&   
        //TOTAL 20 INPUT 
-if(isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik'])
-&& isset($_INPUT['previous_student_id']) && isset($_INPUT['marks_beng']) && isset($_INPUT['marks_engb']) && isset($_INPUT['marks_maths'])
+if(isset($_INPUT['application_no']) && isset($_INPUT['marks_beng']) && isset($_INPUT['marks_engb']) && isset($_INPUT['marks_maths'])
 && isset($_INPUT['marks_psc']) && isset($_INPUT['marks_lsc']) && isset($_INPUT['marks_geo']) && isset($_INPUT['marks_hist'])
-&& isset($_INPUT['marks_total']) && isset($_INPUT['marks_percentage']) && isset($_INPUT['stream']) && isset($_INPUT['first_language'])
-&& isset($_INPUT['second_language']) && isset($_INPUT['first_major']) && isset($_INPUT['second_major']) && isset($_INPUT['third_major'])
-&& isset($_INPUT['forth_major']) && isset($_INPUT['recaptcha_token'])  ){
+&& isset($_INPUT['marks_total']) && isset($_INPUT['marks_percentage']) && isset($_INPUT['recaptcha_token'])  ){
 
     if(checkRecaptcha($_INPUT['recaptcha_token'])){
         $application_no_clean = Filter::Int($_INPUT['application_no']);
-        $previous_school_name_clean = Filter::String($_INPUT['previous_school_name']);
-        $year_of_madhyamik_clean = Filter::String($_INPUT['year_of_madhyamik']);
-
-        $previous_student_id_clean = Filter::String($_INPUT['previous_student_id']); //ata ki hobe? string na int ?
-
         $marks_beng_clean = Filter::Int($_INPUT['marks_beng']);
         $marks_engb_clean = Filter::Int($_INPUT['marks_engb']);
         $marks_maths_clean = Filter::Int($_INPUT['marks_maths']);
@@ -40,16 +32,8 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &&
         $marks_total_clean = Filter::Int($_INPUT['marks_total']);
         $marks_percentage_clean = Filter::Int($_INPUT['marks_percentage']);
 
-        $stream_clean = Filter::String($_INPUT['stream']);
-        $first_language_clean = Filter::String($_INPUT['first_language']);
-        $second_language_clean = Filter::String($_INPUT['second_language']);
-        $first_major_clean = Filter::String($_INPUT['first_major']);
-        $second_major_clean = Filter::String($_INPUT['second_major']);
-        $third_major_clean = Filter::String($_INPUT['third_major']);
-        $forth_major_clean = Filter::String($_INPUT['forth_major']);
-
-
-        $smt = $pdocon->prepare('INSERT INTO student_preregistration_academic_info(application_no, previous_school_name, year_of_madhyamik, previous_student_id, marks_beng, marks_engb, marks_maths, marks_psc, marks_lsc, marks_geo, marks_hist, marks_total, marks_percentage, stream, first_language, second_language, first_major, second_major, third_major, forth_major)
+        $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_marks
+                                (application_no, marks_beng, marks_engb, marks_maths, marks_psc, marks_lsc, marks_geo, marks_hist, marks_total, marks_percentage, stream, first_language, second_language, first_major, second_major, third_major, forth_major)
         VALUES(:application_no, :previous_school_name, :year_of_madhyamik, :previous_student_id, :marks_beng, :marks_engb, :marks_maths, :marks_psc, :marks_lsc, :marks_geo, :marks_hist, :marks_total, :marks_percentage, :stream, :first_language, :second_language, :first_major, :second_major, :third_major, :forth_major)');
 
 
