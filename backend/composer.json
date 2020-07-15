@@ -2,7 +2,6 @@
     "require": {
       "firebase/php-jwt": "^5.2",
       "ext-pdo": "*",
-      "ext-json": "*",
-      "ext-apache": "*"
+      "ext-json": "*"
     }
 }
