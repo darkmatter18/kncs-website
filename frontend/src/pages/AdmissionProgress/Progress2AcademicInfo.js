@@ -7,7 +7,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
+import {
+    netState,
+    PRE_REGISTRATION_ACADEMIC_INFO,
+    RECAPTCHA_SITE_KEY
+} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -98,7 +102,7 @@ const Progress2AcademicInfo = () => {
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
 
     React.useEffect(()=>{
-        api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+        api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
             headers: {
                 Authentication: authHeader()
             }
@@ -162,7 +166,7 @@ const Progress2AcademicInfo = () => {
     }
 
     const validate = () => {
-
+        //TODO: Validate
     }
 
     const handleSubmit = (e) => {
@@ -170,7 +174,7 @@ const Progress2AcademicInfo = () => {
         if (validate()){
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
-                    api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                    api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
                         ...formData,
                         recaptcha_token: token
                     },{
@@ -179,7 +183,7 @@ const Progress2AcademicInfo = () => {
                         }
                     }).then((res) => {
                         if (res.data.status) {
-                            history.push(`/admission/progress/${user_id}/academic_info`)
+                            history.push(`/admission/progress/${user_id}/payment_info`)
                         } else {
                             setNetworkState(netState.ERROR)
                         }
