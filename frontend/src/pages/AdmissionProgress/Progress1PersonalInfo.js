@@ -260,6 +260,10 @@ const Progress1PersonalInfo = () => {
                         ...formData,
                         dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
+                    },{
+                        headers:{
+                            Authentication: authHeader()
+                        }
                     }).then((res) => {
                         if (res.data.status) {
                             history.push(`/admission/progress/${user_id}/academic_info`)
