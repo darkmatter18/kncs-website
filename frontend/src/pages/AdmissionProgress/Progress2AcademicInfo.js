@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {netState} from "../../constant";
+import {netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -20,6 +20,10 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import NetworkSubmit from "../../components/NetworkSubmit";
+import api from "../../api";
+import {useHistory, useParams} from "react-router-dom";
+import {useAuthHeader} from "react-auth-jwt";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress2AcademicInfo = () => {
     const classes = useStyles()
+    let {user_id} = useParams()
+    const history = useHistory()
+    const authHeader = useAuthHeader()
     const scienceSubjects = ['PHYSICS', 'NUTRITION', 'CHEMISTRY', 'ECONOMICS', 'MATHEMATICS', 'BIOLOGICAL SCIENCES',
         'GEOGRAPHY', 'COMPUTER SCIENCE', 'COMPUTER APPLICATION']
 
@@ -90,6 +97,23 @@ const Progress2AcademicInfo = () => {
     const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(humanitiesSubjects)
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
 
+    React.useEffect(()=>{
+        api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+            headers: {
+                Authentication: authHeader()
+            }
+        })
+            .then((res)=>{
+                if(res.data.status){
+                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                }else {
+                    console.error(res.data.error)
+                }
+            }).catch((e)=>{
+            console.error(e)
+        })
+    },[])
+
     // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
     // Todo: work in submiiting
@@ -137,6 +161,36 @@ const Progress2AcademicInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
+    const validate = () => {
+
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (validate()){
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                    api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                        ...formData,
+                        recaptcha_token: token
+                    },{
+                        headers:{
+                            Authentication: authHeader()
+                        }
+                    }).then((res) => {
+                        if (res.data.status) {
+                            history.push(`/admission/progress/${user_id}/academic_info`)
+                        } else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e) => {
+                        console.error(e)
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
+        }
+    }
 
     const renderStreamSubjectSelector = () => {
         if (formData.stream === '') {
@@ -503,10 +557,23 @@ const Progress2AcademicInfo = () => {
                                 </Card>
                             </CardContent>
                         </Card>
+
+                        <Grid container className={classes.spacer} justify={"flex-start"}>
+                            <Grid item>
+                                <AdmissionProgressBack/>
+                            </Grid>
+                            <Grid item>
+                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"subtitle2"} color={"error"}>
+                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Paper>
             </Container>
-            <AdmissionProgressBack/>
         </React.Fragment>
     )
 }
