@@ -57,25 +57,10 @@ Router::add('/preregistration/process/academic_info','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_academic_info.php';
 });
 
-// Router::add('preregistration/process/academic_info','post',function(){
-//     require LOGIC_DIR.'post_student_preregistration_draft_previous_academic_info.php';
-// });
-// Router::add('preregistration/process/academic_info','post',function(){
-//     require LOGIC_DIR.'post_student_preregistration_draft_previous_academic_marks.php';
-// });
-
-
 // GET ---
 Router::add('/preregistration/process/academic_info','get',function(){
     require LOGIC_DIR.'get_student_preregistration_draft_academic_info.php';
 });
-
-// Router::add('preregistration/process/academic_info','get',function(){
-//     require LOGIC_DIR.'get_post_student_preregistration_draft_previous_academic_info.php';
-// });
-// Router::add('preregistration/process/academic_info','get',function(){
-//     require LOGIC_DIR.'get_post_student_preregistration_draft_previous_academic_marks.php';
-// });
 
 
 //PAYMENT INFO
@@ -83,23 +68,17 @@ Router::add('/preregistration/process/academic_info','get',function(){
 Router::add('/preregistration/process/payment_info','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_payment_info.php';
 });
-
 //get...
 Router::add('/preregistration/process/payment_info','get',function(){
     require LOGIC_DIR.'get_student_preregistration_draft_payment_info.php';
 });
 
 
-
-
-
 //Declaration info
+//post.....
 Router::add('/api/preregistration/process/declaration','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_declaration.php';
 });
-
-
-
 
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
 
