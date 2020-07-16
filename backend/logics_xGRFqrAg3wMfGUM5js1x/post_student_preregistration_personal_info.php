@@ -2,7 +2,13 @@
 
 /**
  * POST
- * student_preregistration BASIC INFO processing logics
+ * student_preregistration PERSONAL INFO inserting logics
+ * 
+ * database: kncs
+ *          table : student_preregistration_draft_basic_info
+ *          table : student_preregistration_draft_family_info
+ *          table : student_preregistration_draft_address
+ * 
  * Manojit Karmakar (14/07/2020)
  */
 
@@ -13,10 +19,8 @@ require INC_DIR.'protected.php';
 $_INPUT = json_decode(file_get_contents('php://input'), true);
 
 $return = [];
-header('Content-Type: application/json');
 
-//input submission checking logic
-//isset($_INPUT['']) &&
+header('Content-Type: application/json');
 
 if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['caste']) && isset($_INPUT['mother_tongue'])
 && isset($_INPUT['apply_for_reserved_seat']) && isset($_INPUT['caste_certificate_no']) && isset($_INPUT['weather_bpl'])
@@ -58,6 +62,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
 
         //INSERTING STUDENT BASIC INFO INTO DATABASE
+        // TABLE : student_preregistration_draft_basic_info
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_basic_info(application_no, gender, religion, caste, mother_tongue,
                                             apply_for_reserved_seat, caste_certificate_no,  weather_bpl, bpl_card_no, whatsapp_no)
                                 VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, :apply_for_reserved_seat,
@@ -77,6 +82,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
         if($smt->execute()){
             // INSERTING FAMILY DETAILS INTO DATABASE
+            // TABLE : student_preregistration_draft_family_info
             $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_family_info
             (application_no, father_name, father_occupation, mother_name, mother_occupation, guardian_name, guardian_occupation, guardian_same_father)
             VALUES(:application_no, :father_name, :father_occupation, :mother_name, :mother_occupation, :guardian_name, :guardian_occupation, :guardian_same_father)');
@@ -92,6 +98,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             
             if($smt->execute()){
                 // INSERTING ADDRESS INFO INTO DATABASE
+                // TABLE : student_preregistration_draft_address
                 $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_address(address_line_1, address_line_2, city, district, pin)
                     VALUES(:address_line_1, :address_line_2, :city, :district, :pin)');
 
@@ -111,22 +118,33 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                     http_response_code(500);
                     $return['status'] = false;
                     $return['statusText'] = null;
-                    $return['application_no'] = null;
                     $return['error'] = "Failed to record on Database";
                 }
 
             }else{
                 http_response_code(500);
+                $return['status'] = false;
+                $return['statusText'] = null;
+                $return['error'] = "Failed to record on Database";
             }
         }else{
             http_response_code(500);
+            $return['status'] = false;
+            $return['statusText'] = null;
+            $return['error'] = "Failed to record on Database";
 
         }
     }else{
         http_response_code(401);
+        $return['status'] = false;
+        $return['statusText'] = null;
+        $return['error'] = "Failed to record on Database";
     }
 }else{
     http_response_code(400);    
+    $return['status'] = false;
+    $return['statusText'] = null;
+    $return['error'] = "Failed to record on Database";
 }
 
 echo json_encode($return);
