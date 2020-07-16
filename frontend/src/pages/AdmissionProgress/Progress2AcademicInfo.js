@@ -16,6 +16,10 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,7 +40,7 @@ const Progress2AcademicInfo = () => {
         'MATHEMATICS', 'GEOGRAPHY', 'COMPUTER  APPLICATION']
 
     const initialState = {
-        previous_school_name: '',
+        previous_school_name: "Krishnanath College School",
         year_of_madhyamik: new Date(),
         previous_student_id: '',
         marks_beng: '',
@@ -74,6 +78,7 @@ const Progress2AcademicInfo = () => {
         forth_major: [false, "Enter your forth Major choice"],
     }
     const [formData, setFormData] = React.useState(initialState)
+    const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
 
     const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(scienceSubjects)
     const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(scienceSubjects)
@@ -117,6 +122,13 @@ const Progress2AcademicInfo = () => {
         })
     }
 
+    const handleSchoolRadioButtonChange = (event) => {
+        setSchoolRadioButton(prevState => event.target.value)
+        if (event.target.value === "Krishnanath College School"){
+            setFormData(prevState => ({...prevState, previous_school_name: "Krishnanath College School"}))
+        }
+    }
+
     const handleScienceSubjectChange = (name) => (e) => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
@@ -154,7 +166,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceFirstMajorList.map((v, i)=> {
+                                    {scienceFirstMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -174,7 +186,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceSecondMajorList.map((v, i)=> {
+                                    {scienceSecondMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -194,7 +206,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceThirdMajorList.map((v, i)=> {
+                                    {scienceThirdMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -214,7 +226,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceForthMajorList.map((v, i)=> {
+                                    {scienceForthMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -249,7 +261,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesFirstMajorList.map((v, i)=> {
+                                    {humanitiesFirstMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -269,7 +281,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesSecondMajorList.map((v, i)=> {
+                                    {humanitiesSecondMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -289,7 +301,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesThirdMajorList.map((v, i)=> {
+                                    {humanitiesThirdMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -309,7 +321,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesForthMajorList.map((v, i)=> {
+                                    {humanitiesForthMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -332,12 +344,29 @@ const Progress2AcademicInfo = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <Grid container spacing={5} justify={"center"}>
+                                <Grid container spacing={5} justify={"center"} alignItems={"center"}>
                                     <Grid item md={6}>
-                                        <TextField fullWidth required error={errors.previous_school_name[0]}
+                                        <FormControl component={"fieldset"}>
+                                            <FormLabel component="legend">{errors.previous_school_name[1]}</FormLabel>
+                                            <RadioGroup row aria-label="position" name="position"
+                                                        value={schoolRadioButton}
+                                                        onChange={handleSchoolRadioButtonChange}>
+                                                <FormControlLabel value="Krishnanath College School"
+                                                                  control={<Radio color="primary"/>}
+                                                                  label="Krishnanath College School"/>
+                                                <FormControlLabel value={"Others"}
+                                                                  control={<Radio color="primary"/>}
+                                                                  label="Others"/>
+                                            </RadioGroup>
+                                        </FormControl>
+                                        <TextField fullWidth required
+                                                   disabled={schoolRadioButton === "Krishnanath College School"}
+                                                   error={errors.previous_school_name[0]}
                                                    helperText={errors.previous_school_name[1]}
-                                                   label={"Previous School Name"} id={"previous_school_name"}
-                                                   variant={"outlined"} value={formData.previous_school_name}
+                                                   label={"Others"}
+                                                   id={"previous_school_name"}
+                                                   variant={"outlined"}
+                                                   value={formData.previous_school_name}
                                                    onChange={handleFormDataChange("previous_school_name")}/>
                                     </Grid>
                                     <Grid item md={3}>
