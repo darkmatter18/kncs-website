@@ -41,13 +41,13 @@ Router::add('/api/admin/1','get',function(){
 
 //Personal info 
 //POST------
-Router::add('/admission/preregistration/process/presonal_info','post',function(){
+Router::add('/preregistration/process/presonal_info','post',function(){
     require LOGIC_DIR.'post_student_preregistration_personal_info.php';
 });
 
 // GET-----
-Router::add('/admission/preregistration/process/presonal_info','get',function(){
-    require LOGIC_DIR.'get_student_preregistrat_personal_info.php';
+Router::add('/preregistration/process/presonal_info','get',function(){
+    require LOGIC_DIR.'get_student_preregistration_personal_info.php';
 });
 
 
@@ -76,7 +76,7 @@ Router::add('/preregistration/process/payment_info','get',function(){
 
 //Declaration info
 //post.....
-Router::add('/api/preregistration/process/declaration','post',function(){
+Router::add('/preregistration/process/declaration','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_declaration.php';
 });
 

@@ -55,7 +55,13 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         
         //$smt->bindParam(':', $, PDO::PARAM_STR);
 
+        if($smt->execute()){
 
+
+        }else{
+            http_response_code(500);
+
+        }
     }else{
         http_response_code(401);
 
