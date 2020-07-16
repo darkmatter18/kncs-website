@@ -97,3 +97,8 @@ login
 3. Personal Info /admission/progress/:user_id/personal_info -- API (/api/admission/preregistration/process/presonal_info[GET], /api/admission/preregistration/process/presonal_info[POST]) 
 4. Academic Info /admission/progress/:user_id/academic_info -- API (/api/admission/preregistration/process/academic_info[GET], /api/admission/preregistration/process/academic_info[POST])
 5. Check and Declaration /admission/progress/:user_id/decleration-- API (/api/admission/preregistration/process/declaration[GET], /api/admission/preregistration/process/delecration[POST]) 
+
+
+
+
+address_line_1, address_line_2, city, district, pin
