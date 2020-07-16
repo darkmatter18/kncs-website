@@ -98,14 +98,13 @@ const AdmissionExisting = () => {
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
-                            //auth.signIn(res.data.jwt, 120)
-                            signIn(res.data.jwt, 120).then((v)=>{
-                                if(v){
-                                    history.push(`/admission/progress/${res.data.application_no}/personal_info`)
-                                }
-                            }).catch((e)=>{
+                            const r = signIn(res.data.jwt, 120)
+                            if(r){
+                                console.log("Signing In")
+                                history.push(`/admission/progress/${res.data.application_no}/personal_info`)
+                            }else {
                                 setNetworkState(netState.ERROR)
-                            })
+                            }
                         }
                         else {
                             setNetworkState(netState.ERROR)
