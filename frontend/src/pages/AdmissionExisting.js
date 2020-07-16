@@ -17,6 +17,8 @@ import {ValidateEmail} from "../utils/validate";
 import NetworkSubmit from "../components/NetworkSubmit";
 import {netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
 import api from "../api";
+import {useSignIn} from "react-auth-jwt";
+
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -28,6 +30,7 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 const AdmissionExisting = () => {
+    const signIn = useSignIn()
     const classes = useStyle()
     const initialState = {application_no: '', email: '', dob: new Date()}
     const [formData, setFormData] = React.useState(initialState)
@@ -93,6 +96,8 @@ const AdmissionExisting = () => {
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
+                            //auth.signIn(res.data.jwt, 120)
+                            signIn(res.data.jwt, 120)
                         }
                         else {
                             setNetworkState(netState.ERROR)
