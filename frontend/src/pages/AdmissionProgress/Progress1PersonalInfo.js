@@ -23,6 +23,7 @@ import NetworkSubmit from "../../components/NetworkSubmit";
 import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
 import {useHistory} from "react-router-dom";
+import {useAuthHeader} from "react-auth-jwt";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,8 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress1PersonalInfo = () => {
     const classes = useStyles()
-    let {user_id} = useParams();
+    let {user_id} = useParams()
     const history = useHistory()
+    const authHeader = useAuthHeader()
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -98,6 +100,23 @@ const Progress1PersonalInfo = () => {
         whatsapp_no: [false, "Enter 10 Digit Whatsapp Number"],
     }
 
+    React.useEffect(()=>{
+        api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+            headers: {
+
+            }
+        })
+            .then((res)=>{
+                if(res.data.status){
+                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                }else {
+                    console.error(res.data.error)
+                }
+            }).catch((e)=>{
+                console.error(e)
+        })
+    },[])
+
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
     const [guardianDisabled, setGuardianDisabled] = React.useState(false)
@@ -106,6 +125,11 @@ const Progress1PersonalInfo = () => {
     const handleFormDataChange = (name) => (e) => {
         e.persist()
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
+    }
+
+    const handleCheckboxChange = (name) => (e) => {
+        e.persist()
+        setFormData(prevState => ({...prevState, [name]: e.target.checked}))
     }
 
     const handleChangeGuardianSameFather = (e) => {
@@ -410,7 +434,7 @@ const Progress1PersonalInfo = () => {
                                                 value={"Apply for Reserved Seat"}
                                                 control={<Switch
                                                     checked={formData.apply_for_reserved_seat}
-                                                    onChange={handleChangeGuardianSameFather}
+                                                    onChange={handleCheckboxChange('apply_for_reserved_seat')}
                                                     color="secondary"
                                                     name="apply_for_reserved_seat"
                                                 />}
@@ -433,7 +457,7 @@ const Progress1PersonalInfo = () => {
                                                 value={"Weather BPL"}
                                                 control={<Switch
                                                     checked={formData.weather_bpl}
-                                                    onChange={handleChangeGuardianSameFather}
+                                                    onChange={handleCheckboxChange('weather_bpl')}
                                                     color="secondary"
                                                     name="weather_bpl"
                                                 />}
