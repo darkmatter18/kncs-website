@@ -82,10 +82,14 @@ const AdmissionExisting = () => {
         e.preventDefault()
         if (validate()) {
             setNetworkState(netState.BUSY)
+            const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
+            const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
+            const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
                     api.post(PRE_REGISTRATION_LOGIN, {
                         ...formData,
+                        dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){

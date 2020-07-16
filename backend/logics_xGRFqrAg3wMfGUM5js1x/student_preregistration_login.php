@@ -23,8 +23,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         $dob_clean = Filter::String($_INPUT['email_id']);
 
 
-        $smt = $pdocon->prepare("SELECT * FROM kncs.student_preregistration_login 
-                WHERE application_no = :application_no AND email= :email AND dob = :dob");
+        $smt = $pdocon->prepare("SELECT * FROM student_preregistration_login WHERE application_no = :application_no AND email= :email AND dob = :dob");
         $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_STR);
         $smt->bindParam(":email", $email_id_clean, PDO::PARAM_STR);
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);

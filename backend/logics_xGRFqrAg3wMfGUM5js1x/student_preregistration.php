@@ -28,8 +28,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
         
         $application_no = time();
         //PDO there is total 7 input
-        echo $aadhar_no_clean ."  ". $mobile_clean;
-        $smt = $pdocon->prepare('INSERT INTO kncs.student_preregistration_details(application_no, first_name, middle_name, last_name, aadhar_no, email, mobile, dob) VALUES(:application_no, :first_name, :middle_name, :last_name, :aadhar_no, :email, :mobile, :dob)');
+        $smt = $pdocon->prepare('INSERT INTO student_preregistration_details(application_no, first_name, middle_name, last_name, aadhar_no, email, mobile, dob) VALUES(:application_no, :first_name, :middle_name, :last_name, :aadhar_no, :email, :mobile, :dob)');
         
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
         $smt->bindParam(':first_name', $first_name_clean, PDO::PARAM_STR);
@@ -43,7 +42,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
         if($smt->execute()){
 
             // student_preregistration_login PDO will go here
-            $smt = $pdocon->prepare('INSERT INTO kncs.student_preregistration_login(application_no, email, dob) VALUES(:application_no, :email, :dob)');
+            $smt = $pdocon->prepare('INSERT INTO student_preregistration_login(application_no, email, dob) VALUES(:application_no, :email, :dob)');
 
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
             $smt->bindParam(':email', $email_clean, PDO::PARAM_STR);
