@@ -18,13 +18,12 @@ header('Content-Type: application/json');
 if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT['dob']) && isset($_INPUT['recaptcha_token'])) {
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no_clean = Filter::String($_INPUT['application_no']);
+        $application_no_clean = Filter::Int($_INPUT['application_no']);
         $email_id_clean = Filter::Email($_INPUT['email']);
-        $dob_clean = Filter::String($_INPUT['email_id']);
-
+        $dob_clean = Filter::String($_INPUT['dob']);
 
         $smt = $pdocon->prepare("SELECT * FROM student_preregistration_login WHERE application_no = :application_no AND email= :email AND dob = :dob");
-        $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_STR);
+        $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
         $smt->bindParam(":email", $email_id_clean, PDO::PARAM_STR);
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);
 
