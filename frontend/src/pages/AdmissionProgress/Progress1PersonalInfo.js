@@ -103,7 +103,7 @@ const Progress1PersonalInfo = () => {
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_PRESONAL_INFO, {
             headers: {
-
+                Authentication: authHeader()
             }
         })
             .then((res)=>{
