@@ -73,6 +73,7 @@ const AdmissionNew = () => {
             return true
         } else {
             setErrors(prevState => ({...prevState, [name_type]: [true, "Invalid Input"]}))
+            return false
         }
     }
 

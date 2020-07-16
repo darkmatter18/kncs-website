@@ -2,6 +2,8 @@
 export const API_ROUTE_LOGIN = '/login';
 export const PRE_REGISTRATION = '/preregistration'
 export const PRE_REGISTRATION_LOGIN = '/preregistration/login'
+export const PRE_REGISTRATION_PRESONAL_INFO = '/preregistration/process/personal_info'
+export const PRE_REGISTRATION_ACADEMIC_INFO = '/preregistration/process/academic_info'
 export const PRE_REGISTRATION_DECLARATION = '/preregistration/process/declaration'
 
 /**Other Constant */
