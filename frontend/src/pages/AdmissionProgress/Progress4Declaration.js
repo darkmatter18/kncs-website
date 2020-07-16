@@ -122,7 +122,7 @@ const Progress4Declaration = () => {
         })
             .then((res)=>{
                 if(res.data.status){
-                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                    setFormState(prevState => ({...prevState, ...res.data.data}))
                 }else {
                     console.error(res.data.error)
                 }
