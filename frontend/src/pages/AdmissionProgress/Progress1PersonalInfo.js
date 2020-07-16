@@ -22,6 +22,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Progress1PersonalInfo = () => {
     const classes = useStyles()
     let {user_id} = useParams();
-
+    const history = useHistory()
     const initialState = {
         first_name: '',
         middle_name: '',
