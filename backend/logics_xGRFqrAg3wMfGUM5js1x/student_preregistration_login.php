@@ -47,14 +47,14 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
 
                 $return['status'] = true;
                 $return['jwt'] = $jwt;
-                $return['application_id'] = $application_no_clean;
+                $return['application_no'] = $application_no_clean;
                 $return['statusText'] = "Successfully Logged In";
                 $return['error'] = null;
             }else{
                 http_response_code(401);
                 $return['status'] = false;
                 $return['jwt'] = null;
-                $return['application_id'] = null;
+                $return['application_no'] = null;
                 $return['statusText'] = null;
                 $return['error'] = "Not Authenticated";
             }
@@ -62,7 +62,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
             http_response_code(500);
             $return['status'] = false;
             $return['jwt'] = null;
-            $return['application_id'] = null;
+            $return['application_no'] = null;
             $return['statusText'] = null;
             $return['error'] = "Internal Server Error";
         }
@@ -70,7 +70,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         http_response_code(401);
         $return['status'] = false;
         $return['jwt'] = null;
-        $return['application_id'] = null;
+        $return['application_no'] = null;
         $return['statusText'] = null;
         $return['error'] = "ReCaptcha verification failed";
     }
@@ -78,7 +78,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
     http_response_code(400);
     $return['status'] = false;
     $return['jwt'] = null;
-    $return['application_id'] = null;
+    $return['application_no'] = null;
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
 }
