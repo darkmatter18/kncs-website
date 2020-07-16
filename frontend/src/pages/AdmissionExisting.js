@@ -18,6 +18,7 @@ import NetworkSubmit from "../components/NetworkSubmit";
 import {netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
 import api from "../api";
 import {useSignIn} from "react-auth-jwt";
+import {useHistory} from "react-router-dom";
 
 
 const useStyle = makeStyles((theme) => ({
@@ -32,6 +33,7 @@ const useStyle = makeStyles((theme) => ({
 const AdmissionExisting = () => {
     const signIn = useSignIn()
     const classes = useStyle()
+    const history = useHistory()
     const initialState = {application_no: '', email: '', dob: new Date()}
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
@@ -97,7 +99,13 @@ const AdmissionExisting = () => {
                     }).then((res)=>{
                         if(res.data.status){
                             //auth.signIn(res.data.jwt, 120)
-                            signIn(res.data.jwt, 120)
+                            signIn(res.data.jwt, 120).then((v)=>{
+                                if(v){
+                                    history.push(`/admission/progress/${res.data.application_no}/personal_info`)
+                                }
+                            }).catch((e)=>{
+                                setNetworkState(netState.ERROR)
+                            })
                         }
                         else {
                             setNetworkState(netState.ERROR)
