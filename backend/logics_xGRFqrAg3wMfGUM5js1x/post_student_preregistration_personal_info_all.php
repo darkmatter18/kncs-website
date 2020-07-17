@@ -111,17 +111,32 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                 $smt->bindParam(':district', $district, PDO::PARAM_STR);
                 $smt->bindParam(':pin', $pin, PDO::PARAM_INT);
 
+
                 if($smt->execute()){
-                    if($pdocon->commit()){
-                      $return['status'] = true;
-                      $return['statusText'] = "Successfully Inserted";
-                      $return['error'] = null;
+
+                    $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(image) VALUES(:image)');
+
+                    $smt->bindParam('image', $image, PDO::PARAM_STR);
+
+                    if ($smt->execute()){
+                        if($pdocon->commit()){
+                            $return['status'] = true;
+                            $return['statusText'] = "Successfully Inserted";
+                            $return['error'] = null;
+                          } else {
+                            http_response_code(500);
+                            $return['status'] = false;
+                            $return['statusText'] = null;
+                            $return['error'] = "Failed to commit record on Database";
+                          }
+
                     } else {
-                      http_response_code(500);
-                      $return['status'] = false;
-                      $return['statusText'] = null;
-                      $return['error'] = "Failed to commit record on Database";
+                        http_response_code(500);
+                        $return['status'] = false;
+                        $return['statusText'] = null;
+                        $return['error'] = "Image uploading failed";
                     }
+
                 } else {
                     http_response_code(500);
                     $return['status'] = false;
