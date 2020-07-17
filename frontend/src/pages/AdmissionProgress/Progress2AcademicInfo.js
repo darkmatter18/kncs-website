@@ -7,11 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {
-    netState,
-    PRE_REGISTRATION_ACADEMIC_INFO,
-    RECAPTCHA_SITE_KEY
-} from "../../constant";
+import {netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -29,6 +25,7 @@ import api from "../../api";
 import {useHistory, useParams} from "react-router-dom";
 import {useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
+import Checkbox from "@material-ui/core/Checkbox";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,6 +75,8 @@ const Progress2AcademicInfo = () => {
         marks_hist: '',
         marks_total: 0,
         marks_percentage: 0,
+        direct_admission: false,
+        medium: '',
         stream: '',
         first_language: 'BENA',
         second_language: 'ENGB',
@@ -97,6 +96,7 @@ const Progress2AcademicInfo = () => {
         marks_lsc: [false, "Life Science"],
         marks_geo: [false, "Geography"],
         marks_hist: [false, "History"],
+        medium: [false, "Which is your Medium of Instruction"],
         stream: [false, "Which Stream, you are applying for"],
         first_major: [false, "Enter your first Major choice"],
         second_major: [false, "Enter your second Major choice"],
@@ -146,6 +146,11 @@ const Progress2AcademicInfo = () => {
     const handleDateChange = (date) => {
         setFormData(prevState => ({...prevState, year_of_madhyamik: date}))
     };
+
+    const handleDirectAdmissionCheckBox = (e) => {
+        setFormData(prevState => ({...prevState, direct_admission: e.target.checked}))
+    }
+
     const handleMarksChange = (name) => (e) => {
         e.persist()
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
@@ -170,38 +175,39 @@ const Progress2AcademicInfo = () => {
     }
 
     React.useEffect(()=>{
-        if (formData.previous_school_name === "Krishnanath College School") {
-            // SC: 560 < formData.marks_total
-            // HU: 500 < formData.marks_total
-            console.log(formData.marks_total, typeof formData.marks_total)
-            if (formData.marks_total < 500) {
-                // Eligible for none
-                console.log("None")
-                setStreamDisablityState(() => StreamDisablityFactors.NONE)
-            } else if (formData.marks_total < 560) {
-                // Eligible for HU
-                console.log("HU")
-                setStreamDisablityState(() => StreamDisablityFactors.HU)
+        setFormData(prevState => ({...prevState, stream: ''}))
+        if(formData.direct_admission){
+            if (formData.previous_school_name === "Krishnanath College School") {
+                // SC: 560 < formData.marks_total
+                // HU: 500 < formData.marks_total
+                if (formData.marks_total < 500) {
+                    // Eligible for none
+                    setStreamDisablityState(() => StreamDisablityFactors.NONE)
+                } else if (formData.marks_total < 560) {
+                    // Eligible for HU
+                    setStreamDisablityState(() => StreamDisablityFactors.HU)
+                } else {
+                    // Eligible for All
+                    setStreamDisablityState(() => StreamDisablityFactors.ALL)
+                }
             } else {
-                // Eligible for All
-                console.log("All")
-                setStreamDisablityState(() => StreamDisablityFactors.ALL)
+                // SC: 600 < formData.marks_total
+                // HU: 560 < formData.marks_total
+                if (formData.marks_total < 560) {
+                    // Eligible for none
+                    setStreamDisablityState(() => StreamDisablityFactors.NONE)
+                } else if (formData.marks_total < 600) {
+                    // Eligible for HU
+                    setStreamDisablityState(() => StreamDisablityFactors.HU)
+                } else {
+                    // Eligible for All
+                    setStreamDisablityState(() => StreamDisablityFactors.ALL)
+                }
             }
         } else {
-            // SC: 600 < formData.marks_total
-            // HU: 560 < formData.marks_total
-            if (formData.marks_total < 560) {
-                // Eligible for none
-                setStreamDisablityState(() => StreamDisablityFactors.NONE)
-            } else if (formData.marks_total < 600) {
-                // Eligible for HU
-                setStreamDisablityState(() => StreamDisablityFactors.HU)
-            } else {
-                // Eligible for All
-                setStreamDisablityState(() => StreamDisablityFactors.ALL)
-            }
+            setStreamDisablityState(StreamDisablityFactors.ALL)
         }
-    }, [formData.marks_total])
+    }, [formData.marks_total, formData.direct_admission])
 
     const renderSubjectErrors = () => {
         switch (streamDisablityState) {
@@ -221,97 +227,67 @@ const Progress2AcademicInfo = () => {
         }
     }
 
-    const handleScienceSubjectChange = (name) => (e) => {
-        setFormData(prevState => ({...prevState, [name]: e.target.value}))
-
-        if (name === 'first_major') {
-            const pick = _.pickBy(scienceSubjects, (i)=>{
-                return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.third_major) ||
-                    i.sub.includes(formData.forth_major))
+    React.useEffect(()=>{
+        if(formData.stream === "Science"){
+            setScienceFirstMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
             })
-            const f = _.flatten(_.map(pick, 'sub'))
-            setScienceSecondMajorList(()=>f)
-            setScienceThirdMajorList(()=>f)
-            setScienceForthMajorList(()=>f)
-        } else if (name === 'second_major') {
-            const pick = _.pickBy(scienceSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.third_major) ||
-                    i.sub.includes(formData.forth_major))
+            setScienceSecondMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
             })
-            const f = _.flatten(_.map(pick, 'sub'))
-            setScienceThirdMajorList(()=>f)
-            setScienceForthMajorList(()=>f)
-            setScienceFirstMajorList(()=>f)
-        } else if (name === 'third_major') {
-            const pick = _.pickBy(scienceSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
-                    i.sub.includes(formData.forth_major))
+            setScienceThirdMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.forth_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
             })
-            const f = _.flatten(_.map(pick, 'sub'))
-            setScienceForthMajorList(()=>f)
-            setScienceSecondMajorList(()=>f)
-            setScienceFirstMajorList(()=>f)
-        } else if (name === 'forth_major') {
-            const pick = _.pickBy(scienceSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
-                    i.sub.includes(formData.third_major))
+            setScienceForthMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
             })
-            const f = _.flatten(_.map(pick, 'sub'))
-            setScienceFirstMajorList(()=>f)
-            setScienceSecondMajorList(()=>f)
-            setScienceThirdMajorList(()=>f)
+        } else if (formData.stream === "Humanities") {
+            setHumanitiesFirstMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
+            })
+            setHumanitiesSecondMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
+            })
+            setHumanitiesThirdMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.forth_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
+            })
+            setHumanitiesForthMajorList(()=>{
+                const pick = _.pickBy(scienceSubjects, (i)=>{
+                    return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
+                        i.sub.includes(formData.third_major))
+                })
+                return _.flatten(_.map(pick, 'sub'))
+            })
         }
-    }
-
-    const handleHumanitiesSubjectChange = (name) => (e) => {
-        setFormData(prevState => ({...prevState, [name]: e.target.value}))
-
-        if (name === 'first_major') {
-            const pick = _.pickBy(humanitiesSubjects, (i)=>{
-                return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.third_major) ||
-                    i.sub.includes(formData.forth_major))
-            })
-            const f = _.flatten(_.map(pick, 'sub'))
-
-            setHumanitiesSecondMajorList(()=>f)
-            setHumanitiesThirdMajorList(()=>f)
-            setHumanitiesForthMajorList(()=>f)
-        } else if (name === 'second_major') {
-            const pick = _.pickBy(humanitiesSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) ||
-                    i.sub.includes(formData.third_major) || i.sub.includes(formData.forth_major))
-            })
-            const f = _.flatten(_.map(pick, 'sub'))
-
-            setHumanitiesThirdMajorList(()=>f)
-            setHumanitiesForthMajorList(()=>f)
-            setHumanitiesFirstMajorList(()=>f)
-        } else if (name === 'third_major') {
-
-            const pick = _.pickBy(humanitiesSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
-                    i.sub.includes(formData.forth_major))
-            })
-            const f = _.flatten(_.map(pick, 'sub'))
-
-            setHumanitiesForthMajorList(()=>f)
-            setHumanitiesFirstMajorList(()=>f)
-            setHumanitiesSecondMajorList(()=>f)
-
-        } else if (name === 'forth_major') {
-
-            const pick = _.pickBy(humanitiesSubjects, (i)=>{
-                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
-                    i.sub.includes(formData.third_major))
-            })
-            const f = _.flatten(_.map(pick, 'sub'))
-
-            setHumanitiesFirstMajorList(()=>f)
-            setHumanitiesSecondMajorList(()=>f)
-            setHumanitiesThirdMajorList(()=>f)
-
-        }
-    }
+    }, [formData.first_major, formData.second_major, formData.third_major, formData.forth_major, formData.stream])
 
     const validate = () => {
         //TODO: Validate
@@ -367,7 +343,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-first_major-label"
                                     id="form-first_major"
                                     value={formData.first_major}
-                                    onChange={handleScienceSubjectChange('first_major')}
+                                    onChange={handleFormDataChange('first_major')}
                                     label="First Major"
                                 >
                                     <MenuItem value="">
@@ -387,7 +363,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-second_major-label"
                                     id="form-second_major"
                                     value={formData.second_major}
-                                    onChange={handleScienceSubjectChange('second_major')}
+                                    onChange={handleFormDataChange('second_major')}
                                     label="Second Major"
                                 >
                                     <MenuItem value="">
@@ -407,7 +383,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-third_major-label"
                                     id="form-third_major"
                                     value={formData.third_major}
-                                    onChange={handleScienceSubjectChange('third_major')}
+                                    onChange={handleFormDataChange('third_major')}
                                     label="Third Major"
                                 >
                                     <MenuItem value="">
@@ -427,7 +403,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-forth_major-label"
                                     id="form-forth_major"
                                     value={formData.forth_major}
-                                    onChange={handleScienceSubjectChange('forth_major')}
+                                    onChange={handleFormDataChange('forth_major')}
                                     label="Forth Major"
                                 >
                                     <MenuItem value="">
@@ -462,7 +438,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-first_major-label"
                                     id="form-first_major"
                                     value={formData.first_major}
-                                    onChange={handleHumanitiesSubjectChange('first_major')}
+                                    onChange={handleFormDataChange('first_major')}
                                     label="First Major"
                                 >
                                     <MenuItem value="">
@@ -482,7 +458,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-second_major-label"
                                     id="form-second_major"
                                     value={formData.second_major}
-                                    onChange={handleHumanitiesSubjectChange('second_major')}
+                                    onChange={handleFormDataChange('second_major')}
                                     label="Second Major"
                                 >
                                     <MenuItem value="">
@@ -502,7 +478,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-third_major-label"
                                     id="form-third_major"
                                     value={formData.third_major}
-                                    onChange={handleHumanitiesSubjectChange('third_major')}
+                                    onChange={handleFormDataChange('third_major')}
                                     label="Third Major"
                                 >
                                     <MenuItem value="">
@@ -522,7 +498,7 @@ const Progress2AcademicInfo = () => {
                                     labelId="form-forth_major-label"
                                     id="form-forth_major"
                                     value={formData.forth_major}
-                                    onChange={handleHumanitiesSubjectChange('forth_major')}
+                                    onChange={handleFormDataChange('forth_major')}
                                     label="Forth Major"
                                 >
                                     <MenuItem value="">
@@ -680,6 +656,38 @@ const Progress2AcademicInfo = () => {
                         <Card variant={"outlined"}>
                             <CardContent>
                                 <Grid container justify={"flex-start"} alignItems={"center"} spacing={4}>
+                                    <Grid item>
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={formData.direct_admission}
+                                                    onChange={handleDirectAdmissionCheckBox}
+                                                    name="direct_admission"
+                                                />
+                                            }
+                                            label="Direct Admission"
+                                            labelPlacement={"bottom"}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <FormControl variant="outlined" fullWidth error={errors.medium[0]}>
+                                            <InputLabel id="form-medium-label">Medium</InputLabel>
+                                            <Select
+                                                labelId="form-medium-label"
+                                                id="form-medium"
+                                                value={formData.medium}
+                                                onChange={handleFormDataChange('medium')}
+                                                label="medium"
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Bengali'}>Bengali</MenuItem>
+                                                <MenuItem value={'English'}>English</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.medium[1]}</FormHelperText>
+                                        </FormControl>
+                                    </Grid>
                                     <Grid item>
                                         <FormControl variant="outlined" fullWidth error={errors.stream[0]}
                                                      disabled={streamDisablityState === StreamDisablityFactors.NONE}>
