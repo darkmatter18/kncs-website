@@ -1,16 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 07:31 AM
--- Server version: 10.1.35-MariaDB
--- PHP Version: 7.2.9
+-- Generation Time: Jul 17, 2020 at 04:02 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+05:30";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -36,7 +35,8 @@ CREATE TABLE `student_preregistration_details` (
   `aadhar_no` int(12) NOT NULL,
   `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile` int(10) NOT NULL,
-  `dob` date NOT NULL
+  `dob` date NOT NULL,
+  `status` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -198,7 +198,7 @@ CREATE TABLE `student_preregistration_login` (
 CREATE TABLE `users_login` (
   `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'User name of User',
   `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Password of the user',
-  `last-login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Last login Timestamp',
+  `last-login` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Last login Timestamp',
   `last-login-ip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last login IP'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
