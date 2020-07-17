@@ -31,6 +31,8 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT[
             $place = Filter::String($_INPUT['place']);
             $full_name = Filter::String($_INPUT['full_name']);
 
+            $pdocon->beginTransaction();    // check wheather it is inside the table or not
+
             $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_declaration_info (application_no, date, place, full_name)
                                                  VALUES(:application_no, :date, :place, :full_name)');
             
@@ -46,6 +48,7 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT[
                     $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
                     if ($smt->execute()){
+                        $pdocon->commit();  // commited
                         $return['status'] = true;
                         $return['statusText'] = "Final Submission Complete";
                         $return['error'] = null;

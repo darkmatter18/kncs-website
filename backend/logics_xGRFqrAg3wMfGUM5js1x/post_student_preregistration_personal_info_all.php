@@ -63,6 +63,9 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
         //INSERTING STUDENT BASIC INFO INTO DATABASE
         // TABLE : student_preregistration_draft_basic_info
+ 
+        $pdocon->beginTransaction();    // check wheather it is inside the table or not
+
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_basic_info(application_no, gender, religion, caste, mother_tongue,
                                             apply_for_reserved_seat, caste_certificate_no,  weather_bpl, bpl_card_no, whatsapp_no)
                                 VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, :apply_for_reserved_seat,
@@ -110,6 +113,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt->bindParam(':pin', $pin, PDO::PARAM_STR);
 
                 if($smt->execute()){
+                    $pdocon->commit();  // commited
                     $return['status'] = true;
                     $return['statusText'] = "Successfully Inserted";
                     $return['error'] = null;

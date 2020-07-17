@@ -33,6 +33,8 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['mode_of_payment']) && iss
             $transaction_id_clean = Filter::String($_INPUT['transaction_id']);
             $transaction_date_clean = Filter::String($_INPUT['mode_of_payment']);
 
+            $pdocon->beginTransaction();    // check wheather it is inside the table or not
+            
             $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_payment_info
                                                 (application_no, mode_of_payment, name_of_bank, transaction_id, transaction_date)
                                         VALUES(:application_no, :mode_of_payment, :name_of_bank, :transaction_id, :transaction_date)');
@@ -44,6 +46,7 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['mode_of_payment']) && iss
             $smt->bindParam(':transaction_date', $transaction_date, PDO::PARAM_STR);
 
             if ($smt->execute()) {
+                $pdocon->commit();  // commited
                 $return['status'] = true;
                 $return['statusText'] = "Payment Successful";
                 $return['error'] = null;

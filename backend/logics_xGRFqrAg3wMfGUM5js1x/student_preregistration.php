@@ -29,6 +29,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
         $status="DRAFT";
 
         $application_no = time();
+        
         //PDO there is total 8 input
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_details
                                             (application_no, first_name, middle_name, last_name, aadhar_no, email, mobile, dob, status)

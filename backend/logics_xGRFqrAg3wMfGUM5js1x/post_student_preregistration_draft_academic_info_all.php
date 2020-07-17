@@ -62,6 +62,9 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &&
 
         // INSERTING PREVIOUS ACADEMIC INFO
         // TABLE : student_preregistration_draft_previous_academic_info
+
+        $pdocon->beginTransaction();    // check wheather it is inside the table or not
+        
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_info(application_no, previous_school_name, year_of_madhyamik, previous_student_id)
                                 VALUES(:application_no, :previous_school_name, :year_of_madhyamik, :previous_student_id)');
 
@@ -106,6 +109,7 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &&
                 $smt->bindParam(':forth_major', $forth_major , PDO::PARAM_STR);
 
                 if($smt->execute()){
+                    $pdocon->commit();  // commited
                     $return['status'] = true;
                     $return['statusText'] = "Successfully Inserted Academic Details";
                     $return['error'] = null;
