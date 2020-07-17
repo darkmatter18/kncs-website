@@ -28,6 +28,7 @@ import NetworkSubmit from "../../components/NetworkSubmit";
 import api from "../../api";
 import {useHistory, useParams} from "react-router-dom";
 import {useAuthHeader} from "react-auth-jwt";
+import _ from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,11 +45,23 @@ const Progress2AcademicInfo = () => {
     let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
-    const scienceSubjects = ['PHYSICS', 'NUTRITION', 'CHEMISTRY', 'ECONOMICS', 'MATHEMATICS', 'BIOLOGICAL SCIENCES',
-        'GEOGRAPHY', 'COMPUTER SCIENCE', 'COMPUTER APPLICATION']
 
-    const humanitiesSubjects = ['POLITICAL SCIENCE', 'NUTRITION', 'ECONOMICS', 'SANSKRIT', 'PHILOSOPHY', 'HISTORY',
-        'MATHEMATICS', 'GEOGRAPHY', 'COMPUTER  APPLICATION']
+    const scienceSubjects = [
+        {id: 1, sub: ['PHYSICS', 'NUTRITION']},
+        {id: 2, sub: ['CHEMISTRY', 'ECONOMICS']},
+        {id: 3, sub: ['MATHEMATICS']},
+        {id: 4, sub: ['BIOLOGY']},
+        {id: 5, sub: ['GEOGRAPHY']},
+        {id: 6, sub: ['COMPUTER SCIENCE', 'COMPUTER APPLICATION']}]
+
+    const humanitiesSubjects = [
+        {id: 1, sub: ['POLITICAL SCIENCE']},
+        {id: 2, sub:['NUTRITION']},
+        {id: 3, sub:['ECONOMICS', 'SANSKRIT']},
+        {id: 4, sub:['PHILOSOPHY']},
+        {id: 5, sub:['HISTORY','MATHEMATICS']},
+        {id: 6, sub:['GEOGRAPHY']},
+        {id: 7, sub:['COMPUTER  APPLICATION']}]
 
     const StreamDisablityFactors = {ALL: 'f1231', HU: '25115', NONE: 'q113dd'}
 
@@ -94,20 +107,20 @@ const Progress2AcademicInfo = () => {
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
     // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
-    // Todo: work in submiiting
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
 
+    const initialScienceSubjectCombo = _.flatten(_.map(scienceSubjects, 'sub'))
+    const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(initialScienceSubjectCombo)
+    const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(initialScienceSubjectCombo)
+    const [scienceThirdMajorList, setScienceThirdMajorList] = React.useState(initialScienceSubjectCombo)
+    const [scienceForthMajorList, setScienceForthMajorList] = React.useState(initialScienceSubjectCombo)
 
-    const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(scienceSubjects)
-    const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(scienceSubjects)
-    const [scienceThirdMajorList, setScienceThirdMajorList] = React.useState(scienceSubjects)
-    const [scienceForthMajorList, setScienceForthMajorList] = React.useState(scienceSubjects)
-
-    const [humanitiesFirstMajorList, setHumanitiesFirstMajorList] = React.useState(humanitiesSubjects)
-    const [humanitiesSecondMajorList, setHumanitiesSecondMajorList] = React.useState(humanitiesSubjects)
-    const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(humanitiesSubjects)
-    const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
+    const initialHumanitiesSubjectCombo = _.flatten(_.map(humanitiesSubjects, 'sub'))
+    const [humanitiesFirstMajorList, setHumanitiesFirstMajorList] = React.useState(initialHumanitiesSubjectCombo)
+    const [humanitiesSecondMajorList, setHumanitiesSecondMajorList] = React.useState(initialHumanitiesSubjectCombo)
+    const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(initialHumanitiesSubjectCombo)
+    const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(initialHumanitiesSubjectCombo)
 
     React.useEffect(() => {
         api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
@@ -180,7 +193,7 @@ const Progress2AcademicInfo = () => {
                 setStreamDisablityState(StreamDisablityFactors.HU)
             } else {
                 // Eligible for All
-                setStreamDisablityState(StreamDisablityFactors.All)
+                setStreamDisablityState(StreamDisablityFactors.ALL)
             }
         }
     }
@@ -197,7 +210,7 @@ const Progress2AcademicInfo = () => {
     }
 
     const handleSchoolRadioButtonChange = (event) => {
-        setSchoolRadioButton(prevState => event.target.value)
+        setSchoolRadioButton(() => event.target.value)
         if (event.target.value === "Krishnanath College School") {
             setFormData(prevState => ({...prevState, previous_school_name: "Krishnanath College School"}))
         }
@@ -205,14 +218,99 @@ const Progress2AcademicInfo = () => {
 
     const handleScienceSubjectChange = (name) => (e) => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
+
+        if (name === 'first_major') {
+            const pick = _.pickBy(scienceSubjects, (i)=>{
+                return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.third_major) ||
+                    i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+            setScienceSecondMajorList(()=>f)
+            setScienceThirdMajorList(()=>f)
+            setScienceForthMajorList(()=>f)
+        } else if (name === 'second_major') {
+            const pick = _.pickBy(scienceSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.third_major) ||
+                    i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+            setScienceThirdMajorList(()=>f)
+            setScienceForthMajorList(()=>f)
+            setScienceFirstMajorList(()=>f)
+        } else if (name === 'third_major') {
+            const pick = _.pickBy(scienceSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
+                    i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+            setScienceForthMajorList(()=>f)
+            setScienceSecondMajorList(()=>f)
+            setScienceFirstMajorList(()=>f)
+        } else if (name === 'forth_major') {
+            const pick = _.pickBy(scienceSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
+                    i.sub.includes(formData.third_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+            setScienceFirstMajorList(()=>f)
+            setScienceSecondMajorList(()=>f)
+            setScienceThirdMajorList(()=>f)
+        }
     }
 
     const handleHumanitiesSubjectChange = (name) => (e) => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
+
+        if (name === 'first_major') {
+            const pick = _.pickBy(humanitiesSubjects, (i)=>{
+                return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.third_major) ||
+                    i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+
+            setHumanitiesSecondMajorList(()=>f)
+            setHumanitiesThirdMajorList(()=>f)
+            setHumanitiesForthMajorList(()=>f)
+        } else if (name === 'second_major') {
+            const pick = _.pickBy(humanitiesSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) ||
+                    i.sub.includes(formData.third_major) || i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+
+            setHumanitiesThirdMajorList(()=>f)
+            setHumanitiesForthMajorList(()=>f)
+            setHumanitiesFirstMajorList(()=>f)
+        } else if (name === 'third_major') {
+
+            const pick = _.pickBy(humanitiesSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
+                    i.sub.includes(formData.forth_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+
+            setHumanitiesForthMajorList(()=>f)
+            setHumanitiesFirstMajorList(()=>f)
+            setHumanitiesSecondMajorList(()=>f)
+
+        } else if (name === 'forth_major') {
+
+            const pick = _.pickBy(humanitiesSubjects, (i)=>{
+                return !(i.sub.includes(formData.first_major) || i.sub.includes(formData.second_major) ||
+                    i.sub.includes(formData.third_major))
+            })
+            const f = _.flatten(_.map(pick, 'sub'))
+
+            setHumanitiesFirstMajorList(()=>f)
+            setHumanitiesSecondMajorList(()=>f)
+            setHumanitiesThirdMajorList(()=>f)
+
+        }
     }
 
     const validate = () => {
         //TODO: Validate
+        return true
     }
 
     const handleSubmit = (e) => {
