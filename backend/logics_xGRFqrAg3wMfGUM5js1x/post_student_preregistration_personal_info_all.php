@@ -71,15 +71,15 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                         :caste_certificate_no,  :weather_bpl, :bpl_card_no, :whatsapp_no )');
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-        $smt->bindParam(':gender', $gender, PDO::PARAM_STR);
-        $smt->bindParam(':religion', $religion, PDO::PARAM_STR);
-        $smt->bindParam(':caste', $caste, PDO::PARAM_STR);
-        $smt->bindParam(':mother_tongue', $mother_tongue, PDO::PARAM_STR);
-        $smt->bindParam(':apply_for_reserved_seat', $apply_for_reserved_seat, PDO::PARAM_STR);
-        $smt->bindParam(':caste_certificate_no', $caste_certificate_no, PDO::PARAM_STR);
-        $smt->bindParam(':weather_bpl', $weather_bpl, PDO::PARAM_STR);
-        $smt->bindParam(':bpl_card_no', $bpl_card_no, PDO::PARAM_STR);
-        $smt->bindParam(':whatsapp_no', $whatsapp_no, PDO::PARAM_INT);
+        $smt->bindParam(':gender', $gender_clean, PDO::PARAM_STR);
+        $smt->bindParam(':religion', $religion_clean, PDO::PARAM_STR);
+        $smt->bindParam(':caste', $caste_clean, PDO::PARAM_STR);
+        $smt->bindParam(':mother_tongue', $mother_tongue_clean, PDO::PARAM_STR);
+        $smt->bindParam(':apply_for_reserved_seat', $apply_for_reserved_seat_clean, PDO::PARAM_STR);
+        $smt->bindParam(':caste_certificate_no', $caste_certificate_no_clean, PDO::PARAM_STR);
+        $smt->bindParam(':weather_bpl', $weather_bpl_clean, PDO::PARAM_STR);
+        $smt->bindParam(':bpl_card_no', $bpl_card_no_clean, PDO::PARAM_STR);
+        $smt->bindParam(':whatsapp_no', $whatsapp_no_clean, PDO::PARAM_INT);
 
         if ($smt->execute()) {
             // INSERTING FAMILY DETAILS INTO DATABASE
@@ -89,13 +89,13 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             VALUES(:application_no, :father_name, :father_occupation, :mother_name, :mother_occupation, :guardian_name, :guardian_occupation, :guardian_same_father)');
 
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-            $smt->bindParam(':father_name', $father_name, PDO::PARAM_STR);
-            $smt->bindParam(':father_occupation', $father_occupation, PDO::PARAM_STR);
-            $smt->bindParam(':mother_name', $mother_name, PDO::PARAM_STR);
-            $smt->bindParam(':mother_occupation', $mother_occupation, PDO::PARAM_STR);
-            $smt->bindParam(':guardian_name', $guardian_name, PDO::PARAM_STR);
-            $smt->bindParam(':guardian_occupation', $guardian_occupation, PDO::PARAM_STR);
-            $smt->bindParam(':guardian_same_father', $guardian_same_father, PDO::PARAM_STR);
+            $smt->bindParam(':father_name', $father_name_clean, PDO::PARAM_STR);
+            $smt->bindParam(':father_occupation', $father_occupation_clean, PDO::PARAM_STR);
+            $smt->bindParam(':mother_name', $mother_name_clean, PDO::PARAM_STR);
+            $smt->bindParam(':mother_occupation', $mother_occupation_clean, PDO::PARAM_STR);
+            $smt->bindParam(':guardian_name', $guardian_name_clean, PDO::PARAM_STR);
+            $smt->bindParam(':guardian_occupation', $guardian_occupation_clean, PDO::PARAM_STR);
+            $smt->bindParam(':guardian_same_father', $guardian_same_father_clean, PDO::PARAM_STR);
 
             if ($smt->execute()) {
                 // INSERTING ADDRESS INFO INTO DATABASE
@@ -104,11 +104,11 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                     VALUES(:address_line_1, :address_line_2, :city, :district, :pin)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-                $smt->bindParam(':address_line_1', $address_line_1, PDO::PARAM_STR);
-                $smt->bindParam(':address_line_2', $address_line_2, PDO::PARAM_STR);
-                $smt->bindParam(':city', $city, PDO::PARAM_STR);
-                $smt->bindParam(':district', $district, PDO::PARAM_STR);
-                $smt->bindParam(':pin', $pin, PDO::PARAM_INT);
+                $smt->bindParam(':address_line_1', $address_line_1_clean, PDO::PARAM_STR);
+                $smt->bindParam(':address_line_2', $address_line_2_clean, PDO::PARAM_STR);
+                $smt->bindParam(':city', $city_clean, PDO::PARAM_STR);
+                $smt->bindParam(':district', $district_clean, PDO::PARAM_STR);
+                $smt->bindParam(':pin', $pin_clean, PDO::PARAM_INT);
 
 
                 if($smt->execute()){
