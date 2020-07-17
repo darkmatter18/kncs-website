@@ -27,7 +27,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
     && isset($_INPUT['marks_total']) && isset($_INPUT['marks_percentage'])
     && isset($_INPUT['stream']) && isset($_INPUT['first_language'])
     && isset($_INPUT['second_language']) && isset($_INPUT['first_major']) && isset($_INPUT['second_major']) && isset($_INPUT['third_major'])
-    && isset($_INPUT['forth_major'])
+    && isset($_INPUT['forth_major']) && isset($_INPUT['direct_admission']) && isset($_INPUT['medium'])
     && isset($_INPUT['recaptcha_token'])) {
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
@@ -50,7 +50,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
         $marks_total_clean = Filter::Int($_INPUT['marks_total']);
         $marks_percentage_clean = Filter::Int($_INPUT['marks_percentage']);
 
-        // PRESENT ACADEMIC DETAILS -- 7 INPUT
+        // PRESENT ACADEMIC DETAILS -- 9 INPUT
         $stream_clean = Filter::String($_INPUT['stream']);
         $first_language_clean = Filter::String($_INPUT['first_language']);
         $second_language_clean = Filter::String($_INPUT['second_language']);
@@ -58,6 +58,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
         $second_major_clean = Filter::String($_INPUT['second_major']);
         $third_major_clean = Filter::String($_INPUT['third_major']);
         $forth_major_clean = Filter::String($_INPUT['forth_major']);
+        $forth_major_clean = Filter::String($_INPUT['direct_admission']);
+        $forth_major_clean = Filter::String($_INPUT['medium']);
 
 
         // INSERTING PREVIOUS ACADEMIC INFO
@@ -96,8 +98,10 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
                 // INSERTING PRESENT ACADEMIC SUBJECTS DETAILS -- 8 COLUMN INCLUDING APPLICATION_NO  
                 // TABLE : student_preregistration_academic_info
                 $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_present_academic
-                                (application_no, stream, first_language, second_language, first_major, second_major, third_major, forth_major)
-                                VALUES(:application_no, :stream, :first_language, :second_language, :first_major, :second_major, :third_major, :forth_major)');
+                                (application_no, stream, first_language, second_language, first_major, second_major, third_major, forth_major,
+                                direct_admission, medium)
+                                VALUES(:application_no, :stream, :first_language, :second_language, :first_major, :second_major, :third_major,
+                                :forth_major, :direct_admission, medium)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
                 $smt->bindParam(':stream', $stream , PDO::PARAM_STR);
@@ -107,6 +111,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
                 $smt->bindParam(':second_major', $second_major , PDO::PARAM_STR);
                 $smt->bindParam(':third_major', $third_major , PDO::PARAM_STR);
                 $smt->bindParam(':forth_major', $forth_major , PDO::PARAM_STR);
+                $smt->bindParam(':direct_admission', $direct_admission , PDO::PARAM_STR);
+                $smt->bindParam(':medium', $medium , PDO::PARAM_STR);
 
                 if($smt->execute()){
                     if($pdocon->commit()){

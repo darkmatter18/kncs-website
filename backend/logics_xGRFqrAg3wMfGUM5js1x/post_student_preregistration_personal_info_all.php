@@ -23,15 +23,14 @@ $return = [];
 header('Content-Type: application/json');
 
 if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['caste']) && isset($_INPUT['mother_tongue'])
-    && isset($_INPUT['apply_for_reserved_seat']) && isset($_INPUT['caste_certificate_no']) && isset($_INPUT['weather_bpl'])
-    && isset($_INPUT['bpl_card_no']) && isset($_INPUT['whatsapp_no']) && isset($_INPUT['father_name']) && isset($_INPUT['father_occupation'])
-    && isset($_INPUT['mother_name']) && isset($_INPUT['mother_occupation']) && isset($_INPUT['guardian_name']) && isset($_INPUT['guardian_occupation'])
+    && isset($_INPUT['whatsapp_no']) && isset($_INPUT['father_name']) && isset($_INPUT['father_occupation']) && isset($_INPUT['mother_name'])
+    && isset($_INPUT['mother_occupation']) && isset($_INPUT['guardian_name']) && isset($_INPUT['guardian_occupation'])
     && isset($_INPUT['guardian_same_father']) && isset($_INPUT['address_line_1']) && isset($_INPUT['address_line_2']) && isset($_INPUT['city'])
-    && isset($_INPUT['district']) && isset($_INPUT['pin']) && isset($_INPUT['recaptcha_token'])) {
+    && isset($_INPUT['district']) && isset($_INPUT['pin']) && isset($_INPUT['image']) && isset($_INPUT['recaptcha_token'])) {
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
         //TODO: Setup Application Id
-        $application_no = $auth_user['data']->application_no;
+        $application_no = $auth_user['data']->application_no; 
 
         //BASIC INFO---9 INPUT
         $gender_clean = Filter::String($_INPUT['gender']);
@@ -54,11 +53,11 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $guardian_same_father_clean = Filter::String($_INPUT['guardian_same_father']);
 
         //ADDRESS INFO 5 INPUT 
-        $address_line_1 = Filter::String($_INPUT['address_line_1']);
-        $address_line_2 = Filter::String($_INPUT['address_line_2']);
-        $city = Filter::String($_INPUT['city']);
-        $district = Filter::String($_INPUT['district']);
-        $pin = Filter::Int($_INPUT['pin']);
+        $address_line_1_clean= Filter::String($_INPUT['address_line_1']);
+        $address_line_2_clean= Filter::String($_INPUT['address_line_2']);
+        $city_clean= Filter::String($_INPUT['city']);
+        $district_clean= Filter::String($_INPUT['district']);
+        $pin_clean= Filter::Int($_INPUT['pin']);
 
 
         // INSERTING STUDENT BASIC INFO INTO DATABASE
@@ -111,17 +110,34 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                 $smt->bindParam(':district', $district, PDO::PARAM_STR);
                 $smt->bindParam(':pin', $pin, PDO::PARAM_INT);
 
+
                 if($smt->execute()){
-                    if($pdocon->commit()){
-                      $return['status'] = true;
-                      $return['statusText'] = "Successfully Inserted";
-                      $return['error'] = null;
+
+                    $base64_data = ($_INPUT['image']);
+
+                    $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image) VALUES(:application_no,:image)');
+                    $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+                    $smt->bindColumn(':image', base64_decode($base64_data), PDO::PARAM_LOB);
+
+                    if ($smt->execute()){
+                        if($pdocon->commit()){
+                            $return['status'] = true;
+                            $return['statusText'] = "Successfully Inserted";
+                            $return['error'] = null;
+                          } else {
+                            http_response_code(500);
+                            $return['status'] = false;
+                            $return['statusText'] = null;
+                            $return['error'] = "Failed to commit record on Database";
+                          }
+
                     } else {
-                      http_response_code(500);
-                      $return['status'] = false;
-                      $return['statusText'] = null;
-                      $return['error'] = "Failed to commit record on Database";
+                        http_response_code(500);
+                        $return['status'] = false;
+                        $return['statusText'] = null;
+                        $return['error'] = "Image uploading failed";
                     }
+
                 } else {
                     http_response_code(500);
                     $return['status'] = false;
