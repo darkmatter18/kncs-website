@@ -4,7 +4,7 @@
  * student_preregistration ACADEMIC INFO processing logics
  * Manojit Karmakar (14/07/2020)
  */
-
+ 
 define('_inc', true);
 require INC_DIR.'index.php';
 
@@ -22,6 +22,7 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['stream']) && isset($_INPUT
 
     if(checkRecaptcha($_INPUT['recaptcha_token'])){
         $application_no_clean = Filter::Int($_INPUT['application_no']);
+        
         $stream_clean = Filter::String($_INPUT['stream']);
         $first_language_clean = Filter::String($_INPUT['first_language']);
         $second_language_clean = Filter::String($_INPUT['second_language']);

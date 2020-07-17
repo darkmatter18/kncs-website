@@ -125,7 +125,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                 http_response_code(500);
                 $return['status'] = false;
                 $return['statusText'] = null;
-                $return['error'] = "Failed to record on Database";
+                $return['error'] = "Failed to record on Database database_name";
             }
         }else{
             http_response_code(500);
@@ -138,13 +138,13 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         http_response_code(401);
         $return['status'] = false;
         $return['statusText'] = null;
-        $return['error'] = "Failed to record on Database";
+        $return['error'] = "Recaptcha verification failed";
     }
 }else{
     http_response_code(400);    
     $return['status'] = false;
     $return['statusText'] = null;
-    $return['error'] = "Failed to record on Database";
+    $return['error'] = "Invalid Parameter";
 }
 
 echo json_encode($return);

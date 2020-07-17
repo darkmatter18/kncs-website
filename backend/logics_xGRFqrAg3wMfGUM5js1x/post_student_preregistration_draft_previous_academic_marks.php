@@ -4,7 +4,7 @@
  * student_preregistration ACADEMIC INFO processing logics
  * Manojit Karmakar (14/07/2020)
  */
-
+ 
 define('_inc', true);
 require INC_DIR.'index.php';
 
@@ -22,6 +22,7 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['marks_beng']) && isset($_I
 
     if(checkRecaptcha($_INPUT['recaptcha_token'])){
         $application_no_clean = Filter::Int($_INPUT['application_no']);
+        
         $marks_beng_clean = Filter::Int($_INPUT['marks_beng']);
         $marks_engb_clean = Filter::Int($_INPUT['marks_engb']);
         $marks_maths_clean = Filter::Int($_INPUT['marks_maths']);
@@ -53,6 +54,7 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['marks_beng']) && isset($_I
         $smt->bindParam(':marks_hist', $marks_hist , PDO::PARAM_INT);
         $smt->bindParam(':marks_total', $marks_total , PDO::PARAM_INT);
         $smt->bindParam(':marks_percentage', $marks_percentage , PDO::PARAM_INT);
+
         $smt->bindParam(':stream', $stream , PDO::PARAM_STR);
         $smt->bindParam(':first_language', $first_language , PDO::PARAM_STR);
         $smt->bindParam(':second_language', $second_language , PDO::PARAM_STR);
