@@ -24,6 +24,7 @@ import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
 import {useHistory} from "react-router-dom";
 import {useAuthHeader} from "react-auth-jwt";
+import ImageUploaderComponent from "../../components/ImageUploaderComponent";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,7 +33,11 @@ const useStyles = makeStyles((theme) => ({
     },
     spacer: {
         marginTop: theme.spacing(2)
-    }
+    },
+    container: {
+        marginTop: '1rem',
+        height: '25rem'
+    },
 }))
 
 const Progress1PersonalInfo = () => {
@@ -117,6 +122,7 @@ const Progress1PersonalInfo = () => {
         })
     },[])
 
+    const [file, setfile] = React.useState(null);
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
     const [guardianDisabled, setGuardianDisabled] = React.useState(false)
@@ -132,6 +138,10 @@ const Progress1PersonalInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.checked}))
     }
 
+    const handleFileChange = (file) => {
+        setfile(file)
+    }
+
     const handleChangeGuardianSameFather = (e) => {
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
         if (e.target.checked) {
@@ -142,6 +152,13 @@ const Progress1PersonalInfo = () => {
             setGuardianDisabled(false)
         }
     }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 
     const validateSelects = (name) => {
         if (formData[name].length > 0) {
@@ -249,33 +266,41 @@ const Progress1PersonalInfo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (validate()) {
-            setNetworkState(netState.BUSY)
-            const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
-            const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
-            const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
-            window.grecaptcha.ready(() => {
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
-                    api.post(PRE_REGISTRATION_PRESONAL_INFO, {
-                        ...formData,
-                        dob: `${ye}-${mo}-${da}`,
-                        recaptcha_token: token
-                    },{
-                        headers:{
-                            Authorization: authHeader()
-                        }
-                    }).then((res) => {
-                        if (res.data.status) {
-                            history.push(`/admission/progress/${user_id}/academic_info`)
-                        } else {
-                            setNetworkState(netState.ERROR)
-                        }
-                    }).catch((e) => {
-                        console.error(e)
-                        setNetworkState(netState.ERROR)
+        if(file === null){
+            alert("Select a file before Submitting");
+        }
+        else {
+            if (validate()) {
+                setNetworkState(netState.BUSY)
+                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
+                const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
+                const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
+                window.grecaptcha.ready(() => {
+                    window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                        toBase64(file).then(imageValue => {
+                            api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                                ...formData,
+                                dob: `${ye}-${mo}-${da}`,
+                                image: imageValue,
+                                recaptcha_token: token
+                            },{
+                                headers:{
+                                    Authorization: authHeader()
+                                }
+                            }).then((res) => {
+                                if (res.data.status) {
+                                    history.push(`/admission/progress/${user_id}/academic_info`)
+                                } else {
+                                    setNetworkState(netState.ERROR)
+                                }
+                            }).catch((e) => {
+                                console.error(e)
+                                setNetworkState(netState.ERROR)
+                            })
+                        })
                     })
                 })
-            })
+            }
         }
     }
 
@@ -616,6 +641,14 @@ const Progress1PersonalInfo = () => {
                                                    onChange={handleFormDataChange('whatsapp_no')}/>
                                     </Grid>
                                 </Grid>
+                            </CardContent>
+                        </Card>
+                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                            Image Upload
+                        </Typography>
+                        <Card variant={"outlined"}>
+                            <CardContent>
+                                <ImageUploaderComponent onChange={handleFileChange} />
                             </CardContent>
                         </Card>
                         <Grid container className={classes.spacer} justify={"flex-start"}>
