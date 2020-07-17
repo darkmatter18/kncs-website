@@ -61,7 +61,7 @@ if( isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $pin = Filter::Int($_INPUT['pin']);
 
 
-        //INSERTING STUDENT BASIC INFO INTO DATABASE
+        // INSERTING STUDENT BASIC INFO INTO DATABASE
         // TABLE : student_preregistration_draft_basic_info
  
         $pdocon->beginTransaction();    // check wheather it is inside the table or not
