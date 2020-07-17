@@ -62,6 +62,9 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
 
         // INSERTING PREVIOUS ACADEMIC INFO
         // TABLE : student_preregistration_draft_previous_academic_info
+
+        $pdocon->beginTransaction();    // check wheather it is inside the table or not
+        
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_info(application_no, previous_school_name, year_of_madhyamik, previous_student_id)
                                 VALUES(:application_no, :previous_school_name, :year_of_madhyamik, :previous_student_id)');
 
@@ -97,19 +100,25 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
                                 VALUES(:application_no, :stream, :first_language, :second_language, :first_major, :second_major, :third_major, :forth_major)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-                $smt->bindParam(':stream', $stream, PDO::PARAM_STR);
-                $smt->bindParam(':first_language', $first_language, PDO::PARAM_STR);
-                $smt->bindParam(':second_language', $second_language, PDO::PARAM_STR);
-                $smt->bindParam(':first_major', $first_major, PDO::PARAM_STR);
-                $smt->bindParam(':second_major', $second_major, PDO::PARAM_STR);
-                $smt->bindParam(':third_major', $third_major, PDO::PARAM_STR);
-                $smt->bindParam(':forth_major', $forth_major, PDO::PARAM_STR);
+                $smt->bindParam(':stream', $stream , PDO::PARAM_STR);
+                $smt->bindParam(':first_language', $first_language , PDO::PARAM_STR);
+                $smt->bindParam(':second_language', $second_language , PDO::PARAM_STR);
+                $smt->bindParam(':first_major', $first_major , PDO::PARAM_STR);
+                $smt->bindParam(':second_major', $second_major , PDO::PARAM_STR);
+                $smt->bindParam(':third_major', $third_major , PDO::PARAM_STR);
+                $smt->bindParam(':forth_major', $forth_major , PDO::PARAM_STR);
 
-                if ($smt->execute()) {
-                    $return['status'] = true;
-                    $return['statusText'] = "Successfully Inserted Academic Details";
-                    $return['error'] = null;
-
+                if($smt->execute()){
+                    if($pdocon->commit()){
+                      $return['status'] = true;
+                      $return['statusText'] = "Successfully Inserted Academic Details";
+                      $return['error'] = null;
+                    } else {
+                      http_response_code(500);
+                      $return['status'] = false;
+                      $return['statusText'] = null;
+                      $return['error'] = "Failed to commit record on Database";
+                    }
                 } else {
                     http_response_code(500);
                     $return['status'] = false;

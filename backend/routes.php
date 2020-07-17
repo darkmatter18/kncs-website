@@ -58,7 +58,7 @@ Router::add('/preregistration/process/academic_info','post',function(){
 });
 // GET ---
 Router::add('/preregistration/process/academic_info','get',function(){
-    require LOGIC_DIR.'get_student_preregistration_draft_academic_info.php';
+    require LOGIC_DIR.'get_student_preregistration_academic_info_all.php';
 });
 
 

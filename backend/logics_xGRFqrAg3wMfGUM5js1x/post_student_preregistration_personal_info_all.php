@@ -61,8 +61,11 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $pin = Filter::Int($_INPUT['pin']);
 
 
-        //INSERTING STUDENT BASIC INFO INTO DATABASE
+        // INSERTING STUDENT BASIC INFO INTO DATABASE
         // TABLE : student_preregistration_draft_basic_info
+ 
+        $pdocon->beginTransaction();    // check wheather it is inside the table or not
+
         $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_basic_info(application_no, gender, religion, caste, mother_tongue,
                                             apply_for_reserved_seat, caste_certificate_no,  weather_bpl, bpl_card_no, whatsapp_no)
                                 VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, :apply_for_reserved_seat,
@@ -108,11 +111,17 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                 $smt->bindParam(':district', $district, PDO::PARAM_STR);
                 $smt->bindParam(':pin', $pin, PDO::PARAM_INT);
 
-                if ($smt->execute()) {
-                    $return['status'] = true;
-                    $return['statusText'] = "Successfully Inserted";
-                    $return['error'] = null;
-
+                if($smt->execute()){
+                    if($pdocon->commit()){
+                      $return['status'] = true;
+                      $return['statusText'] = "Successfully Inserted";
+                      $return['error'] = null;
+                    } else {
+                      http_response_code(500);
+                      $return['status'] = false;
+                      $return['statusText'] = null;
+                      $return['error'] = "Failed to commit record on Database";
+                    }
                 } else {
                     http_response_code(500);
                     $return['status'] = false;
