@@ -3,14 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 07:31 AM
+-- Generation Time: Jul 17, 2020 at 08:27 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
-SET time_zone = "+05:30";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -138,7 +138,7 @@ CREATE TABLE `student_preregistration_draft_present_academic` (
   `application_no` int(10) NOT NULL,
   `stream` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `second_language` int(15) NOT NULL,
+  `second_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
