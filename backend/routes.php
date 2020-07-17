@@ -42,11 +42,11 @@ Router::add('/admin/1','get',function(){
 
 //Personal info 
 //POST------
-Router::add('/preregistration/process/presonal_info','post',function(){
+Router::add('/preregistration/process/personal_info','post',function(){
     require LOGIC_DIR.'post_student_preregistration_personal_info_all.php';
 });
 // GET-----
-Router::add('/preregistration/process/presonal_info','get',function(){
+Router::add('/preregistration/process/personal_info','get',function(){
     require LOGIC_DIR.'get_student_preregistration_personal_info.php';
 });
 

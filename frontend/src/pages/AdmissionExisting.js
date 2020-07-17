@@ -34,7 +34,7 @@ const AdmissionExisting = () => {
     const signIn = useSignIn()
     const classes = useStyle()
     const history = useHistory()
-    const initialState = {application_no: '', email: '', dob: new Date()}
+    const initialState = {application_no: '', email: '', dob: new Date("2006-04-01")}
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
         application_no: [false, "Enter Your 10 digit Application No"],
@@ -156,7 +156,7 @@ const AdmissionExisting = () => {
                                                 id="dob"
                                                 label="Date of Birth"
                                                 value={formData.dob}
-                                                maxDate={new Date()}
+                                                maxDate={new Date("2006-04-01")}
                                                 InputAdornmentProps={{position: "start"}}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{

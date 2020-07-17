@@ -40,7 +40,7 @@ const AdmissionNew = () => {
         aadhar_no: '',
         email: '',
         mobile: '',
-        dob: new Date()
+        dob: new Date("2006-04-01")
     }
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
