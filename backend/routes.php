@@ -39,12 +39,12 @@ Router::add('/api/admin/1','get',function(){
 });
 
 
+
 //Personal info 
 //POST------
 Router::add('/preregistration/process/presonal_info','post',function(){
-    require LOGIC_DIR.'post_student_preregistration_personal_info.php';
+    require LOGIC_DIR.'post_student_preregistration_personal_info_all.php';
 });
-
 // GET-----
 Router::add('/preregistration/process/presonal_info','get',function(){
     require LOGIC_DIR.'get_student_preregistration_personal_info.php';
@@ -56,7 +56,6 @@ Router::add('/preregistration/process/presonal_info','get',function(){
 Router::add('/preregistration/process/academic_info','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_academic_info_all.php';
 });
-
 // GET ---
 Router::add('/preregistration/process/academic_info','get',function(){
     require LOGIC_DIR.'get_student_preregistration_draft_academic_info.php';

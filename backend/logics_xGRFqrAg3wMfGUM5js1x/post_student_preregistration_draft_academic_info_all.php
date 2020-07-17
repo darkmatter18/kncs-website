@@ -114,20 +114,20 @@ if(isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &&
                     http_response_code(500);
                     $return['status'] = false;
                     $return['statusText'] = null;
-                    $return['error'] = "Failed to record on Database";
+                    $return['error'] = "Failed to record on Database - student_preregistration_academic_info";
                 }
             }else{
                 http_response_code(500);
                 $return['status'] = false;
                 $return['statusText'] = null;
-                $return['error'] = "Failed to record on Database";    
+                $return['error'] = "Failed to record on Database - student_preregistration_draft_previous_academic_marks";    
             }
 
         }else{
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
-            $return['error'] = "Failed to record on Database";
+            $return['error'] = "Failed to record on Database - student_preregistration_draft_previous_academic_info";
         }
     }else {
         http_response_code(401);
