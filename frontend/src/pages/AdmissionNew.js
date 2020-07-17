@@ -87,12 +87,17 @@ const AdmissionNew = () => {
     }
 
     const validateAadharNum = () => {
-        if (validateAadhar(formData.aadhar_no)) {
+        if (formData.aadhar_no.length === 0){
             setErrors(prevState => ({...prevState, aadhar_no: [false, "Enter your 12 digit Aadhar No"]}))
             return true
         } else {
-            setErrors(prevState => ({...prevState, aadhar_no: [true, "Invalid Aadhar Number"]}))
-            return false
+            if (validateAadhar(formData.aadhar_no)) {
+                setErrors(prevState => ({...prevState, aadhar_no: [false, "Enter your 12 digit Aadhar No"]}))
+                return true
+            } else {
+                setErrors(prevState => ({...prevState, aadhar_no: [true, "Invalid Aadhar Number"]}))
+                return false
+            }
         }
     }
 
@@ -197,7 +202,7 @@ const AdmissionNew = () => {
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
                                     <Grid item md={3}>
-                                        <TextField fullWidth required error={errors.aadhar_no[0]}
+                                        <TextField fullWidth error={errors.aadhar_no[0]}
                                                    helperText={errors.aadhar_no[1]}
                                                    label={"Aadhar No"} id={"aadhar_no"}
                                                    variant={"outlined"} value={formData.aadhar_no}
@@ -228,7 +233,7 @@ const AdmissionNew = () => {
                                             id="dob"
                                             label="Date of Birth"
                                             value={formData.dob}
-                                            maxDate={new Date()}
+                                            maxDate={new Date("2006-04-01")}
                                             InputAdornmentProps={{position: "start"}}
                                             onChange={handleDateChange}
                                             KeyboardButtonProps={{
