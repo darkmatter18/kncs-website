@@ -31,6 +31,7 @@ function getBearerToken($headers) {
 
 
 $authHeader = getAuthorizationHeader();
+$auth_user = null;
 if (isset($authHeader)) {
 
     $jwt = getBearerToken($authHeader);
