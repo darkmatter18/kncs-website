@@ -100,8 +100,8 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             if ($smt->execute()) {
                 // INSERTING ADDRESS INFO INTO DATABASE
                 // TABLE : student_preregistration_draft_address
-                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_address(address_line_1, address_line_2, city, district, pin)
-                    VALUES(:address_line_1, :address_line_2, :city, :district, :pin)');
+                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_address(application_no, address_line_1, address_line_2, city, district, pin)
+                    VALUES(:application_no, :address_line_1, :address_line_2, :city, :district, :pin)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
                 $smt->bindParam(':address_line_1', $address_line_1_clean, PDO::PARAM_STR);
