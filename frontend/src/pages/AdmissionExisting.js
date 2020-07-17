@@ -17,6 +17,9 @@ import {ValidateEmail} from "../utils/validate";
 import NetworkSubmit from "../components/NetworkSubmit";
 import {netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
 import api from "../api";
+import {useSignIn} from "react-auth-jwt";
+import {useHistory} from "react-router-dom";
+
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -28,7 +31,9 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 const AdmissionExisting = () => {
+    const signIn = useSignIn()
     const classes = useStyle()
+    const history = useHistory()
     const initialState = {application_no: '', email: '', dob: new Date()}
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
@@ -82,13 +87,24 @@ const AdmissionExisting = () => {
         e.preventDefault()
         if (validate()) {
             setNetworkState(netState.BUSY)
+            const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
+            const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
+            const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
                     api.post(PRE_REGISTRATION_LOGIN, {
                         ...formData,
+                        dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
+                            const r = signIn(res.data.jwt, 120)
+                            if(r){
+                                console.log("Signing In")
+                                history.push(`/admission/progress/${res.data.application_no}/personal_info`)
+                            }else {
+                                setNetworkState(netState.ERROR)
+                            }
                         }
                         else {
                             setNetworkState(netState.ERROR)

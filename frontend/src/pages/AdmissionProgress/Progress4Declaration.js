@@ -1,5 +1,5 @@
 import React from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -13,7 +13,11 @@ import ReactToPrint from 'react-to-print';
 import * as banner from '../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
 import NetworkSubmit from "../../components/NetworkSubmit";
-import {netState, PRE_REGISTRATION_DECLARATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import {
+    netState,
+    PRE_REGISTRATION_DECLARATION,
+    RECAPTCHA_SITE_KEY
+} from "../../constant";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
@@ -21,6 +25,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import api from './../../api'
 import {ValidateName} from "../../utils/validate";
+import {useAuthHeader} from "react-auth-jwt";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,7 +44,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Progress4Declaration = () => {
-    let {user_id} = useParams();
+    let {user_id} = useParams()
+    const history = useHistory()
+    const authHeader = useAuthHeader()
     const classes = useStyles()
     const printRef = React.useRef()
 
@@ -107,11 +114,22 @@ const Progress4Declaration = () => {
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
-
-    // TODO: onload event
-    React.useEffect(()=> {
-        console.log("Loading")
-    }, [])
+    React.useEffect(()=>{
+        api.get(PRE_REGISTRATION_DECLARATION, {
+            headers: {
+                Authorization: authHeader()
+            }
+        })
+            .then((res)=>{
+                if(res.data.status){
+                    setFormState(prevState => ({...prevState, ...res.data.data}))
+                }else {
+                    console.error(res.data.error)
+                }
+            }).catch((e)=>{
+            console.error(e)
+        })
+    },[])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -147,6 +165,10 @@ const Progress4Declaration = () => {
                     api.post(PRE_REGISTRATION_DECLARATION, {
                         ...declarationFormState,
                         recaptcha_token: token
+                    }, {
+                        headers:{
+                            Authorization: authHeader()
+                        }
                     }).then((res)=>{
                         if (res.data.status) {
                             // history.push(ADMISSION_NEW_DONE, {

@@ -1,14 +1,34 @@
 import React from 'react';
-import HomeTopBar from '../../components/HomeTopBar';
+import {makeStyles} from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
-class Home extends React.Component {
-    render() {
-        return (
-            <React.Fragment>
-                <HomeTopBar />
-            </React.Fragment>
-        )
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        height: '100%'
+    },
+    internal: {
+        margin: 'auto'
     }
+}))
+
+const Home = () => {
+    const classes = useStyles()
+    return (
+        <React.Fragment>
+            <Grid container alignItems={"center"} justify={"center"} alignContent={"center"} className={classes.root}>
+                <Grid item md={12}>
+                    <Typography variant={"h4"} align={"center"} color={"textPrimary"}>
+                        Site Under Maintenance
+                    </Typography>
+                    <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
+                        Will open After 17th July 2020 - 6:00PM
+                    </Typography>
+                </Grid>
+            </Grid>
+        </React.Fragment>
+    )
 }
 
 export default Home;

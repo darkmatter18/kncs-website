@@ -39,21 +39,32 @@ if (isset($authHeader)) {
             $auth_user = JWT::decode($jwt, $_SERVER['HTTP_JWT_SERECT'], ['HS256']);
         } catch (Exception $e) {
             http_response_code(401);
-            echo $e->$e->getMessage();
-            echo "Access Denided";
+            $return = [];
+            $return['status'] = false;
+            $return['statusText'] = null;
+            $return['error'] = $e->$e->getMessage();
+            echo json_encode($return);
             exit;
         }
     }
     else {
         // JWT token missing
         http_response_code(400);
-        echo "JWT is missing";
+        $return = [];
+        $return['status'] = false;
+        $return['statusText'] = null;
+        $return['error'] = "JWT is missing";
+        echo json_encode($return);
         exit;
     }
 }
 else {
     // HTTP Auth missing
     http_response_code(400);
-    echo "Authentication Failed";
+    $return = [];
+    $return['status'] = false;
+    $return['statusText'] = null;
+    $return['error'] = "Authentication Failed";
+    echo json_encode($return);
     exit;
 }

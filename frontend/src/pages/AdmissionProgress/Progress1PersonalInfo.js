@@ -9,7 +9,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {netState} from "../../constant";
+import {netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
@@ -20,6 +20,10 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkSubmit from "../../components/NetworkSubmit";
+import {validateMobileNo, ValidateName} from "../../utils/validate";
+import api from './../../api'
+import {useHistory} from "react-router-dom";
+import {useAuthHeader} from "react-auth-jwt";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,8 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress1PersonalInfo = () => {
     const classes = useStyles()
-    let {user_id} = useParams();
-
+    let {user_id} = useParams()
+    const history = useHistory()
+    const authHeader = useAuthHeader()
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -95,16 +100,36 @@ const Progress1PersonalInfo = () => {
         whatsapp_no: [false, "Enter 10 Digit Whatsapp Number"],
     }
 
+    React.useEffect(()=>{
+        api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+            headers: {
+                Authorization: authHeader()
+            }
+        })
+            .then((res)=>{
+                if(res.data.status){
+                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                }else {
+                    console.error(res.data.error)
+                }
+            }).catch((e)=>{
+                console.error(e)
+        })
+    },[])
+
     const [formData, setFormData] = React.useState(initialState)
-    // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
     const [guardianDisabled, setGuardianDisabled] = React.useState(false)
-    // Todo: work in submiiting
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
+    }
+
+    const handleCheckboxChange = (name) => (e) => {
+        e.persist()
+        setFormData(prevState => ({...prevState, [name]: e.target.checked}))
     }
 
     const handleChangeGuardianSameFather = (e) => {
@@ -118,9 +143,140 @@ const Progress1PersonalInfo = () => {
         }
     }
 
-    //TODO: complete handle submit
-    const handleSubmit = () => {
+    const validateSelects = (name) => {
+        if (formData[name].length > 0) {
+            setErrors(prevState => ({...prevState, [name]: initialErrorState[name]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [name]: [true, "Please Enter the Value"]}))
+            return false
+        }
+    }
 
+    const validateCasteCert = () => {
+        if (formData.apply_for_reserved_seat) {
+            if (formData.caste_certificate_no.length > 2) {
+                setErrors(prevState => ({...prevState, caste_certificate_no: initialErrorState.caste_certificate_no}))
+                return true
+            } else {
+                setErrors(prevState => ({...prevState, caste_certificate_no: [true, "Enter the Caste Certificate No"]}))
+            }
+        } else {
+            return true
+        }
+    }
+
+    const validateBplNo = () => {
+        if (formData.weather_bpl) {
+            if (formData.bpl_card_no.length > 2) {
+                setErrors(prevState => ({...prevState, bpl_card_no: initialErrorState.bpl_card_no}))
+                return true
+            } else {
+                setErrors(prevState => ({...prevState, bpl_card_no: [true, "Enter the BPL card No"]}))
+            }
+        } else {
+            return true
+        }
+    }
+
+    const validateName = (name_type) => {
+        if (ValidateName(formData[name_type])) {
+            setErrors(prevState => ({...prevState, [name_type]: initialErrorState[name_type]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [name_type]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
+    const validateRawData = (data) => {
+        if (formData[data].length > 2){
+            setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [data]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
+    const validatePin = () => {
+        if (/^\d{6}$/g.test(formData.pin)){
+            setErrors(prevState => ({...prevState, pin: initialErrorState.pin}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, pin: [true, "Enter your Pin"]}))
+            return false
+        }
+    }
+
+    const checkWhatsAppNum = () => {
+        if (validateMobileNo(formData.whatsapp_no)) {
+            setErrors(prevState => ({...prevState, whatsapp_no: initialErrorState.whatsapp_no}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, whatsapp_no: [true, "Invalid Mobile Number"]}))
+            return false
+        }
+    }
+
+    const validate = () => {
+        const _a1 = validateSelects('gender')
+        const _a2 = validateSelects('religion')
+        const _a3 = validateSelects('caste')
+        const _a4 = validateSelects('mother_tongue')
+
+        const _b1 = validateCasteCert()
+        const _b2 = validateBplNo()
+
+        const _c1 = validateName('father_name')
+        const _c2 = validateName('mother_name')
+        const _c3 = validateName('guardian_name')
+
+        const _d1 = validateRawData('father_occupation')
+        const _d2 = validateRawData('mother_occupation')
+        const _d3 = validateRawData('guardian_occupation')
+        const _d4 = validateRawData('address_line_1')
+        const _d5 = validateRawData('address_line_2')
+        const _d6 = validateRawData('city')
+        const _d7 = validateRawData('district')
+
+        const _e1 = validatePin()
+        const _e2 = checkWhatsAppNum()
+
+        return (_a1 && _a2 && _a3 && _a4 && _b1 && _b2 && _c1 && _c2 && _c3 && _d1 && _d2 && _d3 && _d4 && _d5
+            && _d6 && _d7 && _e1 &&_e2)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (validate()) {
+            setNetworkState(netState.BUSY)
+            const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
+            const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
+            const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                    api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                        ...formData,
+                        dob: `${ye}-${mo}-${da}`,
+                        recaptcha_token: token
+                    },{
+                        headers:{
+                            Authorization: authHeader()
+                        }
+                    }).then((res) => {
+                        if (res.data.status) {
+                            history.push(`/admission/progress/${user_id}/academic_info`)
+                        } else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e) => {
+                        console.error(e)
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
+        }
     }
 
     return (
@@ -243,11 +399,10 @@ const Progress1PersonalInfo = () => {
                                 <Grid container spacing={5} className={classes.spacer}>
 
                                     <Grid item md={4}>
-                                        <TextField fullWidth required error={errors.aadhaar_no[0]}
+                                        <TextField fullWidth disabled required error={errors.aadhaar_no[0]}
                                                    helperText={errors.aadhaar_no[1]}
                                                    label={"Aadhaar No"} id={"aadhaar_no"}
-                                                   variant={"outlined"} value={formData.aadhaar_no}
-                                                   onChange={handleFormDataChange("aadhaar_no")}/>
+                                                   variant={"outlined"} value={formData.aadhaar_no}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
@@ -278,13 +433,12 @@ const Progress1PersonalInfo = () => {
                                 <Grid container justify={"space-around"} className={classes.spacer}>
 
                                     <Grid container item md={6} justify={"center"}>
-                                        {/*//TODO: Complete On change apply_for_reserved_seat function*/}
                                         <Grid item md={5}>
                                             <FormControlLabel
                                                 value={"Apply for Reserved Seat"}
                                                 control={<Switch
                                                     checked={formData.apply_for_reserved_seat}
-                                                    onChange={handleChangeGuardianSameFather}
+                                                    onChange={handleCheckboxChange('apply_for_reserved_seat')}
                                                     color="secondary"
                                                     name="apply_for_reserved_seat"
                                                 />}
@@ -292,7 +446,8 @@ const Progress1PersonalInfo = () => {
                                                 labelPlacement={"bottom"}/>
                                         </Grid>
                                         <Grid item md={7}>
-                                            <TextField fullWidth required error={errors.caste_certificate_no[0]}
+                                            <TextField fullWidth disabled={!formData.apply_for_reserved_seat}
+                                                       error={errors.caste_certificate_no[0]}
                                                        helperText={errors.caste_certificate_no[1]}
                                                        label={"Caste Certificate No"} id={"caste_certificate_no"}
                                                        variant={"outlined"} value={formData.caste_certificate_no}
@@ -302,12 +457,11 @@ const Progress1PersonalInfo = () => {
 
                                     <Grid container item md={6} justify={"center"}>
                                         <Grid item md={5}>
-                                            {/*//TODO: Complete On change weather_bpl function*/}
                                             <FormControlLabel
                                                 value={"Weather BPL"}
                                                 control={<Switch
                                                     checked={formData.weather_bpl}
-                                                    onChange={handleChangeGuardianSameFather}
+                                                    onChange={handleCheckboxChange('weather_bpl')}
                                                     color="secondary"
                                                     name="weather_bpl"
                                                 />}
@@ -315,7 +469,8 @@ const Progress1PersonalInfo = () => {
                                                 labelPlacement={"bottom"}/>
                                         </Grid>
                                         <Grid item md={7}>
-                                            <TextField fullWidth required error={errors.bpl_card_no[0]}
+                                            <TextField fullWidth disabled={!formData.weather_bpl}
+                                                       error={errors.bpl_card_no[0]}
                                                        helperText={errors.bpl_card_no[1]}
                                                        label={"BPL Card No"} id={"bpl_card_no"}
                                                        variant={"outlined"} value={formData.bpl_card_no}
@@ -365,6 +520,18 @@ const Progress1PersonalInfo = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
+                                    <Grid item md={3}>
+                                        <FormControlLabel
+                                            value={"Guardian Same as Father"}
+                                            control={<Switch
+                                                checked={formData.guardian_same_father}
+                                                onChange={handleChangeGuardianSameFather}
+                                                color="secondary"
+                                                name="guardian_same_father"
+                                            />}
+                                            label={"Guardian Same as Father"}
+                                            labelPlacement={"bottom"}/>
+                                    </Grid>
                                     <Grid item md={5}>
                                         <TextField required fullWidth disabled={guardianDisabled}
                                                    error={errors.guardian_name[0]}
@@ -380,18 +547,6 @@ const Progress1PersonalInfo = () => {
                                                    label={"Guardian's Occupation"} id={"guardian-occupation"}
                                                    variant={"outlined"} value={formData.guardian_occupation}
                                                    onChange={handleFormDataChange('guardian_occupation')}/>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <FormControlLabel
-                                            value={"Guardian Same as Father"}
-                                            control={<Switch
-                                                checked={formData.guardian_same_father}
-                                                onChange={handleChangeGuardianSameFather}
-                                                color="secondary"
-                                                name="guardian_same_father"
-                                            />}
-                                            label={"Guardian Same as Father"}
-                                            labelPlacement={"bottom"}/>
                                     </Grid>
                                 </Grid>
                             </CardContent>
@@ -464,11 +619,16 @@ const Progress1PersonalInfo = () => {
                             </CardContent>
                         </Card>
                         <Grid container className={classes.spacer} justify={"flex-start"}>
-                            <Grid item md={1}>
+                            <Grid item>
                                 <AdmissionProgressBack/>
                             </Grid>
-                            <Grid item md={6}>
+                            <Grid item>
                                 <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"subtitle2"} color={"error"}>
+                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </CardContent>

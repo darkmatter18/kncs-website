@@ -93,7 +93,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['g_recap
                     )
                 );
 
-                $jwt = JWT::encode($token, $_SERVER['HTTP_JWT_SERECT']);
+                $jwt = JWT::encode($token, $_SERVER['HTTP_JWT_SECRET']);
                 
                 $return['user'] = array(
                     "id" => $id_clean,

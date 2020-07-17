@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 06:17 PM
+-- Generation Time: Jul 17, 2020 at 07:31 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -76,6 +76,19 @@ CREATE TABLE `student_preregistration_draft_basic_info` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_preregistration_draft_declaration_info`
+--
+
+CREATE TABLE `student_preregistration_draft_declaration_info` (
+  `application_no` int(10) NOT NULL,
+  `date` date NOT NULL,
+  `place` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `full_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_preregistration_draft_family_info`
 --
 
@@ -88,6 +101,80 @@ CREATE TABLE `student_preregistration_draft_family_info` (
   `guardian_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guardian_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guardian_same_father` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_image`
+--
+
+CREATE TABLE `student_preregistration_draft_image` (
+  `application_no` int(10) NOT NULL,
+  `image` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_payment_info`
+--
+
+CREATE TABLE `student_preregistration_draft_payment_info` (
+  `application_no` int(10) NOT NULL,
+  `mode_of_payment` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name_of_bank` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `transaction_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_present_academic`
+--
+
+CREATE TABLE `student_preregistration_draft_present_academic` (
+  `application_no` int(10) NOT NULL,
+  `stream` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `second_language` int(15) NOT NULL,
+  `first_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `forth_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_previous_academic_info`
+--
+
+CREATE TABLE `student_preregistration_draft_previous_academic_info` (
+  `application_no` int(10) NOT NULL,
+  `previous_school_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `year_of_madhyamik` int(4) NOT NULL,
+  `previous_student_id` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_preregistration_draft_previous_academic_marks`
+--
+
+CREATE TABLE `student_preregistration_draft_previous_academic_marks` (
+  `application_no` int(10) NOT NULL,
+  `marks_beng` int(3) NOT NULL,
+  `marks_engb` int(3) NOT NULL,
+  `marks_maths` int(3) NOT NULL,
+  `marks_psc` int(3) NOT NULL,
+  `marks_lsc` int(3) NOT NULL,
+  `marks_geo` int(3) NOT NULL,
+  `marks_hist` int(3) NOT NULL,
+  `marks_total` int(3) NOT NULL,
+  `marks_percentage` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -163,9 +250,45 @@ ALTER TABLE `student_preregistration_draft_basic_info`
   ADD PRIMARY KEY (`application_no`);
 
 --
+-- Indexes for table `student_preregistration_draft_declaration_info`
+--
+ALTER TABLE `student_preregistration_draft_declaration_info`
+  ADD KEY `declaratipn_application_no_constraint` (`application_no`);
+
+--
 -- Indexes for table `student_preregistration_draft_family_info`
 --
 ALTER TABLE `student_preregistration_draft_family_info`
+  ADD PRIMARY KEY (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_image`
+--
+ALTER TABLE `student_preregistration_draft_image`
+  ADD KEY `image_application_no_constraint` (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_payment_info`
+--
+ALTER TABLE `student_preregistration_draft_payment_info`
+  ADD KEY `payment_application_no_constraint` (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_present_academic`
+--
+ALTER TABLE `student_preregistration_draft_present_academic`
+  ADD PRIMARY KEY (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_previous_academic_info`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_info`
+  ADD PRIMARY KEY (`application_no`);
+
+--
+-- Indexes for table `student_preregistration_draft_previous_academic_marks`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_marks`
   ADD PRIMARY KEY (`application_no`);
 
 --
@@ -201,6 +324,48 @@ ALTER TABLE `student_preregistration_draft_address`
 --
 ALTER TABLE `student_preregistration_draft_basic_info`
   ADD CONSTRAINT `basic_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_declaration_info`
+--
+ALTER TABLE `student_preregistration_draft_declaration_info`
+  ADD CONSTRAINT `declaratipn_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_family_info`
+--
+ALTER TABLE `student_preregistration_draft_family_info`
+  ADD CONSTRAINT `family_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_image`
+--
+ALTER TABLE `student_preregistration_draft_image`
+  ADD CONSTRAINT `image_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_payment_info`
+--
+ALTER TABLE `student_preregistration_draft_payment_info`
+  ADD CONSTRAINT `payment_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_present_academic`
+--
+ALTER TABLE `student_preregistration_draft_present_academic`
+  ADD CONSTRAINT `present_academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_previous_academic_info`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_info`
+  ADD CONSTRAINT `previous_academic_info_application_no` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+
+--
+-- Constraints for table `student_preregistration_draft_previous_academic_marks`
+--
+ALTER TABLE `student_preregistration_draft_previous_academic_marks`
+  ADD CONSTRAINT `academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
 
 --
 -- Constraints for table `student_preregistration_login`

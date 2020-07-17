@@ -7,7 +7,11 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {netState} from "../../constant";
+import {
+    netState,
+    PRE_REGISTRATION_ACADEMIC_INFO,
+    RECAPTCHA_SITE_KEY
+} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -16,6 +20,14 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import NetworkSubmit from "../../components/NetworkSubmit";
+import api from "../../api";
+import {useHistory, useParams} from "react-router-dom";
+import {useAuthHeader} from "react-auth-jwt";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress2AcademicInfo = () => {
     const classes = useStyles()
+    let {user_id} = useParams()
+    const history = useHistory()
+    const authHeader = useAuthHeader()
     const scienceSubjects = ['PHYSICS', 'NUTRITION', 'CHEMISTRY', 'ECONOMICS', 'MATHEMATICS', 'BIOLOGICAL SCIENCES',
         'GEOGRAPHY', 'COMPUTER SCIENCE', 'COMPUTER APPLICATION']
 
@@ -36,7 +51,7 @@ const Progress2AcademicInfo = () => {
         'MATHEMATICS', 'GEOGRAPHY', 'COMPUTER  APPLICATION']
 
     const initialState = {
-        previous_school_name: '',
+        previous_school_name: "Krishnanath College School",
         year_of_madhyamik: new Date(),
         previous_student_id: '',
         marks_beng: '',
@@ -74,6 +89,7 @@ const Progress2AcademicInfo = () => {
         forth_major: [false, "Enter your forth Major choice"],
     }
     const [formData, setFormData] = React.useState(initialState)
+    const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
 
     const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(scienceSubjects)
     const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(scienceSubjects)
@@ -84,6 +100,23 @@ const Progress2AcademicInfo = () => {
     const [humanitiesSecondMajorList, setHumanitiesSecondMajorList] = React.useState(humanitiesSubjects)
     const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(humanitiesSubjects)
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
+
+    React.useEffect(()=>{
+        api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
+            headers: {
+                Authorization: authHeader()
+            }
+        })
+            .then((res)=>{
+                if(res.data.status){
+                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                }else {
+                    console.error(res.data.error)
+                }
+            }).catch((e)=>{
+            console.error(e)
+        })
+    },[])
 
     // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
@@ -117,6 +150,13 @@ const Progress2AcademicInfo = () => {
         })
     }
 
+    const handleSchoolRadioButtonChange = (event) => {
+        setSchoolRadioButton(prevState => event.target.value)
+        if (event.target.value === "Krishnanath College School"){
+            setFormData(prevState => ({...prevState, previous_school_name: "Krishnanath College School"}))
+        }
+    }
+
     const handleScienceSubjectChange = (name) => (e) => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
@@ -125,6 +165,36 @@ const Progress2AcademicInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
     }
 
+    const validate = () => {
+        //TODO: Validate
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (validate()){
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                    api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
+                        ...formData,
+                        recaptcha_token: token
+                    },{
+                        headers:{
+                            Authorization: authHeader()
+                        }
+                    }).then((res) => {
+                        if (res.data.status) {
+                            history.push(`/admission/progress/${user_id}/payment_info`)
+                        } else {
+                            setNetworkState(netState.ERROR)
+                        }
+                    }).catch((e) => {
+                        console.error(e)
+                        setNetworkState(netState.ERROR)
+                    })
+                })
+            })
+        }
+    }
 
     const renderStreamSubjectSelector = () => {
         if (formData.stream === '') {
@@ -154,7 +224,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceFirstMajorList.map((v, i)=> {
+                                    {scienceFirstMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -174,7 +244,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceSecondMajorList.map((v, i)=> {
+                                    {scienceSecondMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -194,7 +264,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceThirdMajorList.map((v, i)=> {
+                                    {scienceThirdMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -214,7 +284,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {scienceForthMajorList.map((v, i)=> {
+                                    {scienceForthMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -249,7 +319,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesFirstMajorList.map((v, i)=> {
+                                    {humanitiesFirstMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -269,7 +339,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesSecondMajorList.map((v, i)=> {
+                                    {humanitiesSecondMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -289,7 +359,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesThirdMajorList.map((v, i)=> {
+                                    {humanitiesThirdMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -309,7 +379,7 @@ const Progress2AcademicInfo = () => {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    {humanitiesForthMajorList.map((v, i)=> {
+                                    {humanitiesForthMajorList.map((v, i) => {
                                         return <MenuItem key={i} value={v}>{v}</MenuItem>
                                     })}
                                 </Select>
@@ -332,12 +402,29 @@ const Progress2AcademicInfo = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <Grid container spacing={5} justify={"center"}>
+                                <Grid container spacing={5} justify={"center"} alignItems={"center"}>
                                     <Grid item md={6}>
-                                        <TextField fullWidth required error={errors.previous_school_name[0]}
+                                        <FormControl component={"fieldset"}>
+                                            <FormLabel component="legend">{errors.previous_school_name[1]}</FormLabel>
+                                            <RadioGroup row aria-label="position" name="position"
+                                                        value={schoolRadioButton}
+                                                        onChange={handleSchoolRadioButtonChange}>
+                                                <FormControlLabel value="Krishnanath College School"
+                                                                  control={<Radio color="primary"/>}
+                                                                  label="Krishnanath College School"/>
+                                                <FormControlLabel value={"Others"}
+                                                                  control={<Radio color="primary"/>}
+                                                                  label="Others"/>
+                                            </RadioGroup>
+                                        </FormControl>
+                                        <TextField fullWidth required
+                                                   disabled={schoolRadioButton === "Krishnanath College School"}
+                                                   error={errors.previous_school_name[0]}
                                                    helperText={errors.previous_school_name[1]}
-                                                   label={"Previous School Name"} id={"previous_school_name"}
-                                                   variant={"outlined"} value={formData.previous_school_name}
+                                                   label={"Others"}
+                                                   id={"previous_school_name"}
+                                                   variant={"outlined"}
+                                                   value={formData.previous_school_name}
                                                    onChange={handleFormDataChange("previous_school_name")}/>
                                     </Grid>
                                     <Grid item md={3}>
@@ -474,10 +561,23 @@ const Progress2AcademicInfo = () => {
                                 </Card>
                             </CardContent>
                         </Card>
+
+                        <Grid container className={classes.spacer} justify={"flex-start"}>
+                            <Grid item>
+                                <AdmissionProgressBack/>
+                            </Grid>
+                            <Grid item>
+                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant={"subtitle2"} color={"error"}>
+                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                 </Paper>
             </Container>
-            <AdmissionProgressBack/>
         </React.Fragment>
     )
 }

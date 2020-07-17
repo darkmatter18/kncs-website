@@ -16,27 +16,27 @@ define('INC_DIR', BASE_DIR.'_inc_73T5gENk3Oy4w3YJDZGV'.DIRECTORY_SEPARATOR);
 require INC_DIR.'Router.php';
 
 Router::add('/', 'get', function(){
-    echo 'Welcome :-)';
+    echo 'Welcome :)';
 });
 
-Router::add('/api/preregistration', 'post', function (){
-    require LOGIC_DIR.'student_preregistration.php';
-});
-
-
-Router::add('/api/login', 'post', function(){
+Router::add('/login', 'post', function(){
     require LOGIC_DIR.'login.php';
 });
 
+Router::add('/preregistration', 'post', function (){
+    require LOGIC_DIR.'student_preregistration.php';
+});
+
 // Preregistration_login fetching....
-Router::add('/api/preregistration/login','post', function(){
+Router::add('/preregistration/login','post', function(){
     require LOGIC_DIR.'student_preregistration_login.php';
 });
 
 //Example Protected route
-Router::add('/api/admin/1','get',function(){
+Router::add('/admin/1','get',function(){
     require LOGIC_DIR.'admin1.php';
 });
+
 
 
 
