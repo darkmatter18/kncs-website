@@ -26,7 +26,7 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT[
 
         if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-            $application_no = $auth_user["data"]["application_no"];
+            $application_no = $auth_user['data']->application_no;
             $date = Filter::String($_INPUT['date']);
             $place = Filter::String($_INPUT['place']);
             $full_name = Filter::String($_INPUT['full_name']);

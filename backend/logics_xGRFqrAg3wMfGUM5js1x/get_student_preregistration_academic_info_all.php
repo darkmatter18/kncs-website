@@ -15,7 +15,7 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-$application_no=$auth_user["data"]["application_no"];
+$application_no = $auth_user['data']->application_no;
 
 $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                 T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo, T3.marks_hist,
@@ -30,7 +30,7 @@ $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T
                         INNER JOIN `student_preregistration_draft_previous_academic_marks` AS T3
                         ON T1.application_no=T3.application_no
 
-                        INNER JOIN 'student_preregistration_draft_present_academic' AS T4
+                        INNER JOIN `student_preregistration_draft_present_academic` AS T4
                         ON T1.application_no=T4.application_no
 
                         WHERE T1.application_no = :application_no");

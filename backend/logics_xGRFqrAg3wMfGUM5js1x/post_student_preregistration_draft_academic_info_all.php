@@ -32,7 +32,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) &
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no = $auth_user["data"]["application_no"];
+        $application_no = $auth_user['data']->application_no;
 
         // PREVIOUS SCHOOL DETAILS... 3 INPUT
         $previous_school_name_clean = Filter::String($_INPUT['previous_school_name']);
