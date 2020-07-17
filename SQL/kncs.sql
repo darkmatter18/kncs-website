@@ -3,10 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 04:02 PM
+-- Generation Time: Jul 17, 2020 at 08:00 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
-
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -143,7 +142,9 @@ CREATE TABLE `student_preregistration_draft_present_academic` (
   `first_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `forth_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
+  `forth_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `direct_admission` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `medium` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
