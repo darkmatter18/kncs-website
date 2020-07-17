@@ -26,7 +26,7 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['mode_of_payment']) && iss
 
         if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-            $application_no = $auth_user["data"]["application_no"];
+            $application_no = $auth_user['data']->application_no;
 
             $mode_of_payment_clean = Filter::String($_INPUT['mode_of_payment']);
             $name_of_bank_clean = Filter::String($_INPUT['name_of_bank']);
