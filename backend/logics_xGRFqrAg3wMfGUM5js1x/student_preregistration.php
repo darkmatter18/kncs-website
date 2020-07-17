@@ -42,7 +42,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
         $smt->bindParam(':email', $email_clean, PDO::PARAM_STR);
         $smt->bindParam(':mobile', $mobile_clean, PDO::PARAM_INT);
         $smt->bindParam(':dob', $dob_clean, PDO::PARAM_STR);
-        $smt->bindParam(':status',$status, PDO::PARAM_STR);
+        $smt->bindParam(':status', $status, PDO::PARAM_STR);
 
         if($smt->execute()){
 

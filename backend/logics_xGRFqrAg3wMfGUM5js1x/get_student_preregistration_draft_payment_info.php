@@ -26,7 +26,7 @@ $smt = $pdocon->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transact
                         WHERE T1.application_no = :application_no");
 
 
-$smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
     $smt->setFetchMode(PDO::FETCH_ASSOC);
