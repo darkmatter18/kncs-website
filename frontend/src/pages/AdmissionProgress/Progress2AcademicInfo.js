@@ -61,6 +61,7 @@ const Progress2AcademicInfo = () => {
         {id: 7, sub:['COMPUTER  APPLICATION']}]
 
     const StreamDisablityFactors = {ALL: 'f1231', HU: '25115', NONE: 'q113dd'}
+    const SubjectElligibilityFactors = {ELIGIBLE: '35b25', NOT_ELIGIBLE: 'ewtwyw'}
 
     const initialState = {
         previous_school_name: "Krishnanath College School",
@@ -109,6 +110,9 @@ const Progress2AcademicInfo = () => {
     const [errors, setErrors] = React.useState(initialErrorState)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
+    const [geographyEligibilyState, setGeographyEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
+    const [comaEligibilyState, setComaEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
+    const [csEligibilyState, setCsEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
 
     const initialScienceSubjectCombo = _.flatten(_.map(scienceSubjects, 'sub'))
     const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(initialScienceSubjectCombo)
@@ -175,7 +179,9 @@ const Progress2AcademicInfo = () => {
     }
 
     React.useEffect(()=>{
-        setFormData(prevState => ({...prevState, stream: ''}))
+        setFormData(prevState => ({...prevState, stream: '', first_major: '',
+            second_major: '', third_major: '', forth_major: ''}))
+
         if(formData.direct_admission){
             if (formData.previous_school_name === "Krishnanath College School") {
                 // SC: 560 < formData.marks_total
@@ -227,35 +233,86 @@ const Progress2AcademicInfo = () => {
         }
     }
 
+    React.useEffect(()=> {
+        if (formData.marks_geo < 80){
+            setGeographyEligibilyState(() => SubjectElligibilityFactors.NOT_ELIGIBLE)
+        } else {
+            setGeographyEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
+        }
+
+        if (formData.marks_maths < 70) {
+            setComaEligibilyState(() => SubjectElligibilityFactors.NOT_ELIGIBLE)
+        } else {
+            setComaEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
+        }
+
+        if (formData.marks_maths < 80){
+            setCsEligibilyState(()=> SubjectElligibilityFactors.NOT_ELIGIBLE)
+        } else {
+            setCsEligibilyState(()=> SubjectElligibilityFactors.ELIGIBLE)
+        }
+
+    }, [formData.marks_geo, formData.marks_maths])
+
     React.useEffect(()=>{
+
         if(formData.stream === "Science"){
             setScienceFirstMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                console.log(qq)
+                return qq
             })
             setScienceSecondMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
             setScienceThirdMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.forth_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
             setScienceForthMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
         } else if (formData.stream === "Humanities") {
             setHumanitiesFirstMajorList(()=>{
@@ -263,31 +320,60 @@ const Progress2AcademicInfo = () => {
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq =_.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
             setHumanitiesSecondMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
             setHumanitiesThirdMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.forth_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
             setHumanitiesForthMajorList(()=>{
                 const pick = _.pickBy(scienceSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                return _.flatten(_.map(pick, 'sub'))
+                const qq =_.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i)=> {
+                    const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
+                    const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
+                    const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
+                    return (i === g || i === co || i === cs)
+                })
+                return qq
             })
         }
-    }, [formData.first_major, formData.second_major, formData.third_major, formData.forth_major, formData.stream])
+    }, [formData.first_major, formData.second_major, formData.third_major, formData.forth_major, formData.stream,
+        geographyEligibilyState, comaEligibilyState, csEligibilyState])
 
     const validate = () => {
         //TODO: Validate
@@ -590,60 +676,69 @@ const Progress2AcademicInfo = () => {
                                                            helperText={errors.marks_beng[1]}
                                                            label={"BENG"} id={"marks_beng"}
                                                            variant={"outlined"} value={formData.marks_beng}
-                                                           onChange={handleMarksChange("marks_beng")}/>
+                                                           onChange={handleMarksChange("marks_beng")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}  />
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_engb[0]}
                                                            helperText={errors.marks_engb[1]}
                                                            label={"ENGB"} id={"marks_engb"}
                                                            variant={"outlined"} value={formData.marks_engb}
-                                                           onChange={handleMarksChange("marks_engb")}/>
+                                                           onChange={handleMarksChange("marks_engb")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_maths[0]}
                                                            helperText={errors.marks_maths[1]}
                                                            label={"Mathematics"} id={"marks_maths"}
                                                            variant={"outlined"} value={formData.marks_maths}
-                                                           onChange={handleMarksChange("marks_maths")}/>
+                                                           onChange={handleMarksChange("marks_maths")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_psc[0]}
                                                            helperText={errors.marks_psc[1]}
                                                            label={"Physical Science"} id={"marks_psc"}
                                                            variant={"outlined"} value={formData.marks_psc}
-                                                           onChange={handleMarksChange("marks_psc")}/>
+                                                           onChange={handleMarksChange("marks_psc")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_lsc[0]}
                                                            helperText={errors.marks_lsc[1]}
                                                            label={"Life Science"} id={"marks_lsc"}
                                                            variant={"outlined"} value={formData.marks_lsc}
-                                                           onChange={handleMarksChange("marks_lsc")}/>
+                                                           onChange={handleMarksChange("marks_lsc")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_geo[0]}
                                                            helperText={errors.marks_geo[1]}
                                                            label={"Geography"} id={"marks_geo"}
                                                            variant={"outlined"} value={formData.marks_geo}
-                                                           onChange={handleMarksChange("marks_geo")}/>
+                                                           onChange={handleMarksChange("marks_geo")}
+                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_hist[0]}
                                                            helperText={errors.marks_hist[1]}
                                                            label={"History"} id={"marks_hist"}
                                                            variant={"outlined"} value={formData.marks_hist}
-                                                           onChange={handleMarksChange("marks_hist")}/>
+                                                           onChange={handleMarksChange("marks_hist")}
+                                                           inputProps={{min: 0, max: 3, maxlength:3}}/>
                                             </Grid>
                                         </Grid>
                                         <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>
                                             <Grid item md={3}>
-                                                <TextField disabled fullWidth required label={"Total"} id={"total"}
-                                                           variant={"filled"} value={formData.marks_total}/>
+                                                <TextField fullWidth required label={"Total"} id={"total"}
+                                                           variant={"filled"} value={formData.marks_total}
+                                                           onChange={handleMarksChange("marks_total")}/>
                                             </Grid>
                                             <Grid item md={3}>
-                                                <TextField disabled fullWidth required label={"Percentage"}
+                                                <TextField fullWidth required label={"Percentage"}
                                                            id={"percentage"} variant={"filled"}
-                                                           value={`${formData.marks_percentage} %`}/>
+                                                           value={formData.marks_percentage}
+                                                           onChange={handleMarksChange("marks_percentage")}/>
                                             </Grid>
                                         </Grid>
                                     </CardContent>
@@ -715,6 +810,21 @@ const Progress2AcademicInfo = () => {
                                     <Grid item>
                                         <Typography variant={"body2"} color={"error"}>
                                             {renderSubjectErrors()}
+                                        </Typography>
+                                        <Typography variant={"body2"} color={"error"}>
+                                            {geographyEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
+                                                "Your marks in Geography" +
+                                                " is less than 80. You can't take Geography"}
+                                        </Typography>
+                                        <Typography variant={"body2"} color={"error"}>
+                                            {comaEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
+                                                "Your marks in Maths" +
+                                                " is less than 70. You can't take Computer Application"}
+                                        </Typography>
+                                        <Typography variant={"body2"} color={"error"}>
+                                            {csEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
+                                                "Your marks in Maths" +
+                                                " is less than 80. You can't take Computer Science"}
                                         </Typography>
                                     </Grid>
                                 </Grid>

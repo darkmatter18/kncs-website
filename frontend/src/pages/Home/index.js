@@ -20,10 +20,10 @@ const Home = () => {
             <Grid container alignItems={"center"} justify={"center"} alignContent={"center"} className={classes.root}>
                 <Grid item md={12}>
                     <Typography variant={"h4"} align={"center"} color={"textPrimary"}>
-                        Site Under Maintenance
+                        Application for Admission to Class XI
                     </Typography>
                     <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
-                        Will open After 17th July 2020 - 6:00PM
+                        Application form will be available on 17th July 2020 from 8:00PM onwards
                     </Typography>
                 </Grid>
             </Grid>
