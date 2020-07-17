@@ -41,16 +41,28 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT[
             $smt->bindParam(':full_name', $full_name, PDO::PARAM_STR);
 
             if ($smt->execute()) {
-                $return['status'] = true;
-                $return['statusText'] = "Declaration Complete";
-                $return['error'] = null;
+                    $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status='SUBMITTED' WHERE application_no=:applicaion_no");
+
+                    $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+
+                    if ($smt->execute()){
+                        $return['status'] = true;
+                        $return['statusText'] = "Final Submission Complete";
+                        $return['error'] = null;
+
+                    }else{
+                        http_response_code(500);
+                        $return['status']=false;
+                        $return['statusText'] = null;
+                        $return['error'] = "Final Submission not Complete";
+
+                    }
 
             } else {
                 http_response_code(500);
-                $return['status'] = false;
+                $return['status']=false;
                 $return['statusText'] = null;
-                $return['error'] = "Failed to record on Database - student_preregistration_draft_declaration_info";
-                
+                $return['error'] = "Declaration not Complete";
             }
 
         } else {
