@@ -50,6 +50,8 @@ const Progress2AcademicInfo = () => {
     const humanitiesSubjects = ['POLITICAL SCIENCE', 'NUTRITION', 'ECONOMICS', 'SANSKRIT', 'PHILOSOPHY', 'HISTORY',
         'MATHEMATICS', 'GEOGRAPHY', 'COMPUTER  APPLICATION']
 
+    const StreamDisablityFactors = {ALL: 'f1231', HU: '25115', NONE: 'q113dd'}
+
     const initialState = {
         previous_school_name: "Krishnanath College School",
         year_of_madhyamik: new Date(),
@@ -90,6 +92,12 @@ const Progress2AcademicInfo = () => {
     }
     const [formData, setFormData] = React.useState(initialState)
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
+    // Todo: work with errors
+    const [errors, setErrors] = React.useState(initialErrorState)
+    // Todo: work in submiiting
+    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
+
 
     const [scienceFirstMajorList, setScienceFirstMajorList] = React.useState(scienceSubjects)
     const [scienceSecondMajorList, setScienceSecondMajorList] = React.useState(scienceSubjects)
@@ -101,27 +109,22 @@ const Progress2AcademicInfo = () => {
     const [humanitiesThirdMajorList, setHumanitiesThirdMajorList] = React.useState(humanitiesSubjects)
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(humanitiesSubjects)
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
             headers: {
                 Authorization: authHeader()
             }
         })
-            .then((res)=>{
-                if(res.data.status){
+            .then((res) => {
+                if (res.data.status) {
                     setFormData(prevState => ({...prevState, ...res.data.data}))
-                }else {
+                } else {
                     console.error(res.data.error)
                 }
-            }).catch((e)=>{
+            }).catch((e) => {
             console.error(e)
         })
-    },[])
-
-    // Todo: work with errors
-    const [errors, setErrors] = React.useState(initialErrorState)
-    // Todo: work in submiiting
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    }, [])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -134,6 +137,7 @@ const Progress2AcademicInfo = () => {
         e.persist()
         setFormData(prevState => ({...prevState, [name]: e.target.value}))
 
+        // Set Total Marks
         setFormData(prevState => {
             const total = Number(prevState.marks_beng) + Number(prevState.marks_engb) + Number(prevState.marks_maths)
                 + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
@@ -141,6 +145,8 @@ const Progress2AcademicInfo = () => {
 
             return {...prevState, marks_total: total}
         })
+
+        //Set Percentage
         setFormData(prevState => {
             const total = Number(prevState.marks_beng) + Number(prevState.marks_engb) + Number(prevState.marks_maths)
                 + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
@@ -148,11 +154,51 @@ const Progress2AcademicInfo = () => {
 
             return {...prevState, marks_percentage: (total / 7)}
         })
+
+        //Check Eligibality
+        if (formData.previous_school_name === "Krishnanath College School") {
+            // SC: 560 < formData.marks_total
+            // HU: 500 < formData.marks_total
+            if (formData.marks_total < 500) {
+                // Eligible for none
+                setStreamDisablityState(StreamDisablityFactors.NONE)
+            } else if (formData.marks_total < 560) {
+                // Eligible for HU
+                setStreamDisablityState(StreamDisablityFactors.HU)
+            } else {
+                // Eligible for All
+                setStreamDisablityState(StreamDisablityFactors.ALL)
+            }
+        } else {
+            // SC: 600 < formData.marks_total
+            // HU: 560 < formData.marks_total
+            if (formData.marks_total < 560) {
+                // Eligible for none
+                setStreamDisablityState(StreamDisablityFactors.NONE)
+            } else if (formData.marks_total < 600) {
+                // Eligible for HU
+                setStreamDisablityState(StreamDisablityFactors.HU)
+            } else {
+                // Eligible for All
+                setStreamDisablityState(StreamDisablityFactors.All)
+            }
+        }
+    }
+
+    const renderSubjectErrors = () => {
+        switch (streamDisablityState) {
+            case StreamDisablityFactors.NONE:
+                return `You are not eligible for Admission, as your Total Marks is too low.`
+            case StreamDisablityFactors.HU:
+                return `You are not eligible for Admission in Science Stream, as your Total Marks is too low.`
+            case StreamDisablityFactors.ALL:
+                return <React.Fragment/>
+        }
     }
 
     const handleSchoolRadioButtonChange = (event) => {
         setSchoolRadioButton(prevState => event.target.value)
-        if (event.target.value === "Krishnanath College School"){
+        if (event.target.value === "Krishnanath College School") {
             setFormData(prevState => ({...prevState, previous_school_name: "Krishnanath College School"}))
         }
     }
@@ -171,14 +217,14 @@ const Progress2AcademicInfo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (validate()){
+        if (validate()) {
             window.grecaptcha.ready(() => {
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
                         ...formData,
                         recaptcha_token: token
-                    },{
-                        headers:{
+                    }, {
+                        headers: {
                             Authorization: authHeader()
                         }
                     }).then((res) => {
@@ -532,7 +578,8 @@ const Progress2AcademicInfo = () => {
                             <CardContent>
                                 <Grid container justify={"flex-start"}>
                                     <Grid item>
-                                        <FormControl variant="outlined" fullWidth error={errors.stream[0]}>
+                                        <FormControl variant="outlined" fullWidth error={errors.stream[0]}
+                                                     disabled={streamDisablityState === StreamDisablityFactors.NONE}>
                                             <InputLabel id="form-stream-label">Stream</InputLabel>
                                             <Select
                                                 labelId="form-stream-label"
@@ -544,11 +591,20 @@ const Progress2AcademicInfo = () => {
                                                 <MenuItem value="">
                                                     <em>None</em>
                                                 </MenuItem>
-                                                <MenuItem value={'Science'}>Science</MenuItem>
+                                                <MenuItem
+                                                    disabled={!(streamDisablityState === StreamDisablityFactors.ALL)}
+                                                    value={'Science'}>
+                                                    Science
+                                                </MenuItem>
                                                 <MenuItem value={'Humanities'}>Humanities</MenuItem>
                                             </Select>
                                             <FormHelperText>{errors.stream[1]}</FormHelperText>
                                         </FormControl>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant={"body2"} color={"error"}>
+                                            {renderSubjectErrors()}
+                                        </Typography>
                                     </Grid>
                                 </Grid>
                                 <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
