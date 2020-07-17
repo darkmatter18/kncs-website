@@ -117,7 +117,7 @@ const Progress4Declaration = () => {
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_DECLARATION, {
             headers: {
-                Authentication: authHeader()
+                Authorization: authHeader()
             }
         })
             .then((res)=>{
@@ -167,7 +167,7 @@ const Progress4Declaration = () => {
                         recaptcha_token: token
                     }, {
                         headers:{
-                            Authentication: authHeader()
+                            Authorization: authHeader()
                         }
                     }).then((res)=>{
                         if (res.data.status) {

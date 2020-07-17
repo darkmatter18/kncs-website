@@ -104,7 +104,7 @@ const Progress2AcademicInfo = () => {
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
             headers: {
-                Authentication: authHeader()
+                Authorization: authHeader()
             }
         })
             .then((res)=>{
@@ -179,7 +179,7 @@ const Progress2AcademicInfo = () => {
                         recaptcha_token: token
                     },{
                         headers:{
-                            Authentication: authHeader()
+                            Authorization: authHeader()
                         }
                     }).then((res) => {
                         if (res.data.status) {

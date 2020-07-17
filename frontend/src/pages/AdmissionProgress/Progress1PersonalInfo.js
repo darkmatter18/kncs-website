@@ -103,7 +103,7 @@ const Progress1PersonalInfo = () => {
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_PRESONAL_INFO, {
             headers: {
-                Authentication: authHeader()
+                Authorization: authHeader()
             }
         })
             .then((res)=>{
@@ -262,7 +262,7 @@ const Progress1PersonalInfo = () => {
                         recaptcha_token: token
                     },{
                         headers:{
-                            Authentication: authHeader()
+                            Authorization: authHeader()
                         }
                     }).then((res) => {
                         if (res.data.status) {

@@ -63,7 +63,7 @@ const Progress3PaymentInfo = () => {
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_PAYMENT_INFO, {
             headers: {
-                Authentication: authHeader()
+                Authorization: authHeader()
             }
         })
             .then((res)=>{
@@ -100,7 +100,7 @@ const Progress3PaymentInfo = () => {
                         recaptcha_token: token
                     },{
                         headers:{
-                            Authentication: authHeader()
+                            Authorization: authHeader()
                         }
                     }).then((res) => {
                         if (res.data.status) {
