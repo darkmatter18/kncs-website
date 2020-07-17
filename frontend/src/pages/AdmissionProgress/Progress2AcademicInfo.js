@@ -167,36 +167,41 @@ const Progress2AcademicInfo = () => {
 
             return {...prevState, marks_percentage: (total / 7)}
         })
+    }
 
-        //Check Eligibality
+    React.useEffect(()=>{
         if (formData.previous_school_name === "Krishnanath College School") {
             // SC: 560 < formData.marks_total
             // HU: 500 < formData.marks_total
+            console.log(formData.marks_total, typeof formData.marks_total)
             if (formData.marks_total < 500) {
                 // Eligible for none
-                setStreamDisablityState(StreamDisablityFactors.NONE)
+                console.log("None")
+                setStreamDisablityState(() => StreamDisablityFactors.NONE)
             } else if (formData.marks_total < 560) {
                 // Eligible for HU
-                setStreamDisablityState(StreamDisablityFactors.HU)
+                console.log("HU")
+                setStreamDisablityState(() => StreamDisablityFactors.HU)
             } else {
                 // Eligible for All
-                setStreamDisablityState(StreamDisablityFactors.ALL)
+                console.log("All")
+                setStreamDisablityState(() => StreamDisablityFactors.ALL)
             }
         } else {
             // SC: 600 < formData.marks_total
             // HU: 560 < formData.marks_total
             if (formData.marks_total < 560) {
                 // Eligible for none
-                setStreamDisablityState(StreamDisablityFactors.NONE)
+                setStreamDisablityState(() => StreamDisablityFactors.NONE)
             } else if (formData.marks_total < 600) {
                 // Eligible for HU
-                setStreamDisablityState(StreamDisablityFactors.HU)
+                setStreamDisablityState(() => StreamDisablityFactors.HU)
             } else {
                 // Eligible for All
-                setStreamDisablityState(StreamDisablityFactors.ALL)
+                setStreamDisablityState(() => StreamDisablityFactors.ALL)
             }
         }
-    }
+    }, [formData.marks_total])
 
     const renderSubjectErrors = () => {
         switch (streamDisablityState) {
@@ -674,7 +679,7 @@ const Progress2AcademicInfo = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <Grid container justify={"flex-start"}>
+                                <Grid container justify={"flex-start"} alignItems={"center"} spacing={4}>
                                     <Grid item>
                                         <FormControl variant="outlined" fullWidth error={errors.stream[0]}
                                                      disabled={streamDisablityState === StreamDisablityFactors.NONE}>
