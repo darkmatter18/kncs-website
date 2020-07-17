@@ -2,7 +2,8 @@ DirectoryIndex index.php
 
 # enable apache rewrite engine
 RewriteEngine on
-
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 # set your rewrite base
 # Edit this in your init method too if you script lives in a subfolder
 

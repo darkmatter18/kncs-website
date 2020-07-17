@@ -29,7 +29,6 @@ function getBearerToken($headers) {
     return null;
 }
 
-
 $authHeader = getAuthorizationHeader();
 $auth_user = null;
 if (isset($authHeader)) {
@@ -37,13 +36,14 @@ if (isset($authHeader)) {
     $jwt = getBearerToken($authHeader);
     if($jwt){
         try {
-            $auth_user = JWT::decode($jwt, $_SERVER['HTTP_JWT_SERECT'], ['HS256']);
+            JWT::$leeway = 60;
+            $auth_user = JWT::decode($jwt, $_SERVER['HTTP_JWT_SECRET'], ['HS256']);
         } catch (Exception $e) {
             http_response_code(401);
             $return = [];
             $return['status'] = false;
             $return['statusText'] = null;
-            $return['error'] = $e->$e->getMessage();
+            $return['error'] = "JWT ".$e->getMessage();
             echo json_encode($return);
             exit;
         }

@@ -30,14 +30,18 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         if ($smt->execute()) {
             if ($smt->rowCount() > 0) {
                 //JWT config
-                $issusedAt = (time() * 1000);
-                $expiredAt = (time() + (2 * 60* 60)) * 1000; //Expired after 2 hours
+                $issuedAt = time();
+                $expiredAt = time() + (2 * 60* 60); //Expired after 2 hours
+
 
                 // JWT token
                 $token = array (
-                    "iat" => $issusedAt,
-                    "eat" => $expiredAt,
-                    "uae" =>$_SERVER['HTTP_USER_AGENT'],
+                    'iat'  => $issuedAt,              // Issued at: time when the token was generated
+                    'jti'  => $application_no_clean,  // Json Token Id: an unique identifier for the token
+                    'iss'  => "http://kncs.in",       // Issuer
+                    'nbf'  => $issuedAt,              // Not before
+                    'exp'  => $expiredAt,
+                    "uae"  => $_SERVER['HTTP_USER_AGENT'],
                     "data" => array (
                         "application_no" => $application_no_clean
                     )
