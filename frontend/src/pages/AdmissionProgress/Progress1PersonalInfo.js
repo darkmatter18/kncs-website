@@ -272,9 +272,10 @@ const Progress1PersonalInfo = () => {
         else {
             if (validate()) {
                 setNetworkState(netState.BUSY)
-                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
-                const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
-                const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
+                console.log("DOB", formData.dob)
+                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.dob))
+                const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.dob))
+                const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.dob))
                 window.grecaptcha.ready(() => {
                     window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
                         toBase64(file).then(imageValue => {
@@ -297,6 +298,8 @@ const Progress1PersonalInfo = () => {
                                 console.error(e)
                                 setNetworkState(netState.ERROR)
                             })
+                        }).catch((e)=>{
+                            console.error(e)
                         })
                     })
                 })
@@ -424,7 +427,7 @@ const Progress1PersonalInfo = () => {
                                 <Grid container spacing={5} className={classes.spacer}>
 
                                     <Grid item md={4}>
-                                        <TextField fullWidth disabled required error={errors.aadhaar_no[0]}
+                                        <TextField fullWidth disabled error={errors.aadhaar_no[0]}
                                                    helperText={errors.aadhaar_no[1]}
                                                    label={"Aadhaar No"} id={"aadhaar_no"}
                                                    variant={"outlined"} value={formData.aadhaar_no}/>
