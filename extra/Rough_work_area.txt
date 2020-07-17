@@ -1,0 +1,104 @@
+        
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        dob: new Date(),
+        aadhaar_no: '',
+        email: '',
+        mobile: '',
+        
+
+
+    //student_preregistration_draft_basic_info
+        10 input
+
+        application_no
+        gender 
+        religion
+        caste 
+        mother_tongue
+        apply_for_reserved_seat
+        caste_certificate_no
+        weather_bpl
+        bpl_card_no
+        whatsapp_no
+
+application_no, gender, religion, caste, mother_tongue, apply_for_reserved_seat, caste_certificate_no, 
+weather_bpl, bpl_card_no, whatsapp_no
+
+
+    //student_preregistration_draft_family_info
+        8 input 
+
+        application_no
+        father_name
+        father_occupation
+        mother_name
+        mother_occupation
+        guardian_name
+        guardian_occupation
+        guardian_same_father
+
+application_no, father_name, father_occupation, mother_name, mother_occupation, guardian_name, guardian_occupation, guardian_same_father
+
+
+    //student_preregistration_draft_address1
+            application_no
+            city: '',
+            district: '',
+            pin: '',
+
+    //student_preregistration_draft_address
+            application_no
+            city: '',
+            district: '',
+            pin: '',
+
+        
+    //student_preregistration_academic_info
+        total 20 input
+
+        application_no
+        previous_school_name
+        year_of_madhyamik
+        previous_student_id
+        marks_beng
+        marks_engb
+        marks_maths
+        marks_psc
+        marks_lsc
+        marks_geo
+        marks_hist
+        marks_total
+        marks_percentage
+        stream
+        first_language
+        second_language
+        first_major
+        second_major
+        third_major
+        forth_major
+
+
+application_no, previous_school_name, year_of_madhyamik, previous_student_id, marks_beng, marks_engb, marks_maths, marks_psc, marks_lsc, marks_geo, marks_hist, marks_total, 
+marks_percentage, stream, first_language, second_language, first_major, second_major, third_major, forth_major
+
+
+
+
+
+registration_details_submit
+application_no
+login
+
+1. New Registration /admission/new -- API (/api/admission/preregistration[POST]) 
+2. Login (Return) /admission/exsisting -- API (/api/admission/preregistration/login[POST]) 
+
+3. Personal Info /admission/progress/:user_id/personal_info -- API (/api/admission/preregistration/process/presonal_info[GET], /api/admission/preregistration/process/presonal_info[POST]) 
+4. Academic Info /admission/progress/:user_id/academic_info -- API (/api/admission/preregistration/process/academic_info[GET], /api/admission/preregistration/process/academic_info[POST])
+5. Check and Declaration /admission/progress/:user_id/decleration-- API (/api/admission/preregistration/process/declaration[GET], /api/admission/preregistration/process/delecration[POST]) 
+
+
+
+
+address_line_1, address_line_2, city, district, pin

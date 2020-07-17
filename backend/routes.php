@@ -37,28 +37,47 @@ Router::add('/admin/1','get',function(){
     require LOGIC_DIR.'admin1.php';
 });
 
-//student preregistration personal info
+
+
+
+//Personal info 
+//POST------
 Router::add('/preregistration/process/presonal_info','post',function(){
-    require LOGIC_DIR.'student_preregistration_personal_info.php';
+    require LOGIC_DIR.'post_student_preregistration_personal_info_all.php';
+});
+// GET-----
+Router::add('/preregistration/process/presonal_info','get',function(){
+    require LOGIC_DIR.'get_student_preregistration_personal_info.php';
 });
 
-//preregistration academic info
+
+//academic info
+// POST---
 Router::add('/preregistration/process/academic_info','post',function(){
-    require LOGIC_DIR.'student_preregistration_academic_info.php';
+    require LOGIC_DIR.'post_student_preregistration_draft_academic_info_all.php';
+});
+// GET ---
+Router::add('/preregistration/process/academic_info','get',function(){
+    require LOGIC_DIR.'get_student_preregistration_draft_academic_info.php';
 });
 
-//preregistration Payment info
+
+//PAYMENT INFO
+//post....
 Router::add('/preregistration/process/payment_info','post',function(){
-    require LOGIC_DIR.'student_preregistration_academic_info.php';
+    require LOGIC_DIR.'post_student_preregistration_draft_payment_info.php';
+});
+//get...
+Router::add('/preregistration/process/payment_info','get',function(){
+    require LOGIC_DIR.'get_student_preregistration_draft_payment_info.php';
 });
 
-//preregistration Declaration info
+
+//Declaration info
+//post.....
 Router::add('/preregistration/process/declaration','post',function(){
-    require LOGIC_DIR.'student_preregistration_academic_info.php';
+    require LOGIC_DIR.'post_student_preregistration_draft_declaration.php';
 });
-
-
-
 
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
 
