@@ -31,7 +31,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
         //TODO: Setup Application Id
-        $application_no = $auth_user["data"]["application_no"];
+        $application_no = $auth_user['data']->application_no;
 
         //BASIC INFO---9 INPUT
         $gender_clean = Filter::String($_INPUT['gender']);
