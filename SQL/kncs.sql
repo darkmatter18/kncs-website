@@ -7,6 +7,7 @@
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -138,7 +139,7 @@ CREATE TABLE `student_preregistration_draft_present_academic` (
   `application_no` int(10) NOT NULL,
   `stream` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `second_language` int(15) NOT NULL,
+  `second_language` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `first_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
