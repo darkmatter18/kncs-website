@@ -34,16 +34,26 @@ $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T
                         ON T1.application_no=T4.application_no
 
                         WHERE T1.application_no = :application_no");
-                    
-// $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
-if($smt->execute([':application_no'])){
+
+$smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+
+if ($smt->execute()) {
     $smt->setFetchMode(PDO::FETCH_ASSOC);
-
     $output = $smt->fetch();
-    $output['first_name'];
+    $return['data'] = $output;
+    $return['status'] = true;
+    $return['statusText'] = "Fetch Done";
+    $return['error'] = null;
 
-}else{
-
+} else {
+    http_response_code(500);
+    $return['status'] = false;
+    $return['statusText'] = null;
+    $return['error'] = "Failed to get data from Database";
+    $return['data'] = null;
 }
+
+echo json_encode($return);
+exit;
 
