@@ -100,8 +100,8 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             if ($smt->execute()) {
                 // INSERTING ADDRESS INFO INTO DATABASE
                 // TABLE : student_preregistration_draft_address
-                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_address(address_line_1, address_line_2, city, district, pin)
-                    VALUES(:address_line_1, :address_line_2, :city, :district, :pin)');
+                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_address(application_no, address_line_1, address_line_2, city, district, pin)
+                    VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
                 $smt->bindParam(':address_line_1', $address_line_1_clean, PDO::PARAM_STR);
@@ -113,11 +113,10 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
                 if($smt->execute()){
 
-                    $base64_data = ($_INPUT['image']);
-
+                    $base64_decode = base64_decode($_INPUT['image']);
                     $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image) VALUES(:application_no,:image)');
                     $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-                    $smt->bindColumn(':image', base64_decode($base64_data), PDO::PARAM_LOB);
+                    $smt->bindColumn(':image', $base64_decode, PDO::PARAM_LOB);
 
                     if ($smt->execute()){
                         if($pdocon->commit()){
