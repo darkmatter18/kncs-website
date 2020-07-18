@@ -134,7 +134,9 @@ const Progress2AcademicInfo = () => {
         })
             .then((res) => {
                 if (res.data.status) {
-                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                    if (res.data.data){
+                        setFormData(prevState => ({...prevState, ...res.data.data}))
+                    }
                 } else {
                     console.error(res.data.error)
                 }
@@ -159,10 +161,10 @@ const Progress2AcademicInfo = () => {
     const handleMarksChange = (name) => (e) => {
         e.persist()
         let v;
-        if(e.target.min > e.target.value){
+        if(e.target.value < 0){
             v = ''
-        } else if(e.target.max < e.target.value) {
-            v = e.target.max
+        } else if(e.target.value > 100) {
+            v = 100
         } else {
             v = e.target.value
         }
@@ -189,6 +191,7 @@ const Progress2AcademicInfo = () => {
     }
 
     React.useEffect(()=>{
+        console.log("EFFECT")
         setFormData(prevState => ({...prevState, stream: '', first_major: '',
             second_major: '', third_major: '', forth_major: ''}))
 
@@ -396,7 +399,7 @@ const Progress2AcademicInfo = () => {
     }
 
     const validateMarks = (data) => {
-        if (formData[data].length <= 3 && formData[data].length >= 1) {
+        if (formData[data].length < 4 && formData[data].length > 0) {
             setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
             return true
         } else {
@@ -406,7 +409,7 @@ const Progress2AcademicInfo = () => {
     }
 
     const validate = () => {
-        const _a1 = validateRawData('year_of_madhyamik')
+        const _a1 = validateRawData('previous_student_id')
 
         const _b1 = validateMarks('marks_beng')
         const _b2 = validateMarks('marks_engb')
@@ -415,23 +418,21 @@ const Progress2AcademicInfo = () => {
         const _b5 = validateMarks('marks_lsc')
         const _b6 = validateMarks('marks_geo')
         const _b7 = validateMarks('marks_hist')
-        const _b8 = validateMarks('marks_total')
-        const _b9 = validateMarks('marks_percentage')
 
         const _c1 = validateRawData('medium')
-        const _c2 = validateRawData('stream')
 
         const _d1 = validateRawData('first_major')
         const _d2 = validateRawData('second_major')
         const _d3 = validateRawData('third_major')
         const _d4 = validateRawData('forth_major')
 
-        return (_a1 && _b1 && _b2 && _b3 && _b4 && _b5 && _b6 && _b7 && _b8 && _b9 && _c1 && _c2 && _d1
+        return (_a1 && _b1 && _b2 && _b3 && _b4 && _b5 && _b6 && _b7 && _c1 && _d1
             && _d2 && _d3 && _d4)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(formData)
         if (validate()) {
             setNetworkState(netState.BUSY)
             window.grecaptcha.ready(() => {
@@ -727,56 +728,49 @@ const Progress2AcademicInfo = () => {
                                                            helperText={errors.marks_beng[1]}
                                                            label={"Bengali"} id={"marks_beng"}
                                                            variant={"outlined"} value={formData.marks_beng}
-                                                           onChange={handleMarksChange("marks_beng")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}  />
+                                                           onChange={handleMarksChange("marks_beng")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_engb[0]}
                                                            helperText={errors.marks_engb[1]}
                                                            label={"English"} id={"marks_engb"}
                                                            variant={"outlined"} value={formData.marks_engb}
-                                                           onChange={handleMarksChange("marks_engb")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_engb")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_maths[0]}
                                                            helperText={errors.marks_maths[1]}
                                                            label={"Mathematics"} id={"marks_maths"}
                                                            variant={"outlined"} value={formData.marks_maths}
-                                                           onChange={handleMarksChange("marks_maths")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_maths")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_psc[0]}
                                                            helperText={errors.marks_psc[1]}
                                                            label={"Physical Science"} id={"marks_psc"}
                                                            variant={"outlined"} value={formData.marks_psc}
-                                                           onChange={handleMarksChange("marks_psc")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_psc")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_lsc[0]}
                                                            helperText={errors.marks_lsc[1]}
                                                            label={"Life Science"} id={"marks_lsc"}
                                                            variant={"outlined"} value={formData.marks_lsc}
-                                                           onChange={handleMarksChange("marks_lsc")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_lsc")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_geo[0]}
                                                            helperText={errors.marks_geo[1]}
                                                            label={"Geography"} id={"marks_geo"}
                                                            variant={"outlined"} value={formData.marks_geo}
-                                                           onChange={handleMarksChange("marks_geo")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_geo")}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_hist[0]}
                                                            helperText={errors.marks_hist[1]}
                                                            label={"History"} id={"marks_hist"}
                                                            variant={"outlined"} value={formData.marks_hist}
-                                                           onChange={handleMarksChange("marks_hist")}
-                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
+                                                           onChange={handleMarksChange("marks_hist")}/>
                                             </Grid>
                                         </Grid>
                                         <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>

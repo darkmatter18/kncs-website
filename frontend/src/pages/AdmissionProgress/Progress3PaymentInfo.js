@@ -71,7 +71,8 @@ const Progress3PaymentInfo = () => {
                 if(res.data.status){
                     if(res.data.data){
                         setFormData(prevState => ({...prevState, ...res.data.data,
-                            transaction_date: new Date(res.data.transaction_date)}))
+                            transaction_date: new Date(res.data.transaction_date)
+                        }))
                     }
                 }else {
                     console.error(res.data.error)
