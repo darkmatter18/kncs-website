@@ -173,7 +173,6 @@ const Progress1PersonalInfo = () => {
     }
 
     const handleFileChange = (dataURL) => {
-        console.log(dataURL)
         setFile(dataURL)
     }
 

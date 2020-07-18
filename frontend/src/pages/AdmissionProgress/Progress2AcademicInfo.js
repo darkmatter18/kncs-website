@@ -156,7 +156,16 @@ const Progress2AcademicInfo = () => {
 
     const handleMarksChange = (name) => (e) => {
         e.persist()
-        setFormData(prevState => ({...prevState, [name]: e.target.value}))
+        let v;
+        if(e.target.min > e.target.value){
+            v = ''
+        } else if(e.target.max < e.target.value) {
+            v = e.target.max
+        } else {
+            v = e.target.value
+        }
+
+        setFormData(prevState => ({...prevState, [name]: v}))
 
         // Set Total Marks
         setFormData(prevState => {
@@ -677,7 +686,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"Bengali"} id={"marks_beng"}
                                                            variant={"outlined"} value={formData.marks_beng}
                                                            onChange={handleMarksChange("marks_beng")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}  />
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}  />
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_engb[0]}
@@ -685,7 +694,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"English"} id={"marks_engb"}
                                                            variant={"outlined"} value={formData.marks_engb}
                                                            onChange={handleMarksChange("marks_engb")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_maths[0]}
@@ -693,7 +702,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"Mathematics"} id={"marks_maths"}
                                                            variant={"outlined"} value={formData.marks_maths}
                                                            onChange={handleMarksChange("marks_maths")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_psc[0]}
@@ -701,7 +710,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"Physical Science"} id={"marks_psc"}
                                                            variant={"outlined"} value={formData.marks_psc}
                                                            onChange={handleMarksChange("marks_psc")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_lsc[0]}
@@ -709,7 +718,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"Life Science"} id={"marks_lsc"}
                                                            variant={"outlined"} value={formData.marks_lsc}
                                                            onChange={handleMarksChange("marks_lsc")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_geo[0]}
@@ -717,7 +726,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"Geography"} id={"marks_geo"}
                                                            variant={"outlined"} value={formData.marks_geo}
                                                            onChange={handleMarksChange("marks_geo")}
-                                                           inputProps={{min: 0, max: 100, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_hist[0]}
@@ -725,7 +734,7 @@ const Progress2AcademicInfo = () => {
                                                            label={"History"} id={"marks_hist"}
                                                            variant={"outlined"} value={formData.marks_hist}
                                                            onChange={handleMarksChange("marks_hist")}
-                                                           inputProps={{min: 0, max: 3, maxlength:3}}/>
+                                                           inputProps={{min: 0, max: 100, maxLength:3}}/>
                                             </Grid>
                                         </Grid>
                                         <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>
