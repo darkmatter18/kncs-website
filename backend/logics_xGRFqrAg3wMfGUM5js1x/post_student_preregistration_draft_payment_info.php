@@ -21,6 +21,7 @@ $return = [];
 
 header('Content-Type: application/json');
 
+
 if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset($_INPUT['transaction_id'])
     && isset($_INPUT['transaction_date']) && isset($_INPUT['recaptcha_token'])) {
 
@@ -40,10 +41,10 @@ if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset
                                         VALUES(:application_no, :mode_of_payment, :name_of_bank, :transaction_id, :transaction_date)');
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-        $smt->bindParam(':mode_of_payment', $mode_of_payment, PDO::PARAM_STR);
-        $smt->bindParam(':name_of_bank', $name_of_bank, PDO::PARAM_STR);
-        $smt->bindParam(':transaction_id', $transaction_id, PDO::PARAM_STR);
-        $smt->bindParam(':transaction_date', $transaction_date, PDO::PARAM_STR);
+        $smt->bindParam(':mode_of_payment', $mode_of_payment_clean, PDO::PARAM_STR);
+        $smt->bindParam(':name_of_bank', $name_of_bank_clean, PDO::PARAM_STR);
+        $smt->bindParam(':transaction_id', $transaction_id_clean, PDO::PARAM_STR);
+        $smt->bindParam(':transaction_date', $transaction_date_clean, PDO::PARAM_STR);
 
         if ($smt->execute()) {
             $pdocon->commit();  // commited
