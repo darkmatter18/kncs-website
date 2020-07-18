@@ -201,7 +201,6 @@ const Progress3PaymentInfo = () => {
                     </CardContent>
                 </Paper>
             </Container>
-            <AdmissionProgressBack/>
         </React.Fragment>
     )
 }

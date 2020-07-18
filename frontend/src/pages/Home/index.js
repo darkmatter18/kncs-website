@@ -23,7 +23,7 @@ const Home = () => {
                         Application for Admission to Class XI
                     </Typography>
                     <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
-                        Application form will be available on 18th July 2020 from 12:00PM onwards
+                        Application form will be available on 18th July 2020 from 1:00PM onwards
                     </Typography>
                     <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
                         Please press F5 or refresh the page if you see the message after the mentioned time.
