@@ -27,9 +27,9 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
         $application_no = $auth_user['data']->application_no;
-        $date = Filter::String($_INPUT['date']);
-        $place = Filter::String($_INPUT['place']);
-        $full_name = Filter::String($_INPUT['full_name']);
+        $date_clean= Filter::String($_INPUT['date']);
+        $place_clean= Filter::String($_INPUT['place']);
+        $full_name_clean= Filter::String($_INPUT['full_name']);
 
         $pdocon->beginTransaction();    // check wheather it is inside the table or not
 
@@ -38,9 +38,9 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
-        $smt->bindParam(':date', $date, PDO::PARAM_STR);
-        $smt->bindParam(':place', $place, PDO::PARAM_STR);
-        $smt->bindParam(':full_name', $full_name, PDO::PARAM_STR);
+        $smt->bindParam(':date', $date_clean, PDO::PARAM_STR);
+        $smt->bindParam(':place', $place_clean, PDO::PARAM_STR);
+        $smt->bindParam(':full_name', $full_name_clean, PDO::PARAM_STR);
 
         if ($smt->execute()) {
             $smt = $pdocon->prepare('SELECT direct_admission
@@ -79,7 +79,7 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
         }
 
         if ($smt->execute()) {
-            $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status = :status WHERE application_no=:applicaion_no");
+            $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status=:status WHERE application_no=:applicaion_no");
 
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
             $smt->bindParam(':status', $status, PDO::PARAM_STR);
