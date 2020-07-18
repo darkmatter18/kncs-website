@@ -23,7 +23,7 @@ import NetworkSubmit from "../../components/NetworkSubmit";
 import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
 import {useHistory} from "react-router-dom";
-import {useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../components/ImageUploaderComponent";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +45,7 @@ const Progress1PersonalInfo = () => {
     let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
+    const auth = useAuth()
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -290,7 +291,7 @@ const Progress1PersonalInfo = () => {
                                 }
                             }).then((res) => {
                                 if (res.data.status) {
-                                    history.push(`/admission/progress/${user_id}/academic_info`)
+                                    history.push(`/admission/progress/academic_info`)
                                 } else {
                                     setNetworkState(netState.ERROR)
                                 }

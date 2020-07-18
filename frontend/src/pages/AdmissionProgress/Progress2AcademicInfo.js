@@ -394,7 +394,7 @@ const Progress2AcademicInfo = () => {
                         }
                     }).then((res) => {
                         if (res.data.status) {
-                            history.push(`/admission/progress/${user_id}/payment_info`)
+                            history.push(`/admission/progress/payment_info`)
                         } else {
                             setNetworkState(netState.ERROR)
                         }

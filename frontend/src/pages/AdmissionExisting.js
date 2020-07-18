@@ -98,10 +98,10 @@ const AdmissionExisting = () => {
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
-                            const r = signIn(res.data.jwt, 120)
+                            const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no})
                             if(r){
                                 console.log("Signing In")
-                                history.push(`/admission/progress/${res.data.application_no}/personal_info`)
+                                history.push(`/admission/progress/personal_info`)
                             }else {
                                 setNetworkState([netState.ERROR, 'Internal error occured'])
                             }
