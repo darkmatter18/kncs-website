@@ -20,12 +20,10 @@ $return = [];
 header('Content-Type: application/json');
 
 // 20 INPUT INCLUDING APPLICATION_NO
-if (isset($_INPUT['application_no']) && isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik'])
-    && isset($_INPUT['previous_student_id'])
-    && isset($_INPUT['marks_beng']) && isset($_INPUT['marks_engb']) && isset($_INPUT['marks_maths'])
+if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik'])
+    && isset($_INPUT['previous_student_id']) && isset($_INPUT['marks_beng']) && isset($_INPUT['marks_engb']) && isset($_INPUT['marks_maths'])
     && isset($_INPUT['marks_psc']) && isset($_INPUT['marks_lsc']) && isset($_INPUT['marks_geo']) && isset($_INPUT['marks_hist'])
-    && isset($_INPUT['marks_total']) && isset($_INPUT['marks_percentage'])
-    && isset($_INPUT['stream']) && isset($_INPUT['first_language'])
+    && isset($_INPUT['marks_total']) && isset($_INPUT['marks_percentage'])&& isset($_INPUT['stream']) && isset($_INPUT['first_language'])
     && isset($_INPUT['second_language']) && isset($_INPUT['first_major']) && isset($_INPUT['second_major']) && isset($_INPUT['third_major'])
     && isset($_INPUT['forth_major']) && isset($_INPUT['direct_admission']) && isset($_INPUT['medium'])
     && isset($_INPUT['recaptcha_token'])) {
