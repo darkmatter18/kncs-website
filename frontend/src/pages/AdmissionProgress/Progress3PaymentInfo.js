@@ -93,6 +93,7 @@ const Progress3PaymentInfo = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()){
+            setNetworkState(netState.BUSY)
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
                     api.post(PRE_REGISTRATION_PAYMENT_INFO, {
