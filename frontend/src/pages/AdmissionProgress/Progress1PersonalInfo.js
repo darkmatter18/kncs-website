@@ -114,21 +114,38 @@ const Progress1PersonalInfo = () => {
                     if (res.data.data){
                         setFormData(prevState => ({...prevState,
                             ...res.data.data,
-                            apply_for_reserved_seat: res.data.data.apply_for_reserved_seat.length > 0 ?
+                            apply_for_reserved_seat: res.data.data.apply_for_reserved_seat ?
                                 (res.data.data.apply_for_reserved_seat === 'true' ||
                                     res.data.data.apply_for_reserved_seat === '1' ||
                                     res.data.data.apply_for_reserved_seat === true)
                                 : false,
-                            weather_bpl: res.data.data.weather_bpl.length > 0 ?
+                            weather_bpl: res.data.data.weather_bpl > 0 ?
                                 (res.data.data.weather_bpl === 'true' ||
                                     res.data.data.weather_bpl === '1' || res.data.data.weather_bpl === true)
                                 : false,
-                            guardian_same_father: res.data.data.guardian_same_father.length > 0 ?
+                            guardian_same_father: res.data.data.guardian_same_father ?
                                 (res.data.data.guardian_same_father === 'true' ||
                                     res.data.data.guardian_same_father === '1' || res.data.data.guardian_same_father === true)
                                 : false,
-                            dob: new Date(res.data.data.dob)
-
+                            dob: new Date(res.data.data.dob),
+                            gender: res.data.data.gender ? res.data.data.gender : '',
+                            religion: res.data.data.religion ? res.data.data.religion : '',
+                            caste: res.data.data.caste ? res.data.data.caste : '',
+                            mother_tongue: res.data.data.mother_tongue ? res.data.data.mother_tongue : '',
+                            caste_certificate_no: res.data.data.caste_certificate_no ? res.data.data.caste_certificate_no : '',
+                            bpl_card_no: res.data.data.bpl_card_no ? res.data.data.bpl_card_no : '',
+                            father_name: res.data.data.father_name ? res.data.data.father_name : '',
+                            father_occupation: res.data.data.father_occupation ? res.data.data.father_occupation : '',
+                            mother_name: res.data.data.mother_name ? res.data.data.mother_name : '',
+                            mother_occupation: res.data.data.mother_occupation ? res.data.data.mother_occupation : '',
+                            guardian_name: res.data.data.guardian_name ? res.data.data.guardian_name : '',
+                            guardian_occupation: res.data.data.guardian_occupation ? res.data.data.guardian_occupation : '',
+                            address_line_1: res.data.data.address_line_1 ? res.data.data.address_line_1 : '',
+                            address_line_2: res.data.data.address_line_2 ? res.data.data.address_line_2 : '',
+                            city: res.data.data.city ? res.data.data.city : '',
+                            district: res.data.data.district ? res.data.data.district : '',
+                            pin: res.data.data.pin ? res.data.data.pin : '',
+                            whatsapp_no: res.data.data.whatsapp_no ? res.data.data.whatsapp_no : ''
                         }))
                     }
                 }else {
