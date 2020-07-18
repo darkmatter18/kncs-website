@@ -79,7 +79,7 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
         }
 
         if ($smt->execute()) {
-            $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status=:status WHERE application_no=:applicaion_no");
+            $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status=:status WHERE application_no=:application_no");
 
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
             $smt->bindParam(':status', $status, PDO::PARAM_STR);
