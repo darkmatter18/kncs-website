@@ -56,8 +56,8 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $second_major_clean = Filter::String($_INPUT['second_major']);
         $third_major_clean = Filter::String($_INPUT['third_major']);
         $forth_major_clean = Filter::String($_INPUT['forth_major']);
-        $forth_major_clean = Filter::String($_INPUT['direct_admission']);
-        $forth_major_clean = Filter::String($_INPUT['medium']);
+        $direct_admission_clean = Filter::String($_INPUT['direct_admission']);
+        $medium_clean = Filter::String($_INPUT['medium']);
 
 
         // INSERTING PREVIOUS ACADEMIC INFO
