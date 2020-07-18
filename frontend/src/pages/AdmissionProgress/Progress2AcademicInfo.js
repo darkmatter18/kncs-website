@@ -96,6 +96,8 @@ const Progress2AcademicInfo = () => {
         marks_lsc: [false, "Life Science"],
         marks_geo: [false, "Geography"],
         marks_hist: [false, "History"],
+        marks_total: [false, "Total"],
+        marks_percentage: [false, "Percentage"],
         medium: [false, "Which is your Medium of Instruction"],
         stream: [false, "Which Stream, you are applying for"],
         first_major: [false, "Enter your first Major choice"],
@@ -105,7 +107,6 @@ const Progress2AcademicInfo = () => {
     }
     const [formData, setFormData] = React.useState(initialState)
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
-    // Todo: work with errors
     const [errors, setErrors] = React.useState(initialErrorState)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
@@ -384,9 +385,49 @@ const Progress2AcademicInfo = () => {
     }, [formData.first_major, formData.second_major, formData.third_major, formData.forth_major, formData.stream,
         geographyEligibilyState, comaEligibilyState, csEligibilyState])
 
+    const validateRawData = (data) => {
+        if (formData[data].length > 2) {
+            setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [data]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
+    const validateMarks = (data) => {
+        if (formData[data].length <= 3 && formData[data].length >= 1) {
+            setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [data]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
     const validate = () => {
-        //TODO: Validate
-        return true
+        const _a1 = validateRawData('year_of_madhyamik')
+
+        const _b1 = validateMarks('marks_beng')
+        const _b2 = validateMarks('marks_engb')
+        const _b3 = validateMarks('marks_maths')
+        const _b4 = validateMarks('marks_psc')
+        const _b5 = validateMarks('marks_lsc')
+        const _b6 = validateMarks('marks_geo')
+        const _b7 = validateMarks('marks_hist')
+        const _b8 = validateMarks('marks_total')
+        const _b9 = validateMarks('marks_percentage')
+
+        const _c1 = validateRawData('medium')
+        const _c2 = validateRawData('stream')
+
+        const _d1 = validateRawData('first_major')
+        const _d2 = validateRawData('second_major')
+        const _d3 = validateRawData('third_major')
+        const _d4 = validateRawData('forth_major')
+
+        return (_a1 && _b1 && _b2 && _b3 && _b4 && _b5 && _b6 && _b7 && _b8 && _b9 && _c1 && _c2 && _d1
+            && _d2 && _d3 && _d4)
     }
 
     const handleSubmit = (e) => {
@@ -741,11 +782,15 @@ const Progress2AcademicInfo = () => {
                                         <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>
                                             <Grid item md={3}>
                                                 <TextField fullWidth required label={"Total"} id={"total"}
+                                                           error={errors.marks_total[0]}
+                                                           helperText={errors.marks_total[1]}
                                                            variant={"filled"} value={formData.marks_total}
                                                            onChange={handleMarksChange("marks_total")}/>
                                             </Grid>
                                             <Grid item md={3}>
                                                 <TextField fullWidth required label={"Percentage"}
+                                                           error={errors.marks_percentage[0]}
+                                                           helperText={errors.marks_percentage[1]}
                                                            id={"percentage"} variant={"filled"}
                                                            value={formData.marks_percentage}
                                                            onChange={handleMarksChange("marks_percentage")}/>
