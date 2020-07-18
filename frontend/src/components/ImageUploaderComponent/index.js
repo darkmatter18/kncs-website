@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Typography, Button } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 
@@ -6,10 +6,10 @@ import UploadIcon from './uploadIcon.svg';
 import { useStyles } from './style';
 
 
-const ImageUploaderComponent = (props) => {
+const ImageUploaderComponent = ({onChange, dataUrl}) => {
     const ACCEPT = 'image/*';
-    const IMGEXTENSIONS = ['.jpg', '.jpeg', '.gif', '.png'];
-    const MAXFILESOZE = 5242880;
+    const ImgExtensions = ['.jpg', '.jpeg', '.gif', '.png'];
+    const MaxFileSize = 1048576;
     const ERROR = {
         NOT_SUPPORTED_EXTENSION: 'NOT_SUPPORTED_EXTENSION',
         FILESIZE_TOO_LARGE: 'FILESIZE_TOO_LARGE'
@@ -18,8 +18,7 @@ const ImageUploaderComponent = (props) => {
 
     const [fileError, setfileError] = useState(null);
     const [inputElement, setinputElement] = useState(null);
-    const [dataURL, setdataURL] = useState(null);
-    const [file, setfile] = useState(null);
+    const [dataURL, setdataURL] = useState(dataUrl);
 
     /**
      * Check for the Extension for the file and Matches with IMGEXTENSIONS
@@ -27,7 +26,7 @@ const ImageUploaderComponent = (props) => {
      * @returns {boolean} If match found
      */
     const hasExtension = (fileName) => {
-        const pattern = '(' + IMGEXTENSIONS.join('|').replace(/\./g, '\\.') + ')$';
+        const pattern = '(' + ImgExtensions.join('|').replace(/\./g, '\\.') + ')$';
         return new RegExp(pattern, 'i').test(fileName);
     }
 
@@ -42,38 +41,17 @@ const ImageUploaderComponent = (props) => {
         }
     }
 
-    /**
-     * Reads the file
-     * @param {file} file The file
-     * @returns {Promise} the dataURL of the file
-     */
-    const readFile = (file) => {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 
-            // Read the image via FileReader API and save image result in state.
-            reader.onload = function (e) {
-                // Add the file name to the data URL
-                let dataURL = e.target.result;
-                dataURL = dataURL.replace(";base64", `;name=${file.name};base64`);
-                resolve({ file, dataURL });
-            };
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    /**
-     * Fuction invoked by the UPLOAD button
-     */
     const triggerFileUpload = () => {
         inputElement.click();
     }
 
-    /**
-     * on file Drop the Function is invoked
-     * @param {Event} e 
-     */
     const onDropFile = (e) => {
         const file = e.target.files[0];
 
@@ -91,7 +69,7 @@ const ImageUploaderComponent = (props) => {
         }
 
         // Check for file size
-        if (file.size > MAXFILESOZE) {
+        if (file.size > MaxFileSize) {
             fileError = Object.assign(fileError, {
                 type: ERROR.FILESIZE_TOO_LARGE
             });
@@ -99,19 +77,20 @@ const ImageUploaderComponent = (props) => {
             return;
         }
 
-        readFile(file).then((FileData) => {
-            setdataURL(FileData.dataURL);
-            setfile(FileData.file);
+        toBase64(file).then((value) => {
+            setdataURL(()=>value);
         });
-
-        props.onChange(file);
     }
+
+    useEffect(()=> {
+        onChange(dataURL)
+    }, [dataURL])
 
     /**
      * Renders the preview image
      */
     const renderPreview = () => {
-        if (file) {
+        if (dataURL) {
             return (
                 <div >
                     <div className={classes.uploadPictureContainer}>
@@ -127,20 +106,17 @@ const ImageUploaderComponent = (props) => {
      * Remove the Image file
      */
     const removeImage = () => {
-        setfile(null);
         setdataURL(null);
-
-        props.onChange(null);
     }
     
     return (
         <React.Fragment>
             <div className={classes.fileContainer}>
-                {!file ? (
+                {!dataURL ? (
                     <React.Fragment>
 
                         <img src={UploadIcon} className="uploadIcon" alt="Upload Icon" />
-                        <Typography variant="body2">Max file size: 5mb</Typography>
+                        <Typography variant="body2">Max file size: 1mb</Typography>
                         <div className={classes.errorsContainer}>
                             {renderErrors()}
                         </div>
