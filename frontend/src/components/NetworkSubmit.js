@@ -9,16 +9,16 @@ const NetworkSubmit = ({buttonStyle, handleSubmit, networkState}) => {
         if (buttonStyle === buttonType.SAVE_NEXT){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} endIcon={<NavigateNext/>}>
-                    submit
+                    Save & Next
                 </Button>
             )
         } else if (buttonStyle === buttonType.SEARCH){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} startIcon={<Search/>}>
-                    submit
+                    Search
                 </Button>
             )
-        } else if (buttonType === buttonType.SUBMIT){
+        } else if (buttonStyle === buttonType.SUBMIT){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} endIcon={<Done/>}>
                     submit
