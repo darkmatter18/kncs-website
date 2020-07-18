@@ -9,7 +9,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
+import {buttonType, netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
@@ -694,7 +694,7 @@ const Progress1PersonalInfo = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item>
-                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
                             </Grid>
                             <Grid item>
                                 <Typography variant={"subtitle2"} color={"error"}>

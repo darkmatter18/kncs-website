@@ -14,7 +14,7 @@ import Button from "@material-ui/core/Button";
 import SubHeader from "../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../utils/validate";
-import {netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../constant";
+import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../constant";
 import NetworkSubmit from "../components/NetworkSubmit";
 import {useHistory} from 'react-router-dom';
 import api from './../api'
@@ -245,7 +245,7 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkSubmit handleSubmit={handleSubmit} networkState={networkState}/>
+                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>

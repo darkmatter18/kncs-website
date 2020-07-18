@@ -14,6 +14,7 @@ import * as banner from '../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {
+    buttonType,
     netState,
     PRE_REGISTRATION_DECLARATION,
     RECAPTCHA_SITE_KEY
@@ -661,7 +662,7 @@ const Progress4Declaration = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item md={6}>
-                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState} handleSubmit={handleSubmit}/>
                             </Grid>
                         </Grid>
                     </CardContent>

@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
+    buttonType,
     netState,
     PRE_REGISTRATION_PAYMENT_INFO,
     RECAPTCHA_SITE_KEY
@@ -221,7 +222,7 @@ const Progress3PaymentInfo = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item>
-                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
                             </Grid>
                             <Grid item>
                                 <Typography variant={"subtitle2"} color={"error"}>

@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
+import {buttonType, netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -845,7 +845,7 @@ const Progress2AcademicInfo = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item>
-                                <NetworkSubmit networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
                             </Grid>
                             <Grid item>
                                 <Typography variant={"subtitle2"} color={"error"}>
