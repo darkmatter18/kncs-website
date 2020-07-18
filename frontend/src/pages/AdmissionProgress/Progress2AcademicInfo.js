@@ -22,7 +22,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import api from "../../api";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress2AcademicInfo = () => {
     const classes = useStyles()
-    let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
 
@@ -316,7 +315,7 @@ const Progress2AcademicInfo = () => {
             })
         } else if (formData.stream === "Humanities") {
             setHumanitiesFirstMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+                const pick = _.pickBy(humanitiesSubjects, (i)=>{
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
                         i.sub.includes(formData.third_major))
                 })
@@ -330,7 +329,7 @@ const Progress2AcademicInfo = () => {
                 return qq
             })
             setHumanitiesSecondMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+                const pick = _.pickBy(humanitiesSubjects, (i)=>{
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
@@ -344,7 +343,7 @@ const Progress2AcademicInfo = () => {
                 return qq
             })
             setHumanitiesThirdMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+                const pick = _.pickBy(humanitiesSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.forth_major))
                 })
@@ -358,7 +357,7 @@ const Progress2AcademicInfo = () => {
                 return qq
             })
             setHumanitiesForthMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+                const pick = _.pickBy(humanitiesSubjects, (i)=>{
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
