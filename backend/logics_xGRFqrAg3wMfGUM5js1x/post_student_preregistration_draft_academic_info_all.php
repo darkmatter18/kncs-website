@@ -71,7 +71,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
         $smt->bindParam(':previous_school_name', $previous_school_name_clean, PDO::PARAM_STR);
         $smt->bindParam(':year_of_madhyamik', $year_of_madhyamik_clean, PDO::PARAM_INT);
-        $smt->bindParam(':previous_student_id', $previous_student_id_clean, PDO::PARAM_INT);
+        $smt->bindParam(':previous_student_id', $previous_student_id_clean, PDO::PARAM_STR);
 
 
         if ($smt->execute()) {
@@ -96,10 +96,10 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
                 // INSERTING PRESENT ACADEMIC SUBJECTS DETAILS -- 8 COLUMN INCLUDING APPLICATION_NO  
                 // TABLE : student_preregistration_academic_info
                 $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_present_academic
-                                (application_no, stream, first_language, second_language, first_major, second_major, third_major, forth_major,
-                                direct_admission, medium)
-                                VALUES(:application_no, :stream, :first_language, :second_language, :first_major, :second_major, :third_major,
-                                :forth_major, :direct_admission, medium)');
+                                (application_no, stream, first_language, second_language, first_major, second_major, 
+                                 third_major, forth_major, direct_admission, medium)
+                                VALUES(:application_no, :stream, :first_language, :second_language, :first_major, 
+                                       :second_major, :third_major, :forth_major, :direct_admission, :medium)');
 
                 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
                 $smt->bindParam(':stream', $stream_clean, PDO::PARAM_STR);
