@@ -21,7 +21,7 @@ $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T
        T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
        T3.marks_hist, T3.marks_total, T3.marks_percentage,
        T4.stream, T4.first_language, T4.second_language, T4.first_major,
-       T4.second_major, T4.third_major, T4.forth_major
+       T4.second_major, T4.third_major, T4.forth_major, T4.direct_admission, T4.medium
 FROM `student_preregistration_details` AS T1
     INNER JOIN `student_preregistration_draft_previous_academic_info` AS T2
         ON T1.application_no=T2.application_no
