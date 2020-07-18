@@ -114,7 +114,26 @@ const Progress1PersonalInfo = () => {
         })
             .then((res)=>{
                 if(res.data.status){
-                    setFormData(prevState => ({...prevState, ...res.data.data}))
+                    if (res.data.data){
+                        setFormData(prevState => ({...prevState,
+                            ...res.data.data,
+                            apply_for_reserved_seat: res.data.data.apply_for_reserved_seat.length > 0 ?
+                                (res.data.data.apply_for_reserved_seat === 'true' ||
+                                    res.data.data.apply_for_reserved_seat === '1' ||
+                                    res.data.data.apply_for_reserved_seat === true)
+                                : false,
+                            weather_bpl: res.data.data.weather_bpl.length > 0 ?
+                                (res.data.data.weather_bpl === 'true' ||
+                                    res.data.data.weather_bpl === '1' || res.data.data.weather_bpl === true)
+                                : false,
+                            guardian_same_father: res.data.data.guardian_same_father.length > 0 ?
+                                (res.data.data.guardian_same_father === 'true' ||
+                                    res.data.data.guardian_same_father === '1' || res.data.data.guardian_same_father === true)
+                                : false,
+                            dob: new Date(res.data.data.dob)
+
+                        }))
+                    }
                 }else {
                     console.error(res.data.error)
                 }
@@ -126,7 +145,6 @@ const Progress1PersonalInfo = () => {
     const [file, setfile] = React.useState(null);
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [guardianDisabled, setGuardianDisabled] = React.useState(false)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
@@ -148,9 +166,7 @@ const Progress1PersonalInfo = () => {
         if (e.target.checked) {
             setFormData(prevState => ({...prevState,
                 guardian_name: prevState.father_name, guardian_occupation: prevState.father_occupation}))
-            setGuardianDisabled(true)
         } else {
-            setGuardianDisabled(false)
         }
     }
 
@@ -562,7 +578,7 @@ const Progress1PersonalInfo = () => {
                                             labelPlacement={"bottom"}/>
                                     </Grid>
                                     <Grid item md={5}>
-                                        <TextField required fullWidth disabled={guardianDisabled}
+                                        <TextField required fullWidth disabled={formData.guardian_same_father}
                                                    error={errors.guardian_name[0]}
                                                    helperText={errors.guardian_name[1]}
                                                    label={"Guardian's Name"} id={"guardian-name"}
@@ -570,7 +586,7 @@ const Progress1PersonalInfo = () => {
                                                    onChange={handleFormDataChange('guardian_name')}/>
                                     </Grid>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth disabled={guardianDisabled}
+                                        <TextField required fullWidth disabled={formData.guardian_same_father}
                                                    error={errors.guardian_occupation[0]}
                                                    helperText={errors.guardian_occupation[1]}
                                                    label={"Guardian's Occupation"} id={"guardian-occupation"}
