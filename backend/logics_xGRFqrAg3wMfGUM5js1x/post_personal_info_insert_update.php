@@ -60,6 +60,9 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $district_clean= Filter::String($_INPUT['district']);
         $pin_clean= Filter::Int($_INPUT['pin']);
 
+        // IMAGE VARIABLE
+        $base64_decode = base64_decode($_INPUT['image']);
+
         // START student_preregistration_draft_basic_info TABLE UPADTE checking
 
         $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_basic_info 
@@ -72,7 +75,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt1 = null;
             $smt2 = null;
             $smt3 = null;
-
+            $smt4 = null;
 
             if($smt->rowCount() > 0){
                 //table :  BASIC INFO
@@ -94,6 +97,10 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                                 SET address_line_1 = :address_line_1, address_line_2 = :address_line_2,
                                                     city = :city, district = :district, pin = :pin
                                                 WHERE application_no = :application_no');
+                // Table : Image
+                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image)
+                                                VALUES(:application_no,:image)');
+
 
             } else {
                 // TABLE : BASIC INFO
@@ -112,7 +119,12 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                 $smt3 = $pdocon->prepare('INSERT INTO student_preregistration_draft_address
                                             (application_no, address_line_1, address_line_2, city, district, pin)
                                             VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
-            
+
+                 // Table : student_preregistration_draft_image
+                $smt4 = $pdocon->prepare('UPDATE student_preregistration_draft_image
+                                            SET image = :image
+                                            WHERE application_no = :application_no');
+
             }
                 
             // BASIC INFO
@@ -144,6 +156,10 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt3->bindParam(':city', $city_clean, PDO::PARAM_STR);
             $smt3->bindParam(':district', $district_clean, PDO::PARAM_STR);
             $smt3->bindParam(':pin', $pin_clean, PDO::PARAM_INT);
+
+            //IMAGE 
+            $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+            $smt4->bindParam(':image', $base64_decode, PDO::PARAM_LOB);
 
             if($smt1->execute() && $smt2->execute() && $smt3->execute()){
                 $pdocon->commit();

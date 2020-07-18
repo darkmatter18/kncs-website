@@ -60,88 +60,113 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $medium_clean = Filter::String($_INPUT['medium']);
 
 
-        // INSERTING PREVIOUS ACADEMIC INFO
-        // TABLE : student_preregistration_draft_previous_academic_info
+        $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_previous_academic_info 
+                                            WHERE application_no= :application_no");
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
 
-        $pdocon->beginTransaction();    // check wheather it is inside the table or not
-        
-        $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_info(application_no, previous_school_name, year_of_madhyamik, previous_student_id)
-                                VALUES(:application_no, :previous_school_name, :year_of_madhyamik, :previous_student_id)');
+        if($smt->execute()){
+            $pdocon->beginTransaction();
+            
+            $smt1 = null;
+            $smt2 = null;
+            $smt3 = null;
+            $smt4 = null;
 
-        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-        $smt->bindParam(':previous_school_name', $previous_school_name_clean, PDO::PARAM_STR);
-        $smt->bindParam(':year_of_madhyamik', $year_of_madhyamik_clean, PDO::PARAM_INT);
-        $smt->bindParam(':previous_student_id', $previous_student_id_clean, PDO::PARAM_STR);
+            if($smt->rowCount() > 0){
+                // TABLE : Previous Academic Info
+                $smt1= $pdocon->prepare('UPDATE student_preregistration_draft_previous_academic_info
+                                                        SET previous_school_name = :previous_school_name, year_of_madhyamik = :year_of_madhyamik,
+                                                            previous_student_id = :previous_student_id
+                                                        WHERE application_no = :application_no');
+                
+                // TABLE: student_preregistration_draft_previous_academic_marks
+                $smt2= $pdocon->prepare('UPDATE student_preregistration_draft_previous_academic_marks
+                                            SET marks_beng = :marks_beng, marks_engb = :marks_engb, marks_maths = :marks_maths,
+                                                marks_psc = :marks_psc, marks_lsc = :marks_lsc, marks_geo = :marks_geo, marks_hist = :marks_hist,
+                                                marks_total = :marks_total, marks_percentage = :marks_percentage
+                                            WHERE application_no = :application_no');
+                
+                // TABLE : student_preregistration_draft_present_academic
+                $smt3= $pdocon->prepare('UPDATE student_preregistration_draft_present_academic
+                                            SET stream = :stream, first_language = :first_language, second_language = :second_language,
+                                                first_major = :first_major, second_major = :second_major, third_major = :third_major,
+                                                forth_major = :forth_major, direct_admission = :direct_admission, medium = :medium
+                                            WHERE application_no = :application_no');
+               
 
+            } else {
+                // TABLE : Previous Academic Info
+                $smt1 = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_info
+                                                    (application_no, previous_school_name, year_of_madhyamik, previous_student_id)
+                                            VALUES(:application_no, :previous_school_name, :year_of_madhyamik, :previous_student_id)');
 
-        if ($smt->execute()) {
-            // INSERTING PREVIOUS ACADEMIC MARKS --10 INPUT INCLUDING APPLICATION_NO
-            // TABLE : student_preregistration_draft_previous_academic_marks
-            $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_marks
-                                (application_no, marks_beng, marks_engb, marks_maths, marks_psc, marks_lsc, marks_geo, marks_hist, marks_total, marks_percentage)
-                        VALUES(:application_no, :marks_beng, :marks_engb, :marks_maths, :marks_psc, :marks_lsc, :marks_geo, :marks_hist, :marks_total, :marks_percentage)');
-
-            $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-            $smt->bindParam(':marks_beng', $marks_beng_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_engb', $marks_engb_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_maths', $marks_maths_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_psc', $marks_psc_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_lsc', $marks_lsc_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_geo', $marks_geo_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_hist', $marks_hist_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_total', $marks_total_clean, PDO::PARAM_INT);
-            $smt->bindParam(':marks_percentage', $marks_percentage_clean, PDO::PARAM_INT);
-
-            if ($smt->execute()) {
-                // INSERTING PRESENT ACADEMIC SUBJECTS DETAILS -- 8 COLUMN INCLUDING APPLICATION_NO  
-                // TABLE : student_preregistration_academic_info
-                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_present_academic
+                // TABLE : student_preregistration_draft_previous_academic_marks
+                $smt2 = $pdocon->prepare('INSERT INTO student_preregistration_draft_previous_academic_marks
+                                            (application_no, marks_beng, marks_engb, marks_maths, marks_psc, marks_lsc, marks_geo, marks_hist,
+                                                marks_total, marks_percentage)
+                                            VALUES(:application_no, :marks_beng, :marks_engb, :marks_maths, :marks_psc, :marks_lsc, :marks_geo,
+                                            :marks_hist, :marks_total, :marks_percentage)');
+                
+                //TABLE : 
+                $smt3 = $pdocon->prepare('INSERT INTO student_preregistration_draft_present_academic
                                 (application_no, stream, first_language, second_language, first_major, second_major, 
                                  third_major, forth_major, direct_admission, medium)
                                 VALUES(:application_no, :stream, :first_language, :second_language, :first_major, 
                                        :second_major, :third_major, :forth_major, :direct_admission, :medium)');
+            }
 
-                $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-                $smt->bindParam(':stream', $stream_clean, PDO::PARAM_STR);
-                $smt->bindParam(':first_language', $first_language_clean, PDO::PARAM_STR);
-                $smt->bindParam(':second_language', $second_language_clean, PDO::PARAM_STR);
-                $smt->bindParam(':first_major', $first_major_clean, PDO::PARAM_STR);
-                $smt->bindParam(':second_major', $second_major_clean, PDO::PARAM_STR);
-                $smt->bindParam(':third_major', $third_major_clean, PDO::PARAM_STR);
-                $smt->bindParam(':forth_major', $forth_major_clean, PDO::PARAM_STR);
-                $smt->bindParam(':direct_admission', $direct_admission_clean, PDO::PARAM_STR);
-                $smt->bindParam(':medium', $medium_clean, PDO::PARAM_STR);
+            // Previous Academic Info
+            $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $smt1->bindParam(':previous_school_name', $previous_school_name_clean, PDO::PARAM_STR);
+            $smt1->bindParam(':year_of_madhyamik', $year_of_madhyamik_clean, PDO::PARAM_INT);
+            $smt1->bindParam(':previous_student_id', $previous_student_id_clean, PDO::PARAM_STR);
 
-                if($smt->execute()){
-                    if($pdocon->commit()){
-                      $return['status'] = true;
-                      $return['statusText'] = "Successfully Inserted Academic Details";
-                      $return['error'] = null;
-                    } else {
-                      http_response_code(500);
-                      $return['status'] = false;
-                      $return['statusText'] = null;
-                      $return['error'] = "Failed to commit record on Database";
-                    }
-                } else {
-                    http_response_code(500);
-                    $return['status'] = false;
-                    $return['statusText'] = null;
-                    $return['error'] = "Failed to record on Database - student_preregistration_academic_info";
-                }
+            // Previous Academic Marks
+            $smt2->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_beng', $marks_beng_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_engb', $marks_engb_clean, PDO::PARAM_INT);
+            $sm2t->bindParam(':marks_maths', $marks_maths_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_psc', $marks_psc_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_lsc', $marks_lsc_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_geo', $marks_geo_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_hist', $marks_hist_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_total', $marks_total_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_percentage', $marks_percentage_clean, PDO::PARAM_INT);
+
+            // Present Academic
+            $smt3->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $smt3->bindParam(':stream', $stream_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':first_language', $first_language_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':second_language', $second_language_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':first_major', $first_major_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':second_major', $second_major_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':third_major', $third_major_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':forth_major', $forth_major_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':direct_admission', $direct_admission_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':medium', $medium_clean, PDO::PARAM_STR);
+
+
+            if($smt1->execute() && $smt2->execute() && $smt3->execute()){
+                $pdocon->commit();
+                $return['status'] = true;
+                $return['statusText'] = null;
+                $return['error'] = "Successfully Inserted or Updated";
+
             } else {
-                http_response_code(500);
                 $return['status'] = false;
                 $return['statusText'] = null;
-                $return['error'] = "Failed to record on Database - student_preregistration_draft_previous_academic_marks";
+                $return['error'] = "Failed to commit record on Database";
+
             }
 
         } else {
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
-            $return['error'] = "Failed to record on Database - student_preregistration_draft_previous_academic_info";
+            $return['error'] = "Failed to get data from .....";
         }
+
+
     } else {
         http_response_code(401);
         $return['status'] = false;
