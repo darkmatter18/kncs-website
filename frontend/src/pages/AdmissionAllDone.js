@@ -1,6 +1,6 @@
 import React from "react";
-import {useHistory, Redirect, Link as LinkRouter} from 'react-router-dom';
-import {ADMISSION_EXISTING, ADMISSION_NEW} from "../routes/route";
+import {useHistory, Redirect} from 'react-router-dom';
+import {ADMISSION_NEW} from "../routes/route";
 import Header from "../components/Header";
 import SubHeader from "../components/SubHeader";
 import Container from "@material-ui/core/Container";
