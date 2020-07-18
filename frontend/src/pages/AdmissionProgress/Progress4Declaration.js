@@ -89,6 +89,8 @@ const Progress4Declaration = () => {
         marks_lsc: '',
         marks_hist: '',
         marks_geo: '',
+        direct_admission: '',
+        medium: '',
         stream: '',
         first_language: 'BENA',
         second_language: 'ENGB',
@@ -515,9 +517,23 @@ const Progress4Declaration = () => {
                                         </Typography>
                                         <Card variant={"outlined"}>
                                             <CardContent>
-                                                <Typography variant={"body1"}>
-                                                    Selected Stream: <b>{formState.stream}</b>
-                                                </Typography>
+                                                <Grid container>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"}>
+                                                            Direct Admission: <b>{formState.direct_admission}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"}>
+                                                            Medium of Instruction: <b>{formState.medium}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"}>
+                                                            Selected Stream: <b>{formState.stream}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
                                                 <Typography variant={"body2"} color={"textPrimary"}
                                                             className={classes.spacer}>
                                                     <b>Subject Combination</b>
