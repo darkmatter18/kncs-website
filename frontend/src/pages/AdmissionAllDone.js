@@ -9,14 +9,13 @@ import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 
-const AdmissionNewDone = () => {
+const AdmissionAllDone = () => {
     const history = useHistory()
     if (history.location.state === undefined || history.location.state === null) {
         return (
             <Redirect to={ADMISSION_NEW}/>
         )
     } else {
-        const applicationNo = history.location.state.application_no
         return (
             <React.Fragment>
                 <Header/>
@@ -27,12 +26,7 @@ const AdmissionNewDone = () => {
                             <Card variant={"outlined"}>
                                 <CardContent>
                                     <Typography variant={"body1"} align={"center"}>
-                                        Thank You for your Registration. Your Application No is {applicationNo}.
-                                        Complete the remaining registration. <br/>
-                                        Remember "Your account will be invalid after 30 days."<br/>
-                                        <LinkRouter to={ADMISSION_EXISTING}>
-                                            Proceed to Application
-                                        </LinkRouter>
+                                        Thank You for your Registration.
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -44,4 +38,4 @@ const AdmissionNewDone = () => {
     }
 }
 
-export default AdmissionNewDone
+export default AdmissionAllDone

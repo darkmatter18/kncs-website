@@ -26,6 +26,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import api from './../../api'
 import {ValidateName} from "../../utils/validate";
 import {useAuthHeader} from "react-auth-jwt";
+import {ADMISSION_ALL_DONE} from "../../routes/route";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -173,10 +174,9 @@ const Progress4Declaration = () => {
                         }
                     }).then((res)=>{
                         if (res.data.status) {
-                            // history.push(ADMISSION_NEW_DONE, {
-                            //     application_no: res.data.application_no,
-                            //     email: res.data.email
-                            // })
+                            history.push(ADMISSION_ALL_DONE, {
+                                status: res.data.status,
+                            })
                         } else {
                             setNetworkState(netState.ERROR)
                         }
