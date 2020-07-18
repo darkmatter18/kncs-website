@@ -116,7 +116,8 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                     $base64_decode = base64_decode($_INPUT['image']);
                     $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image) VALUES(:application_no,:image)');
                     $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-                    $smt->bindColumn(':image', $base64_decode, PDO::PARAM_LOB);
+                    $smt->bindParam(':image', $base64_decode, PDO::PARAM_LOB);
+
 
                     if ($smt->execute()){
                         if($pdocon->commit()){
