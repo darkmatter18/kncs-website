@@ -48,6 +48,13 @@ if ($smt->execute()) {
     $smt->setFetchMode(PDO::FETCH_ASSOC);
     $output = $smt->fetch();
     $return['data'] = $output;
+
+    // $image = base64_encode($output['image']);
+    // $return['image'] = $image;
+
+    $image = base64_encode($output['image']);
+    $return['data']['image'] = $image;
+
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";
     $return['error'] = null;
