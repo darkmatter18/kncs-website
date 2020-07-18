@@ -74,6 +74,11 @@ Router::add('/preregistration/process/payment_info','get',function(){
 
 
 //Declaration info
+
+//get
+Router::add('/preregistration/process/declaration','get',function(){
+    require LOGIC_DIR.'get_declaration_all.php';
+});
 //post.....
 Router::add('/preregistration/process/declaration','post',function(){
     require LOGIC_DIR.'post_student_preregistration_draft_declaration.php';

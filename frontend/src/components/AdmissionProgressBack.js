@@ -5,15 +5,15 @@ import {useHistory, useParams} from "react-router-dom";
 import {ADMISSION_PROGRESS} from "../constant";
 
 const AdmissionProgressBack = () => {
-    let {user_id, progress} = useParams();
+    let {progress} = useParams();
     const history = useHistory()
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)
     const handleBackButtonClick = () => {
         const previousStep = activeStep - 1
         if (previousStep < 0) {
-            history.push(`/admission/progress/${user_id}/${ADMISSION_PROGRESS[0]}`)
+            history.push(`/admission/progress/${ADMISSION_PROGRESS[0]}`)
         } else {
-            history.push(`/admission/progress/${user_id}/${ADMISSION_PROGRESS[previousStep]}`)
+            history.push(`/admission/progress/${ADMISSION_PROGRESS[previousStep]}`)
         }
     }
 
