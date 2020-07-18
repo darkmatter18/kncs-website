@@ -1,7 +1,7 @@
 import React from "react";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {useAuthHeader} from "react-auth-jwt";
 import Container from "@material-ui/core/Container";
 import CardContent from "@material-ui/core/CardContent";
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress3PaymentInfo = () => {
     const classes = useStyles()
-    let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
 
@@ -70,8 +69,10 @@ const Progress3PaymentInfo = () => {
         })
             .then((res)=>{
                 if(res.data.status){
-                    setFormData(prevState => ({...prevState, ...res.data.data,
-                        transaction_date: new Date(res.data.transaction_date)}))
+                    if(res.data.data){
+                        setFormData(prevState => ({...prevState, ...res.data.data,
+                            transaction_date: new Date(res.data.transaction_date)}))
+                    }
                 }else {
                     console.error(res.data.error)
                 }
