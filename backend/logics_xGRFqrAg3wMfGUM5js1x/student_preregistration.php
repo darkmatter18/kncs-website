@@ -17,7 +17,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
 && isset($_INPUT['aadhar_no']) && isset($_INPUT['email']) && isset($_INPUT['mobile']) && isset($_INPUT['dob'])
 && isset($_INPUT['recaptcha_token'])){
     if(checkRecaptcha($_INPUT['recaptcha_token'])){
-       
+
         $first_name_clean = Filter::String($_INPUT['first_name']);
         $middle_name_clean = Filter::String($_INPUT['middle_name']);
         $last_name_clean = Filter::String($_INPUT['last_name']);
