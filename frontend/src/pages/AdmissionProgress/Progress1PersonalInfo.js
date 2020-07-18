@@ -146,7 +146,7 @@ const Progress1PersonalInfo = () => {
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
         if (e.target.checked) {
             setFormData(prevState => ({...prevState,
-                guardian_name: prevState.father_name, guardian_occupation: prevState.guardian_occupation}))
+                guardian_name: prevState.father_name, guardian_occupation: prevState.father_occupation}))
             setGuardianDisabled(true)
         } else {
             setGuardianDisabled(false)
