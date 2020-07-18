@@ -21,7 +21,7 @@ $return = [];
 
 header('Content-Type: application/json');
 
-if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_name'])
+if(isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_name'])
     && isset($_INPUT['recaptcha_token']) ){
 
         if (checkRecaptcha($_INPUT['recaptcha_token'])) {
