@@ -49,8 +49,11 @@ if ($smt->execute()) {
     $output = $smt->fetch();
     $return['data'] = $output;
 
+    // $image = base64_encode($output['image']);
+    // $return['image'] = $image;
+
     $image = base64_encode($output['image']);
-    $return['image'] = $image;
+    $return['data']['image'] = $image;
 
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";
