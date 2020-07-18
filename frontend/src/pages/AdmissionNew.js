@@ -150,7 +150,8 @@ const AdmissionNew = () => {
                         if (res.data.status) {
                             history.push(ADMISSION_NEW_DONE, {
                                 application_no: res.data.application_no,
-                                email: res.data.email
+                                email: formData.email,
+                                dob: formData.dob
                             })
                         } else {
                             setNetworkState(netState.ERROR)
