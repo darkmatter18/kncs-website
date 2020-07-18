@@ -32,7 +32,7 @@ if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset
         $mode_of_payment_clean = Filter::String($_INPUT['mode_of_payment']);
         $name_of_bank_clean = Filter::String($_INPUT['name_of_bank']);
         $transaction_id_clean = Filter::String($_INPUT['transaction_id']);
-        $transaction_date_clean = Filter::String($_INPUT['mode_of_payment']);
+        $transaction_date_clean = Filter::String($_INPUT['transaction_date']);
 
         $pdocon->beginTransaction();    // check wheather it is inside the table or not
 
