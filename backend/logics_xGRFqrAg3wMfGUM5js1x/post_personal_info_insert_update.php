@@ -98,9 +98,9 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                                     city = :city, district = :district, pin = :pin
                                                 WHERE application_no = :application_no');
                 // Table : Image
-                $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image)
-                                                VALUES(:application_no,:image)');
-
+                $smt4 = $pdocon->prepare('UPDATE student_preregistration_draft_image
+                                            SET image = :image
+                                            WHERE application_no = :application_no');
 
             } else {
                 // TABLE : BASIC INFO
@@ -121,9 +121,8 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                             VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
                  // Table : student_preregistration_draft_image
-                $smt4 = $pdocon->prepare('UPDATE student_preregistration_draft_image
-                                            SET image = :image
-                                            WHERE application_no = :application_no');
+                $smt4 = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image)
+                                            VALUES(:application_no,:image)');
 
             }
                 
@@ -161,7 +160,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
             $smt4->bindParam(':image', $base64_decode, PDO::PARAM_LOB);
 
-            if($smt1->execute() && $smt2->execute() && $smt3->execute()){
+            if($smt1->execute() && $smt2->execute() && $smt3->execute() && $smt4->execute()){
                 $pdocon->commit();
                 $return['status'] = true;
                 $return['statusText'] = null;
