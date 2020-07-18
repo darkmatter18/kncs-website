@@ -151,6 +151,7 @@ const Progress2AcademicInfo = () => {
     };
 
     const handleDirectAdmissionCheckBox = (e) => {
+        e.persist()
         setFormData(prevState => ({...prevState, direct_admission: e.target.checked}))
     }
 
