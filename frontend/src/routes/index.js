@@ -15,6 +15,7 @@ import AdmissionExisting from "../pages/AdmissionExisting";
 import AdmissionNewDone from "../pages/AdmissionNewDone";
 import AdmissionProgress from "../pages/AdmissionProgress";
 import {PrivateRoute} from "react-auth-jwt";
+import Page404 from "../pages/Page404";
 
 
 const RouteComponent = () => {
@@ -26,8 +27,8 @@ const RouteComponent = () => {
                 <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
-
                 <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW} exact/>
+                <Route path='*' exact={true} component={Page404} />
             </Switch>
         </Router>
     )
