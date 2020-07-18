@@ -21,7 +21,7 @@ $return = [];
 
 header('Content-Type: application/json');
 
-if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_name'])
+if(isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_name'])
     && isset($_INPUT['recaptcha_token']) ){
 
         if (checkRecaptcha($_INPUT['recaptcha_token'])) {
@@ -43,9 +43,46 @@ if( isset($_INPUT['application_no']) && isset($_INPUT['date']) && isset($_INPUT[
             $smt->bindParam(':full_name', $full_name, PDO::PARAM_STR);
 
             if ($smt->execute()) {
-                    $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status='SUBMITTED' WHERE application_no=:applicaion_no");
+                $smt = $pdocon->prepare('SELECT direct_admission
+                                            FROM student_preregistration_draft_present_academic
+                                            WHERE application_no = :application_no');
+                
+                $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+                
+                if ($smt->execute()) {
+                    $smt->setFetchMode(PDO::FETCH_ASSOC);
+                    $output = $smt->fetch(); 
+
+                    if ($output['direct_admission']="true") {
+                        $status = "SELECTED";
+
+                    } else {
+                        $status="SUBMITTED";
+                    }
+                
+                } else {
+                    http_response_code(500);
+                    $return['status'] = false;
+                    $return['statusText'] = null;
+                    $return['error'] = "Failed to fetch direct_access data";
+                    $return['data'] = null;
+                    $status= null;
+                }
+
+            } else {
+                $return['status'] = false;
+                $return['statusText'] = null;
+                $return['error'] = "Failed to record on database - declaration_info";
+                $return['data'] = null;
+                $status= null;
+
+            }
+
+            if ($smt->execute()) {
+                    $smt = $pdocon->prepare("UPDATE student_preregistration_details SET status = :status WHERE application_no=:applicaion_no");
 
                     $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+                    $smt->bindParam(':status', $status, PDO::PARAM_STR);
 
                     if ($smt->execute()){
                         $pdocon->commit();  // commited
