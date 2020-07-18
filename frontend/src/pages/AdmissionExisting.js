@@ -40,7 +40,7 @@ const AdmissionExisting = () => {
         application_no: [false, "Enter Your 10 digit Application No"],
         email: [false, "Enter your E-Mail Id"]
     })
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
 
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
@@ -86,7 +86,7 @@ const AdmissionExisting = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setNetworkState(netState.BUSY)
+            setNetworkState([netState.BUSY, ''] )
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
@@ -103,14 +103,15 @@ const AdmissionExisting = () => {
                                 console.log("Signing In")
                                 history.push(`/admission/progress/${res.data.application_no}/personal_info`)
                             }else {
-                                setNetworkState(netState.ERROR)
+                                setNetworkState([netState.ERROR, 'Internal error occured'])
                             }
                         }
                         else {
-                            setNetworkState(netState.ERROR)
+                            setNetworkState([netState.ERROR, res.data.error])
                         }
                     }).catch((e)=>{
-                        setNetworkState(netState.ERROR)
+                        console.log(e)
+                        setNetworkState([netState.ERROR, 'Internal error occured'])
                     })
                 })
             })
@@ -168,7 +169,7 @@ const AdmissionExisting = () => {
                                 </Grid>
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkSubmit handleSubmit={handleSubmit} networkState={networkState}/>
+                                        <NetworkSubmit handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
@@ -177,7 +178,7 @@ const AdmissionExisting = () => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant={"subtitle2"} color={"error"}>
-                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" :""}
+                                            {networkState[0] === netState.ERROR ? `Some unexpected error occurred ${networkState[1]}` :""}
                                         </Typography>
                                     </Grid>
                                 </Grid>
