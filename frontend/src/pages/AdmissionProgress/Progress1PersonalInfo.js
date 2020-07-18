@@ -53,7 +53,7 @@ const Progress1PersonalInfo = () => {
         gender: '',
         religion: '',
         caste: '',
-        aadhaar_no: '',
+        aadhar_no: '',
         mother_tongue: '',
         apply_for_reserved_seat: false,
         caste_certificate_no: '',
@@ -83,7 +83,7 @@ const Progress1PersonalInfo = () => {
         gender: [false, "Enter your Gender"],
         religion: [false, "Enter your Religion"],
         caste: [false, "Enter your Cast"],
-        aadhaar_no: [false, "Enter your 12 digit Aadhar No"],
+        aadhar_no: [false, "Enter your 12 digit Aadhar No"],
         mother_tongue: [false, "Enter your Mother Tongue"],
         apply_for_reserved_seat: [false, "Apply for a Reserved Seat"],
         caste_certificate_no: [false, "Enter the Caste Certificate No"],
@@ -145,8 +145,8 @@ const Progress1PersonalInfo = () => {
     const handleChangeGuardianSameFather = (e) => {
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
         if (e.target.checked) {
-            setFormData(prevState => ({...prevState, guardian_name: prevState.father_name}))
-            setFormData(prevState => ({...prevState, guardian_occupation: prevState.guardian_occupation}))
+            setFormData(prevState => ({...prevState,
+                guardian_name: prevState.father_name, guardian_occupation: prevState.guardian_occupation}))
             setGuardianDisabled(true)
         } else {
             setGuardianDisabled(false)
@@ -427,10 +427,10 @@ const Progress1PersonalInfo = () => {
                                 <Grid container spacing={5} className={classes.spacer}>
 
                                     <Grid item md={4}>
-                                        <TextField fullWidth disabled error={errors.aadhaar_no[0]}
-                                                   helperText={errors.aadhaar_no[1]}
-                                                   label={"Aadhaar No"} id={"aadhaar_no"}
-                                                   variant={"outlined"} value={formData.aadhaar_no}/>
+                                        <TextField fullWidth disabled error={errors.aadhar_no[0]}
+                                                   helperText={errors.aadhar_no[1]}
+                                                   label={"Aadhaar No"} id={"aadhar_no"}
+                                                   variant={"outlined"} value={formData.aadhar_no}/>
                                     </Grid>
                                     <Grid item md={4}>
                                         <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
@@ -465,7 +465,7 @@ const Progress1PersonalInfo = () => {
                                             <FormControlLabel
                                                 value={"Apply for Reserved Seat"}
                                                 control={<Switch
-                                                    checked={formData.apply_for_reserved_seat}
+                                                        checked={formData.apply_for_reserved_seat}
                                                     onChange={handleCheckboxChange('apply_for_reserved_seat')}
                                                     color="secondary"
                                                     name="apply_for_reserved_seat"
@@ -609,11 +609,45 @@ const Progress1PersonalInfo = () => {
                                 </Grid>
                                 <Grid container spacing={5} justify={"center"} className={classes.spacer}>
                                     <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.district[0]}
-                                                   helperText={errors.district[1]}
-                                                   label={"District"} id={"district"}
-                                                   variant={"outlined"} value={formData.district}
-                                                   onChange={handleFormDataChange('district')}/>
+
+                                        <FormControl variant="outlined" fullWidth error={errors.district[0]}>
+                                            <InputLabel id="form-district-label">District</InputLabel>
+                                            <Select
+                                                labelId="form-district-label"
+                                                id="form-district"
+                                                value={formData.district}
+                                                onChange={handleFormDataChange('district')}
+                                                label="District"
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                <MenuItem value={'Alipurduar'}>Alipurduar</MenuItem>
+                                                <MenuItem value={'Bankura'}>Bankura</MenuItem>
+                                                <MenuItem value={'Birbhum'}>Birbhum</MenuItem>
+                                                <MenuItem value={'Cooch Behar'}>Cooch Behar</MenuItem>
+                                                <MenuItem value={'Dakshin Dinajpur'}>Dakshin Dinajpur</MenuItem>
+                                                <MenuItem value={'Darjeeling'}>Darjeeling</MenuItem>
+                                                <MenuItem value={'East Midnapore'}>East Midnapore</MenuItem>
+                                                <MenuItem value={'Hooghly'}>Hooghly</MenuItem>
+                                                <MenuItem value={'Howrah'}>Howrah</MenuItem>
+                                                <MenuItem value={'Jalpaiguri'}>Jalpaiguri</MenuItem>
+                                                <MenuItem value={'Jhargram'}>Jhargram</MenuItem>
+                                                <MenuItem value={'Kalimpong'}>Kalimpong</MenuItem>
+                                                <MenuItem value={'Kolkata'}>Kolkata</MenuItem>
+                                                <MenuItem value={'Malda'}>Malda</MenuItem>
+                                                <MenuItem value={'Murshidabad'}>Murshidabad</MenuItem>
+                                                <MenuItem value={'Nadia'}>Nadia</MenuItem>
+                                                <MenuItem value={'North 24 Parganas'}>North 24 Parganas</MenuItem>
+                                                <MenuItem value={'Paschim Bardhaman'}>Paschim Bardhaman</MenuItem>
+                                                <MenuItem value={'Purba Bardhaman'}>Purba Bardhaman</MenuItem>
+                                                <MenuItem value={'Purulia'}>Purulia</MenuItem>
+                                                <MenuItem value={'South 24 Parganas'}>South 24 Parganas</MenuItem>
+                                                <MenuItem value={'Uttar Dinajpur'}>Uttar Dinajpur</MenuItem>
+                                                <MenuItem value={'West Midnapore'}>West Midnapore</MenuItem>
+                                            </Select>
+                                            <FormHelperText>{errors.district[1]}</FormHelperText>
+                                        </FormControl>
                                     </Grid>
                                     <Grid item md={4}>
                                         <TextField required fullWidth error={errors.pin[0]}
