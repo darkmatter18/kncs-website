@@ -103,16 +103,17 @@ const Progress1PersonalInfo = () => {
         whatsapp_no: [false, "Enter 10 Digit Whatsapp Number"],
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         api.get(PRE_REGISTRATION_PRESONAL_INFO, {
             headers: {
                 Authorization: authHeader()
             }
         })
-            .then((res)=>{
-                if(res.data.status){
-                    if (res.data.data){
-                        setFormData(prevState => ({...prevState,
+            .then((res) => {
+                if (res.data.status) {
+                    if (res.data.data) {
+                        setFormData(prevState => ({
+                            ...prevState,
                             ...res.data.data,
                             apply_for_reserved_seat: res.data.data.apply_for_reserved_seat ?
                                 (res.data.data.apply_for_reserved_seat === 'true' ||
@@ -148,15 +149,15 @@ const Progress1PersonalInfo = () => {
                             whatsapp_no: res.data.data.whatsapp_no ? res.data.data.whatsapp_no : ''
                         }))
                     }
-                }else {
+                } else {
                     console.error(res.data.error)
                 }
-            }).catch((e)=>{
-                console.error(e)
+            }).catch((e) => {
+            console.error(e)
         })
-    },[])
+    }, [])
 
-    const [file, setfile] = React.useState(null);
+    const [file, setFile] = React.useState(null);
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
@@ -171,25 +172,20 @@ const Progress1PersonalInfo = () => {
         setFormData(prevState => ({...prevState, [name]: e.target.checked}))
     }
 
-    const handleFileChange = (file) => {
-        setfile(file)
+    const handleFileChange = (dataURL) => {
+        console.log(dataURL)
+        setFile(dataURL)
     }
 
     const handleChangeGuardianSameFather = (e) => {
         setFormData(prevState => ({...prevState, guardian_same_father: e.target.checked}))
         if (e.target.checked) {
-            setFormData(prevState => ({...prevState,
-                guardian_name: prevState.father_name, guardian_occupation: prevState.father_occupation}))
-        } else {
+            setFormData(prevState => ({
+                ...prevState,
+                guardian_name: prevState.father_name, guardian_occupation: prevState.father_occupation
+            }))
         }
     }
-
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
 
     const validateSelects = (name) => {
         if (formData[name].length > 0) {
@@ -238,7 +234,7 @@ const Progress1PersonalInfo = () => {
     }
 
     const validateRawData = (data) => {
-        if (formData[data].length > 2){
+        if (formData[data].length > 2) {
             setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
             return true
         } else {
@@ -248,7 +244,7 @@ const Progress1PersonalInfo = () => {
     }
 
     const validatePin = () => {
-        if (/^\d{6}$/g.test(formData.pin)){
+        if (/^\d{6}$/g.test(formData.pin)) {
             setErrors(prevState => ({...prevState, pin: initialErrorState.pin}))
             return true
         } else {
@@ -292,45 +288,40 @@ const Progress1PersonalInfo = () => {
         const _e2 = checkWhatsAppNum()
 
         return (_a1 && _a2 && _a3 && _a4 && _b1 && _b2 && _c1 && _c2 && _c3 && _d1 && _d2 && _d3 && _d4 && _d5
-            && _d6 && _d7 && _e1 &&_e2)
+            && _d6 && _d7 && _e1 && _e2)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(file === null){
+        if (file === null) {
             alert("Select a file before Submitting");
-        }
-        else {
+        } else {
             if (validate()) {
                 setNetworkState(netState.BUSY)
                 console.log("DOB", formData.dob)
-                const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.dob))
-                const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.dob))
-                const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.dob))
+                const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(new Date(formData.dob))
+                const mo = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(new Date(formData.dob))
+                const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(new Date(formData.dob))
                 window.grecaptcha.ready(() => {
-                    window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
-                        toBase64(file).then(imageValue => {
-                            api.post(PRE_REGISTRATION_PRESONAL_INFO, {
-                                ...formData,
-                                dob: `${ye}-${mo}-${da}`,
-                                image: imageValue,
-                                recaptcha_token: token
-                            },{
-                                headers:{
-                                    Authorization: authHeader()
-                                }
-                            }).then((res) => {
-                                if (res.data.status) {
-                                    history.push(`/admission/progress/academic_info`)
-                                } else {
-                                    setNetworkState(netState.ERROR)
-                                }
-                            }).catch((e) => {
-                                console.error(e)
+                    window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
+                        api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                            ...formData,
+                            dob: `${ye}-${mo}-${da}`,
+                            image: file,
+                            recaptcha_token: token
+                        }, {
+                            headers: {
+                                Authorization: authHeader()
+                            }
+                        }).then((res) => {
+                            if (res.data.status) {
+                                history.push(`/admission/progress/academic_info`)
+                            } else {
                                 setNetworkState(netState.ERROR)
-                            })
-                        }).catch((e)=>{
+                            }
+                        }).catch((e) => {
                             console.error(e)
+                            setNetworkState(netState.ERROR)
                         })
                     })
                 })
@@ -496,7 +487,7 @@ const Progress1PersonalInfo = () => {
                                             <FormControlLabel
                                                 value={"Apply for Reserved Seat"}
                                                 control={<Switch
-                                                        checked={formData.apply_for_reserved_seat}
+                                                    checked={formData.apply_for_reserved_seat}
                                                     onChange={handleCheckboxChange('apply_for_reserved_seat')}
                                                     color="secondary"
                                                     name="apply_for_reserved_seat"
@@ -716,7 +707,7 @@ const Progress1PersonalInfo = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <ImageUploaderComponent onChange={handleFileChange} />
+                                <ImageUploaderComponent dataUrl={file} onChange={handleFileChange}/>
                             </CardContent>
                         </Card>
                         <Grid container className={classes.spacer} justify={"flex-start"}>
@@ -724,7 +715,8 @@ const Progress1PersonalInfo = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item>
-                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
+                                               handleSubmit={handleSubmit}/>
                             </Grid>
                             <Grid item>
                                 <Typography variant={"subtitle2"} color={"error"}>
