@@ -17,16 +17,14 @@ header('Content-Type: application/json');
 
 $application_no = $auth_user['data']->application_no;
 
-$smt = $pdocon->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transaction_id, T2.transaction_date,
-
+$smt = $pdocon->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transaction_id, T2.transaction_date
                         FROM `student_preregistration_details` AS T1
                         INNER JOIN `student_preregistration_draft_payment_info` AS T2
                         ON T1.application_no=T2.application_no
-
                         WHERE T1.application_no = :application_no");
 
 
-        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+$smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
     $smt->setFetchMode(PDO::FETCH_ASSOC);
