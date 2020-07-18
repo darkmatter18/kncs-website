@@ -24,6 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import api from "../../api";
+import {ValidateName} from "../../utils/validate";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,18 +87,46 @@ const Progress3PaymentInfo = () => {
     }
 
 
+    const validateName = (name_type) => {
+        if (ValidateName(formData[name_type])) {
+            setErrors(prevState => ({...prevState, [name_type]: initialErrorState[name_type]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [name_type]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
+    const validateRawData = (data) => {
+        if (formData[data].length > 2){
+            setErrors(prevState => ({...prevState, [data]: initialErrorState[data]}))
+            return true
+        } else {
+            setErrors(prevState => ({...prevState, [data]: [true, "Invalid Input"]}))
+            return false
+        }
+    }
+
     const validate = () => {
-        //TODO: Validate
+        const _a1 = validateName('name_of_bank')
+        const _a2 = validateRawData('mode_of_payment')
+        const _a3 = validateRawData('transaction_id')
+
+        return (_a1 && _a2 && _a3)
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()){
             setNetworkState(netState.BUSY)
+            const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.transaction_date))
+            const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.transaction_date))
+            const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.transaction_date))
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
                     api.post(PRE_REGISTRATION_PAYMENT_INFO, {
                         ...formData,
+                        transaction_date: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
                     },{
                         headers:{
