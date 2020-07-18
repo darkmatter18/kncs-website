@@ -11,6 +11,7 @@ import {ADMISSION_PROGRESS} from "../../constant";
 import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../routes/route";
+import ApplicationTopStatus from "../../components/ApplicationTopStatus";
 
 const AdmissionProgresser = ({progress}) => {
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number
@@ -34,6 +35,7 @@ const AdmissionProgresser = ({progress}) => {
     return (
         <React.Fragment>
             <Header/>
+            <ApplicationTopStatus/>
             <Container>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => {

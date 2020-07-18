@@ -1,5 +1,4 @@
 import React from "react";
-import {useParams} from "react-router-dom";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
@@ -23,7 +22,7 @@ import NetworkSubmit from "../../components/NetworkSubmit";
 import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
 import {useHistory} from "react-router-dom";
-import {useAuth, useAuthHeader} from "react-auth-jwt";
+import {useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../components/ImageUploaderComponent";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,10 +41,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Progress1PersonalInfo = () => {
     const classes = useStyles()
-    let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
-    const auth = useAuth()
     const initialState = {
         first_name: '',
         middle_name: '',
