@@ -43,7 +43,7 @@ Router::add('/admin/1','get',function(){
 //Personal info 
 //POST------
 Router::add('/preregistration/process/personal_info','post',function(){
-    require LOGIC_DIR.'post_student_preregistration_personal_info_all.php';
+    require LOGIC_DIR.'post_personal_info_insert_update.php';
 });
 // GET-----
 Router::add('/preregistration/process/personal_info','get',function(){
