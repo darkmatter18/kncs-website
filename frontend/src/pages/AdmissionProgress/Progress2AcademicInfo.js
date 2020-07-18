@@ -79,8 +79,8 @@ const Progress2AcademicInfo = () => {
         direct_admission: false,
         medium: '',
         stream: '',
-        first_language: 'BENA',
-        second_language: 'ENGB',
+        first_language: 'BENGALI',
+        second_language: 'ENGLISH',
         first_major: '',
         second_major: '',
         third_major: '',
@@ -174,7 +174,7 @@ const Progress2AcademicInfo = () => {
                 + Number(prevState.marks_psc) + Number(prevState.marks_lsc) + Number(prevState.marks_geo)
                 + Number(prevState.marks_hist)
 
-            return {...prevState, marks_percentage: (total / 7)}
+            return {...prevState, marks_percentage: (total / 7).toFixed(2)}
         })
     }
 
@@ -394,7 +394,7 @@ const Progress2AcademicInfo = () => {
                         }
                     }).then((res) => {
                         if (res.data.status) {
-                            history.push(`/admission/progress/${user_id}/payment_info`)
+                            history.push(`/admission/progress/payment_info`)
                         } else {
                             setNetworkState(netState.ERROR)
                         }
@@ -674,7 +674,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_beng[0]}
                                                            helperText={errors.marks_beng[1]}
-                                                           label={"BENG"} id={"marks_beng"}
+                                                           label={"Bengali"} id={"marks_beng"}
                                                            variant={"outlined"} value={formData.marks_beng}
                                                            onChange={handleMarksChange("marks_beng")}
                                                            inputProps={{min: 0, max: 100, maxlength:3}}  />
@@ -682,7 +682,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_engb[0]}
                                                            helperText={errors.marks_engb[1]}
-                                                           label={"ENGB"} id={"marks_engb"}
+                                                           label={"English"} id={"marks_engb"}
                                                            variant={"outlined"} value={formData.marks_engb}
                                                            onChange={handleMarksChange("marks_engb")}
                                                            inputProps={{min: 0, max: 100, maxlength:3}}/>

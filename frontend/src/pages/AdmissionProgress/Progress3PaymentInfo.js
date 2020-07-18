@@ -104,7 +104,7 @@ const Progress3PaymentInfo = () => {
                         }
                     }).then((res) => {
                         if (res.data.status) {
-                            history.push(`/admission/progress/${user_id}/declaration`)
+                            history.push(`/admission/progress/declaration`)
                         } else {
                             setNetworkState(netState.ERROR)
                         }
@@ -201,7 +201,6 @@ const Progress3PaymentInfo = () => {
                     </CardContent>
                 </Paper>
             </Container>
-            <AdmissionProgressBack/>
         </React.Fragment>
     )
 }
