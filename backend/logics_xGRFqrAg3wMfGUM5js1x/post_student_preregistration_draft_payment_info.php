@@ -34,32 +34,55 @@ if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset
         $transaction_id_clean = Filter::String($_INPUT['transaction_id']);
         $transaction_date_clean = Filter::String($_INPUT['transaction_date']);
 
-        $pdocon->beginTransaction();    // check wheather it is inside the table or not
+        $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_payment_info 
+                                            WHERE application_no= :application_no");
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        if($smt->execute()){
 
-        $smt = $pdocon->prepare('INSERT INTO student_preregistration_draft_payment_info
+            $pdocon->beginTransaction();
+            $statement = null;
+
+            if($smt->rowCount() > 0){
+                //UPDATE
+                $statement = $pdocon->prepare('UPDATE student_preregistration_draft_payment_info
+                                                        SET mode_of_payment = :mode_of_payment, name_of_bank = :name_of_bank,
+                                                            transaction_id = :transaction_id, transaction_date = :transaction_date
+                                                        WHERE application_no = :application_no');
+
+            } else {
+                //INSERT
+                $statement = $pdocon->prepare('INSERT INTO student_preregistration_draft_payment_info
                                                 (application_no, mode_of_payment, name_of_bank, transaction_id, transaction_date)
                                         VALUES(:application_no, :mode_of_payment, :name_of_bank, :transaction_id, :transaction_date)');
+            }
+            // UPDATE or QUERY block end
 
-        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-        $smt->bindParam(':mode_of_payment', $mode_of_payment_clean, PDO::PARAM_STR);
-        $smt->bindParam(':name_of_bank', $name_of_bank_clean, PDO::PARAM_STR);
-        $smt->bindParam(':transaction_id', $transaction_id_clean, PDO::PARAM_STR);
-        $smt->bindParam(':transaction_date', $transaction_date_clean, PDO::PARAM_STR);
+            $statement->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $statement->bindParam(':mode_of_payment', $mode_of_payment_clean, PDO::PARAM_STR);
+            $statement->bindParam(':name_of_bank', $name_of_bank_clean, PDO::PARAM_STR);
+            $statement->bindParam(':transaction_id', $transaction_id_clean, PDO::PARAM_STR);
+            $statement->bindParam(':transaction_date', $transaction_date_clean, PDO::PARAM_STR);
 
-        if ($smt->execute()) {
-            $pdocon->commit();  // commited
-            $return['status'] = true;
-            $return['statusText'] = "Payment Successful";
-            $return['error'] = null;
+            if ($statement->execute()) {
+                $pdocon->commit();
+                $return['status'] = true;
+                $return['statusText'] = "Payment Successful";
+                $return['error'] = null;
 
-        } else {
+            } else {
+                http_response_code(500);
+                $return['status'] = false;
+                $return['statusText'] = null;
+                $return['error'] = "Failed to record on Database - student_preregistration_draft_payment_info";
+
+            }
+        } else{
+            //Error
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
-            $return['error'] = "Failed to record on Database - student_preregistration_draft_payment_info";
-
+            $return['error'] = "Failed to SEARCH RECORD";
         }
-
     } else {
         http_response_code(401);
         $return['status'] = false;
