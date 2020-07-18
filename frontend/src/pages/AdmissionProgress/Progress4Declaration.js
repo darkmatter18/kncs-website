@@ -1,5 +1,5 @@
 import React from "react";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Progress4Declaration = () => {
-    let {user_id} = useParams()
     const history = useHistory()
     const authHeader = useAuthHeader()
     const classes = useStyles()
@@ -118,22 +117,22 @@ const Progress4Declaration = () => {
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         api.get(PRE_REGISTRATION_DECLARATION, {
             headers: {
                 Authorization: authHeader()
             }
         })
-            .then((res)=>{
-                if(res.data.status){
+            .then((res) => {
+                if (res.data.status) {
                     setFormState(prevState => ({...prevState, ...res.data.data}))
-                }else {
+                } else {
                     console.error(res.data.error)
                 }
-            }).catch((e)=>{
+            }).catch((e) => {
             console.error(e)
         })
-    },[])
+    }, [])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -162,18 +161,18 @@ const Progress4Declaration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(validate()){
+        if (validate()) {
             setNetworkState(netState.BUSY)
-            window.grecaptcha.ready(()=>{
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_DECLARATION, {
                         ...declarationFormState,
                         recaptcha_token: token
                     }, {
-                        headers:{
+                        headers: {
                             Authorization: authHeader()
                         }
-                    }).then((res)=>{
+                    }).then((res) => {
                         if (res.data.status) {
                             history.push(ADMISSION_ALL_DONE, {
                                 status: res.data.status,
@@ -181,7 +180,7 @@ const Progress4Declaration = () => {
                         } else {
                             setNetworkState(netState.ERROR)
                         }
-                    }).catch((e)=>{
+                    }).catch((e) => {
                         console.error(e)
                         setNetworkState(netState.ERROR)
                     })
@@ -662,7 +661,8 @@ const Progress4Declaration = () => {
                                 <AdmissionProgressBack/>
                             </Grid>
                             <Grid item md={6}>
-                                <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState} handleSubmit={handleSubmit}/>
+                                <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState}
+                                               handleSubmit={handleSubmit}/>
                             </Grid>
                         </Grid>
                     </CardContent>
