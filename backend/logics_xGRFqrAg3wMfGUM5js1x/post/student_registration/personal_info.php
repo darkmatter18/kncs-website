@@ -51,7 +51,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $mother_occupation_clean = Filter::String($_INPUT['mother_occupation']);
         $guardian_name_clean = Filter::String($_INPUT['guardian_name']);
         $guardian_occupation_clean = Filter::String($_INPUT['guardian_occupation']);
-        $guardian_same_father_clean = Filter::String($_INPUT['guardian_same_father']);
+        $guardian_same_father_clean = Filter::String($_INPUT['guardian_same_father']) ? 1 : 0;
 
         //ADDRESS INFO 5 INPUT 
         $address_line_1_clean= Filter::String($_INPUT['address_line_1']);
@@ -148,7 +148,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt2->bindParam(':mother_occupation', $mother_occupation_clean, PDO::PARAM_STR);
             $smt2->bindParam(':guardian_name', $guardian_name_clean, PDO::PARAM_STR);
             $smt2->bindParam(':guardian_occupation', $guardian_occupation_clean, PDO::PARAM_STR);
-            $smt2->bindParam(':guardian_same_father', $guardian_same_father_clean, PDO::PARAM_STR);
+            $smt2->bindParam(':guardian_same_father', $guardian_same_father_clean, PDO::PARAM_BOOL);
 
             //ADDRESS INFO
             $smt3->bindParam(':application_no', $application_no, PDO::PARAM_STR);
