@@ -161,29 +161,27 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt4->bindParam(':image', $base64_decode, PDO::PARAM_LOB);
 
             if($smt1->execute() && $smt2->execute() && $smt3->execute() && $smt4->execute()){
-                $pdocon->commit();
-                $return['status'] = true;
-                $return['statusText'] = null;
-                $return['error'] = "Successfully Inserted or Updated";
-
+                if($pdocon->commit()){
+                    $return['status'] = true;
+                    $return['statusText'] = null;
+                    $return['error'] = "Successfully Inserted or Updated";
+                } else {
+                    $return['status'] = false;
+                    $return['statusText'] = null;
+                    $return['error'] = "Failed to commit record on Database";
+                }
             } else {
                 $return['status'] = false;
                 $return['statusText'] = null;
                 $return['error'] = "Failed to commit record on Database";
-
             }
-
         }else{
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
             $return['error'] = "Failed to get data from basic info table";
-
         }
         // END of check of student_preregistration_draft_basic_info UPDATE CHECKING
-
-
-
     } else {
         http_response_code(401);
         $return['status'] = false;
