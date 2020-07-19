@@ -38,10 +38,10 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $religion_clean = Filter::String($_INPUT['religion']);
         $caste_clean = Filter::String($_INPUT['caste']);
         $mother_tongue_clean = Filter::String($_INPUT['mother_tongue']);
-        $apply_for_reserved_seat_clean = Filter::String($_INPUT['apply_for_reserved_seat']);
-        $caste_certificate_no_clean = Filter::Int($_INPUT['caste_certificate_no']);
-        $weather_bpl_clean = Filter::String($_INPUT['weather_bpl']);
-        $bpl_card_no_clean = Filter::Int($_INPUT['bpl_card_no']);
+        $apply_for_reserved_seat_clean = Filter::String($_INPUT['apply_for_reserved_seat']) ? 1 : 0;
+        $caste_certificate_no_clean = Filter::String($_INPUT['caste_certificate_no']);
+        $weather_bpl_clean = Filter::String($_INPUT['weather_bpl']) ? 1 : 0;
+        $bpl_card_no_clean = Filter::String($_INPUT['bpl_card_no']);
         $whatsapp_no_clean = Filter::Int($_INPUT['whatsapp_no']);
 
         // FAMILY INFO ---7 INPUT
@@ -101,7 +101,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                                 WHERE application_no = :application_no');
                 // Table : Image
                 $smt4 = $pdocon->prepare('UPDATE student_preregistration_draft_image
-                                            SET image = :image
+                                            SET image_type = :image_type, image = :image
                                             WHERE application_no = :application_no');
 
             } else {
@@ -134,9 +134,9 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt1->bindParam(':religion', $religion_clean, PDO::PARAM_STR);
             $smt1->bindParam(':caste', $caste_clean, PDO::PARAM_STR);
             $smt1->bindParam(':mother_tongue', $mother_tongue_clean, PDO::PARAM_STR);
-            $smt1->bindParam(':apply_for_reserved_seat', $apply_for_reserved_seat_clean, PDO::PARAM_STR);
+            $smt1->bindParam(':apply_for_reserved_seat', $apply_for_reserved_seat_clean, PDO::PARAM_BOOL);
             $smt1->bindParam(':caste_certificate_no', $caste_certificate_no_clean, PDO::PARAM_STR);
-            $smt1->bindParam(':weather_bpl', $weather_bpl_clean, PDO::PARAM_STR);
+            $smt1->bindParam(':weather_bpl', $weather_bpl_clean, PDO::PARAM_BOOL);
             $smt1->bindParam(':bpl_card_no', $bpl_card_no_clean, PDO::PARAM_STR);
             $smt1->bindParam(':whatsapp_no', $whatsapp_no_clean, PDO::PARAM_INT);
 
