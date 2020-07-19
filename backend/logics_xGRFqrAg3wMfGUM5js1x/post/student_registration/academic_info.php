@@ -46,7 +46,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $marks_geo_clean = Filter::Int($_INPUT['marks_geo']);
         $marks_hist_clean = Filter::Int($_INPUT['marks_hist']);
         $marks_total_clean = Filter::Int($_INPUT['marks_total']);
-        $marks_percentage_clean = Filter::Int($_INPUT['marks_percentage']);
+        $marks_percentage_clean = Filter::String($_INPUT['marks_percentage']);
 
         // PRESENT ACADEMIC DETAILS -- 9 INPUT
         $stream_clean = Filter::String($_INPUT['stream']);
@@ -131,7 +131,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
             $smt2->bindParam(':marks_geo', $marks_geo_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_hist', $marks_hist_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_total', $marks_total_clean, PDO::PARAM_INT);
-            $smt2->bindParam(':marks_percentage', $marks_percentage_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_percentage', $marks_percentage_clean, PDO::PARAM_STR);
 
             // Present Academic
             $smt3->bindParam(':application_no', $application_no, PDO::PARAM_INT);
