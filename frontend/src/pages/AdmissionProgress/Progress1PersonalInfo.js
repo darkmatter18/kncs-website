@@ -119,15 +119,20 @@ const Progress1PersonalInfo = () => {
                             apply_for_reserved_seat: res.data.data.apply_for_reserved_seat ?
                                 (res.data.data.apply_for_reserved_seat === 'true' ||
                                     res.data.data.apply_for_reserved_seat === '1' ||
+                                    res.data.data.apply_for_reserved_seat === 1 ||
                                     res.data.data.apply_for_reserved_seat === true)
                                 : false,
                             weather_bpl: res.data.data.weather_bpl > 0 ?
                                 (res.data.data.weather_bpl === 'true' ||
-                                    res.data.data.weather_bpl === '1' || res.data.data.weather_bpl === true)
+                                    res.data.data.weather_bpl === '1' ||
+                                    res.data.data.weather_bpl === 1 ||
+                                    res.data.data.weather_bpl === true)
                                 : false,
                             guardian_same_father: res.data.data.guardian_same_father ?
                                 (res.data.data.guardian_same_father === 'true' ||
-                                    res.data.data.guardian_same_father === '1' || res.data.data.guardian_same_father === true)
+                                    res.data.data.guardian_same_father === '1' ||
+                                    res.data.data.guardian_same_father === 1 ||
+                                    res.data.data.guardian_same_father === true)
                                 : false,
                             dob: new Date(res.data.data.dob),
                             gender: res.data.data.gender ? res.data.data.gender : '',
