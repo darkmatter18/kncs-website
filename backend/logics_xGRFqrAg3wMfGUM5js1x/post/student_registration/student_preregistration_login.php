@@ -22,13 +22,21 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         $email_id_clean = Filter::Email($_INPUT['email']);
         $dob_clean = Filter::String($_INPUT['dob']);
         // Added table student_preregistration_details to get the status column
-        $smt = $pdocon->prepare("SELECT spl.*,spd.status FROM `student_preregistration_login` spl, `student_preregistration_details` spd WHERE spl.application_no = spd.application_no AND spl.application_no = :application_no AND spl.email= :email AND spl.dob = :dob");
+        $smt = $pdocon->prepare("SELECT spl.*,spd.status 
+                                        FROM `student_preregistration_login` spl, `student_preregistration_details` spd 
+                                        WHERE spl.application_no = spd.application_no 
+                                          AND spl.application_no = :application_no 
+                                          AND spl.email= :email 
+                                          AND spl.dob = :dob");
         $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
         $smt->bindParam(":email", $email_id_clean, PDO::PARAM_STR);
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);
 
         if ($smt->execute()) {
             if ($smt->rowCount() > 0) {
+                $smt->setFetchMode(PDO::FETCH_ASSOC);
+                $output = $smt->fetch();
+                $status = $output['status'];
                 //JWT config
                 $issuedAt = time();
                 $expiredAt = time() + (2 * 60* 60); //Expired after 2 hours
@@ -44,7 +52,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
                     "uae"  => $_SERVER['HTTP_USER_AGENT'],
                     "data" => array (
                         "application_no" => $application_no_clean,
-                        "status" => $status_clean
+                        "status" => $status
                     )
                 );
 
@@ -53,7 +61,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
                 $return['status'] = true;
                 $return['jwt'] = $jwt;
                 $return['application_no'] = $application_no_clean;
-                $return['RecStatus'] = $status_clean; // Added to return the status field; Added in all the return statements
+                $return['RecStatus'] = $status; // Added to return the status field; Added in all the return statements
                 $return['statusText'] = "Successfully Logged In";
                 $return['error'] = null;
             }else{
