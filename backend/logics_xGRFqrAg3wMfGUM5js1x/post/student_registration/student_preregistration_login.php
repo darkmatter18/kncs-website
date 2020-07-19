@@ -21,8 +21,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         $application_no_clean = Filter::Int($_INPUT['application_no']);
         $email_id_clean = Filter::Email($_INPUT['email']);
         $dob_clean = Filter::String($_INPUT['dob']);
-
-        $smt = $pdocon->prepare("SELECT * FROM student_preregistration_login WHERE application_no = :application_no AND email= :email AND dob = :dob");
+        // Added table student_preregistration_details to get the status column
+        $smt = $pdocon->prepare("SELECT spl.*,spd.status FROM `student_preregistration_login` spl, `student_preregistration_details` spd WHERE spl.application_no = spd.application_no AND spl.application_no = :application_no AND spl.email= :email AND spl.dob = :dob");
         $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
         $smt->bindParam(":email", $email_id_clean, PDO::PARAM_STR);
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);
@@ -43,7 +43,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
                     'exp'  => $expiredAt,
                     "uae"  => $_SERVER['HTTP_USER_AGENT'],
                     "data" => array (
-                        "application_no" => $application_no_clean
+                        "application_no" => $application_no_clean,
+                        "status" => $status_clean
                     )
                 );
 
@@ -52,6 +53,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
                 $return['status'] = true;
                 $return['jwt'] = $jwt;
                 $return['application_no'] = $application_no_clean;
+                $return['RecStatus'] = $status_clean; // Added to return the status field; Added in all the return statements
                 $return['statusText'] = "Successfully Logged In";
                 $return['error'] = null;
             }else{
@@ -59,6 +61,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
                 $return['status'] = false;
                 $return['jwt'] = null;
                 $return['application_no'] = null;
+                $return['RecStatus'] = null;
                 $return['statusText'] = null;
                 $return['error'] = "Not Authenticated";
             }
@@ -67,6 +70,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
             $return['status'] = false;
             $return['jwt'] = null;
             $return['application_no'] = null;
+            $return['RecStatus'] = null;
             $return['statusText'] = null;
             $return['error'] = "Internal Server Error";
         }
@@ -75,6 +79,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         $return['status'] = false;
         $return['jwt'] = null;
         $return['application_no'] = null;
+        $return['RecStatus'] = null;
         $return['statusText'] = null;
         $return['error'] = "ReCaptcha verification failed";
     }
@@ -83,6 +88,7 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
     $return['status'] = false;
     $return['jwt'] = null;
     $return['application_no'] = null;
+    $return['RecStatus'] = null;
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
 }
