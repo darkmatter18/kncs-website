@@ -71,7 +71,8 @@ const Progress1PersonalInfo = () => {
         pin: '',
         email: '',
         mobile: '',
-        whatsapp_no: ''
+        whatsapp_no: '',
+        image: null
     }
     const initialErrorState = {
         first_name: [false, ""],
@@ -157,7 +158,6 @@ const Progress1PersonalInfo = () => {
         })
     }, [])
 
-    const [file, setFile] = React.useState(null);
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
     const [networkState, setNetworkState] = React.useState(netState.IDLE)
@@ -173,7 +173,7 @@ const Progress1PersonalInfo = () => {
     }
 
     const handleFileChange = (dataURL) => {
-        setFile(dataURL)
+        setFormData(prevState => ({...prevState, image: dataURL}))
     }
 
     const handleChangeGuardianSameFather = (e) => {
@@ -292,7 +292,7 @@ const Progress1PersonalInfo = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (file === null) {
+        if (formData.image === null) {
             alert("Select a file before Submitting");
         } else {
             if (validate()) {
@@ -306,7 +306,6 @@ const Progress1PersonalInfo = () => {
                         api.post(PRE_REGISTRATION_PRESONAL_INFO, {
                             ...formData,
                             dob: `${ye}-${mo}-${da}`,
-                            image: file,
                             recaptcha_token: token
                         }, {
                             headers: {
@@ -706,7 +705,7 @@ const Progress1PersonalInfo = () => {
                         </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
-                                <ImageUploaderComponent dataUrl={file} onChange={handleFileChange}/>
+                                <ImageUploaderComponent dataUrl={formData.image} onChange={handleFileChange}/>
                             </CardContent>
                         </Card>
                         <Grid container className={classes.spacer} justify={"flex-start"}>

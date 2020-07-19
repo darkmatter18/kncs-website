@@ -29,7 +29,7 @@ $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.
                                 T3.father_name, T3.father_occupation, T3.mother_name, T3.mother_occupation, T3.guardian_name,
                                 T3.guardian_occupation, T3.guardian_same_father,
                                 T4.address_line_1, T4.address_line_2, T4.city, T4.district, T4.pin,
-                                T5.image
+                                T5.image_type, T5.image
                         FROM `student_preregistration_details` AS T1
                         LEFT OUTER JOIN `student_preregistration_draft_basic_info` AS T2
                         ON T1.application_no=T2.application_no
@@ -52,8 +52,12 @@ if ($smt->execute()) {
     // $image = base64_encode($output['image']);
     // $return['image'] = $image;
     // 'data:image/' . $type . ';base64,' . base64_encode($data);
-    $image ='data:image/' . 'jpeg' . ';base64,'.  ltrim(base64_encode($output['image']),'dataimage/jpegbase64');
-    $return['data']['image'] = $image;
+    if ($output['image']){
+        $i = $output['image_type'] . ';base64,'.  base64_encode($output['image']);
+        $return['data']['image'] = $i;
+    } else {
+        $return['data']['image'] = null;
+    }
 
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";
