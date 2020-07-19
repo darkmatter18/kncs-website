@@ -135,7 +135,15 @@ const Progress2AcademicInfo = () => {
             .then((res) => {
                 if (res.data.status) {
                     if (res.data.data){
-                        setFormData(prevState => ({...prevState, ...res.data.data}))
+                        setFormData(prevState => ({...prevState,
+                            ...res.data.data,
+                            direct_admission: res.data.data.direct_admission ?
+                                (res.data.data.direct_admission === 'true' ||
+                                    res.data.data.direct_admission === '1' ||
+                                    res.data.data.direct_admission === 1 ||
+                                    res.data.data.direct_admission === true)
+                                : false,
+                        }))
                     }
                 } else {
                     console.error(res.data.error)
