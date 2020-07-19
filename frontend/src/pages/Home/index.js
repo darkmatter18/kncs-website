@@ -21,13 +21,11 @@ const Home = () => {
             <Grid container alignItems={"center"} justify={"center"} alignContent={"center"} className={classes.root}>
                 <Grid item md={12}>
                     <Typography variant={"h4"} align={"center"} color={"textPrimary"}>
-                        Application for Admission to Class XI
+                        Student Management Portal
                     </Typography>
                     <br/>
                     <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
-                        Due to some unavoidable circumstances, the application form is not yet released.<br/>
-                        Please keep visiting the page periodically. <br/>
-                        The form will be available soon. Thank you for your understanding and co-operation.
+                        Go To notice and then click admission notice link
                     </Typography>
                 </Grid>
             </Grid>
