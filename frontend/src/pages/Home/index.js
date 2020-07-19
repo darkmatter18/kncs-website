@@ -2,6 +2,7 @@ import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Footer from "../../components/Footer";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -30,6 +31,7 @@ const Home = () => {
                     </Typography>
                 </Grid>
             </Grid>
+            <Footer/>
         </React.Fragment>
     )
 }

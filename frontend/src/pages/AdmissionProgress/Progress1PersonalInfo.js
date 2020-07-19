@@ -24,6 +24,7 @@ import api from './../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../components/ImageUploaderComponent";
+import Footer from "../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -734,7 +735,7 @@ const Progress1PersonalInfo = () => {
                         </CardContent>
                     </Paper>
                 </Container>
-
+                <Footer/>
             </React.Fragment>
         )
     }

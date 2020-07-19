@@ -26,6 +26,7 @@ import Card from "@material-ui/core/Card";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import api from "../../api";
 import {ValidateName} from "../../utils/validate";
+import Footer from "../../components/Footer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -238,6 +239,7 @@ const Progress3PaymentInfo = () => {
                         </CardContent>
                     </Paper>
                 </Container>
+                <Footer/>
             </React.Fragment>
         )
     }

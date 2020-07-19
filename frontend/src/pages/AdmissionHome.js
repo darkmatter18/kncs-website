@@ -10,6 +10,7 @@ import {ADMISSION_NEW} from "../routes/route";
 import {makeStyles} from "@material-ui/core/styles";
 import {ArrowForward} from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
+import Footer from "../components/Footer";
 
 const useStyle = makeStyles((theme) => ({
     card: {
@@ -114,6 +115,7 @@ const AdmissionHome = () => {
                     </CardContent>
                 </Card>
             </Container>
+            <Footer/>
         </React.Fragment>
     )
 }

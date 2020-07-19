@@ -26,6 +26,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
+import Footer from "../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -931,6 +932,7 @@ const Progress2AcademicInfo = () => {
                         </CardContent>
                     </Paper>
                 </Container>
+                <Footer/>
             </React.Fragment>
         )
     }

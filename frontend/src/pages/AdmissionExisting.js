@@ -19,6 +19,7 @@ import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "
 import api from "../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
+import Footer from "../components/Footer";
 
 
 const useStyle = makeStyles((theme) => ({
@@ -192,6 +193,7 @@ const AdmissionExisting = () => {
                     </CardContent>
                 </Paper>
             </Container>
+            <Footer/>
         </React.Fragment>
     )
 }

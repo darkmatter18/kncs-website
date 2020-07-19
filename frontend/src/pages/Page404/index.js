@@ -3,6 +3,7 @@ import './css/style.css';
 import * as Background from './img/text.png'
 import {Link} from "react-router-dom";
 import {ADMISSION_NEW} from "../../routes/route";
+import Footer from "../../components/Footer";
 
 
 const Page404 = () => {
@@ -21,6 +22,7 @@ const Page404 = () => {
                     </Link>
                 </div>
             </div>
+            <Footer/>
         </React.Fragment>
     )
 }

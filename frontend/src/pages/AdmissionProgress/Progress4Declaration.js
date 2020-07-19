@@ -28,6 +28,7 @@ import api from './../../api'
 import {ValidateName} from "../../utils/validate";
 import {useAuthHeader} from "react-auth-jwt";
 import {ADMISSION_ALL_DONE} from "../../routes/route";
+import Footer from "../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -689,6 +690,7 @@ const Progress4Declaration = () => {
                     </CardContent>
                 </Paper>
             </Container>
+            <Footer/>
         </React.Fragment>
     )
 }

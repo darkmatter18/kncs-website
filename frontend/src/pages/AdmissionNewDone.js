@@ -12,6 +12,7 @@ import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "
 import api from "../api";
 import {useSignIn} from "react-auth-jwt";
 import NetworkSubmit from "../components/NetworkSubmit";
+import Footer from "../components/Footer";
 
 const AdmissionNewDone = () => {
     const history = useHistory()
@@ -87,6 +88,7 @@ const AdmissionNewDone = () => {
                         </CardContent>
                     </Paper>
                 </Container>
+                <Footer/>
             </React.Fragment>
         )
     }

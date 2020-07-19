@@ -19,6 +19,7 @@ import NetworkSubmit from "../components/NetworkSubmit";
 import {useHistory} from 'react-router-dom';
 import api from './../api'
 import {ADMISSION_NEW_DONE} from "../routes/route";
+import Footer from "../components/Footer";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -264,6 +265,7 @@ const AdmissionNew = () => {
                     </CardContent>
                 </Paper>
             </Container>
+            <Footer/>
         </React.Fragment>
     )
 }
