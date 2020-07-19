@@ -98,7 +98,8 @@ const AdmissionExisting = () => {
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
-                            const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no})
+                            const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no,
+                                status: res.data.RecStatus})
                             if(r){
                                 console.log("Signing In")
                                 if(res.data.RecStatus === 'DRAFT'){
