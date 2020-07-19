@@ -257,7 +257,7 @@ ALTER TABLE `student_preregistration_draft_basic_info`
 -- Indexes for table `student_preregistration_draft_declaration_info`
 --
 ALTER TABLE `student_preregistration_draft_declaration_info`
-  ADD KEY `declaratipn_application_no_constraint` (`application_no`);
+  ADD KEY `declaration_application_no_constraint` (`application_no`);
 
 --
 -- Indexes for table `student_preregistration_draft_family_info`
