@@ -125,7 +125,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
             $smt2->bindParam(':application_no', $application_no, PDO::PARAM_INT);
             $smt2->bindParam(':marks_beng', $marks_beng_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_engb', $marks_engb_clean, PDO::PARAM_INT);
-            $sm2t->bindParam(':marks_maths', $marks_maths_clean, PDO::PARAM_INT);
+            $smt2->bindParam(':marks_maths', $marks_maths_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_psc', $marks_psc_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_lsc', $marks_lsc_clean, PDO::PARAM_INT);
             $smt2->bindParam(':marks_geo', $marks_geo_clean, PDO::PARAM_INT);
