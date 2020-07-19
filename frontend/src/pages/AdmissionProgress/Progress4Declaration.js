@@ -125,7 +125,17 @@ const Progress4Declaration = () => {
         })
             .then((res) => {
                 if (res.data.status) {
-                    setFormState(prevState => ({...prevState, ...res.data.data}))
+                    setFormState(prevState => ({...prevState,
+                        ...res.data.data,
+                        apply_for_reserved_seat: (res.data.data.apply_for_reserved_seat === "1" ||
+                            res.data.data.apply_for_reserved_seat === 1 ) ? "Yes" : "No",
+                        weather_bpl: (res.data.data.weather_bpl === "1" ||
+                            res.data.data.weather_bpl === 1 ) ? "Yes" : "No",
+                        guardian_same_father: (res.data.data.guardian_same_father === "1" ||
+                            res.data.data.guardian_same_father === 1 ) ? "Yes" : "No",
+                        direct_admission: (res.data.data.direct_admission === "1" ||
+                            res.data.data.direct_admission === 1 ) ? "Yes" : "No",
+                    }))
                 } else {
                     console.error(res.data.error)
                 }
