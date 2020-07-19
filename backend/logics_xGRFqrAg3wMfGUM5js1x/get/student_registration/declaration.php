@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 
 $application_no = $auth_user['data']->application_no;
 
-$smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.email, T1.aadhar_no, T1.mobile, T1.dob,
+$smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.email, T1.aadhar_no, T1.mobile, T1.dob, T1.status,
     T2.gender, religion, caste, mother_tongue, apply_for_reserved_seat, caste_certificate_no, weather_bpl, bpl_card_no, whatsapp_no,
     T3.address_line_1, address_line_2, city, district, pin,
     T4.father_name, father_occupation, mother_name, mother_occupation, guardian_name, guardian_occupation, guardian_same_father,
