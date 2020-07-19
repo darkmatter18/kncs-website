@@ -71,7 +71,7 @@ const Progress3PaymentInfo = () => {
                 if(res.data.status){
                     if(res.data.data){
                         setFormData(prevState => ({...prevState, ...res.data.data,
-                            transaction_date: new Date(res.data.transaction_date)
+                            transaction_date: new Date(res.data.data.transaction_date)
                         }))
                     }
                 }else {
@@ -207,7 +207,6 @@ const Progress3PaymentInfo = () => {
                                                 id="dob"
                                                 label="Transaction Date"
                                                 value={formData.transaction_date}
-                                                maxDate={new Date()}
                                                 InputAdornmentProps={{position: "start"}}
                                                 onChange={handleDateChange}
                                                 KeyboardButtonProps={{
