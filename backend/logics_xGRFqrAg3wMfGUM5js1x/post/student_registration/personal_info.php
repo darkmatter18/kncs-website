@@ -29,7 +29,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
     && isset($_INPUT['district']) && isset($_INPUT['pin']) && isset($_INPUT['image']) && isset($_INPUT['recaptcha_token'])) {
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
-        //TODO: Setup Application Id
+
         $application_no = $auth_user['data']->application_no; 
         
 
@@ -61,7 +61,9 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
         $pin_clean= Filter::Int($_INPUT['pin']);
 
         // IMAGE VARIABLE
-        $base64_decode = base64_decode($_INPUT['image']);
+        list($image_type, $data) = explode(';', $_INPUT['image']);
+        list(, $data)      = explode(',', $data);
+        $base64_decode = base64_decode($data);
 
         // START student_preregistration_draft_basic_info TABLE UPADTE checking
 
@@ -121,8 +123,8 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
                                             VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
                  // Table : student_preregistration_draft_image
-                $smt4 = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no,image)
-                                            VALUES(:application_no,:image)');
+                $smt4 = $pdocon->prepare('INSERT INTO student_preregistration_draft_image(application_no, image_type, image)
+                                            VALUES(:application_no, :image_type, :image)');
 
             }
                 
@@ -158,6 +160,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
             //IMAGE 
             $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+            $smt4->bindParam(':image_type', $image_type, PDO::PARAM_STR);
             $smt4->bindParam(':image', $base64_decode, PDO::PARAM_LOB);
 
             if($smt1->execute() && $smt2->execute() && $smt3->execute() && $smt4->execute()){
