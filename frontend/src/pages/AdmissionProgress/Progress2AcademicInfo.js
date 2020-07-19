@@ -726,6 +726,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_beng[0]}
                                                            helperText={errors.marks_beng[1]}
+                                                           type={"number"}
                                                            label={"Bengali"} id={"marks_beng"}
                                                            variant={"outlined"} value={formData.marks_beng}
                                                            onChange={handleMarksChange("marks_beng")}/>
@@ -733,6 +734,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_engb[0]}
                                                            helperText={errors.marks_engb[1]}
+                                                           type={"number"}
                                                            label={"English"} id={"marks_engb"}
                                                            variant={"outlined"} value={formData.marks_engb}
                                                            onChange={handleMarksChange("marks_engb")}/>
@@ -740,6 +742,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_maths[0]}
                                                            helperText={errors.marks_maths[1]}
+                                                           type={"number"}
                                                            label={"Mathematics"} id={"marks_maths"}
                                                            variant={"outlined"} value={formData.marks_maths}
                                                            onChange={handleMarksChange("marks_maths")}/>
@@ -747,6 +750,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_psc[0]}
                                                            helperText={errors.marks_psc[1]}
+                                                           type={"number"}
                                                            label={"Physical Science"} id={"marks_psc"}
                                                            variant={"outlined"} value={formData.marks_psc}
                                                            onChange={handleMarksChange("marks_psc")}/>
@@ -754,6 +758,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_lsc[0]}
                                                            helperText={errors.marks_lsc[1]}
+                                                           type={"number"}
                                                            label={"Life Science"} id={"marks_lsc"}
                                                            variant={"outlined"} value={formData.marks_lsc}
                                                            onChange={handleMarksChange("marks_lsc")}/>
@@ -761,6 +766,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_geo[0]}
                                                            helperText={errors.marks_geo[1]}
+                                                           type={"number"}
                                                            label={"Geography"} id={"marks_geo"}
                                                            variant={"outlined"} value={formData.marks_geo}
                                                            onChange={handleMarksChange("marks_geo")}/>
@@ -768,6 +774,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item>
                                                 <TextField fullWidth required error={errors.marks_hist[0]}
                                                            helperText={errors.marks_hist[1]}
+                                                           type={"number"}
                                                            label={"History"} id={"marks_hist"}
                                                            variant={"outlined"} value={formData.marks_hist}
                                                            onChange={handleMarksChange("marks_hist")}/>
@@ -777,6 +784,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item md={3}>
                                                 <TextField fullWidth required label={"Total"} id={"total"}
                                                            error={errors.marks_total[0]}
+                                                           type={"number"}
                                                            helperText={errors.marks_total[1]}
                                                            variant={"filled"} value={formData.marks_total}
                                                            onChange={handleMarksChange("marks_total")}/>
@@ -784,6 +792,7 @@ const Progress2AcademicInfo = () => {
                                             <Grid item md={3}>
                                                 <TextField fullWidth required label={"Percentage"}
                                                            error={errors.marks_percentage[0]}
+                                                           type={"number"}
                                                            helperText={errors.marks_percentage[1]}
                                                            id={"percentage"} variant={"filled"}
                                                            value={formData.marks_percentage}
