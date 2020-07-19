@@ -99,7 +99,7 @@ const Progress4Declaration = () => {
         second_major: '',
         third_major: '',
         forth_major: '',
-
+        status: 'DRAFT'
     }
 
     const initialDeclarationForm = {
@@ -125,16 +125,17 @@ const Progress4Declaration = () => {
         })
             .then((res) => {
                 if (res.data.status) {
-                    setFormState(prevState => ({...prevState,
+                    setFormState(prevState => ({
+                        ...prevState,
                         ...res.data.data,
                         apply_for_reserved_seat: (res.data.data.apply_for_reserved_seat === "1" ||
-                            res.data.data.apply_for_reserved_seat === 1 ) ? "Yes" : "No",
+                            res.data.data.apply_for_reserved_seat === 1) ? "Yes" : "No",
                         weather_bpl: (res.data.data.weather_bpl === "1" ||
-                            res.data.data.weather_bpl === 1 ) ? "Yes" : "No",
+                            res.data.data.weather_bpl === 1) ? "Yes" : "No",
                         guardian_same_father: (res.data.data.guardian_same_father === "1" ||
-                            res.data.data.guardian_same_father === 1 ) ? "Yes" : "No",
+                            res.data.data.guardian_same_father === 1) ? "Yes" : "No",
                         direct_admission: (res.data.data.direct_admission === "1" ||
-                            res.data.data.direct_admission === 1 ) ? "Yes" : "No",
+                            res.data.data.direct_admission === 1) ? "Yes" : "No",
                     }))
                 } else {
                     console.error(res.data.error)
@@ -196,6 +197,82 @@ const Progress4Declaration = () => {
                     })
                 })
             })
+        }
+    }
+
+    const renderDeclaration = () => {
+        if (formState.status === "DRAFT") {
+            return (
+                <React.Fragment>
+                    <Card variant={"outlined"} className={classes.spacer}>
+                        <CardContent>
+                            <Container>
+                                <Typography variant={"h6"} align={"center"}>
+                                    Declaration
+                                </Typography>
+                                <Typography variant={"body1"} align={"center"}>
+                                    I certify a) that the particular stated above regarding the candidate named are
+                                    true to the best of my knowledge , information and belief and I shall not change
+                                    it
+                                    under any circumstance.b)that I have read the prospectus and undertake to abide
+                                    by
+                                    every rule and decesion of the school and the Head Master willingly.
+                                </Typography>
+                                <Grid container alignItems={"center"} className={classes.spacer}>
+                                    <Grid item style={{float: "left"}} md={6}>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                            <KeyboardDatePicker
+                                                autoOk
+
+                                                variant="inline"
+                                                inputVariant="outlined"
+                                                format="dd/MM/yyyy"
+                                                id="dob"
+                                                label="Date"
+                                                value={declarationFormState.date}
+                                                helperText={declarationFormErrorState.date[1]}
+                                                maxDate={new Date()}
+                                                onChange={handleDateChange}
+                                                InputAdornmentProps={{position: "start"}}
+                                                KeyboardButtonProps={{
+                                                    'aria-label': 'change date',
+                                                }}
+                                            />
+                                        </MuiPickersUtilsProvider>
+                                        <br/><br/>
+                                        <TextField variant={"outlined"} label={"Place"}
+                                                   error={declarationFormErrorState.place[0]}
+                                                   value={declarationFormState.place}
+                                                   onChange={handleFormDataChange('place')}
+                                                   helperText={declarationFormErrorState.place[1]}/>
+                                    </Grid>
+                                    <Grid item style={{float: "right"}} md={6}>
+                                        <Typography variant={"body2"} align={"center"}>
+                                            Enter your full legal name
+                                        </Typography>
+                                        <TextField fullWidth variant={"outlined"} label={"Full Name of Applicant"}
+                                                   error={declarationFormErrorState.full_name[0]}
+                                                   value={declarationFormState.full_name}
+                                                   onChange={handleFormDataChange('full_name')}
+                                                   helperText={declarationFormErrorState.full_name[1]}/>
+                                    </Grid>
+                                </Grid>
+                            </Container>
+                        </CardContent>
+                    </Card>
+                    <Grid container className={classes.spacer} justify={"flex-start"}>
+                        <Grid item md={1}>
+                            <AdmissionProgressBack/>
+                        </Grid>
+                        <Grid item md={6}>
+                            <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState}
+                                           handleSubmit={handleSubmit}/>
+                        </Grid>
+                    </Grid>
+                </React.Fragment>
+            )
+        } else {
+            return <React.Fragment/>
         }
     }
 
@@ -608,73 +685,7 @@ const Progress4Declaration = () => {
                                 </Typography>
                             </CardContent>
                         </Card>
-
-
-                        <Card variant={"outlined"} className={classes.spacer}>
-                            <CardContent>
-                                <Container>
-                                    <Typography variant={"h6"} align={"center"}>
-                                        Declaration
-                                    </Typography>
-                                    <Typography variant={"body1"} align={"center"}>
-                                        I certify a) that the particular stated above regarding the candidate named are
-                                        true to the best of my knowledge , information and belief and I shall not change
-                                        it
-                                        under any circumstance.b)that I have read the prospectus and undertake to abide
-                                        by
-                                        every rule and decesion of the school and the Head Master willingly.
-                                    </Typography>
-                                    <Grid container alignItems={"center"} className={classes.spacer}>
-                                        <Grid item style={{float: "left"}} md={6}>
-                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                                <KeyboardDatePicker
-                                                    autoOk
-
-                                                    variant="inline"
-                                                    inputVariant="outlined"
-                                                    format="dd/MM/yyyy"
-                                                    id="dob"
-                                                    label="Date"
-                                                    value={declarationFormState.date}
-                                                    helperText={declarationFormErrorState.date[1]}
-                                                    maxDate={new Date()}
-                                                    onChange={handleDateChange}
-                                                    InputAdornmentProps={{position: "start"}}
-                                                    KeyboardButtonProps={{
-                                                        'aria-label': 'change date',
-                                                    }}
-                                                />
-                                            </MuiPickersUtilsProvider>
-                                            <br/><br/>
-                                            <TextField variant={"outlined"} label={"Place"}
-                                                       error={declarationFormErrorState.place[0]}
-                                                       value={declarationFormState.place}
-                                                       onChange={handleFormDataChange('place')}
-                                                       helperText={declarationFormErrorState.place[1]}/>
-                                        </Grid>
-                                        <Grid item style={{float: "right"}} md={6}>
-                                            <Typography variant={"body2"} align={"center"}>
-                                                Enter your full legal name
-                                            </Typography>
-                                            <TextField fullWidth variant={"outlined"} label={"Full Name of Applicant"}
-                                                       error={declarationFormErrorState.full_name[0]}
-                                                       value={declarationFormState.full_name}
-                                                       onChange={handleFormDataChange('full_name')}
-                                                       helperText={declarationFormErrorState.full_name[1]}/>
-                                        </Grid>
-                                    </Grid>
-                                </Container>
-                            </CardContent>
-                        </Card>
-                        <Grid container className={classes.spacer} justify={"flex-start"}>
-                            <Grid item md={1}>
-                                <AdmissionProgressBack/>
-                            </Grid>
-                            <Grid item md={6}>
-                                <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState}
-                                               handleSubmit={handleSubmit}/>
-                            </Grid>
-                        </Grid>
+                        {renderDeclaration()}
                     </CardContent>
                 </Paper>
             </Container>
