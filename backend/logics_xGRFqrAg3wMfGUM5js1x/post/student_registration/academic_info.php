@@ -56,7 +56,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $second_major_clean = Filter::String($_INPUT['second_major']);
         $third_major_clean = Filter::String($_INPUT['third_major']);
         $forth_major_clean = Filter::String($_INPUT['forth_major']);
-        $direct_admission_clean = Filter::String($_INPUT['direct_admission']);
+        $direct_admission_clean = Filter::String($_INPUT['direct_admission']) ? 1 : 0;
         $medium_clean = Filter::String($_INPUT['medium']);
 
 
@@ -142,7 +142,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
             $smt3->bindParam(':second_major', $second_major_clean, PDO::PARAM_STR);
             $smt3->bindParam(':third_major', $third_major_clean, PDO::PARAM_STR);
             $smt3->bindParam(':forth_major', $forth_major_clean, PDO::PARAM_STR);
-            $smt3->bindParam(':direct_admission', $direct_admission_clean, PDO::PARAM_STR);
+            $smt3->bindParam(':direct_admission', $direct_admission_clean, PDO::PARAM_BOOL);
             $smt3->bindParam(':medium', $medium_clean, PDO::PARAM_STR);
 
 

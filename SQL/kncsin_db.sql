@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.2
--- Generation Time: Jul 19, 2020 at 10:25 AM
+-- Generation Time: Jul 19, 2020 at 11:09 AM
 -- Server version: 5.7.30-33-log
 -- PHP Version: 7.3.13
 
@@ -145,7 +145,7 @@ CREATE TABLE `student_preregistration_draft_present_academic` (
   `second_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `third_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `forth_major` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `direct_admission` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `direct_admission` tinyint(1) NOT NULL,
   `medium` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -333,7 +333,7 @@ ALTER TABLE `student_preregistration_draft_basic_info`
 -- Constraints for table `student_preregistration_draft_declaration_info`
 --
 ALTER TABLE `student_preregistration_draft_declaration_info`
-  ADD CONSTRAINT `declaratipn_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `declaration_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
 
 --
 -- Constraints for table `student_preregistration_draft_family_info`
