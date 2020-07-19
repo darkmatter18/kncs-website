@@ -30,59 +30,69 @@ Router::add('/login', 'post', function () {
     require POST_LOGIC_DIR . 'login.php';
 });
 
+/**
+ * POST Requests
+ */
+//Student Pre Registration
+
+// New Registration
 Router::add('/preregistration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'student_preregistration.php';
 });
 
-// Preregistration_login fetching....
+// Existing Registration
 Router::add('/preregistration/login', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'student_preregistration_login.php';
 });
 
-
 //Personal info
-//POST------
 Router::add('/preregistration/process/personal_info', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'personal_info.php';
 });
-// GET-----
-Router::add('/preregistration/process/personal_info', 'get', function () {
-    require GET_STUDENT_REGISTRATION_DIR . 'personal_info.php';
-});
-
 
 //academic info
-// POST---
 Router::add('/preregistration/process/academic_info', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'academic_info.php';
 });
-// GET ---
-Router::add('/preregistration/process/academic_info', 'get', function () {
-    require GET_STUDENT_REGISTRATION_DIR . 'academic_info.php';
-});
-
 
 //PAYMENT INFO
-//post....
 Router::add('/preregistration/process/payment_info', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'payment_info.php';
 });
-//get...
-Router::add('/preregistration/process/payment_info', 'get', function () {
-    require GET_STUDENT_REGISTRATION_DIR . 'payment_info.php';
-});
-
 
 //Declaration info
-
-//get
-Router::add('/preregistration/process/declaration', 'get', function () {
-    require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
-});
-//post.....
 Router::add('/preregistration/process/declaration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
+
+/**
+ * Get Requests
+ */
+//Student Pre Registration
+
+//Personal info
+Router::add('/preregistration/process/personal_info', 'get', function () {
+    require GET_STUDENT_REGISTRATION_DIR . 'personal_info.php';
+});
+
+//academic info
+Router::add('/preregistration/process/academic_info', 'get', function () {
+    require GET_STUDENT_REGISTRATION_DIR . 'academic_info.php';
+});
+
+//PAYMENT INFO
+Router::add('/preregistration/process/payment_info', 'get', function () {
+    require GET_STUDENT_REGISTRATION_DIR . 'payment_info.php';
+});
+
+//Declaration info
+Router::add('/preregistration/process/declaration', 'get', function () {
+    require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
+});
+
+/**
+ * Run the Router
+ */
 Router::run($_SERVER['HTTP_SERVER_ROOT_DIR']);
 
