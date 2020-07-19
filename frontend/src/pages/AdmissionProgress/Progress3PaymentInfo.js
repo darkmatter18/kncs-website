@@ -1,8 +1,8 @@
 import React from "react";
 import AdmissionProgressBack from "../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
-import {useHistory} from "react-router-dom";
-import {useAuthHeader} from "react-auth-jwt";
+import {Redirect, useHistory} from "react-router-dom";
+import {useAuth, useAuthHeader} from "react-auth-jwt";
 import Container from "@material-ui/core/Container";
 import CardContent from "@material-ui/core/CardContent";
 import Paper from "@material-ui/core/Paper";
@@ -42,6 +42,7 @@ const Progress3PaymentInfo = () => {
     const classes = useStyles()
     const history = useHistory()
     const authHeader = useAuthHeader()
+    const auth = useAuth()
 
     const initialState = {
         mode_of_payment: '',
@@ -150,92 +151,96 @@ const Progress3PaymentInfo = () => {
             })
         }
     }
-
-    return (
-        <React.Fragment>
-            <Container className={classes.root}>
-                <Paper elevation={0} square>
-                    <CardContent>
-                        <Typography variant={"h6"} color={"textPrimary"}>
-                            Personal Information
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container spacing={5} justify={"center"}>
-                                    <Grid item md={4}>
-                                        <FormControl variant="outlined" fullWidth error={errors.mode_of_payment[0]}>
-                                            <InputLabel id="form-mode_of_payment-label">Mode of Payment</InputLabel>
-                                            <Select
-                                                labelId="form-mode_of_payment-label"
-                                                id="form-mode_of_payment "
-                                                value={formData.mode_of_payment}
-                                                onChange={handleFormDataChange('mode_of_payment')}
-                                                label="mode_of_payment"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Cash Deposit'}>Cash Deposit</MenuItem>
-                                                <MenuItem value={'NEFT/IMPS'}>NEFT/IMPS</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.mode_of_payment[1]}</FormHelperText>
-                                        </FormControl>
+    if(auth().authState.status !== 'DRAFT'){
+        return <Redirect to={`/admission/progress/declaration`} />
+    } else {
+        return (
+            <React.Fragment>
+                <Container className={classes.root}>
+                    <Paper elevation={0} square>
+                        <CardContent>
+                            <Typography variant={"h6"} color={"textPrimary"}>
+                                Personal Information
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container spacing={5} justify={"center"}>
+                                        <Grid item md={4}>
+                                            <FormControl variant="outlined" fullWidth error={errors.mode_of_payment[0]}>
+                                                <InputLabel id="form-mode_of_payment-label">Mode of Payment</InputLabel>
+                                                <Select
+                                                    labelId="form-mode_of_payment-label"
+                                                    id="form-mode_of_payment "
+                                                    value={formData.mode_of_payment}
+                                                    onChange={handleFormDataChange('mode_of_payment')}
+                                                    label="mode_of_payment"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Cash Deposit'}>Cash Deposit</MenuItem>
+                                                    <MenuItem value={'NEFT/IMPS'}>NEFT/IMPS</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.mode_of_payment[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
                                     </Grid>
+                                    <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.name_of_bank[0]}
+                                                       helperText={errors.name_of_bank[1]}
+                                                       label={"Name of Bank"} id={"name_of_bank"}
+                                                       variant={"outlined"} value={formData.name_of_bank}
+                                                       onChange={handleFormDataChange('name_of_bank')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.transaction_id[0]}
+                                                       helperText={errors.transaction_id[1]}
+                                                       label={"Transaction Id"} id={"transaction_id"}
+                                                       variant={"outlined"} value={formData.transaction_id}
+                                                       onChange={handleFormDataChange('transaction_id')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    autoOk
+                                                    variant="inline"
+                                                    inputVariant="outlined"
+                                                    format="dd/MM/yyyy"
+                                                    id="dob"
+                                                    label="Transaction Date"
+                                                    value={formData.transaction_date}
+                                                    InputAdornmentProps={{position: "start"}}
+                                                    onChange={handleDateChange}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
+                            <Grid container className={classes.spacer} justify={"flex-start"}>
+                                <Grid item>
+                                    <AdmissionProgressBack/>
                                 </Grid>
-                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.name_of_bank[0]}
-                                                   helperText={errors.name_of_bank[1]}
-                                                   label={"Name of Bank"} id={"name_of_bank"}
-                                                   variant={"outlined"} value={formData.name_of_bank}
-                                                   onChange={handleFormDataChange('name_of_bank')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.transaction_id[0]}
-                                                   helperText={errors.transaction_id[1]}
-                                                   label={"Transaction Id"} id={"transaction_id"}
-                                                   variant={"outlined"} value={formData.transaction_id}
-                                                   onChange={handleFormDataChange('transaction_id')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <KeyboardDatePicker
-                                                autoOk
-                                                variant="inline"
-                                                inputVariant="outlined"
-                                                format="dd/MM/yyyy"
-                                                id="dob"
-                                                label="Transaction Date"
-                                                value={formData.transaction_date}
-                                                InputAdornmentProps={{position: "start"}}
-                                                onChange={handleDateChange}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </Grid>
+                                <Grid item>
+                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
+                                                   handleSubmit={handleSubmit}/>
                                 </Grid>
-                            </CardContent>
-                        </Card>
-                        <Grid container className={classes.spacer} justify={"flex-start"}>
-                            <Grid item>
-                                <AdmissionProgressBack/>
+                                <Grid item>
+                                    <Typography variant={"subtitle2"} color={"error"}>
+                                        {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant={"subtitle2"} color={"error"}>
-                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Paper>
-            </Container>
-        </React.Fragment>
-    )
+                        </CardContent>
+                    </Paper>
+                </Container>
+            </React.Fragment>
+        )
+    }
 }
 
 export default Progress3PaymentInfo

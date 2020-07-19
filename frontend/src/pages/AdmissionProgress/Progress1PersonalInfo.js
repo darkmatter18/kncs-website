@@ -21,8 +21,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {validateMobileNo, ValidateName} from "../../utils/validate";
 import api from './../../api'
-import {useHistory} from "react-router-dom";
-import {useAuthHeader} from "react-auth-jwt";
+import {useHistory, Redirect} from "react-router-dom";
+import {useAuth, useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../components/ImageUploaderComponent";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +43,7 @@ const Progress1PersonalInfo = () => {
     const classes = useStyles()
     const history = useHistory()
     const authHeader = useAuthHeader()
+    const auth = useAuth()
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -332,407 +333,411 @@ const Progress1PersonalInfo = () => {
         }
     }
 
-    return (
-        <React.Fragment>
-            <Container className={classes.root}>
-                <Paper elevation={0} square>
-                    <CardContent>
-                        <Typography variant={"h6"} color={"textPrimary"}>
-                            Personal Information
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container spacing={5} justify={"center"}>
-                                    <Grid item md={4}>
-                                        <TextField disabled required fullWidth error={errors.first_name[0]}
-                                                   helperText={errors.first_name[1]}
-                                                   label={"First Name"} id={"first_name"}
-                                                   variant={"outlined"} value={formData.first_name}/>
+    if(auth().authState.status !== 'DRAFT'){
+        return <Redirect to={`/admission/progress/declaration`} />
+    } else {
+        return (
+            <React.Fragment>
+                <Container className={classes.root}>
+                    <Paper elevation={0} square>
+                        <CardContent>
+                            <Typography variant={"h6"} color={"textPrimary"}>
+                                Personal Information
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container spacing={5} justify={"center"}>
+                                        <Grid item md={4}>
+                                            <TextField disabled required fullWidth error={errors.first_name[0]}
+                                                       helperText={errors.first_name[1]}
+                                                       label={"First Name"} id={"first_name"}
+                                                       variant={"outlined"} value={formData.first_name}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField disabled fullWidth error={errors.middle_name[0]}
+                                                       helperText={errors.middle_name[1]}
+                                                       label={"Middle Name"} id={"middle_name"}
+                                                       variant={"outlined"} value={formData.middle_name}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField disabled fullWidth error={errors.last_name[0]}
+                                                       helperText={errors.last_name[1]}
+                                                       label={"Last Name"} id={"last_name"}
+                                                       variant={"outlined"} value={formData.last_name}/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item md={4}>
-                                        <TextField disabled fullWidth error={errors.middle_name[0]}
-                                                   helperText={errors.middle_name[1]}
-                                                   label={"Middle Name"} id={"middle_name"}
-                                                   variant={"outlined"} value={formData.middle_name}/>
+                                    <Grid container spacing={5} className={classes.spacer}>
+                                        <Grid item md={3}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    autoOk
+                                                    disabled
+                                                    variant="inline"
+                                                    inputVariant="outlined"
+                                                    format="dd/MM/yyyy"
+                                                    id="dob"
+                                                    label="Date of Birth"
+                                                    value={formData.dob}
+                                                    helperText={errors.dob[1]}
+                                                    InputAdornmentProps={{position: "start"}}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
+                                        <Grid item md={3}>
+                                            <FormControl variant="outlined" fullWidth error={errors.gender[0]}>
+                                                <InputLabel id="form-gender-label">Gender</InputLabel>
+                                                <Select
+                                                    labelId="form-gender-label"
+                                                    id="form-gender"
+                                                    value={formData.gender}
+                                                    onChange={handleFormDataChange('gender')}
+                                                    label="Gender"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Male'}>Male</MenuItem>
+                                                    <MenuItem value={'Female'}>Female</MenuItem>
+                                                    <MenuItem value={'Third Gender'}>Third Gender</MenuItem>
+                                                    <MenuItem value={'Not Applicable'}>Not Applicable</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.gender[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item md={3}>
+                                            <FormControl variant="outlined" fullWidth error={errors.religion[0]}>
+                                                <InputLabel id="form-religion-label">Religion</InputLabel>
+                                                <Select
+                                                    labelId="form-religion-label"
+                                                    id="form-religion"
+                                                    value={formData.religion}
+                                                    onChange={handleFormDataChange('religion')}
+                                                    label="Religion"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Hindu'}>Hindu</MenuItem>
+                                                    <MenuItem value={'Muslim'}>Muslim</MenuItem>
+                                                    <MenuItem value={'Cristian'}>Cristian</MenuItem>
+                                                    <MenuItem value={'Sikh'}>Sikh</MenuItem>
+                                                    <MenuItem value={'Jain'}>Jain</MenuItem>
+                                                    <MenuItem value={'Parshi'}>Parshi</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.religion[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item md={3}>
+                                            <FormControl variant="outlined" fullWidth error={errors.caste[0]}>
+                                                <InputLabel id="form-caste-label">Caste</InputLabel>
+                                                <Select
+                                                    labelId="form-caste-label"
+                                                    id="form-caste"
+                                                    value={formData.caste}
+                                                    onChange={handleFormDataChange('caste')}
+                                                    label="Cast"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'General'}>General</MenuItem>
+                                                    <MenuItem value={'SC'}>SC</MenuItem>
+                                                    <MenuItem value={'ST'}>ST</MenuItem>
+                                                    <MenuItem value={'OBC-A'}>OBC-A</MenuItem>
+                                                    <MenuItem value={'OBC-B'}>OBC-B</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.caste[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item md={4}>
-                                        <TextField disabled fullWidth error={errors.last_name[0]}
-                                                   helperText={errors.last_name[1]}
-                                                   label={"Last Name"} id={"last_name"}
-                                                   variant={"outlined"} value={formData.last_name}/>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={5} className={classes.spacer}>
-                                    <Grid item md={3}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <KeyboardDatePicker
-                                                autoOk
-                                                disabled
-                                                variant="inline"
-                                                inputVariant="outlined"
-                                                format="dd/MM/yyyy"
-                                                id="dob"
-                                                label="Date of Birth"
-                                                value={formData.dob}
-                                                helperText={errors.dob[1]}
-                                                InputAdornmentProps={{position: "start"}}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <FormControl variant="outlined" fullWidth error={errors.gender[0]}>
-                                            <InputLabel id="form-gender-label">Gender</InputLabel>
-                                            <Select
-                                                labelId="form-gender-label"
-                                                id="form-gender"
-                                                value={formData.gender}
-                                                onChange={handleFormDataChange('gender')}
-                                                label="Gender"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Male'}>Male</MenuItem>
-                                                <MenuItem value={'Female'}>Female</MenuItem>
-                                                <MenuItem value={'Third Gender'}>Third Gender</MenuItem>
-                                                <MenuItem value={'Not Applicable'}>Not Applicable</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.gender[1]}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <FormControl variant="outlined" fullWidth error={errors.religion[0]}>
-                                            <InputLabel id="form-religion-label">Religion</InputLabel>
-                                            <Select
-                                                labelId="form-religion-label"
-                                                id="form-religion"
-                                                value={formData.religion}
-                                                onChange={handleFormDataChange('religion')}
-                                                label="Religion"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Hindu'}>Hindu</MenuItem>
-                                                <MenuItem value={'Muslim'}>Muslim</MenuItem>
-                                                <MenuItem value={'Cristian'}>Cristian</MenuItem>
-                                                <MenuItem value={'Sikh'}>Sikh</MenuItem>
-                                                <MenuItem value={'Jain'}>Jain</MenuItem>
-                                                <MenuItem value={'Parshi'}>Parshi</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.religion[1]}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <FormControl variant="outlined" fullWidth error={errors.caste[0]}>
-                                            <InputLabel id="form-caste-label">Caste</InputLabel>
-                                            <Select
-                                                labelId="form-caste-label"
-                                                id="form-caste"
-                                                value={formData.caste}
-                                                onChange={handleFormDataChange('caste')}
-                                                label="Cast"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'General'}>General</MenuItem>
-                                                <MenuItem value={'SC'}>SC</MenuItem>
-                                                <MenuItem value={'ST'}>ST</MenuItem>
-                                                <MenuItem value={'OBC-A'}>OBC-A</MenuItem>
-                                                <MenuItem value={'OBC-B'}>OBC-B</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.caste[1]}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={5} className={classes.spacer}>
+                                    <Grid container spacing={5} className={classes.spacer}>
 
-                                    <Grid item md={4}>
-                                        <TextField fullWidth disabled error={errors.aadhar_no[0]}
-                                                   helperText={errors.aadhar_no[1]}
-                                                   label={"Aadhaar No"} id={"aadhar_no"}
-                                                   variant={"outlined"} value={formData.aadhar_no}/>
+                                        <Grid item md={4}>
+                                            <TextField fullWidth disabled error={errors.aadhar_no[0]}
+                                                       helperText={errors.aadhar_no[1]}
+                                                       label={"Aadhaar No"} id={"aadhar_no"}
+                                                       variant={"outlined"} value={formData.aadhar_no}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
+                                                <InputLabel id="form-mother-tongue-label">Mother Tongue</InputLabel>
+                                                <Select
+                                                    labelId="form-mother-tongue-label"
+                                                    id="form-mother-tongue"
+                                                    value={formData.mother_tongue}
+                                                    onChange={handleFormDataChange('mother_tongue')}
+                                                    label="Mother Tongue"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Bengali'}>Bengali</MenuItem>
+                                                    <MenuItem value={'English'}>English</MenuItem>
+                                                    <MenuItem value={'Hindi'}>Hindi</MenuItem>
+                                                    <MenuItem value={'Nepali'}>Nepali</MenuItem>
+                                                    <MenuItem value={'Santal'}>Santal</MenuItem>
+                                                    <MenuItem value={'Others'}>Others</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.mother_tongue[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item md={4}>
-                                        <FormControl variant="outlined" fullWidth error={errors.mother_tongue[0]}>
-                                            <InputLabel id="form-mother-tongue-label">Mother Tongue</InputLabel>
-                                            <Select
-                                                labelId="form-mother-tongue-label"
-                                                id="form-mother-tongue"
-                                                value={formData.mother_tongue}
-                                                onChange={handleFormDataChange('mother_tongue')}
-                                                label="Mother Tongue"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Bengali'}>Bengali</MenuItem>
-                                                <MenuItem value={'English'}>English</MenuItem>
-                                                <MenuItem value={'Hindi'}>Hindi</MenuItem>
-                                                <MenuItem value={'Nepali'}>Nepali</MenuItem>
-                                                <MenuItem value={'Santal'}>Santal</MenuItem>
-                                                <MenuItem value={'Others'}>Others</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.mother_tongue[1]}</FormHelperText>
-                                        </FormControl>
+
+
+                                    <Grid container justify={"space-around"} className={classes.spacer}>
+
+                                        <Grid container item md={6} justify={"center"}>
+                                            <Grid item md={5}>
+                                                <FormControlLabel
+                                                    value={"Apply for Reserved Seat"}
+                                                    control={<Switch
+                                                        checked={formData.apply_for_reserved_seat}
+                                                        onChange={handleCheckboxChange('apply_for_reserved_seat')}
+                                                        color="secondary"
+                                                        name="apply_for_reserved_seat"
+                                                    />}
+                                                    label={"Apply for Reserved Seat"}
+                                                    labelPlacement={"bottom"}/>
+                                            </Grid>
+                                            <Grid item md={7}>
+                                                <TextField fullWidth disabled={!formData.apply_for_reserved_seat}
+                                                           error={errors.caste_certificate_no[0]}
+                                                           helperText={errors.caste_certificate_no[1]}
+                                                           label={"Caste Certificate No"} id={"caste_certificate_no"}
+                                                           variant={"outlined"} value={formData.caste_certificate_no}
+                                                           onChange={handleFormDataChange("caste_certificate_no")}/>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Grid container item md={6} justify={"center"}>
+                                            <Grid item md={5}>
+                                                <FormControlLabel
+                                                    value={"Weather BPL"}
+                                                    control={<Switch
+                                                        checked={formData.weather_bpl}
+                                                        onChange={handleCheckboxChange('weather_bpl')}
+                                                        color="secondary"
+                                                        name="weather_bpl"
+                                                    />}
+                                                    label={"Weather BPL"}
+                                                    labelPlacement={"bottom"}/>
+                                            </Grid>
+                                            <Grid item md={7}>
+                                                <TextField fullWidth disabled={!formData.weather_bpl}
+                                                           error={errors.bpl_card_no[0]}
+                                                           helperText={errors.bpl_card_no[1]}
+                                                           label={"BPL Card No"} id={"bpl_card_no"}
+                                                           variant={"outlined"} value={formData.bpl_card_no}
+                                                           onChange={handleFormDataChange("bpl_card_no")}/>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </CardContent>
+                            </Card>
 
 
-                                <Grid container justify={"space-around"} className={classes.spacer}>
-
-                                    <Grid container item md={6} justify={"center"}>
-                                        <Grid item md={5}>
+                            <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                                Family Information
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container spacing={5} justify={"flex-start"}>
+                                        <Grid item md={6}>
+                                            <TextField required fullWidth error={errors.father_name[0]}
+                                                       helperText={errors.father_name[1]}
+                                                       label={"Father's Name"} id={"father-name"}
+                                                       variant={"outlined"} value={formData.father_name}
+                                                       onChange={handleFormDataChange('father_name')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.father_occupation[0]}
+                                                       helperText={errors.father_occupation[1]}
+                                                       label={"Father's Occupation"} id={"father-occupation"}
+                                                       variant={"outlined"} value={formData.father_occupation}
+                                                       onChange={handleFormDataChange('father_occupation')}/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
+                                        <Grid item md={6}>
+                                            <TextField required fullWidth error={errors.mother_name[0]}
+                                                       helperText={errors.mother_name[1]}
+                                                       label={"Mother's Name"} id={"mother-name"}
+                                                       variant={"outlined"} value={formData.mother_name}
+                                                       onChange={handleFormDataChange('mother_name')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.mother_occupation[0]}
+                                                       helperText={errors.mother_occupation[1]}
+                                                       label={"Mother's Occupation"} id={"mother-occupation"}
+                                                       variant={"outlined"} value={formData.mother_occupation}
+                                                       onChange={handleFormDataChange('mother_occupation')}/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
+                                        <Grid item md={3}>
                                             <FormControlLabel
-                                                value={"Apply for Reserved Seat"}
+                                                value={"Guardian Same as Father"}
                                                 control={<Switch
-                                                    checked={formData.apply_for_reserved_seat}
-                                                    onChange={handleCheckboxChange('apply_for_reserved_seat')}
+                                                    checked={formData.guardian_same_father}
+                                                    onChange={handleChangeGuardianSameFather}
                                                     color="secondary"
-                                                    name="apply_for_reserved_seat"
+                                                    name="guardian_same_father"
                                                 />}
-                                                label={"Apply for Reserved Seat"}
+                                                label={"Guardian Same as Father"}
                                                 labelPlacement={"bottom"}/>
                                         </Grid>
-                                        <Grid item md={7}>
-                                            <TextField fullWidth disabled={!formData.apply_for_reserved_seat}
-                                                       error={errors.caste_certificate_no[0]}
-                                                       helperText={errors.caste_certificate_no[1]}
-                                                       label={"Caste Certificate No"} id={"caste_certificate_no"}
-                                                       variant={"outlined"} value={formData.caste_certificate_no}
-                                                       onChange={handleFormDataChange("caste_certificate_no")}/>
-                                        </Grid>
-                                    </Grid>
-
-                                    <Grid container item md={6} justify={"center"}>
                                         <Grid item md={5}>
-                                            <FormControlLabel
-                                                value={"Weather BPL"}
-                                                control={<Switch
-                                                    checked={formData.weather_bpl}
-                                                    onChange={handleCheckboxChange('weather_bpl')}
-                                                    color="secondary"
-                                                    name="weather_bpl"
-                                                />}
-                                                label={"Weather BPL"}
-                                                labelPlacement={"bottom"}/>
+                                            <TextField required fullWidth disabled={formData.guardian_same_father}
+                                                       error={errors.guardian_name[0]}
+                                                       helperText={errors.guardian_name[1]}
+                                                       label={"Guardian's Name"} id={"guardian-name"}
+                                                       variant={"outlined"} value={formData.guardian_name}
+                                                       onChange={handleFormDataChange('guardian_name')}/>
                                         </Grid>
-                                        <Grid item md={7}>
-                                            <TextField fullWidth disabled={!formData.weather_bpl}
-                                                       error={errors.bpl_card_no[0]}
-                                                       helperText={errors.bpl_card_no[1]}
-                                                       label={"BPL Card No"} id={"bpl_card_no"}
-                                                       variant={"outlined"} value={formData.bpl_card_no}
-                                                       onChange={handleFormDataChange("bpl_card_no")}/>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth disabled={formData.guardian_same_father}
+                                                       error={errors.guardian_occupation[0]}
+                                                       helperText={errors.guardian_occupation[1]}
+                                                       label={"Guardian's Occupation"} id={"guardian-occupation"}
+                                                       variant={"outlined"} value={formData.guardian_occupation}
+                                                       onChange={handleFormDataChange('guardian_occupation')}/>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                            <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                                Contact Information
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container spacing={5} justify={"center"}>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.address_line_1[0]}
+                                                       helperText={errors.address_line_1[1]}
+                                                       label={"Address Line 1"} id={"address_line_1"}
+                                                       variant={"outlined"} value={formData.address_line_1}
+                                                       onChange={handleFormDataChange('address_line_1')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.address_line_2[0]}
+                                                       helperText={errors.address_line_2[1]}
+                                                       label={"Address Line 2"} id={"address_line_2"}
+                                                       variant={"outlined"} value={formData.address_line_2}
+                                                       onChange={handleFormDataChange('address_line_2')}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.city[0]}
+                                                       helperText={errors.city[1]}
+                                                       label={"City / Village"} id={"city"}
+                                                       variant={"outlined"} value={formData.city}
+                                                       onChange={handleFormDataChange('city')}/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                        <Grid item md={4}>
 
-
-                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
-                            Family Information
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container spacing={5} justify={"flex-start"}>
-                                    <Grid item md={6}>
-                                        <TextField required fullWidth error={errors.father_name[0]}
-                                                   helperText={errors.father_name[1]}
-                                                   label={"Father's Name"} id={"father-name"}
-                                                   variant={"outlined"} value={formData.father_name}
-                                                   onChange={handleFormDataChange('father_name')}/>
+                                            <FormControl variant="outlined" fullWidth error={errors.district[0]}>
+                                                <InputLabel id="form-district-label">District</InputLabel>
+                                                <Select
+                                                    labelId="form-district-label"
+                                                    id="form-district"
+                                                    value={formData.district}
+                                                    onChange={handleFormDataChange('district')}
+                                                    label="District"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Alipurduar'}>Alipurduar</MenuItem>
+                                                    <MenuItem value={'Bankura'}>Bankura</MenuItem>
+                                                    <MenuItem value={'Birbhum'}>Birbhum</MenuItem>
+                                                    <MenuItem value={'Cooch Behar'}>Cooch Behar</MenuItem>
+                                                    <MenuItem value={'Dakshin Dinajpur'}>Dakshin Dinajpur</MenuItem>
+                                                    <MenuItem value={'Darjeeling'}>Darjeeling</MenuItem>
+                                                    <MenuItem value={'East Midnapore'}>East Midnapore</MenuItem>
+                                                    <MenuItem value={'Hooghly'}>Hooghly</MenuItem>
+                                                    <MenuItem value={'Howrah'}>Howrah</MenuItem>
+                                                    <MenuItem value={'Jalpaiguri'}>Jalpaiguri</MenuItem>
+                                                    <MenuItem value={'Jhargram'}>Jhargram</MenuItem>
+                                                    <MenuItem value={'Kalimpong'}>Kalimpong</MenuItem>
+                                                    <MenuItem value={'Kolkata'}>Kolkata</MenuItem>
+                                                    <MenuItem value={'Malda'}>Malda</MenuItem>
+                                                    <MenuItem value={'Murshidabad'}>Murshidabad</MenuItem>
+                                                    <MenuItem value={'Nadia'}>Nadia</MenuItem>
+                                                    <MenuItem value={'North 24 Parganas'}>North 24 Parganas</MenuItem>
+                                                    <MenuItem value={'Paschim Bardhaman'}>Paschim Bardhaman</MenuItem>
+                                                    <MenuItem value={'Purba Bardhaman'}>Purba Bardhaman</MenuItem>
+                                                    <MenuItem value={'Purulia'}>Purulia</MenuItem>
+                                                    <MenuItem value={'South 24 Parganas'}>South 24 Parganas</MenuItem>
+                                                    <MenuItem value={'Uttar Dinajpur'}>Uttar Dinajpur</MenuItem>
+                                                    <MenuItem value={'West Midnapore'}>West Midnapore</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.district[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.pin[0]}
+                                                       helperText={errors.pin[1]}
+                                                       label={"PIN"} id={"pin"}
+                                                       variant={"outlined"} value={formData.pin}
+                                                       onChange={handleFormDataChange('pin')}/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.father_occupation[0]}
-                                                   helperText={errors.father_occupation[1]}
-                                                   label={"Father's Occupation"} id={"father-occupation"}
-                                                   variant={"outlined"} value={formData.father_occupation}
-                                                   onChange={handleFormDataChange('father_occupation')}/>
+                                    <Grid container spacing={5} justify={"center"} className={classes.spacer}>
+                                        <Grid item md={4}>
+                                            <TextField disabled required fullWidth error={errors.email[0]}
+                                                       helperText={errors.email[1]}
+                                                       label={"Email"} id={"email"}
+                                                       variant={"outlined"} value={formData.email}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField disabled required fullWidth error={errors.mobile[0]}
+                                                       helperText={errors.mobile[1]}
+                                                       label={"Mobile"} id={"mobile"}
+                                                       variant={"outlined"} value={formData.mobile}/>
+                                        </Grid>
+                                        <Grid item md={4}>
+                                            <TextField required fullWidth error={errors.whatsapp_no[0]}
+                                                       helperText={errors.whatsapp_no[1]}
+                                                       label={"Whatsapp No"} id={"whatsapp_no"}
+                                                       variant={"outlined"} value={formData.whatsapp_no}
+                                                       onChange={handleFormDataChange('whatsapp_no')}/>
+                                        </Grid>
                                     </Grid>
+                                </CardContent>
+                            </Card>
+                            <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                                Image Upload
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <ImageUploaderComponent dataUrl={formData.image} onChange={handleFileChange}/>
+                                </CardContent>
+                            </Card>
+                            <Grid container className={classes.spacer} justify={"flex-start"}>
+                                <Grid item>
+                                    <AdmissionProgressBack/>
                                 </Grid>
-                                <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
-                                    <Grid item md={6}>
-                                        <TextField required fullWidth error={errors.mother_name[0]}
-                                                   helperText={errors.mother_name[1]}
-                                                   label={"Mother's Name"} id={"mother-name"}
-                                                   variant={"outlined"} value={formData.mother_name}
-                                                   onChange={handleFormDataChange('mother_name')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.mother_occupation[0]}
-                                                   helperText={errors.mother_occupation[1]}
-                                                   label={"Mother's Occupation"} id={"mother-occupation"}
-                                                   variant={"outlined"} value={formData.mother_occupation}
-                                                   onChange={handleFormDataChange('mother_occupation')}/>
-                                    </Grid>
+                                <Grid item>
+                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
+                                                   handleSubmit={handleSubmit}/>
                                 </Grid>
-                                <Grid container spacing={5} justify={"flex-start"} className={classes.spacer}>
-                                    <Grid item md={3}>
-                                        <FormControlLabel
-                                            value={"Guardian Same as Father"}
-                                            control={<Switch
-                                                checked={formData.guardian_same_father}
-                                                onChange={handleChangeGuardianSameFather}
-                                                color="secondary"
-                                                name="guardian_same_father"
-                                            />}
-                                            label={"Guardian Same as Father"}
-                                            labelPlacement={"bottom"}/>
-                                    </Grid>
-                                    <Grid item md={5}>
-                                        <TextField required fullWidth disabled={formData.guardian_same_father}
-                                                   error={errors.guardian_name[0]}
-                                                   helperText={errors.guardian_name[1]}
-                                                   label={"Guardian's Name"} id={"guardian-name"}
-                                                   variant={"outlined"} value={formData.guardian_name}
-                                                   onChange={handleFormDataChange('guardian_name')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth disabled={formData.guardian_same_father}
-                                                   error={errors.guardian_occupation[0]}
-                                                   helperText={errors.guardian_occupation[1]}
-                                                   label={"Guardian's Occupation"} id={"guardian-occupation"}
-                                                   variant={"outlined"} value={formData.guardian_occupation}
-                                                   onChange={handleFormDataChange('guardian_occupation')}/>
-                                    </Grid>
+                                <Grid item>
+                                    <Typography variant={"subtitle2"} color={"error"}>
+                                        {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                    </Typography>
                                 </Grid>
-                            </CardContent>
-                        </Card>
-                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
-                            Contact Information
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container spacing={5} justify={"center"}>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.address_line_1[0]}
-                                                   helperText={errors.address_line_1[1]}
-                                                   label={"Address Line 1"} id={"address_line_1"}
-                                                   variant={"outlined"} value={formData.address_line_1}
-                                                   onChange={handleFormDataChange('address_line_1')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.address_line_2[0]}
-                                                   helperText={errors.address_line_2[1]}
-                                                   label={"Address Line 2"} id={"address_line_2"}
-                                                   variant={"outlined"} value={formData.address_line_2}
-                                                   onChange={handleFormDataChange('address_line_2')}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.city[0]}
-                                                   helperText={errors.city[1]}
-                                                   label={"City / Village"} id={"city"}
-                                                   variant={"outlined"} value={formData.city}
-                                                   onChange={handleFormDataChange('city')}/>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
-                                    <Grid item md={4}>
-
-                                        <FormControl variant="outlined" fullWidth error={errors.district[0]}>
-                                            <InputLabel id="form-district-label">District</InputLabel>
-                                            <Select
-                                                labelId="form-district-label"
-                                                id="form-district"
-                                                value={formData.district}
-                                                onChange={handleFormDataChange('district')}
-                                                label="District"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Alipurduar'}>Alipurduar</MenuItem>
-                                                <MenuItem value={'Bankura'}>Bankura</MenuItem>
-                                                <MenuItem value={'Birbhum'}>Birbhum</MenuItem>
-                                                <MenuItem value={'Cooch Behar'}>Cooch Behar</MenuItem>
-                                                <MenuItem value={'Dakshin Dinajpur'}>Dakshin Dinajpur</MenuItem>
-                                                <MenuItem value={'Darjeeling'}>Darjeeling</MenuItem>
-                                                <MenuItem value={'East Midnapore'}>East Midnapore</MenuItem>
-                                                <MenuItem value={'Hooghly'}>Hooghly</MenuItem>
-                                                <MenuItem value={'Howrah'}>Howrah</MenuItem>
-                                                <MenuItem value={'Jalpaiguri'}>Jalpaiguri</MenuItem>
-                                                <MenuItem value={'Jhargram'}>Jhargram</MenuItem>
-                                                <MenuItem value={'Kalimpong'}>Kalimpong</MenuItem>
-                                                <MenuItem value={'Kolkata'}>Kolkata</MenuItem>
-                                                <MenuItem value={'Malda'}>Malda</MenuItem>
-                                                <MenuItem value={'Murshidabad'}>Murshidabad</MenuItem>
-                                                <MenuItem value={'Nadia'}>Nadia</MenuItem>
-                                                <MenuItem value={'North 24 Parganas'}>North 24 Parganas</MenuItem>
-                                                <MenuItem value={'Paschim Bardhaman'}>Paschim Bardhaman</MenuItem>
-                                                <MenuItem value={'Purba Bardhaman'}>Purba Bardhaman</MenuItem>
-                                                <MenuItem value={'Purulia'}>Purulia</MenuItem>
-                                                <MenuItem value={'South 24 Parganas'}>South 24 Parganas</MenuItem>
-                                                <MenuItem value={'Uttar Dinajpur'}>Uttar Dinajpur</MenuItem>
-                                                <MenuItem value={'West Midnapore'}>West Midnapore</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.district[1]}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.pin[0]}
-                                                   helperText={errors.pin[1]}
-                                                   label={"PIN"} id={"pin"}
-                                                   variant={"outlined"} value={formData.pin}
-                                                   onChange={handleFormDataChange('pin')}/>
-                                    </Grid>
-                                </Grid>
-                                <Grid container spacing={5} justify={"center"} className={classes.spacer}>
-                                    <Grid item md={4}>
-                                        <TextField disabled required fullWidth error={errors.email[0]}
-                                                   helperText={errors.email[1]}
-                                                   label={"Email"} id={"email"}
-                                                   variant={"outlined"} value={formData.email}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField disabled required fullWidth error={errors.mobile[0]}
-                                                   helperText={errors.mobile[1]}
-                                                   label={"Mobile"} id={"mobile"}
-                                                   variant={"outlined"} value={formData.mobile}/>
-                                    </Grid>
-                                    <Grid item md={4}>
-                                        <TextField required fullWidth error={errors.whatsapp_no[0]}
-                                                   helperText={errors.whatsapp_no[1]}
-                                                   label={"Whatsapp No"} id={"whatsapp_no"}
-                                                   variant={"outlined"} value={formData.whatsapp_no}
-                                                   onChange={handleFormDataChange('whatsapp_no')}/>
-                                    </Grid>
-                                </Grid>
-                            </CardContent>
-                        </Card>
-                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
-                            Image Upload
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <ImageUploaderComponent dataUrl={formData.image} onChange={handleFileChange}/>
-                            </CardContent>
-                        </Card>
-                        <Grid container className={classes.spacer} justify={"flex-start"}>
-                            <Grid item>
-                                <AdmissionProgressBack/>
                             </Grid>
-                            <Grid item>
-                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
-                                               handleSubmit={handleSubmit}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant={"subtitle2"} color={"error"}>
-                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Paper>
-            </Container>
+                        </CardContent>
+                    </Paper>
+                </Container>
 
-        </React.Fragment>
-    )
+            </React.Fragment>
+        )
+    }
 }
 
 export default Progress1PersonalInfo

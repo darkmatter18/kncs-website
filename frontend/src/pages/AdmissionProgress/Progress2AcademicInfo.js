@@ -22,8 +22,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import api from "../../api";
-import {useHistory} from "react-router-dom";
-import {useAuthHeader} from "react-auth-jwt";
+import {Redirect, useHistory} from "react-router-dom";
+import {useAuth, useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
 
@@ -41,6 +41,7 @@ const Progress2AcademicInfo = () => {
     const classes = useStyles()
     const history = useHistory()
     const authHeader = useAuthHeader()
+    const auth = useAuth()
 
     const scienceSubjects = [
         {id: 1, sub: ['PHYSICS', 'NUTRITION']},
@@ -52,12 +53,12 @@ const Progress2AcademicInfo = () => {
 
     const humanitiesSubjects = [
         {id: 1, sub: ['POLITICAL SCIENCE']},
-        {id: 2, sub:['NUTRITION']},
-        {id: 3, sub:['ECONOMICS', 'SANSKRIT']},
-        {id: 4, sub:['PHILOSOPHY']},
-        {id: 5, sub:['HISTORY','MATHEMATICS']},
-        {id: 6, sub:['GEOGRAPHY']},
-        {id: 7, sub:['COMPUTER  APPLICATION']}]
+        {id: 2, sub: ['NUTRITION']},
+        {id: 3, sub: ['ECONOMICS', 'SANSKRIT']},
+        {id: 4, sub: ['PHILOSOPHY']},
+        {id: 5, sub: ['HISTORY', 'MATHEMATICS']},
+        {id: 6, sub: ['GEOGRAPHY']},
+        {id: 7, sub: ['COMPUTER  APPLICATION']}]
 
     const StreamDisablityFactors = {ALL: 'f1231', HU: '25115', NONE: 'q113dd'}
     const SubjectElligibilityFactors = {ELIGIBLE: '35b25', NOT_ELIGIBLE: 'ewtwyw'}
@@ -134,8 +135,9 @@ const Progress2AcademicInfo = () => {
         })
             .then((res) => {
                 if (res.data.status) {
-                    if (res.data.data){
-                        setFormData(prevState => ({...prevState,
+                    if (res.data.data) {
+                        setFormData(prevState => ({
+                            ...prevState,
                             ...res.data.data,
                             direct_admission: res.data.data.direct_admission ?
                                 (res.data.data.direct_admission === 'true' ||
@@ -169,9 +171,9 @@ const Progress2AcademicInfo = () => {
     const handleMarksChange = (name) => (e) => {
         e.persist()
         let v;
-        if(e.target.value < 0){
+        if (e.target.value < 0) {
             v = ''
-        } else if(e.target.value > 100) {
+        } else if (e.target.value > 100) {
             v = 100
         } else {
             v = e.target.value
@@ -198,12 +200,14 @@ const Progress2AcademicInfo = () => {
         })
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         console.log("EFFECT")
-        setFormData(prevState => ({...prevState, stream: '', first_major: '',
-            second_major: '', third_major: '', forth_major: ''}))
+        setFormData(prevState => ({
+            ...prevState, stream: '', first_major: '',
+            second_major: '', third_major: '', forth_major: ''
+        }))
 
-        if(formData.direct_admission){
+        if (formData.direct_admission) {
             if (formData.previous_school_name === "Krishnanath College School") {
                 // SC: 560 < formData.marks_total
                 // HU: 500 < formData.marks_total
@@ -254,8 +258,8 @@ const Progress2AcademicInfo = () => {
         }
     }
 
-    React.useEffect(()=> {
-        if (formData.marks_geo < 80){
+    React.useEffect(() => {
+        if (formData.marks_geo < 80) {
             setGeographyEligibilyState(() => SubjectElligibilityFactors.NOT_ELIGIBLE)
         } else {
             setGeographyEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
@@ -267,24 +271,24 @@ const Progress2AcademicInfo = () => {
             setComaEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
         }
 
-        if (formData.marks_maths < 80){
-            setCsEligibilyState(()=> SubjectElligibilityFactors.NOT_ELIGIBLE)
+        if (formData.marks_maths < 80) {
+            setCsEligibilyState(() => SubjectElligibilityFactors.NOT_ELIGIBLE)
         } else {
-            setCsEligibilyState(()=> SubjectElligibilityFactors.ELIGIBLE)
+            setCsEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
         }
 
     }, [formData.marks_geo, formData.marks_maths])
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
 
-        if(formData.stream === "Science"){
-            setScienceFirstMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+        if (formData.stream === "Science") {
+            setScienceFirstMajorList(() => {
+                const pick = _.pickBy(scienceSubjects, (i) => {
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
                         i.sub.includes(formData.third_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -293,13 +297,13 @@ const Progress2AcademicInfo = () => {
                 console.log(qq)
                 return qq
             })
-            setScienceSecondMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+            setScienceSecondMajorList(() => {
+                const pick = _.pickBy(scienceSubjects, (i) => {
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -307,13 +311,13 @@ const Progress2AcademicInfo = () => {
                 })
                 return qq
             })
-            setScienceThirdMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+            setScienceThirdMajorList(() => {
+                const pick = _.pickBy(scienceSubjects, (i) => {
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.forth_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -321,13 +325,13 @@ const Progress2AcademicInfo = () => {
                 })
                 return qq
             })
-            setScienceForthMajorList(()=>{
-                const pick = _.pickBy(scienceSubjects, (i)=>{
+            setScienceForthMajorList(() => {
+                const pick = _.pickBy(scienceSubjects, (i) => {
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -336,13 +340,13 @@ const Progress2AcademicInfo = () => {
                 return qq
             })
         } else if (formData.stream === "Humanities") {
-            setHumanitiesFirstMajorList(()=>{
-                const pick = _.pickBy(humanitiesSubjects, (i)=>{
+            setHumanitiesFirstMajorList(() => {
+                const pick = _.pickBy(humanitiesSubjects, (i) => {
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.second_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                const qq =_.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -350,13 +354,13 @@ const Progress2AcademicInfo = () => {
                 })
                 return qq
             })
-            setHumanitiesSecondMajorList(()=>{
-                const pick = _.pickBy(humanitiesSubjects, (i)=>{
+            setHumanitiesSecondMajorList(() => {
+                const pick = _.pickBy(humanitiesSubjects, (i) => {
                     return !(i.sub.includes(formData.forth_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -364,13 +368,13 @@ const Progress2AcademicInfo = () => {
                 })
                 return qq
             })
-            setHumanitiesThirdMajorList(()=>{
-                const pick = _.pickBy(humanitiesSubjects, (i)=>{
+            setHumanitiesThirdMajorList(() => {
+                const pick = _.pickBy(humanitiesSubjects, (i) => {
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.forth_major))
                 })
                 const qq = _.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -378,13 +382,13 @@ const Progress2AcademicInfo = () => {
                 })
                 return qq
             })
-            setHumanitiesForthMajorList(()=>{
-                const pick = _.pickBy(humanitiesSubjects, (i)=>{
+            setHumanitiesForthMajorList(() => {
+                const pick = _.pickBy(humanitiesSubjects, (i) => {
                     return !(i.sub.includes(formData.second_major) || i.sub.includes(formData.first_major) ||
                         i.sub.includes(formData.third_major))
                 })
-                const qq =_.flatten(_.map(pick, 'sub'))
-                _.remove(qq, (i)=> {
+                const qq = _.flatten(_.map(pick, 'sub'))
+                _.remove(qq, (i) => {
                     const g = geographyEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "GEOGRAPHY" : "";
                     const co = comaEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER APPLICATION" : "";
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
@@ -663,266 +667,273 @@ const Progress2AcademicInfo = () => {
         }
     }
 
-    return (
-        <React.Fragment>
-            <Container className={classes.root}>
-                <Paper elevation={0} square>
-                    <CardContent>
-                        <Typography variant={"h6"} color={"textPrimary"}>
-                            Previous Academic Info
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container spacing={5} justify={"center"} alignItems={"center"}>
-                                    <Grid item md={6}>
-                                        <FormControl component={"fieldset"}>
-                                            <FormLabel component="legend">{errors.previous_school_name[1]}</FormLabel>
-                                            <RadioGroup row aria-label="position" name="position"
-                                                        value={schoolRadioButton}
-                                                        onChange={handleSchoolRadioButtonChange}>
-                                                <FormControlLabel value="Krishnanath College School"
-                                                                  control={<Radio color="primary"/>}
-                                                                  label="Krishnanath College School"/>
-                                                <FormControlLabel value={"Others"}
-                                                                  control={<Radio color="primary"/>}
-                                                                  label="Others"/>
-                                            </RadioGroup>
-                                        </FormControl>
-                                        <TextField fullWidth required
-                                                   disabled={schoolRadioButton === "Krishnanath College School"}
-                                                   error={errors.previous_school_name[0]}
-                                                   helperText={errors.previous_school_name[1]}
-                                                   label={"Others"}
-                                                   id={"previous_school_name"}
-                                                   variant={"outlined"}
-                                                   value={formData.previous_school_name}
-                                                   onChange={handleFormDataChange("previous_school_name")}/>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                            <KeyboardDatePicker
-                                                autoOk
-                                                variant="inline"
-                                                inputVariant="outlined"
-                                                id="year_of_madhyamik"
-                                                label="Year of Passing Madhyamik"
-                                                views={["year"]}
-                                                value={formData.year_of_madhyamik}
-                                                helperText={errors.year_of_madhyamik[1]}
-                                                InputAdornmentProps={{position: "start"}}
-                                                KeyboardButtonProps={{
-                                                    'aria-label': 'change date',
-                                                }}
-                                                onChange={handleDateChange}
-                                            />
-                                        </MuiPickersUtilsProvider>
-                                    </Grid>
-                                    <Grid item md={3}>
-                                        <TextField fullWidth required error={errors.previous_student_id[0]}
-                                                   helperText={errors.previous_student_id[1]}
-                                                   label={"Previous Student Id"} id={"previous_student_id"}
-                                                   variant={"outlined"} value={formData.previous_student_id}
-                                                   onChange={handleFormDataChange("previous_student_id")}/>
-                                    </Grid>
-                                </Grid>
-                                <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
-                                    Madhyamik Result Details
-                                </Typography>
-                                <Card variant={"outlined"}>
-                                    <CardContent>
-                                        <Grid container justify={"flex-start"} spacing={2}>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_beng[0]}
-                                                           helperText={errors.marks_beng[1]}
-                                                           type={"number"}
-                                                           label={"Bengali"} id={"marks_beng"}
-                                                           variant={"outlined"} value={formData.marks_beng}
-                                                           onChange={handleMarksChange("marks_beng")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_engb[0]}
-                                                           helperText={errors.marks_engb[1]}
-                                                           type={"number"}
-                                                           label={"English"} id={"marks_engb"}
-                                                           variant={"outlined"} value={formData.marks_engb}
-                                                           onChange={handleMarksChange("marks_engb")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_maths[0]}
-                                                           helperText={errors.marks_maths[1]}
-                                                           type={"number"}
-                                                           label={"Mathematics"} id={"marks_maths"}
-                                                           variant={"outlined"} value={formData.marks_maths}
-                                                           onChange={handleMarksChange("marks_maths")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_psc[0]}
-                                                           helperText={errors.marks_psc[1]}
-                                                           type={"number"}
-                                                           label={"Physical Science"} id={"marks_psc"}
-                                                           variant={"outlined"} value={formData.marks_psc}
-                                                           onChange={handleMarksChange("marks_psc")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_lsc[0]}
-                                                           helperText={errors.marks_lsc[1]}
-                                                           type={"number"}
-                                                           label={"Life Science"} id={"marks_lsc"}
-                                                           variant={"outlined"} value={formData.marks_lsc}
-                                                           onChange={handleMarksChange("marks_lsc")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_geo[0]}
-                                                           helperText={errors.marks_geo[1]}
-                                                           type={"number"}
-                                                           label={"Geography"} id={"marks_geo"}
-                                                           variant={"outlined"} value={formData.marks_geo}
-                                                           onChange={handleMarksChange("marks_geo")}/>
-                                            </Grid>
-                                            <Grid item>
-                                                <TextField fullWidth required error={errors.marks_hist[0]}
-                                                           helperText={errors.marks_hist[1]}
-                                                           type={"number"}
-                                                           label={"History"} id={"marks_hist"}
-                                                           variant={"outlined"} value={formData.marks_hist}
-                                                           onChange={handleMarksChange("marks_hist")}/>
-                                            </Grid>
+    if (auth().authState.status !== 'DRAFT') {
+        return <Redirect to={`/admission/progress/declaration`}/>
+    } else {
+        return (
+            <React.Fragment>
+                <Container className={classes.root}>
+                    <Paper elevation={0} square>
+                        <CardContent>
+                            <Typography variant={"h6"} color={"textPrimary"}>
+                                Previous Academic Info
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container spacing={5} justify={"center"} alignItems={"center"}>
+                                        <Grid item md={6}>
+                                            <FormControl component={"fieldset"}>
+                                                <FormLabel
+                                                    component="legend">{errors.previous_school_name[1]}</FormLabel>
+                                                <RadioGroup row aria-label="position" name="position"
+                                                            value={schoolRadioButton}
+                                                            onChange={handleSchoolRadioButtonChange}>
+                                                    <FormControlLabel value="Krishnanath College School"
+                                                                      control={<Radio color="primary"/>}
+                                                                      label="Krishnanath College School"/>
+                                                    <FormControlLabel value={"Others"}
+                                                                      control={<Radio color="primary"/>}
+                                                                      label="Others"/>
+                                                </RadioGroup>
+                                            </FormControl>
+                                            <TextField fullWidth required
+                                                       disabled={schoolRadioButton === "Krishnanath College School"}
+                                                       error={errors.previous_school_name[0]}
+                                                       helperText={errors.previous_school_name[1]}
+                                                       label={"Others"}
+                                                       id={"previous_school_name"}
+                                                       variant={"outlined"}
+                                                       value={formData.previous_school_name}
+                                                       onChange={handleFormDataChange("previous_school_name")}/>
                                         </Grid>
-                                        <Grid container justify={"flex-start"} spacing={2} className={classes.spacer}>
-                                            <Grid item md={3}>
-                                                <TextField fullWidth required label={"Total"} id={"total"}
-                                                           error={errors.marks_total[0]}
-                                                           type={"number"}
-                                                           helperText={errors.marks_total[1]}
-                                                           variant={"filled"} value={formData.marks_total}
-                                                           onChange={handleMarksChange("marks_total")}/>
-                                            </Grid>
-                                            <Grid item md={3}>
-                                                <TextField fullWidth required label={"Percentage"}
-                                                           error={errors.marks_percentage[0]}
-                                                           type={"number"}
-                                                           helperText={errors.marks_percentage[1]}
-                                                           id={"percentage"} variant={"filled"}
-                                                           value={formData.marks_percentage}
-                                                           onChange={handleMarksChange("marks_percentage")}/>
-                                            </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                </Card>
-                            </CardContent>
-                        </Card>
-                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
-                            Admission Info
-                        </Typography>
-                        <Card variant={"outlined"}>
-                            <CardContent>
-                                <Grid container justify={"flex-start"} alignItems={"center"} spacing={4}>
-                                    <Grid item>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    checked={formData.direct_admission}
-                                                    onChange={handleDirectAdmissionCheckBox}
-                                                    name="direct_admission"
+                                        <Grid item md={3}>
+                                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                                <KeyboardDatePicker
+                                                    autoOk
+                                                    variant="inline"
+                                                    inputVariant="outlined"
+                                                    id="year_of_madhyamik"
+                                                    label="Year of Passing Madhyamik"
+                                                    views={["year"]}
+                                                    value={formData.year_of_madhyamik}
+                                                    helperText={errors.year_of_madhyamik[1]}
+                                                    InputAdornmentProps={{position: "start"}}
+                                                    KeyboardButtonProps={{
+                                                        'aria-label': 'change date',
+                                                    }}
+                                                    onChange={handleDateChange}
                                                 />
-                                            }
-                                            label="Direct Admission"
-                                            labelPlacement={"bottom"}
-                                        />
+                                            </MuiPickersUtilsProvider>
+                                        </Grid>
+                                        <Grid item md={3}>
+                                            <TextField fullWidth required error={errors.previous_student_id[0]}
+                                                       helperText={errors.previous_student_id[1]}
+                                                       label={"Previous Student Id"} id={"previous_student_id"}
+                                                       variant={"outlined"} value={formData.previous_student_id}
+                                                       onChange={handleFormDataChange("previous_student_id")}/>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <FormControl variant="outlined" fullWidth error={errors.medium[0]}>
-                                            <InputLabel id="form-medium-label">Medium</InputLabel>
-                                            <Select
-                                                labelId="form-medium-label"
-                                                id="form-medium"
-                                                value={formData.medium}
-                                                onChange={handleFormDataChange('medium')}
-                                                label="medium"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={'Bengali'}>Bengali</MenuItem>
-                                                <MenuItem value={'English'}>English</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.medium[1]}</FormHelperText>
-                                        </FormControl>
+                                    <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
+                                        Madhyamik Result Details
+                                    </Typography>
+                                    <Card variant={"outlined"}>
+                                        <CardContent>
+                                            <Grid container justify={"flex-start"} spacing={2}>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_beng[0]}
+                                                               helperText={errors.marks_beng[1]}
+                                                               type={"number"}
+                                                               label={"Bengali"} id={"marks_beng"}
+                                                               variant={"outlined"} value={formData.marks_beng}
+                                                               onChange={handleMarksChange("marks_beng")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_engb[0]}
+                                                               helperText={errors.marks_engb[1]}
+                                                               type={"number"}
+                                                               label={"English"} id={"marks_engb"}
+                                                               variant={"outlined"} value={formData.marks_engb}
+                                                               onChange={handleMarksChange("marks_engb")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_maths[0]}
+                                                               helperText={errors.marks_maths[1]}
+                                                               type={"number"}
+                                                               label={"Mathematics"} id={"marks_maths"}
+                                                               variant={"outlined"} value={formData.marks_maths}
+                                                               onChange={handleMarksChange("marks_maths")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_psc[0]}
+                                                               helperText={errors.marks_psc[1]}
+                                                               type={"number"}
+                                                               label={"Physical Science"} id={"marks_psc"}
+                                                               variant={"outlined"} value={formData.marks_psc}
+                                                               onChange={handleMarksChange("marks_psc")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_lsc[0]}
+                                                               helperText={errors.marks_lsc[1]}
+                                                               type={"number"}
+                                                               label={"Life Science"} id={"marks_lsc"}
+                                                               variant={"outlined"} value={formData.marks_lsc}
+                                                               onChange={handleMarksChange("marks_lsc")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_geo[0]}
+                                                               helperText={errors.marks_geo[1]}
+                                                               type={"number"}
+                                                               label={"Geography"} id={"marks_geo"}
+                                                               variant={"outlined"} value={formData.marks_geo}
+                                                               onChange={handleMarksChange("marks_geo")}/>
+                                                </Grid>
+                                                <Grid item>
+                                                    <TextField fullWidth required error={errors.marks_hist[0]}
+                                                               helperText={errors.marks_hist[1]}
+                                                               type={"number"}
+                                                               label={"History"} id={"marks_hist"}
+                                                               variant={"outlined"} value={formData.marks_hist}
+                                                               onChange={handleMarksChange("marks_hist")}/>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container justify={"flex-start"} spacing={2}
+                                                  className={classes.spacer}>
+                                                <Grid item md={3}>
+                                                    <TextField fullWidth required label={"Total"} id={"total"}
+                                                               error={errors.marks_total[0]}
+                                                               type={"number"}
+                                                               helperText={errors.marks_total[1]}
+                                                               variant={"filled"} value={formData.marks_total}
+                                                               onChange={handleMarksChange("marks_total")}/>
+                                                </Grid>
+                                                <Grid item md={3}>
+                                                    <TextField fullWidth required label={"Percentage"}
+                                                               error={errors.marks_percentage[0]}
+                                                               type={"number"}
+                                                               helperText={errors.marks_percentage[1]}
+                                                               id={"percentage"} variant={"filled"}
+                                                               value={formData.marks_percentage}
+                                                               onChange={handleMarksChange("marks_percentage")}/>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                    </Card>
+                                </CardContent>
+                            </Card>
+                            <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                                Admission Info
+                            </Typography>
+                            <Card variant={"outlined"}>
+                                <CardContent>
+                                    <Grid container justify={"flex-start"} alignItems={"center"} spacing={4}>
+                                        <Grid item>
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={formData.direct_admission}
+                                                        onChange={handleDirectAdmissionCheckBox}
+                                                        name="direct_admission"
+                                                    />
+                                                }
+                                                label="Direct Admission"
+                                                labelPlacement={"bottom"}
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <FormControl variant="outlined" fullWidth error={errors.medium[0]}>
+                                                <InputLabel id="form-medium-label">Medium</InputLabel>
+                                                <Select
+                                                    labelId="form-medium-label"
+                                                    id="form-medium"
+                                                    value={formData.medium}
+                                                    onChange={handleFormDataChange('medium')}
+                                                    label="medium"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={'Bengali'}>Bengali</MenuItem>
+                                                    <MenuItem value={'English'}>English</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.medium[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item>
+                                            <FormControl variant="outlined" fullWidth error={errors.stream[0]}
+                                                         disabled={streamDisablityState === StreamDisablityFactors.NONE}>
+                                                <InputLabel id="form-stream-label">Stream</InputLabel>
+                                                <Select
+                                                    labelId="form-stream-label"
+                                                    id="form-stream"
+                                                    value={formData.stream}
+                                                    onChange={handleFormDataChange('stream')}
+                                                    label="Stream"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem
+                                                        disabled={!(streamDisablityState === StreamDisablityFactors.ALL)}
+                                                        value={'Science'}>
+                                                        Science
+                                                    </MenuItem>
+                                                    <MenuItem value={'Humanities'}>Humanities</MenuItem>
+                                                </Select>
+                                                <FormHelperText>{errors.stream[1]}</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant={"body2"} color={"error"}>
+                                                {renderSubjectErrors()}
+                                            </Typography>
+                                            <Typography variant={"body2"} color={"error"}>
+                                                {geographyEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "" :
+                                                    "Your marks in Geography" +
+                                                    " is less than 80. You can't take Geography"}
+                                            </Typography>
+                                            <Typography variant={"body2"} color={"error"}>
+                                                {comaEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "" :
+                                                    "Your marks in Maths" +
+                                                    " is less than 70. You can't take Computer Application"}
+                                            </Typography>
+                                            <Typography variant={"body2"} color={"error"}>
+                                                {csEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "" :
+                                                    "Your marks in Maths" +
+                                                    " is less than 80. You can't take Computer Science"}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <FormControl variant="outlined" fullWidth error={errors.stream[0]}
-                                                     disabled={streamDisablityState === StreamDisablityFactors.NONE}>
-                                            <InputLabel id="form-stream-label">Stream</InputLabel>
-                                            <Select
-                                                labelId="form-stream-label"
-                                                id="form-stream"
-                                                value={formData.stream}
-                                                onChange={handleFormDataChange('stream')}
-                                                label="Stream"
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem
-                                                    disabled={!(streamDisablityState === StreamDisablityFactors.ALL)}
-                                                    value={'Science'}>
-                                                    Science
-                                                </MenuItem>
-                                                <MenuItem value={'Humanities'}>Humanities</MenuItem>
-                                            </Select>
-                                            <FormHelperText>{errors.stream[1]}</FormHelperText>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant={"body2"} color={"error"}>
-                                            {renderSubjectErrors()}
-                                        </Typography>
-                                        <Typography variant={"body2"} color={"error"}>
-                                            {geographyEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
-                                                "Your marks in Geography" +
-                                                " is less than 80. You can't take Geography"}
-                                        </Typography>
-                                        <Typography variant={"body2"} color={"error"}>
-                                            {comaEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
-                                                "Your marks in Maths" +
-                                                " is less than 70. You can't take Computer Application"}
-                                        </Typography>
-                                        <Typography variant={"body2"} color={"error"}>
-                                            {csEligibilyState === SubjectElligibilityFactors.ELIGIBLE ? "":
-                                                "Your marks in Maths" +
-                                                " is less than 80. You can't take Computer Science"}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
-                                    Subject Combination
-                                </Typography>
-                                <Card variant={"outlined"}>
-                                    <CardContent>
-                                        {renderStreamSubjectSelector()}
-                                    </CardContent>
-                                </Card>
-                            </CardContent>
-                        </Card>
+                                    <Typography variant={"subtitle1"} color={"textPrimary"} className={classes.spacer}>
+                                        Subject Combination
+                                    </Typography>
+                                    <Card variant={"outlined"}>
+                                        <CardContent>
+                                            {renderStreamSubjectSelector()}
+                                        </CardContent>
+                                    </Card>
+                                </CardContent>
+                            </Card>
 
-                        <Grid container className={classes.spacer} justify={"flex-start"}>
-                            <Grid item>
-                                <AdmissionProgressBack/>
+                            <Grid container className={classes.spacer} justify={"flex-start"}>
+                                <Grid item>
+                                    <AdmissionProgressBack/>
+                                </Grid>
+                                <Grid item>
+                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
+                                                   handleSubmit={handleSubmit}/>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant={"subtitle2"} color={"error"}>
+                                        {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState} handleSubmit={handleSubmit}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant={"subtitle2"} color={"error"}>
-                                    {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Paper>
-            </Container>
-        </React.Fragment>
-    )
+                        </CardContent>
+                    </Paper>
+                </Container>
+            </React.Fragment>
+        )
+    }
 }
 
 export default Progress2AcademicInfo
