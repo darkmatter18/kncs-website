@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 08:00 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.5
+-- Host: 127.0.0.2
+-- Generation Time: Jul 19, 2020 at 09:03 AM
+-- Server version: 5.7.30-33-log
+-- PHP Version: 7.3.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kncs`
+-- Database: `kncsin_db`
 --
 
 -- --------------------------------------------------------
@@ -30,11 +31,11 @@ SET time_zone = "+00:00";
 CREATE TABLE `student_preregistration_details` (
   `application_no` int(10) NOT NULL,
   `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `middle_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `aadhar_no` int(12) NOT NULL,
+  `aadhar_no` varchar(12) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mobile` int(10) NOT NULL,
+  `mobile` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dob` date NOT NULL,
   `status` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -67,10 +68,10 @@ CREATE TABLE `student_preregistration_draft_basic_info` (
   `caste` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mother_tongue` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `apply_for_reserved_seat` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `caste_certificate_no` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caste_certificate_no` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `weather_bpl` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bpl_card_no` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `whatsapp_no` int(10) NOT NULL
+  `bpl_card_no` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `whatsapp_no` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -157,7 +158,7 @@ CREATE TABLE `student_preregistration_draft_previous_academic_info` (
   `application_no` int(10) NOT NULL,
   `previous_school_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `year_of_madhyamik` int(4) NOT NULL,
-  `previous_student_id` int(50) NOT NULL
+  `previous_student_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -176,7 +177,7 @@ CREATE TABLE `student_preregistration_draft_previous_academic_marks` (
   `marks_geo` int(3) NOT NULL,
   `marks_hist` int(3) NOT NULL,
   `marks_total` int(3) NOT NULL,
-  `marks_percentage` int(3) NOT NULL
+  `marks_percentage` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -200,7 +201,7 @@ CREATE TABLE `student_preregistration_login` (
 CREATE TABLE `users_login` (
   `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'User name of User',
   `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Password of the user',
-  `last-login` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Last login Timestamp',
+  `last-login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Last login Timestamp',
   `last-login-ip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last login IP'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
