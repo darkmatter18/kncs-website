@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.2
--- Generation Time: Jul 19, 2020 at 09:08 AM
+-- Generation Time: Jul 19, 2020 at 10:25 AM
 -- Server version: 5.7.30-33-log
 -- PHP Version: 7.3.13
 
@@ -67,9 +67,9 @@ CREATE TABLE `student_preregistration_draft_basic_info` (
   `religion` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `caste` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mother_tongue` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `apply_for_reserved_seat` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `apply_for_reserved_seat` tinyint(1) NOT NULL,
   `caste_certificate_no` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `weather_bpl` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weather_bpl` tinyint(1) NOT NULL,
   `bpl_card_no` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `whatsapp_no` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -101,7 +101,7 @@ CREATE TABLE `student_preregistration_draft_family_info` (
   `mother_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guardian_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `guardian_occupation` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `guardian_same_father` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `guardian_same_father` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
