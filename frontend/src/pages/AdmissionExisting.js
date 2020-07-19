@@ -101,7 +101,11 @@ const AdmissionExisting = () => {
                             const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no})
                             if(r){
                                 console.log("Signing In")
-                                history.push(`/admission/progress/personal_info`)
+                                if(res.data.RecStatus === 'DRAFT'){
+                                    history.push(`/admission/progress/personal_info`)
+                                } else {
+                                    history.push(`/admission/progress/declaration`)
+                                }
                             }else {
                                 setNetworkState([netState.ERROR, 'Internal error occured'])
                             }
