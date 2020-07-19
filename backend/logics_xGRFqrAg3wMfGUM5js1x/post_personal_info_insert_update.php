@@ -80,14 +80,14 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             if($smt->rowCount() > 0){
                 //table :  BASIC INFO
                 $smt1= $pdocon->prepare('UPDATE student_preregistration_draft_basic_info
-                                                        SET gender = :gender, religion = :religion, caste = :caste, mother_tongue = :mother_tongue
-                                                        apply_for_reserved_seat = :apply_for_reserved_seat, caste_certificate_no = :caste_certificate_no
+                                                        SET gender = :gender, religion = :religion, caste = :caste, mother_tongue = :mother_tongue,
+                                                        apply_for_reserved_seat = :apply_for_reserved_seat, caste_certificate_no = :caste_certificate_no,
                                                         weather_bpl = :weather_bpl, bpl_card_no = :bpl_card_no, whatsapp_no = :whatsapp_no
                                                         WHERE application_no = :application_no');
                 //table: FAMILY INFO
                 $smt2 = $pdocon->prepare('UPDATE student_preregistration_draft_family_info
                                                         SET father_name = :father_name, father_occupation = :father_occupation,
-                                                        mother_name = :mother_name, mother_occupation = :mother_occupation
+                                                        mother_name = :mother_name, mother_occupation = :mother_occupation,
                                                         guardian_name = :guardian_name, guardian_occupation = :guardian_occupation,
                                                         guardian_same_father = :guardian_same_father
                                                         WHERE application_no = :application_no');
