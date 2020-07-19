@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.2
--- Generation Time: Jul 19, 2020 at 09:03 AM
+-- Generation Time: Jul 19, 2020 at 09:08 AM
 -- Server version: 5.7.30-33-log
 -- PHP Version: 7.3.13
 
@@ -112,6 +112,7 @@ CREATE TABLE `student_preregistration_draft_family_info` (
 
 CREATE TABLE `student_preregistration_draft_image` (
   `application_no` int(10) NOT NULL,
+  `image_type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `image` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
