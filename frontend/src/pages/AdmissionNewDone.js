@@ -1,6 +1,6 @@
 import React from "react";
-import {useHistory, Redirect, Link as LinkRouter} from 'react-router-dom';
-import {ADMISSION_EXISTING, ADMISSION_NEW} from "../routes/route";
+import {useHistory, Redirect} from 'react-router-dom';
+import { ADMISSION_NEW} from "../routes/route";
 import Header from "../components/Header";
 import SubHeader from "../components/SubHeader";
 import Container from "@material-ui/core/Container";
@@ -69,13 +69,13 @@ const AdmissionNewDone = () => {
                                         Thank You for your Registration. Your Application No is {applicationNo}.
                                         Complete the remaining registration. <br/>
                                         Remember "Your account will be invalid after 30 days."<br/>
-                                        <Typography align={"center"}>
-                                            <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT}
-                                                           handleSubmit={handleSubmit} networkState={networkState[0]}/>
-                                        </Typography>
-                                        <Typography variant={"body2"} >
-                                            {networkState[0] === netState.ERROR ? "Some unexpected network error occurred" : ""}
-                                        </Typography>
+                                    </Typography>
+                                    <Typography align={"center"}>
+                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT}
+                                                       handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                    </Typography>
+                                    <Typography variant={"body2"} >
+                                        {networkState[0] === netState.ERROR ? "Some unexpected network error occurred" : ""}
                                     </Typography>
                                 </CardContent>
                             </Card>

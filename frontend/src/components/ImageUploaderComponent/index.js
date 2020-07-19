@@ -18,7 +18,7 @@ const ImageUploaderComponent = ({onChange, dataUrl}) => {
 
     const [fileError, setfileError] = useState(null);
     const [inputElement, setinputElement] = useState(null);
-    const [dataURL, setdataURL] = useState(dataUrl);
+    const [dataURL, setdataURL] = useState(null);
 
     /**
      * Check for the Extension for the file and Matches with IMGEXTENSIONS
@@ -81,6 +81,11 @@ const ImageUploaderComponent = ({onChange, dataUrl}) => {
             setdataURL(()=>value);
         });
     }
+
+    useEffect(()=>{
+        console.log(dataUrl)
+        setdataURL(dataUrl)
+    },[dataUrl])
 
     useEffect(()=> {
         onChange(dataURL)

@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         width: '100%',
         height: '100%'
@@ -26,7 +26,9 @@ const Home = () => {
                         Application form will be available on 18th July 2020 from 1:00PM onwards
                     </Typography>
                     <Typography variant={"h6"} align={"center"} color={"textSecondary"}>
-                        Please press F5 or refresh the page if you see the message after the mentioned time.
+                        Due to some unavoidable circumstances, the application form is not yet released.<br/>
+                        Please keep visiting the page periodically. <br/>
+                        The form will be available soon. Thank you for your understanding and co-operation.
                     </Typography>
                 </Grid>
             </Grid>
