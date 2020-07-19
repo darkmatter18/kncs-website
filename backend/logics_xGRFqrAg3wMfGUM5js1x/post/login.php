@@ -55,8 +55,8 @@ function get_user_role($pdocon, $id){
 
 
 define('_inc', true);
-require INC_DIR.'index.php';
-require BASE_DIR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+require INC_DIR . 'index.php';
+require BASE_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use \Firebase\JWT\JWT;
 
 

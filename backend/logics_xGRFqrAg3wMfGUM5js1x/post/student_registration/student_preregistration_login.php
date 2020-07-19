@@ -7,7 +7,7 @@
 
 define('_inc', true);
 require INC_DIR . 'index.php';
-require BASE_DIR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+require BASE_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use \Firebase\JWT\JWT;
 
 $_INPUT = json_decode(file_get_contents('php://input'), true);

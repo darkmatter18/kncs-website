@@ -51,8 +51,8 @@ if ($smt->execute()) {
 
     // $image = base64_encode($output['image']);
     // $return['image'] = $image;
-
-    $image = base64_encode($output['image']);
+    // 'data:image/' . $type . ';base64,' . base64_encode($data);
+    $image ='data:image/' . 'jpeg' . ';base64,'.  ltrim(base64_encode($output['image']),'dataimage/jpegbase64');
     $return['data']['image'] = $image;
 
     $return['status'] = true;
