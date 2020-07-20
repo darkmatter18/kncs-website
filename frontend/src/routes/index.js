@@ -5,7 +5,7 @@ import {
     HOME,
     ADMISSION_HOME,
     ADMISSION_NEW,
-    ADMISSION_EXISTING, ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE, ADMISSION_ALL_DONE
+    ADMISSION_EXISTING, ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE, ADMISSION_ALL_DONE, MEET_THE_DEVS
 } from './route';
 
 import Home from '../pages/Home';
@@ -17,6 +17,7 @@ import AdmissionProgress from "../pages/AdmissionProgress";
 import {PrivateRoute} from "react-auth-jwt";
 import Page404 from "../pages/Page404";
 import AdmissionAllDone from "../pages/AdmissionAllDone";
+import MeetTheDevelopers from "../pages/MeetTheDevelopers";
 
 
 const RouteComponent = () => {
@@ -29,6 +30,7 @@ const RouteComponent = () => {
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
                 <Route path={ADMISSION_ALL_DONE} component={AdmissionAllDone} exact/>
+                <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
                 <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW} exact/>
                 <Route path='*' exact={true} component={Page404} />
             </Switch>
