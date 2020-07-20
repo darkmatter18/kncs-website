@@ -268,7 +268,7 @@ const Progress4Declaration = () => {
                             <AdmissionProgressBack/>
                         </Grid>
                         <Grid item md={6}>
-                            <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState}
+                            <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState[0]}
                                            handleSubmit={handleSubmit}/>
                         </Grid>
                     </Grid>

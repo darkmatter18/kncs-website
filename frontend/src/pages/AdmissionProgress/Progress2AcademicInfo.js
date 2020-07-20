@@ -922,7 +922,7 @@ const Progress2AcademicInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState}
+                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState[0]}
                                                    handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>

@@ -24,6 +24,12 @@ const NetworkSubmit = ({buttonStyle, handleSubmit, networkState}) => {
                     submit
                 </Button>
             )
+        } else{
+            return (
+                <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} endIcon={<NavigateNext/>}>
+                    Save & Next
+                </Button>
+            )
         }
     } else if (networkState === netState.BUSY) {
         return (

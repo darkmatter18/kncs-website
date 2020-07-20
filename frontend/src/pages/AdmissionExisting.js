@@ -195,7 +195,7 @@ const AdmissionExisting = () => {
                     </CardContent>
                 </Paper>
             </Container>
-            <Footer/>
+            <Footer Ftype={'absolute'}/>
         </React.Fragment>
     )
 }

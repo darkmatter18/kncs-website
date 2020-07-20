@@ -29,7 +29,7 @@ const Home = () => {
                     </Typography>
                 </Grid>
             </Grid>
-            <Footer/>
+            <Footer Ftype={'absolute'}/>
         </React.Fragment>
     )
 }

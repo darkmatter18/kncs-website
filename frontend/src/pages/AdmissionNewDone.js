@@ -77,7 +77,7 @@ const AdmissionNewDone = () => {
                                         Complete the remaining registration. <br/>
                                         Remember "Your account will be invalid after 30 days."<br/>
                                     </Typography>
-                                    <Typography align={"center"}>
+                                    <Typography align={"center"} style={{marginTop: 16}}>
                                         <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT}
                                                        handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Typography>
@@ -89,7 +89,7 @@ const AdmissionNewDone = () => {
                         </CardContent>
                     </Paper>
                 </Container>
-                <Footer/>
+                <Footer Ftype={'absolute'}/>
             </React.Fragment>
         )
     }

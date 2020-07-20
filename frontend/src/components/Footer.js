@@ -1,16 +1,16 @@
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
+import {Link} from "react-router-dom";
+import {MEET_THE_DEVS} from "../routes/route";
 
 const useStyle = makeStyles((theme) => ({
     root: {
         backgroundColor: theme.palette.background.default,
         marginTop: theme.spacing(6),
         width: '100%',
-        position: 'relative',
+        position: props => props.Ftype || 'relative',
         bottom: 0
     },
     container: {
@@ -19,14 +19,17 @@ const useStyle = makeStyles((theme) => ({
     }
 }))
 
-const Footer = () => {
-    const classes = useStyle()
+const Footer = (props) => {
+    const classes = useStyle(props)
     return (
         <div className={classes.root}>
             <Container className={classes.container}>
                 <Typography variant={"subtitle1"} align={"center"}>
-                    KNCS and It's
-                    Developers &copy; {new Intl.DateTimeFormat('en', {year: 'numeric'}).format(new Date())}
+                    KNCS and It's{' '}
+                    <Link to={MEET_THE_DEVS}>
+                        Developers
+                    </Link>
+                    {' '}&copy; {new Intl.DateTimeFormat('en', {year: 'numeric'}).format(new Date())}
                 </Typography>
                 <Typography variant={"subtitle1"} align={"center"}>
                     All rights received

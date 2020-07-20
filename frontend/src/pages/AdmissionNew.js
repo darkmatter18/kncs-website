@@ -248,7 +248,7 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState}/>
+                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>

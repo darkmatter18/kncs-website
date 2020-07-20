@@ -34,7 +34,7 @@ const AdmissionAllDone = () => {
                                     <Typography variant={"body1"} align={"center"}>
                                         Thank You for your Registration.
                                     </Typography>
-                                    <Typography>
+                                    <Typography align={"center"} style={{marginTop: 16}}>
                                         <Button variant={"outlined"} startIcon={<Home/>}
                                                 href={ADMISSION_NEW}>
                                             Back to home
@@ -45,7 +45,7 @@ const AdmissionAllDone = () => {
                         </CardContent>
                     </Paper>
                 </Container>
-                <Footer/>
+                <Footer Ftype={'absolute'}/>
             </React.Fragment>
         )
     }
