@@ -110,7 +110,7 @@ const Progress2AcademicInfo = () => {
     const [formData, setFormData] = React.useState(initialState)
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
     const [geographyEligibilyState, setGeographyEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
     const [comaEligibilyState, setComaEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
@@ -447,7 +447,7 @@ const Progress2AcademicInfo = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState(netState.BUSY)
+            setNetworkState([netState.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
@@ -461,11 +461,13 @@ const Progress2AcademicInfo = () => {
                         if (res.data.status) {
                             history.push(`/admission/progress/payment_info`)
                         } else {
-                            setNetworkState(netState.ERROR)
+                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState(netState.ERROR)
+                        setNetworkState([netState.ERROR, `Internal error occurred 
+                    (${e.response.status} - ${e.response.data.error})`])
                     })
                 })
             })
@@ -925,7 +927,7 @@ const Progress2AcademicInfo = () => {
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </Grid>
                             </Grid>

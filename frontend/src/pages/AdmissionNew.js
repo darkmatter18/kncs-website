@@ -52,7 +52,7 @@ const AdmissionNew = () => {
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     })
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -137,7 +137,7 @@ const AdmissionNew = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState(netState.BUSY)
+            setNetworkState([netState.BUSY, ''])
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
@@ -155,11 +155,12 @@ const AdmissionNew = () => {
                                 dob: formData.dob
                             })
                         } else {
-                            setNetworkState(netState.ERROR)
+                            setNetworkState([netState.ERROR, res.data.error])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState(netState.ERROR)
+                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        (${e.response.status} - ${e.response.data.error})`])
                     })
                 })
             })
@@ -256,7 +257,7 @@ const AdmissionNew = () => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant={"subtitle2"} color={"error"}>
-                                            {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                            {networkState[0] === netState.ERROR ? networkState[1] : ""}
                                         </Typography>
                                     </Grid>
                                 </Grid>

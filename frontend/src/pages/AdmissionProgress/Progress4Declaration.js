@@ -116,7 +116,7 @@ const Progress4Declaration = () => {
     const [formState, setFormState] = React.useState(formValue)
     const [declarationFormState, setDeclarationFormState] = React.useState(initialDeclarationForm)
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
 
     React.useEffect(() => {
         api.get(PRE_REGISTRATION_DECLARATION, {
@@ -174,7 +174,7 @@ const Progress4Declaration = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setNetworkState(netState.BUSY)
+            setNetworkState([netState.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_DECLARATION, {
@@ -190,11 +190,13 @@ const Progress4Declaration = () => {
                                 status: res.data.status,
                             })
                         } else {
-                            setNetworkState(netState.ERROR)
+                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState(netState.ERROR)
+                        setNetworkState([netState.ERROR, `Internal error occurred 
+                    (${e.response.status} - ${e.response.data.error})`])
                     })
                 })
             })

@@ -42,14 +42,15 @@ const AdmissionNewDone = () => {
                                 history.push(`/admission/progress/declaration`)
                             }
                         } else {
-                            setNetworkState([netState.ERROR, 'Internal error occured'])
+                            setNetworkState([netState.ERROR, 'Internal error occurred'])
                         }
                     } else {
                         setNetworkState([netState.ERROR, res.data.error])
                     }
                 }).catch((e) => {
                     console.log(e)
-                    setNetworkState([netState.ERROR, 'Internal error occured'])
+                    setNetworkState([netState.ERROR, `Internal error occurred 
+                    (${e.response.status} - ${e.response.data.error})`])
                 })
             })
         })
@@ -81,7 +82,7 @@ const AdmissionNewDone = () => {
                                                        handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Typography>
                                     <Typography variant={"body2"} >
-                                        {networkState[0] === netState.ERROR ? "Some unexpected network error occurred" : ""}
+                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </CardContent>
                             </Card>

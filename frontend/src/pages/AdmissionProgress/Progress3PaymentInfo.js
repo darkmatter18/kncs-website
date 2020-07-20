@@ -61,7 +61,7 @@ const Progress3PaymentInfo = () => {
 
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState(netState.IDLE)
+    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
 
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_PAYMENT_INFO, {
@@ -124,7 +124,7 @@ const Progress3PaymentInfo = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()){
-            setNetworkState(netState.BUSY)
+            setNetworkState([netState.BUSY, ''])
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.transaction_date))
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.transaction_date))
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.transaction_date))
@@ -142,11 +142,13 @@ const Progress3PaymentInfo = () => {
                         if (res.data.status) {
                             history.push(`/admission/progress/declaration`)
                         } else {
-                            setNetworkState(netState.ERROR)
+                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState(netState.ERROR)
+                        setNetworkState([netState.ERROR, `Internal error occurred 
+                    (${e.response.status} - ${e.response.data.error})`])
                     })
                 })
             })
@@ -232,7 +234,7 @@ const Progress3PaymentInfo = () => {
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState === netState.ERROR ? "Some unexpected Network error occurred" : ""}
+                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </Grid>
                             </Grid>
