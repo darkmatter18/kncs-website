@@ -53,7 +53,7 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
                 $smt->setFetchMode(PDO::FETCH_ASSOC);
                 $output = $smt->fetch();
 
-                if ($output['direct_admission'] = "true") {
+                if ((string) $output['direct_admission'] == "1") {
                     $status = "SELECTED";
 
                 } else {
