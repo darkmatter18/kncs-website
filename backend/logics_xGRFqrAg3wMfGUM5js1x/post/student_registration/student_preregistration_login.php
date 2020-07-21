@@ -33,9 +33,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);
 
         if ($smt->execute()) {
-            if ($smt->rowCount() > 0) {
-                $smt->setFetchMode(PDO::FETCH_ASSOC);
-                $output = $smt->fetch();
+            $output = $smt->fetch(PDO::FETCH_ASSOC);
+            if ($output) {
                 $status = $output['status'];
                 //JWT config
                 $issuedAt = time();

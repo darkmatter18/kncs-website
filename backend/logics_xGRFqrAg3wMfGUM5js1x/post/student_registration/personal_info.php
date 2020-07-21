@@ -30,7 +30,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no = $auth_user['data']->application_no; 
+        $application_no = $auth_user->data->application_no;
         
 
         //BASIC INFO---9 INPUT
@@ -67,7 +67,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
 
         // START student_preregistration_draft_basic_info TABLE UPADTE checking
 
-        $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_basic_info 
+        $smt = $pdocon->prepare("SELECT COUNT(*) FROM student_preregistration_draft_basic_info 
                                             WHERE application_no= :application_no");
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
 
@@ -79,7 +79,7 @@ if (isset($_INPUT['gender']) && isset($_INPUT['religion']) && isset($_INPUT['cas
             $smt3 = null;
             $smt4 = null;
 
-            if($smt->rowCount() > 0){
+            if((int) $smt->fetchColumn() > 0){
                 //table :  BASIC INFO
                 $smt1= $pdocon->prepare('UPDATE student_preregistration_draft_basic_info
                                                         SET gender = :gender, religion = :religion, caste = :caste, mother_tongue = :mother_tongue,

@@ -15,7 +15,7 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-$application_no = $auth_user['data']->application_no;
+$application_no = $auth_user->data->application_no;
 
 $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                 T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
@@ -36,8 +36,7 @@ $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T
 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
-    $smt->setFetchMode(PDO::FETCH_ASSOC);
-    $output = $smt->fetch();
+    $output = $smt->fetch(PDO::FETCH_ASSOC);
     $return['data'] = $output;
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";

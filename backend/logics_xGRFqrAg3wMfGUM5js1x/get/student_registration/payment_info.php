@@ -15,7 +15,7 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-$application_no = $auth_user['data']->application_no;
+$application_no = $auth_user->data->application_no;
 
 $smt = $pdocon->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transaction_id, T2.transaction_date
                         FROM `student_preregistration_details` AS T1
@@ -27,8 +27,7 @@ $smt = $pdocon->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transact
 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
-    $smt->setFetchMode(PDO::FETCH_ASSOC);
-    $output = $smt->fetch();
+    $output = $smt->fetch(PDO::FETCH_ASSOC);
     $return['data'] = $output;
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";

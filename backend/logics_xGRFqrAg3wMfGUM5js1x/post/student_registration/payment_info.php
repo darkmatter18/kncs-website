@@ -27,14 +27,14 @@ if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no = $auth_user['data']->application_no;
+        $application_no = $auth_user->data->application_no;
 
         $mode_of_payment_clean = Filter::String($_INPUT['mode_of_payment']);
         $name_of_bank_clean = Filter::String($_INPUT['name_of_bank']);
         $transaction_id_clean = Filter::String($_INPUT['transaction_id']);
         $transaction_date_clean = Filter::String($_INPUT['transaction_date']);
 
-        $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_payment_info 
+        $smt = $pdocon->prepare("SELECT COUNT(*) FROM student_preregistration_draft_payment_info 
                                             WHERE application_no= :application_no");
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
         if($smt->execute()){
@@ -42,7 +42,7 @@ if (isset($_INPUT['mode_of_payment']) && isset($_INPUT['name_of_bank']) && isset
             $pdocon->beginTransaction();
             $statement = null;
 
-            if($smt->rowCount() > 0){
+            if((int) $smt->fetchColumn() > 0){
                 //UPDATE
                 $statement = $pdocon->prepare('UPDATE student_preregistration_draft_payment_info
                                                         SET mode_of_payment = :mode_of_payment, name_of_bank = :name_of_bank,

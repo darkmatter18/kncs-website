@@ -30,12 +30,12 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no = $auth_user['data']->application_no;
+        $application_no = $auth_user->data->application_no;
 
         // PREVIOUS SCHOOL DETAILS... 3 INPUT
         $previous_school_name_clean = Filter::String($_INPUT['previous_school_name']);
         $year_of_madhyamik_clean = Filter::String($_INPUT['year_of_madhyamik']);
-        $previous_student_id_clean = Filter::Int($_INPUT['previous_student_id']);
+        $previous_student_id_clean = Filter::String($_INPUT['previous_student_id']);
 
         // PREVIOUS ACADEMIC MARKS--- 9 INPUT
         $marks_beng_clean = Filter::Int($_INPUT['marks_beng']);
@@ -60,7 +60,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
         $medium_clean = Filter::String($_INPUT['medium']);
 
 
-        $smt = $pdocon->prepare("SELECT application_no FROM student_preregistration_draft_previous_academic_info 
+        $smt = $pdocon->prepare("SELECT COUNT(*) FROM student_preregistration_draft_previous_academic_info 
                                             WHERE application_no= :application_no");
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
 
@@ -72,7 +72,7 @@ if (isset($_INPUT['previous_school_name']) && isset($_INPUT['year_of_madhyamik']
             $smt3 = null;
             $smt4 = null;
 
-            if($smt->rowCount() > 0){
+            if((int) $smt->fetchColumn() > 0){
                 // TABLE : Previous Academic Info
                 $smt1= $pdocon->prepare('UPDATE student_preregistration_draft_previous_academic_info
                                                         SET previous_school_name = :previous_school_name, year_of_madhyamik = :year_of_madhyamik,

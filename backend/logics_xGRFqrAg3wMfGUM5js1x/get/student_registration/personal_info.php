@@ -21,7 +21,7 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-$application_no = $auth_user['data']->application_no;
+$application_no = $auth_user->data->application_no;
 
 $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.aadhar_no, T1.email, T1.mobile, T1.dob,
                                 T2.gender, T2.religion, T2.caste, T2.mother_tongue, T2.apply_for_reserved_seat, T2.caste_certificate_no,
@@ -45,8 +45,7 @@ $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.
 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
-    $smt->setFetchMode(PDO::FETCH_ASSOC);
-    $output = $smt->fetch();
+    $output = $smt->fetch(PDO::FETCH_ASSOC);
     $return['data'] = $output;
 
     // $image = base64_encode($output['image']);

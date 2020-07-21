@@ -26,7 +26,7 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
 
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
-        $application_no = $auth_user['data']->application_no;
+        $application_no = $auth_user->data->application_no;
         $date_clean= Filter::String($_INPUT['date']);
         $place_clean= Filter::String($_INPUT['place']);
         $full_name_clean= Filter::String($_INPUT['full_name']);
@@ -50,8 +50,7 @@ if (isset($_INPUT['date']) && isset($_INPUT['place']) && isset($_INPUT['full_nam
             $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
             if ($smt->execute()) {
-                $smt->setFetchMode(PDO::FETCH_ASSOC);
-                $output = $smt->fetch();
+                $output = $smt->fetch(PDO::FETCH_ASSOC);
 
                 if ((string) $output['direct_admission'] == "1") {
                     $status = "SELECTED";
