@@ -26,7 +26,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import api from './../../api'
 import {ValidateName} from "../../utils/validate";
-import {useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-jwt";
 import {ADMISSION_ALL_DONE} from "../../routes/route";
 import Footer from "../../components/Footer";
 
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const Progress4Declaration = () => {
     const history = useHistory()
     const authHeader = useAuthHeader()
+    const auth = useAuth()
     const classes = useStyles()
     const printRef = React.useRef()
 
@@ -56,7 +57,7 @@ const Progress4Declaration = () => {
         first_name: '',
         middle_name: '',
         last_name: '',
-        dob: '01/01/1990',
+        dob: '',
         gender: '',
         religion: '',
         caste: '',
@@ -100,7 +101,11 @@ const Progress4Declaration = () => {
         second_major: '',
         third_major: '',
         forth_major: '',
-        status: 'DRAFT'
+        mode_of_payment: '',
+        name_of_bank: '',
+        transaction_id: '',
+        transaction_date: '',
+        status: 'DRAFT',
     }
 
     const initialDeclarationForm = {
@@ -291,15 +296,25 @@ const Progress4Declaration = () => {
                             <CardContent>
                                 <div ref={printRef}>
                                     <Grid container justify={"center"} alignItems={"center"}>
-                                        <Grid item md={12}>
+                                        <Grid item md={4}>
+                                            <Typography variant={"body1"} color={"textPrimary"}
+                                                        align={"center"}>
+                                                Application No: <b>{auth().authState.application_no}</b>
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item md={4}>
                                             <Typography align={"center"}>
                                                 <img src={banner} alt={"College Banner"}
                                                      className={classes.bannerImage}/>
                                             </Typography>
                                         </Grid>
+                                        <Grid item md={4}>
+
+                                        </Grid>
                                     </Grid>
                                     <Divider/>
                                     <Container className={classes.spacer}>
+
                                         <Typography variant={"h6"} color={"textPrimary"}>
                                             Personal Information
                                         </Typography>
@@ -672,6 +687,40 @@ const Progress4Declaration = () => {
                                                         </Grid>
                                                     </CardContent>
                                                 </Card>
+                                            </CardContent>
+                                        </Card>
+
+                                        <Typography variant={"h6"} color={"textPrimary"} className={classes.spacer}>
+                                            Payment Info
+                                        </Typography>
+                                        <Card variant={"outlined"}>
+                                            <CardContent>
+                                                <Grid container>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"} color={"textPrimary"}
+                                                                    align={"center"}>
+                                                            Mode of Payment: <br/><b>{formState.mode_of_payment}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"} color={"textPrimary"}
+                                                                    align={"center"}>
+                                                            Name of Bank: <br/><b>{formState.name_of_bank}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"} color={"textPrimary"}
+                                                                    align={"center"}>
+                                                            Transaction Id: <br/><b>{formState.transaction_id}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item md={3}>
+                                                        <Typography variant={"body1"} color={"textPrimary"}
+                                                                    align={"center"}>
+                                                            Transaction Date: <br/><b>{formState.transaction_date}</b>
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
                                             </CardContent>
                                         </Card>
                                     </Container>
