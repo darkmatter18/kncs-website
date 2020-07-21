@@ -7,7 +7,7 @@ require INC_DIR . 'protected.php';
 $return = [];
 header('Content-Type: application/json');
 
-$application_no = $auth_user['data']->application_no;
+$application_no = $auth_user->data->application_no;
 
 $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.email, T1.aadhar_no, T1.mobile, T1.dob, T1.status,
     T2.gender, religion, caste, mother_tongue, apply_for_reserved_seat, caste_certificate_no, weather_bpl, bpl_card_no, whatsapp_no,
@@ -31,14 +31,13 @@ FROM student_preregistration_details AS T1
     INNER JOIN student_preregistration_draft_present_academic AS T7
         ON T1.application_no = T7.application_no
     INNER JOIN student_preregistration_draft_payment_info AS T8
-        ON T1.application_no = T7.application_no
+        ON T1.application_no = T8.application_no
 WHERE T1.application_no = :application_no");
 
 $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
 if ($smt->execute()) {
-    $smt->setFetchMode(PDO::FETCH_ASSOC);
-    $output = $smt->fetch();
+    $output = $smt->fetch(PDO::FETCH_ASSOC);
     $return['data'] = $output;
     $return['status'] = true;
     $return['statusText'] = "Fetch Done";
