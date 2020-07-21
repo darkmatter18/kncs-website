@@ -83,7 +83,6 @@ const ImageUploaderComponent = ({onChange, dataUrl}) => {
     }
 
     useEffect(()=>{
-        console.log(dataUrl)
         setdataURL(dataUrl)
     },[dataUrl])
 

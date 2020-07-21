@@ -295,7 +295,6 @@ const Progress2AcademicInfo = () => {
                     const cs = csEligibilyState === SubjectElligibilityFactors.NOT_ELIGIBLE ? "COMPUTER SCIENCE" : "";
                     return (i === g || i === co || i === cs)
                 })
-                console.log(qq)
                 return qq
             })
             setScienceSecondMajorList(() => {
