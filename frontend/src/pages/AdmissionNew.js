@@ -256,7 +256,7 @@ const AdmissionNew = () => {
                                         </Button>
                                     </Grid>
                                     <Grid item>
-                                        <Typography variant={"subtitle2"} color={"error"}>
+                                        <Typography variant={"subtitle2"} align={"center"} color={"error"}>
                                             {networkState[0] === netState.ERROR ? networkState[1] : ""}
                                         </Typography>
                                     </Grid>
