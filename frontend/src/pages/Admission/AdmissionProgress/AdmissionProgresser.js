@@ -1,17 +1,17 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
-import Header from "../../components/Header";
+import Header from "../../../components/Header";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Progress1PersonalInfo from "./Progress1PersonalInfo";
 import Progress2AcademicInfo from "./Progress2AcademicInfo";
 import Progress3PaymentInfo from "./Progress3PaymentInfo";
-import {ADMISSION_PROGRESS} from "../../constant";
+import {ADMISSION_PROGRESS} from "../../../constant";
 import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
-import {ADMISSION_EXISTING} from "../../routes/route";
-import ApplicationTopStatus from "../../components/ApplicationTopStatus";
+import {ADMISSION_EXISTING} from "../../../routes/route";
+import ApplicationTopStatus from "../../../components/ApplicationTopStatus";
 
 const AdmissionProgresser = ({progress}) => {
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number

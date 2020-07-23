@@ -1,18 +1,18 @@
 import React from "react";
 import {useHistory, Redirect} from 'react-router-dom';
-import { ADMISSION_NEW} from "../routes/route";
-import Header from "../components/Header";
-import SubHeader from "../components/SubHeader";
+import { ADMISSION_NEW} from "../../routes/route";
+import Header from "../../components/Header";
+import SubHeader from "../../components/SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
-import api from "../api";
+import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
+import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
-import NetworkSubmit from "../components/NetworkSubmit";
-import Footer from "../components/Footer";
+import NetworkSubmit from "../../components/NetworkSubmit";
+import Footer from "../../components/Footer";
 
 const AdmissionNewDone = () => {
     const history = useHistory()

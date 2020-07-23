@@ -1,7 +1,7 @@
 import React from "react";
 import {useParams, Redirect} from "react-router-dom";
-import {ADMISSION_PROGRESS} from "../../constant";
-import {ADMISSION_NEW} from "../../routes/route";
+import {ADMISSION_PROGRESS} from "../../../constant";
+import {ADMISSION_NEW} from "../../../routes/route";
 import AdmissionProgresser from "./AdmissionProgresser";
 
 const AdmissionProgress = () => {

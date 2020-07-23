@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "../components/Header";
-import AdmissionNewExistingSwitch from "../components/AdmissionNewExistingSwitch";
+import Header from "../../components/Header";
+import AdmissionNewExistingSwitch from "../../components/AdmissionNewExistingSwitch";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -11,15 +11,15 @@ import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 import Button from "@material-ui/core/Button";
-import SubHeader from "../components/SubHeader";
+import SubHeader from "../../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
-import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../utils/validate";
-import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../constant";
-import NetworkSubmit from "../components/NetworkSubmit";
+import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../utils/validate";
+import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import NetworkSubmit from "../../components/NetworkSubmit";
 import {useHistory} from 'react-router-dom';
-import api from './../api'
-import {ADMISSION_NEW_DONE} from "../routes/route";
-import Footer from "../components/Footer";
+import api from '../../api'
+import {ADMISSION_NEW_DONE} from "../../routes/route";
+import Footer from "../../components/Footer";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {

@@ -1,8 +1,8 @@
 import React from "react";
 import {useHistory, Redirect} from 'react-router-dom';
-import {ADMISSION_NEW} from "../routes/route";
-import Header from "../components/Header";
-import SubHeader from "../components/SubHeader";
+import {ADMISSION_NEW} from "../../routes/route";
+import Header from "../../components/Header";
+import SubHeader from "../../components/SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import {useSignOut} from "react-auth-jwt";
 import Button from "@material-ui/core/Button";
 import {Home} from "@material-ui/icons";
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 
 const AdmissionAllDone = () => {
     const history = useHistory()

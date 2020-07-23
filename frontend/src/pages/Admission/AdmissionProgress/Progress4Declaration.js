@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
-import AdmissionProgressBack from "../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -10,25 +10,25 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import ReactToPrint from 'react-to-print';
 
-import * as banner from '../../assets/banner.png'
+import * as banner from '../../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
-import NetworkSubmit from "../../components/NetworkSubmit";
+import NetworkSubmit from "../../../components/NetworkSubmit";
 import {
     buttonType,
     netState,
     PRE_REGISTRATION_DECLARATION,
     RECAPTCHA_SITE_KEY
-} from "../../constant";
+} from "../../../constant";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import api from './../../api'
-import {ValidateName} from "../../utils/validate";
+import api from '../../../api'
+import {ValidateName} from "../../../utils/validate";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
-import {ADMISSION_ALL_DONE} from "../../routes/route";
-import Footer from "../../components/Footer";
+import {ADMISSION_ALL_DONE} from "../../../routes/route";
+import Footer from "../../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

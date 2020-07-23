@@ -18,16 +18,20 @@ header('Content-Type: application/json');
 if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT['dob']) && isset($_INPUT['recaptcha_token'])) {
     if (checkRecaptcha($_INPUT['recaptcha_token'])) {
 
+        $f = fopen(BASE_DIR . 'logger.txt', 'a');
+        fwrite($f, date('c') . '\n' . 'Input:'.file_get_contents('php://input').'\n');
+        fclose($f);
+
         $application_no_clean = Filter::Int($_INPUT['application_no']);
         $email_id_clean = Filter::Email($_INPUT['email']);
         $dob_clean = Filter::String($_INPUT['dob']);
         // Added table student_preregistration_details to get the status column
-        $smt = $pdocon->prepare("SELECT spl.*,spd.status 
-                                        FROM `student_preregistration_login` spl, `student_preregistration_details` spd 
-                                        WHERE spl.application_no = spd.application_no 
-                                          AND spl.application_no = :application_no 
-                                          AND spl.email= :email 
-                                          AND spl.dob = :dob");
+        $smt = $pdocon->prepare("SELECT T1.*, T2.status FROM student_preregistration_login AS T1
+                                            INNER JOIN student_preregistration_details AS T2
+                                            ON T1.application_no = T2.application_no
+                                            WHERE T1.application_no = :application_no
+                                            AND T1.email = :email
+                                            AND T2.dob = :dob");
         $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
         $smt->bindParam(":email", $email_id_clean, PDO::PARAM_STR);
         $smt->bindParam(":dob", $dob_clean, PDO::PARAM_STR);
@@ -99,6 +103,8 @@ if (isset($_INPUT['application_no']) && isset($_INPUT['email']) && isset($_INPUT
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
 }
-
+$f = fopen(BASE_DIR . 'logger.txt', 'a');
+fwrite($f, date('c') . '\n' . 'Output:'.json_encode($return).'\n\n');
+fclose($f);
 echo json_encode($return);
 exit;

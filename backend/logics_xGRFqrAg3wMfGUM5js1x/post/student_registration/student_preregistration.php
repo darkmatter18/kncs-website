@@ -60,7 +60,7 @@ if(isset($_INPUT['first_name']) && isset($_INPUT['middle_name']) && isset($_INPU
                     //{status:true, statusText: text,
                     //application_no:number, error:null}
                     $return['status'] = true;
-                    $return['statusText'] = "Successfully Submittied";
+                    $return['statusText'] = "Successfully Submitted";
                     $return['application_no'] = $application_no;
                     $return['error'] = null;
             }else{

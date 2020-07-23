@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
@@ -12,7 +12,7 @@ import {
     netState,
     PRE_REGISTRATION_PAYMENT_INFO,
     RECAPTCHA_SITE_KEY
-} from "../../constant";
+} from "../../../constant";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,10 +23,10 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-import NetworkSubmit from "../../components/NetworkSubmit";
-import api from "../../api";
-import {ValidateName} from "../../utils/validate";
-import Footer from "../../components/Footer";
+import NetworkSubmit from "../../../components/NetworkSubmit";
+import api from "../../../api";
+import {ValidateName} from "../../../utils/validate";
+import Footer from "../../../components/Footer";
 
 
 const useStyles = makeStyles((theme) => ({

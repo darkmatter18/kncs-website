@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {buttonType, netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
+import {buttonType, netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -20,13 +20,13 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import NetworkSubmit from "../../components/NetworkSubmit";
-import api from "../../api";
+import NetworkSubmit from "../../../components/NetworkSubmit";
+import api from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

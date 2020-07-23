@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../components/Header";
-import AdmissionNewExistingSwitch from "../components/AdmissionNewExistingSwitch";
-import SubHeader from "../components/SubHeader";
+import Header from "../../components/Header";
+import AdmissionNewExistingSwitch from "../../components/AdmissionNewExistingSwitch";
+import SubHeader from "../../components/SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -13,13 +13,13 @@ import CardContent from "@material-ui/core/CardContent";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import {ValidateEmail} from "../utils/validate";
-import NetworkSubmit from "../components/NetworkSubmit";
-import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../constant";
-import api from "../api";
+import {ValidateEmail} from "../../utils/validate";
+import NetworkSubmit from "../../components/NetworkSubmit";
+import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
+import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
-import Footer from "../components/Footer";
+import Footer from "../../components/Footer";
 
 
 const useStyle = makeStyles((theme) => ({

@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {buttonType, netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../constant";
+import {buttonType, netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
@@ -18,13 +18,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import NetworkSubmit from "../../components/NetworkSubmit";
-import {validateMobileNo, ValidateName} from "../../utils/validate";
-import api from './../../api'
+import NetworkSubmit from "../../../components/NetworkSubmit";
+import {validateMobileNo, ValidateName} from "../../../utils/validate";
+import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
-import ImageUploaderComponent from "../../components/ImageUploaderComponent";
-import Footer from "../../components/Footer";
+import ImageUploaderComponent from "../../../components/ImageUploaderComponent";
+import Footer from "../../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
