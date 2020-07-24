@@ -20,9 +20,7 @@ Router::add('/', 'get', function () {
     echo 'Welcome :)';
 });
 
-Router::add('/login', 'post', function () {
-    require POST_LOGIC_DIR . 'login.php';
-});
+
 
 /**
  * POST Requests
@@ -62,6 +60,10 @@ Router::add('/preregistration/process/declaration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
+//Log in process
+Router::add('/login', 'post', function () {
+    require POST_LOGIC_DIR . 'user_login_process.php';
+});
 
 /**
  * Get Requests
