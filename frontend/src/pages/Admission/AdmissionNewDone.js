@@ -23,12 +23,15 @@ const AdmissionNewDone = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         setNetworkState([netState.BUSY, ''])
+        const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(history.location.state.dob))
+        const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(history.location.state.dob))
+        const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(history.location.state.dob))
         window.grecaptcha.ready(() => {
             window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                 api.post(PRE_REGISTRATION_LOGIN, {
                     application_no: history.location.state.application_no,
                     email: history.location.state.email,
-                    dob: history.location.state.dob,
+                    dob: `${ye}-${mo}-${da}`,
                     recaptcha_token: token
                 }).then((res) => {
                     if (res.data.status) {
