@@ -1,27 +1,65 @@
 import React from "react";
-import {Container} from "@material-ui/core";
+import {AppBar, Container, Toolbar} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import * as banner from '../../assets/banner.png'
+import * as banner from '../../assets/banner_new.jpg'
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 const useStyle = makeStyles((theme)=> ({
     header: {
-        height: '6.5rem',
-        borderBottom: `1px solid #000000`,
         marginBottom: theme.spacing(6)
     },
     bannerImage: {
-        maxWidth: '25rem',
-        maxHeight: '6.25rem'
+        maxWidth: '4rem',
+        maxHeight: '4rem',
+        marginRight: theme.spacing(4)
+    },
+    appBar: {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    toolbar: {
+        flexWrap: 'wrap',
+    },
+    hearerText: {
+        fontFamily: 'Raleway, sans-serif',
+        flexGrow: 1,
     }
+
 }))
 
 const Header = () => {
     const classes = useStyle()
     return (
         <header className={classes.header}>
-            <Container>
-                <img src={banner} alt={"College Banner"} className={classes.bannerImage}/>
-            </Container>
+
+            <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+                <Toolbar className={classes.toolbar}>
+                    <Container>
+                        <Grid container alignItems={"center"}>
+                            <Grid item>
+                                <img src={banner} alt={"College Banner"} className={classes.bannerImage}/>
+                            </Grid>
+                            <Grid item>
+                                <Typography display={"inline"} variant="h5" color="inherit" noWrap  className={classes.hearerText}>
+                                    Krishnath College School
+                                </Typography>
+                            </Grid>
+                        </Grid>
+
+                        <nav>
+
+                        </nav>
+                    </Container>
+                </Toolbar>
+            </AppBar>
+
+
+            {/*<Container>*/}
+
+            {/*    <Typography className={classes.hearerText}>*/}
+            {/*        Krishnath College School*/}
+            {/*    </Typography>*/}
+            {/*</Container>*/}
         </header>
     )
 }
