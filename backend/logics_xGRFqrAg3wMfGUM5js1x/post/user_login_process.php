@@ -14,19 +14,19 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['recaptcha_token']) ){
+if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptcha_token']) ){
     if (checkRecaptcha($_INPUT['recaptcha_token'])){
 
         $pdocon->beginTransaction();
 
-        $email_clean = Filter::Email($_INPUT['email']);
+        $id_clean = Filter::Email($_INPUT['id']);
 
         $time = time();
         $ip = get_client_ip();
 
         $smt = $pdocon->prepare("SELECT id, password FROM `users_login` WHERE id = :email LIMIT 1");
 
-        $smt->bindParam(":email", $email_clean, PDO::PARAM_STR);
+        $smt->bindParam(":email", $id_clean, PDO::PARAM_STR);
 
         if ($smt->execute()){
             $_d  = $smt->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
                 if(password_verify($_INPUT['password'], $hashed_p)){
 
                     $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
-                    $smt->bindParam(':id', $email_clean, PDO::PARAM_STR);
+                    $smt->bindParam(':id', $id_clean, PDO::PARAM_STR);
 
                     if($smt->execute()) {
                         $_d  = $smt->fetch(PDO::FETCH_ASSOC);
@@ -45,16 +45,38 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
 
                         $smt->bindParam(':time', $time, PDO::PARAM_STR);
                         $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
-                        $smt->bindParam(":email", $email_clean, PDO::PARAM_STR);
+                        $smt->bindParam(":email", $id_clean, PDO::PARAM_STR);
 
                         if ($smt->execute()) {
                             if($pdocon->commit()){
-                                $return['status'] = false;
-                                $return['jwt'] = null;
-                                $return['userId'] = null;
-                                $return['role'] = null;
-                                $return['statusText'] = null;
-                                $return['error'] = "Login Successful and table Updated";
+
+                                $issuedAt = time();
+                                $expiredAt = time() + (2 * 60* 60); //Expired after 2 hours
+
+
+                                // JWT token
+                                $token = array (
+                                    'iat'  => $issuedAt,              // Issued at: time when the token was generated
+                                    'jti'  => $id_clean,  // Json Token Id: an unique identifier for the token
+                                    'iss'  => "http://kncs.in",       // Issuer
+                                    'nbf'  => $issuedAt,              // Not before
+                                    'exp'  => $expiredAt,
+                                    "uae"  => $_SERVER['HTTP_USER_AGENT'],
+                                    "data" => array (
+                                        "user_id" => $id_clean,
+                                        "role" => $role
+                                    )
+                                );
+
+                                $jwt = JWT::encode($token, $_SERVER['HTTP_JWT_SECRET']);
+
+
+                                $return['status'] = true;
+                                $return['jwt'] = $jwt;
+                                $return['userId'] = $id_clean;
+                                $return['role'] = $role;
+                                $return['statusText'] = "Login Successful and table Updated";
+                                $return['error'] = null;
                             } else {
                                 $return['status'] = false;
                                 $return['jwt'] = null;
