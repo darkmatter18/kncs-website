@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.2
--- Generation Time: Jul 19, 2020 at 11:09 AM
--- Server version: 5.7.30-33-log
--- PHP Version: 7.3.13
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 24, 2020 at 02:23 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.2.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `kncsin_db`
+-- Database: `u572500670_kncsin_db`
 --
 
 -- --------------------------------------------------------
@@ -37,7 +37,8 @@ CREATE TABLE `student_preregistration_details` (
   `email` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mobile` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dob` date NOT NULL,
-  `status` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
+  `status` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `creation_date` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -202,16 +203,9 @@ CREATE TABLE `student_preregistration_login` (
 CREATE TABLE `users_login` (
   `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'User name of User',
   `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Password of the user',
-  `last-login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Last login Timestamp',
-  `last-login-ip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last login IP'
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() COMMENT 'Last login Timestamp',
+  `last_login_ip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last login IP'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users_login`
---
-
-INSERT INTO `users_login` (`id`, `password`, `last-login`, `last-login-ip`) VALUES
-('user', '$argon2i$v=19$m=1024,t=2,p=2$dHRMdUpQakk4SW5OWVpjZg$yV8z6oMsICFgGstGTBokbw/Lh71YpPrWBrohqemknq8', '0000-00-00 00:00:00', '::1');
 
 -- --------------------------------------------------------
 
@@ -223,13 +217,6 @@ CREATE TABLE `users_role` (
   `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users_role`
---
-
-INSERT INTO `users_role` (`id`, `role`) VALUES
-('user', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -257,7 +244,8 @@ ALTER TABLE `student_preregistration_draft_basic_info`
 -- Indexes for table `student_preregistration_draft_declaration_info`
 --
 ALTER TABLE `student_preregistration_draft_declaration_info`
-  ADD KEY `declaration_application_no_constraint` (`application_no`);
+  ADD PRIMARY KEY (`application_no`),
+  ADD KEY `declaratipn_application_no_constraint` (`application_no`);
 
 --
 -- Indexes for table `student_preregistration_draft_family_info`
@@ -269,12 +257,14 @@ ALTER TABLE `student_preregistration_draft_family_info`
 -- Indexes for table `student_preregistration_draft_image`
 --
 ALTER TABLE `student_preregistration_draft_image`
+  ADD PRIMARY KEY (`application_no`),
   ADD KEY `image_application_no_constraint` (`application_no`);
 
 --
 -- Indexes for table `student_preregistration_draft_payment_info`
 --
 ALTER TABLE `student_preregistration_draft_payment_info`
+  ADD PRIMARY KEY (`application_no`),
   ADD KEY `payment_application_no_constraint` (`application_no`);
 
 --
