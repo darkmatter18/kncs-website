@@ -49,25 +49,35 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
 
                         if ($smt->execute()) {
                             if($pdocon->commit()){
-                                $return['status'] = true;
-                                $return['statusText'] = null;
-                                $return['error'] = "Login Successfull and table Updated";
-                            } else {
-
                                 $return['status'] = false;
+                                $return['jwt'] = null;
+                                $return['userId'] = null;
+                                $return['role'] = null;
+                                $return['statusText'] = null;
+                                $return['error'] = "Login Successful and table Updated";
+                            } else {
+                                $return['status'] = false;
+                                $return['jwt'] = null;
+                                $return['userId'] = null;
+                                $return['role'] = null;
                                 $return['statusText'] = null;
                                 $return['error'] = "Failed to commit";
                             }
                         } else {
                             http_response_code(500);
                             $return['status'] = false;
+                            $return['jwt'] = null;
+                            $return['userId'] = null;
+                            $return['role'] = null;
                             $return['statusText'] = null;
                             $return['error'] = "Failed to record on database";
-
                         }
                     } else {
                         http_response_code(500);
                         $return['status'] = false;
+                        $return['jwt'] = null;
+                        $return['userId'] = null;
+                        $return['role'] = null;
                         $return['statusText'] = null;
                         $return['error'] = "Failed to record on database";
                     }
@@ -75,7 +85,8 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
                     http_response_code(401);
                     $return['status'] = false;
                     $return['jwt'] = null;
-                    $return['application_no'] = null;
+                    $return['userId'] = null;
+                    $return['role'] = null;
                     $return['statusText'] = null;
                     $return['error'] = "Invalid E-mail / Password";
                 }
@@ -83,13 +94,17 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
                 http_response_code(401);
                 $return['status'] = false;
                 $return['jwt'] = null;
-                $return['application_no'] = null;
+                $return['userId'] = null;
+                $return['role'] = null;
                 $return['statusText'] = null;
                 $return['error'] = "Invalid E-mail Id";
             }
         } else {
             http_response_code(500);
             $return['status'] = false;
+            $return['jwt'] = null;
+            $return['userId'] = null;
+            $return['role'] = null;
             $return['statusText'] = null;
             $return['error'] = "Login Failed";
         }
@@ -98,8 +113,8 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
         http_response_code(401);
         $return['status'] = false;
         $return['jwt'] = null;
-        $return['application_no'] = null;
-        $return['RecStatus'] = null;
+        $return['userId'] = null;
+        $return['role'] = null;
         $return['statusText'] = null;
         $return['error'] = "ReCaptcha verification failed";
 
@@ -108,8 +123,8 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
     http_response_code(400);
     $return['status'] = false;
     $return['jwt'] = null;
-    $return['application_no'] = null;
-    $return['RecStatus'] = null;
+    $return['userId'] = null;
+    $return['role'] = null;
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
 
