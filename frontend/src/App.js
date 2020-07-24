@@ -5,7 +5,11 @@ import RouteComponent from './routes';
 
 const App = () => (
     <React.Fragment>
-        <AuthProvider cookieName={"admissionAuth"}>
+        <AuthProvider authCookieName={"_a"}
+                      authTimeCookieName={"_at"}
+                      stateCookieName={"_s"}
+                      cookieDomain={window.location.hostname}
+                      cookieSecure={window.location.protocol === "https:"}>
             <CssBaseline />
             <RouteComponent />
         </AuthProvider>
