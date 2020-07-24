@@ -20,8 +20,13 @@ import {useHistory} from 'react-router-dom';
 import api from '../../api'
 import {ADMISSION_NEW_DONE} from "../../routes/route";
 import Footer from "../../components/Footer";
+import { ReactComponent as BackgroundSGV } from './../../assets/Subtle-Prism.svg';
 
 const useStyle = makeStyles((theme) => ({
+    // TODO: SGV
+    root: {
+        backgroundImage: `url(./../../assets/Subtle-Prism.svg)`
+    },
     subLine: {
         marginBottom: theme.spacing(1)
     },
@@ -169,6 +174,7 @@ const AdmissionNew = () => {
 
     return (
         <React.Fragment>
+            <div className={classes.root}>
             <Header/>
             <SubHeader/>
             <AdmissionNewExistingSwitch routeId={0}/>
@@ -267,6 +273,7 @@ const AdmissionNew = () => {
                 </Paper>
             </Container>
             <Footer/>
+            </div>
         </React.Fragment>
     )
 }
