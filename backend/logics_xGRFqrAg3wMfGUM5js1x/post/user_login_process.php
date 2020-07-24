@@ -14,7 +14,7 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-if (isset($_INPUT['email']) && isset($_INPUT['password']) ){
+if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['recaptcha_token']) ){
     if (checkRecaptcha($_INPUT['recaptcha_token'])){
 
         $pdocon->beginTransaction();
@@ -32,13 +32,13 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) ){
 
         if ($smt->execute()){
 
-            $smt = $pdocon->prepare("UPDATE `users_login` SET last-login = :time , last-login-ip = :ip WHERE id = :email ");
+            $smt = $pdocon->prepare("UPDATE users_login SET last_login = :time , last_login_ip= :ip WHERE id = :email ");
 
             $smt->bindParam(':time', $time, PDO::PARAM_STR);
             $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
             $smt->bindParam(":email", $email_clean, PDO::PARAM_STR);
 
-            if ($smt->prepare()) {
+            if ($smt->execute()) {
                 if($pdocon->commit()){
 
                     $return['status'] = true;
