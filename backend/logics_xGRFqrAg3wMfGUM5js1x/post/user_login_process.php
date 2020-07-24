@@ -33,32 +33,43 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
             if($_d){
                 $hashed_p = $_d['password'];
                 if(password_verify($_INPUT['password'], $hashed_p)){
-                    $smt = $pdocon->prepare("UPDATE users_login SET last_login = :time , last_login_ip= :ip WHERE id = :email ");
 
-                    $smt->bindParam(':time', $time, PDO::PARAM_STR);
-                    $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
-                    $smt->bindParam(":email", $email_clean, PDO::PARAM_STR);
+                    $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
+                    $smt->bindParam(':id', $email_clean, PDO::PARAM_STR);
 
-                    if ($smt->execute()) {
-                        if($pdocon->commit()){
+                    if($smt->execute()) {
+                        $_d  = $smt->fetch(PDO::FETCH_ASSOC);
+                        $role = $_d['role'];
 
-                            $return['status'] = true;
-                            $return['statusText'] = null;
-                            $return['error'] = "Login Successfull and table Updated";
+                        $smt = $pdocon->prepare("UPDATE users_login SET last_login = :time , last_login_ip= :ip WHERE id = :email ");
+
+                        $smt->bindParam(':time', $time, PDO::PARAM_STR);
+                        $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
+                        $smt->bindParam(":email", $email_clean, PDO::PARAM_STR);
+
+                        if ($smt->execute()) {
+                            if($pdocon->commit()){
+                                $return['status'] = true;
+                                $return['statusText'] = null;
+                                $return['error'] = "Login Successfull and table Updated";
+                            } else {
+
+                                $return['status'] = false;
+                                $return['statusText'] = null;
+                                $return['error'] = "Failed to commit";
+                            }
                         } else {
-
+                            http_response_code(500);
                             $return['status'] = false;
                             $return['statusText'] = null;
-                            $return['error'] = "Failed to commit";
+                            $return['error'] = "Failed to record on database";
+
                         }
-
-
                     } else {
                         http_response_code(500);
                         $return['status'] = false;
                         $return['statusText'] = null;
                         $return['error'] = "Failed to record on database";
-
                     }
                 } else {
                     http_response_code(401);
