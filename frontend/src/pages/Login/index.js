@@ -64,7 +64,7 @@ const AllLogin = () => {
     }
 
     const checkEmailId = () => {
-        if (ValidateEmail(formState.email)) {
+        if (ValidateEmail(formState.id)) {
             setErrors(prevState => ({...prevState, email: [false, "Enter registered Email-Id"]}))
             return true
         } else {
@@ -143,7 +143,7 @@ const AllLogin = () => {
                                 error={errors.email[0]}
                                 helperText={errors.email[1]}
                                 value={formState.id}
-                                onChange={handleFormDataChange('email')}
+                                onChange={handleFormDataChange('id')}
                                 autoFocus
                             />
                             <TextField

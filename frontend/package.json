@@ -22,13 +22,13 @@
     "react-to-print": "^2.9.0"
   },
   "scripts": {
+    ""
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "homepage": "http://kncs.in/portal",
-  "proxy": "http://kncs.in/",
   "eslintConfig": {
     "extends": "react-app"
   },
