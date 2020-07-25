@@ -48,5 +48,10 @@ function checkRecaptcha($re_response){
             return true;
         }
     }
-    return true;
+    if(DEV_ENV){
+        return true;
+    } else {
+        return false;
+    }
+
 }

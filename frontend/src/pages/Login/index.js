@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AllLogin = () => {
     const classes = useStyles();
-    const [formState, setFormState] = React.useState({email:'', password: ''})
+    const [formState, setFormState] = React.useState({id:'', password: ''})
     const [errors, setErrors] = React.useState({
         email: [false, "Enter registered Email-Id"],
         password: [false, "Password should be minimum 8"],
@@ -64,7 +64,7 @@ const AllLogin = () => {
     }
 
     const checkEmailId = () => {
-        if (ValidateEmail(formState.email)) {
+        if (ValidateEmail(formState.id)) {
             setErrors(prevState => ({...prevState, email: [false, "Enter registered Email-Id"]}))
             return true
         } else {
@@ -142,8 +142,8 @@ const AllLogin = () => {
                                 autoComplete="email"
                                 error={errors.email[0]}
                                 helperText={errors.email[1]}
-                                value={formState.email}
-                                onChange={handleFormDataChange('email')}
+                                value={formState.id}
+                                onChange={handleFormDataChange('id')}
                                 autoFocus
                             />
                             <TextField
@@ -161,10 +161,6 @@ const AllLogin = () => {
                                 onChange={handleFormDataChange('password')}
                                 autoComplete="current-password"
                             />
-                            {/*<FormControlLabel*/}
-                            {/*    control={<Checkbox value="remember" color="primary" />}*/}
-                            {/*    label="Remember me"*/}
-                            {/*/>*/}
                             <NetworkSubmit
                                 networkState={networkState[0]}
                                 buttonStyle={buttonType.SUBMIT}

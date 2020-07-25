@@ -20,10 +20,10 @@ RewriteRule ^(.*)$ index.php [QSA]
 
 # Change it on prod
 #Setenv HTTP_SERVER_ROOT_DIR "/portal/api"
-Setenv HTTP_SERVER_ROOT_DIR "/kncs-website/backend"
+Setenv HTTP_SERVER_ROOT_DIR "/kncs-website/backend/portal/api"
 SetEnv HTTP_MYSQL_DB_HOST "localhost"
 SetEnv HTTP_MYSQL_DB_USER "root"
 SetEnv HTTP_MYSQL_DB_PASS ""
-SetEnv HTTP_MYSQL_DB_NAME "kncs"
+SetEnv HTTP_MYSQL_DB_NAME "kncsin_db"
 SetEnv HTTP_RECAPTA_SERECT "agwrrhehe"
 SetEnv HTTP_JWT_SECRET "fMLdAh1gUVd847WjHKq2SImorf7hVLNjpjs526NHWIDddvX8OB"
