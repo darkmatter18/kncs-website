@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Jul 24, 2020 at 02:23 PM
+-- Host: 127.0.0.1
+-- Generation Time: Jul 26, 2020 at 04:47 PM
 -- Server version: 10.4.13-MariaDB
--- PHP Version: 7.2.29
+-- PHP Version: 7.4.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `u572500670_kncsin_db`
+-- Database: `kncsin_db`
 --
 
 -- --------------------------------------------------------
@@ -207,6 +206,13 @@ CREATE TABLE `users_login` (
   `last_login_ip` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Last login IP'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `users_login`
+--
+
+INSERT INTO `users_login` (`id`, `password`, `last_login`, `last_login_ip`) VALUES
+('test@gmail.com', '$argon2i$v=19$m=65536,t=4,p=1$VjAwRWNWWTdwenZ2SFpoeA$8u/7ff5bFzAflkr0h2/C4Av4N3vOye3kzTcHGWJX6/4', '0000-00-00 00:00:00', '127.0.0.1');
+
 -- --------------------------------------------------------
 
 --
@@ -217,6 +223,25 @@ CREATE TABLE `users_role` (
   `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users_role`
+--
+
+INSERT INTO `users_role` (`id`, `role`) VALUES
+('test@gmail.com', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_details`
+--
+
+CREATE TABLE `user_details` (
+  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -304,6 +329,12 @@ ALTER TABLE `users_role`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `user_details`
+--
+ALTER TABLE `user_details`
+  ADD KEY `id` (`id`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -372,6 +403,12 @@ ALTER TABLE `student_preregistration_login`
 --
 ALTER TABLE `users_role`
   ADD CONSTRAINT `user_role_constraint` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
+
+--
+-- Constraints for table `user_details`
+--
+ALTER TABLE `user_details`
+  ADD CONSTRAINT `user_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
