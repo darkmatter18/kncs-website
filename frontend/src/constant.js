@@ -13,3 +13,6 @@ export const buttonType = {SAVE_NEXT: '15sd34', SUBMIT: '36df34', SEARCH: 'wtv34
 export const ADMISSION_PROGRESS = ['personal_info', 'academic_info', 'payment_info', 'declaration']
 export const DASHBOARD_TYPE = ['student', 'teacher', 'admin']
 export const RECAPTCHA_SITE_KEY = '6LdTUK0ZAAAAAG71t-pY6p2S57TMe0-Lb0wLKqoy'
+
+/** Default Constant**/
+export const SCHOOL_NAME = "Krishnath College School"

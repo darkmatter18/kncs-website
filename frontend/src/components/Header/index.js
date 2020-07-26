@@ -9,6 +9,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from '@material-ui/icons/MoreVert';
+import {SCHOOL_NAME} from "../../constant";
 
 const useStyle = makeStyles((theme) => ({
     header: {
@@ -18,10 +19,6 @@ const useStyle = makeStyles((theme) => ({
         maxWidth: '4rem',
         maxHeight: '4rem',
         marginRight: theme.spacing(4)
-    },
-    appBar: {
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        backgroundColor: theme.palette.primary.main
     },
     toolbar: {
         flexWrap: 'wrap',
@@ -97,14 +94,12 @@ const Header = ({links = []}) => {
 
     return (
         <header className={classes.header}>
-
-            <AppBar position="fixed" className={classes.appBar}>
-
+            <AppBar color={"primary"} position="fixed">
                 <Toolbar className={classes.toolbar}>
                     <img src={banner} alt={"College Banner"} className={clsx(classes.bannerImage, classes.sectionDesktop)}/>
                     <Typography display={"inline"} variant="h5" color="inherit" noWrap
                                 className={classes.hearerText}>
-                        <b>Krishnath College School</b>
+                        <b>{SCHOOL_NAME}</b>
                     </Typography>
                     <nav>
                         <div className={classes.sectionMobile}>
@@ -124,14 +119,6 @@ const Header = ({links = []}) => {
                 </Toolbar>
             </AppBar>
             <Toolbar />
-
-
-            {/*<Container>*/}
-
-            {/*    <Typography className={classes.hearerText}>*/}
-            {/*        Krishnath College School*/}
-            {/*    </Typography>*/}
-            {/*</Container>*/}
         </header>
     )
 }
