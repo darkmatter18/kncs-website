@@ -11,7 +11,7 @@ const Dashboard = () => {
     } else {
         return <DashboardComponent/>
     }
-    }
+}
 
 
 export default Dashboard

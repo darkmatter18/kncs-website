@@ -41,7 +41,7 @@ const RouteComponent = () => {
                 <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW} exact/>
 
                 <Route path={LOGIN} component={AllLogin} exact/>
-                <Route path={DASHBOARD} component={Dashboard} exact/>
+                <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
 
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
                 <Route path='*' exact={true} component={Page404} />
