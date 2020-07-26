@@ -60,10 +60,7 @@ Router::add('/preregistration/process/declaration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
-//Log in process
-Router::add('/login', 'post', function () {
-    require POST_LOGIC_DIR . 'user_login_process.php';
-});
+
 
 /**
  * Get Requests
@@ -91,6 +88,19 @@ Router::add('/preregistration/process/payment_info', 'get', function () {
 //Declaration info
 Router::add('/preregistration/process/declaration', 'get', function () {
     require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
+});
+
+
+//Log in process
+
+//post...
+Router::add('/login', 'post', function () {
+    require POST_LOGIC_DIR . 'user_login_process.php';
+});
+
+//Get....
+Router::add('/login', 'get', function () {
+    require GET_LOG_IN_DIR . 'student_academic.php';
 });
 
 /**
