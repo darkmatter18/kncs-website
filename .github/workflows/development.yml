@@ -38,9 +38,12 @@ jobs:
       run: npm run build
       working-directory: ${{env.frontend}}
     
-    - name: Install dependencies
+    - name: Install PHP dependencies
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
         tools: composer:v2
-
+    
+    - name: Composer Install
+      run: composer install
+      working-directory: ${{env.backend}}
