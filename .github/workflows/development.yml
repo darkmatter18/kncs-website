@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Development
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the development branch
+on:
+  push:
+    branches: [ development ]
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    env:
+     frontend: ./frontend
+     backend: ./backend
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+    - name: Node Setup
+      uses: actions/setup-node@v1
+      with:
+       node-version: 12
+
+    - name: NPM Install Frontend
+      run: npm ci
+      working-directory: ${{env.frontend}}
+
+#     - name: Test Frontend
+#       run: npm test
+#       working-directory: ${{env.frontend}}
+
+    - name: Build WWW
+      run: npm run build
+      working-directory: ${{env.frontend}}
+    
+    - name: Install PHP dependencies
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer:v2
+    
+    - name: Composer Install
+      run: composer install
+      working-directory: ${{env.backend}}
