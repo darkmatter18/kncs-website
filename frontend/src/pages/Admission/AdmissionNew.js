@@ -20,6 +20,7 @@ import {useHistory} from 'react-router-dom';
 import api from '../../api'
 import {ADMISSION_NEW_DONE} from "../../routes/route";
 import Footer from "../../components/Footer";
+import {Link} from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -167,9 +168,30 @@ const AdmissionNew = () => {
         }
     }
 
+    const linkdata = [
+        {name: "Home", link: "#"},
+        {name: "About", link: "#"},
+        {name: "Notice", link: "#"},
+        {name: "Amumni", link: "#"},
+        {name: "Login", link: "#"},
+        {name: "Contact", link: "#"},
+    ]
+
+    const links = () => {
+        return (
+            linkdata.map((v, i)=>{
+                return (
+                    <Link variant="button" color="textPrimary" href={v.link} key={i}>
+                        {v.name}
+                    </Link>
+                )
+            })
+        )
+    }
+
     return (
         <React.Fragment>
-            <Header/>
+            <Header links={links()}/>
             <SubHeader/>
             <AdmissionNewExistingSwitch routeId={0}/>
             <Container>
