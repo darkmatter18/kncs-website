@@ -141,21 +141,21 @@ const AdmissionExisting = () => {
                         <Card variant={"outlined"}>
                             <CardContent>
                                 <Grid container spacing={5} alignItems={"flex-start"}>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <TextField required fullWidth error={errors.application_no[0]}
                                                    helperText={errors.application_no[1]}
                                                    label={"Application No."} id={"application_no"}
                                                    variant={"outlined"} value={formData.application_no}
                                                    onChange={handleFormDataChange('application_no')}/>
                                     </Grid>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <TextField required fullWidth error={errors.email[0]}
                                                    helperText={errors.email[1]}
                                                    label={"Email Id"} id={"email"}
                                                    variant={"outlined"} value={formData.email}
                                                    onChange={handleFormDataChange('email')}/>
                                     </Grid>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                             <KeyboardDatePicker
                                                 autoOk
