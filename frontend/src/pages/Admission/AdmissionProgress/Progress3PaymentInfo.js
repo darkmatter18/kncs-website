@@ -82,6 +82,7 @@ const Progress3PaymentInfo = () => {
             }).catch((e)=>{
             console.error(e)
         })
+        // eslint-disable-next-line
     },[])
     const handleDateChange = (date) => {
         setFormData(prevState => ({...prevState, transaction_date: date}))

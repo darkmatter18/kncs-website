@@ -163,6 +163,7 @@ const Progress1PersonalInfo = () => {
             }).catch((e) => {
             console.error(e)
         })
+        // eslint-disable-next-line
     }, [])
 
     const [formData, setFormData] = React.useState(initialState)
