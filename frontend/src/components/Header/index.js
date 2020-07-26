@@ -45,7 +45,7 @@ const useStyle = makeStyles((theme) => ({
 
 }))
 
-const Header = ({links}) => {
+const Header = ({links = []}) => {
     const classes = useStyle()
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
