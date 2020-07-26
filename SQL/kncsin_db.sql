@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2020 at 04:47 PM
+-- Generation Time: Jul 26, 2020 at 04:51 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -332,7 +332,7 @@ ALTER TABLE `users_role`
 -- Indexes for table `user_details`
 --
 ALTER TABLE `user_details`
-  ADD KEY `id` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Constraints for dumped tables
