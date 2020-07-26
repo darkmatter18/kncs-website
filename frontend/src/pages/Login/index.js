@@ -13,6 +13,8 @@ import {API_ROUTE_LOGIN, buttonType, netState, RECAPTCHA_SITE_KEY} from "../../c
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../utils/validate";
 import api from "../../api";
+import {useSignIn} from "react-auth-jwt";
+import {useHistory} from "react-router-dom"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AllLogin = () => {
+    const signIn = useSignIn();
+    const history = useHistory()
     const classes = useStyles();
     const [formState, setFormState] = React.useState({id:'', password: ''})
     const [errors, setErrors] = React.useState({
@@ -100,9 +104,11 @@ const AllLogin = () => {
                         recaptcha_token: token
                     }).then((res) => {
                         if (res.data.status) {
-                            //history.push()
+                            signIn(res.data.jwt, res.data.expiresAt || 120, res.data.user) ?
+                                history.push(`/${res.data.role}/dashboard`) :
+                                setNetworkState([netState.ERROR, res.data.error])
                         } else {
-                            setNetworkState([netState.ERROR, res.data.error])
+                            setNetworkState([netState.ERROR, `Internal error occurred (Sign-In failed)`])
                         }
                     }).catch((e) => {
                         console.error(e)
