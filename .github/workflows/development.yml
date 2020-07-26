@@ -39,7 +39,8 @@ jobs:
       working-directory: ${{env.frontend}}
     
     - name: Install dependencies
-      uses: php-actions/composer@v1
+      uses: shivammathur/setup-php@v2
       with:
-        command: cd backend
+        php-version: '7.4'
+        tools: composer:v2
 
