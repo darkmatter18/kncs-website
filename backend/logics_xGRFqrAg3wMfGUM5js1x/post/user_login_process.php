@@ -34,7 +34,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                 $hashed_p = $_d['password'];
                 if(password_verify($_INPUT['password'], $hashed_p)){
 
-                    $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
+                    $smt = $pdocon->prepare("SELECT users_role.role, * FROM users_details INNER JOIN users_details ON users_role.id = users_details_id WHERE id= :id");
                     $smt->bindParam(':id', $id_clean, PDO::PARAM_STR);
 
                     if($smt->execute()) {
@@ -77,6 +77,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                                 $return['role'] = $role;
                                 $return['statusText'] = "Login Successful and table Updated";
                                 $return['error'] = null;
+                                $return["user"] = $_d;
                             } else {
                                 $return['status'] = false;
                                 $return['jwt'] = null;
@@ -84,6 +85,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                                 $return['role'] = null;
                                 $return['statusText'] = null;
                                 $return['error'] = "Failed to commit";
+                                $return["user"] = null;
                             }
                         } else {
                             http_response_code(500);
@@ -93,6 +95,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                             $return['role'] = null;
                             $return['statusText'] = null;
                             $return['error'] = "Failed to record on database";
+                            $return["user"] = null;
                         }
                     } else {
                         http_response_code(500);
@@ -102,6 +105,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                         $return['role'] = null;
                         $return['statusText'] = null;
                         $return['error'] = "Failed to record on database";
+                        $return["user"] = null;
                     }
                 } else {
                     http_response_code(401);
@@ -111,6 +115,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                     $return['role'] = null;
                     $return['statusText'] = null;
                     $return['error'] = "Invalid E-mail / Password";
+                    $return["user"] = null;
                 }
             } else {
                 http_response_code(401);
@@ -120,6 +125,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                 $return['role'] = null;
                 $return['statusText'] = null;
                 $return['error'] = "Invalid E-mail Id";
+                $return["user"] = null;
             }
         } else {
             http_response_code(500);
@@ -129,6 +135,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
             $return['role'] = null;
             $return['statusText'] = null;
             $return['error'] = "Login Failed";
+            $return["user"] = null;
         }
 
     } else {
@@ -139,7 +146,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
         $return['role'] = null;
         $return['statusText'] = null;
         $return['error'] = "ReCaptcha verification failed";
-
+        $return["user"] = null;
     }
 } else {
     http_response_code(400);
@@ -149,7 +156,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
     $return['role'] = null;
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
-
+    $return["user"] = null;
 }
 
 echo json_encode($return);
