@@ -15,7 +15,7 @@ jobs:
     
     env:
      frontend: ./frontend
-     admin: ./admin/client
+     backend: ./backend
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -37,4 +37,9 @@ jobs:
     - name: Build WWW
       run: npm run build
       working-directory: ${{env.frontend}}
+    
+    - name: Install dependencies
+      uses: php-actions/composer@v1
+      with:
+        command: cd backend
 
