@@ -185,21 +185,21 @@ const AdmissionNew = () => {
                         <Card variant={"outlined"}>
                             <CardContent>
                                 <Grid container spacing={5} justify={"center"}>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <TextField required fullWidth error={errors.first_name[0]}
                                                    helperText={errors.first_name[1]}
                                                    label={"First Name"} id={"first_name"}
                                                    variant={"outlined"} value={formData.first_name}
                                                    onChange={handleFormDataChange("first_name")}/>
                                     </Grid>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <TextField fullWidth error={errors.middle_name[0]}
                                                    helperText={errors.middle_name[1]}
                                                    label={"Middle Name"} id={"middle_name"}
                                                    variant={"outlined"} value={formData.middle_name}
                                                    onChange={handleFormDataChange("middle_name")}/>
                                     </Grid>
-                                    <Grid item md={4}>
+                                    <Grid item md={4} sm={12} xs={12}>
                                         <TextField required fullWidth error={errors.last_name[0]}
                                                    helperText={errors.last_name[1]}
                                                    label={"Last Name"} id={"last_name"}
@@ -208,21 +208,21 @@ const AdmissionNew = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid container spacing={5} className={classes.spacer}>
-                                    <Grid item md={3}>
+                                    <Grid item md={3} sm={12} xs={12}>
                                         <TextField fullWidth error={errors.aadhar_no[0]}
                                                    helperText={errors.aadhar_no[1]}
                                                    label={"Aadhar No"} id={"aadhar_no"}
                                                    variant={"outlined"} value={formData.aadhar_no}
                                                    onChange={handleFormDataChange("aadhar_no")}/>
                                     </Grid>
-                                    <Grid item md={3}>
+                                    <Grid item md={3} sm={12} xs={12}>
                                         <TextField fullWidth required error={errors.email[0]}
                                                    helperText={errors.email[1]}
                                                    type={"email"} label={"E-Mail Id"} id={"email"}
                                                    variant={"outlined"} value={formData.email}
                                                    onChange={handleFormDataChange("email")}/>
                                     </Grid>
-                                    <Grid item md={3}>
+                                    <Grid item md={3} sm={12} xs={12}>
                                         <TextField fullWidth required error={errors.mobile[0]}
                                                    helperText={errors.mobile[1]}
                                                    label={"Mobile No"} id={"mobile"}
