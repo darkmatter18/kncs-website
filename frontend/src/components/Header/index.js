@@ -59,7 +59,7 @@ const Header = ({links = []}) => {
 
     const renderDesktop = () => {
         return (
-            <Grid container spacing={5} className={classes.sectionDesktop}>
+            <Grid container spacing={5} alignItems={"center"} className={classes.sectionDesktop}>
                 {links.map((v, i)=>{
                     return (
                         <Grid item key={i}>
