@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from "../../components/Footer";
 import NetworkSubmit from "../../components/NetworkSubmit";
-import {API_ROUTE_LOGIN, buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import {API_ROUTE_LOGIN, buttonType, netState, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../utils/validate";
 import api from "../../api";
