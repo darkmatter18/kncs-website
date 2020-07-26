@@ -1,8 +1,8 @@
 export const HOME = '/';
-export const ADMIN_LOGIN = '/login';
-export const STUDENT_DASHBOARD = '/student/dashboard'
-export const TEACHER_DASHBOARD = '/teacher/dashboard'
-export const ADMIN_DASHBOARD = '/admin/dashboard'
+
+export const LOGIN = '/login';
+export const DASHBOARD = '/:user_type/dashboard'
+
 export const MEET_THE_DEVS = '/devs'
 export const ADMISSION_HOME = '/admission'
 export const ADMISSION_NEW = '/admission/new'
