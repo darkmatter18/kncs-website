@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from "../../components/Footer";
 import NetworkSubmit from "../../components/NetworkSubmit";
-import {API_ROUTE_LOGIN, buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import {API_ROUTE_LOGIN, buttonType, netState, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../utils/validate";
 import api from "../../api";
@@ -94,7 +94,7 @@ const AllLogin = () => {
         if(validate()){
             setNetworkState([netState.BUSY, ''])
             window.grecaptcha.ready(() => {
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
+                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then((token) => {
                     api.post(API_ROUTE_LOGIN, {
                         ...formState,
                         recaptcha_token: token
@@ -109,6 +109,9 @@ const AllLogin = () => {
                         setNetworkState([netState.ERROR, `Internal error occurred 
                         (${e.response.status} - ${e.response.data.error})`])
                     })
+                }).catch((e)=>{
+                    console.error(e)
+                    setNetworkState([netState.ERROR, e.message])
                 })
             })
         }

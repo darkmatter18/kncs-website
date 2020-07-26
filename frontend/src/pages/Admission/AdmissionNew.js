@@ -178,6 +178,10 @@ const AdmissionNew = () => {
                         <Typography variant={"h6"} color={"textPrimary"}>
                             Applicant information
                         </Typography>
+                        <Typography variant={"subtitle2"} className={classes.subLine}>
+                            Fill this form for your initial registration.
+                            This will generate your Application No and will guide you for the entire application step.
+                        </Typography>
                         <Card variant={"outlined"}>
                             <CardContent>
                                 <Grid container spacing={5} justify={"center"}>
