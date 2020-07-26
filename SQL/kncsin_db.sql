@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2020 at 04:51 PM
+-- Generation Time: Jul 26, 2020 at 05:57 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -196,6 +196,25 @@ CREATE TABLE `student_preregistration_login` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `users_details`
+--
+
+CREATE TABLE `users_details` (
+  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users_details`
+--
+
+INSERT INTO `users_details` (`id`, `first_name`, `last_name`) VALUES
+('test@gmail.com', 'test', 'app');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users_login`
 --
 
@@ -230,18 +249,6 @@ CREATE TABLE `users_role` (
 
 INSERT INTO `users_role` (`id`, `role`) VALUES
 ('test@gmail.com', 'admin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_details`
---
-
-CREATE TABLE `user_details` (
-  `id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -317,6 +324,12 @@ ALTER TABLE `student_preregistration_login`
   ADD PRIMARY KEY (`application_no`);
 
 --
+-- Indexes for table `users_details`
+--
+ALTER TABLE `users_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users_login`
 --
 ALTER TABLE `users_login`
@@ -326,12 +339,6 @@ ALTER TABLE `users_login`
 -- Indexes for table `users_role`
 --
 ALTER TABLE `users_role`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_details`
---
-ALTER TABLE `user_details`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -399,16 +406,16 @@ ALTER TABLE `student_preregistration_login`
   ADD CONSTRAINT `login_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
 
 --
+-- Constraints for table `users_details`
+--
+ALTER TABLE `users_details`
+  ADD CONSTRAINT `users_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
+
+--
 -- Constraints for table `users_role`
 --
 ALTER TABLE `users_role`
   ADD CONSTRAINT `user_role_constraint` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
-
---
--- Constraints for table `user_details`
---
-ALTER TABLE `user_details`
-  ADD CONSTRAINT `user_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
