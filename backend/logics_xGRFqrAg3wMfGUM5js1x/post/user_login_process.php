@@ -34,7 +34,7 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                 $hashed_p = $_d['password'];
                 if(password_verify($_INPUT['password'], $hashed_p)){
 
-                    $smt = $pdocon->prepare("SELECT users_role.role, * FROM users_details INNER JOIN users_details ON users_role.id = users_details_id WHERE id= :id");
+                    $smt = $pdocon->prepare("SELECT users_role.role, * FROM users_details INNER JOIN users_details ON users_role.id = users_details.id WHERE id= :id");
                     $smt->bindParam(':id', $id_clean, PDO::PARAM_STR);
 
                     if($smt->execute()) {
