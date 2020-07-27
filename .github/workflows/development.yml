@@ -69,4 +69,5 @@ jobs:
         ftp_username: ${{ secrets.DEV_FTP_USER }}
         ftp_password: ${{ secrets.DEV_FTP_PASS }}
         local_source_dir: "deploy"
+        dist_target_dir: "./"
         delete: "true"
