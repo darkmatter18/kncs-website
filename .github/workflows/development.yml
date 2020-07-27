@@ -47,9 +47,9 @@ jobs:
     - name: Create deployment
       run: |
         mkdir deploy
-        mv -v ./frontend/build/* /deploy/
+        mv -v ./frontend/build/* ./deploy/
         cd deploy && mkdir api
-        mv -v ./backend/* /api/
+        mv -v ./backend/* ./api/
     
     - name: Upload Frontend Artifacts
       uses: actions/upload-artifact@v2
