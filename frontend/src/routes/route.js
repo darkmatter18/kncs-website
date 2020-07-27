@@ -2,6 +2,7 @@ export const HOME = '/';
 
 export const LOGIN = '/login';
 export const DASHBOARD = '/:user_type/dashboard'
+export const ADMIN_ADMISSION_SELECTION = '/admin/admission/selection'
 
 export const MEET_THE_DEVS = '/devs'
 export const ADMISSION_HOME = '/admission'

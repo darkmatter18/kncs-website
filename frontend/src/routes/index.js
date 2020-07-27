@@ -10,7 +10,7 @@ import {
     ADMISSION_PROGRESS_ROUTE,
     ADMISSION_ALL_DONE,
     MEET_THE_DEVS,
-    LOGIN, DASHBOARD
+    LOGIN, DASHBOARD, ADMIN_ADMISSION_SELECTION
 } from './route';
 
 import Home from '../pages/Home';
@@ -42,6 +42,7 @@ const RouteComponent = () => {
 
                 <Route path={LOGIN} component={AllLogin} exact/>
                 <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
+                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={Dashboard} loginPath={LOGIN} exact/>
 
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
                 <Route path='*' exact={true} component={Page404} />
