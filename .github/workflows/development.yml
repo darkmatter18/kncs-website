@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
        name: deploy
-       path: /deploy
+       path: ./deploy
 #     - name: Composer Install
 #       run: composer install
 #       working-directory: ${{env.backend}}
