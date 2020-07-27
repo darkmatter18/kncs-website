@@ -62,11 +62,9 @@ jobs:
       run: composer install --no-dev --optimize-autoloader
       working-directory: ./deploy/api
     
-    - name: Upload Frontend Artifacts
-      uses: actions/upload-artifact@v2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
       with:
-       name: deploy
-       path: ./deploy
-#     - name: Composer Install
-#       run: composer install
-#       working-directory: ${{env.backend}}
+        ftp-server: ${{ secrets.DEV_FTP_HOST }}
+        ftp-username: ${{ secrets.DEV_FTP_USER }}
+        ftp-password: ${{ secrets.DEV_FTP_PASS }}
