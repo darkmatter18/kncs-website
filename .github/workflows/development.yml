@@ -44,6 +44,17 @@ jobs:
         php-version: '7.4'
         tools: composer:v2
     
-    - name: Composer Install
-      run: composer install
-      working-directory: ${{env.backend}}
+    - name: Create deployment
+      run: |
+        mkdir deploy
+        cp -a ./frontend/. /deploy/
+        cd mkdir && mkdir api
+        cp -a ./backend/. /api/
+    - name: Upload Frontend Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+       name: deploy
+       path: /deploy
+#     - name: Composer Install
+#       run: composer install
+#       working-directory: ${{env.backend}}
