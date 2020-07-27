@@ -4,42 +4,30 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Dashboard} from "@material-ui/icons";
+import {Dashboard, Group, Person, PersonAdd} from "@material-ui/icons";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     divider: {
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(2),
     },
-    btn: {
-        height: theme.spacing(12),
-        width: theme.spacing(12),
-    },
-    imageButton: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    imageMarked: {
-        height: 3,
-        width: 18,
-        backgroundColor: theme.palette.common.black,
-        position: 'absolute',
-        bottom: -2,
-        left: 'calc(50% - 9px)',
-        transition: theme.transitions.create('opacity'),
+    listColor: {
+        color: theme.palette.getContrastText(theme.palette.secondary.main),
+        backgroundColor: theme.palette.secondary.main
     },
 }))
 
 const DashboardAdmin = () => {
     const classes = useStyles()
+    const history = useHistory()
+
     return (
         <React.Fragment>
             <Container>
@@ -57,29 +45,35 @@ const DashboardAdmin = () => {
                                         </Typography>
                                     </Grid>
                                 </Grid>
-                                <Typography variant="h6" component="h6">
-                                    Admission
-                                </Typography>
-                                <Divider/>
-                                <Grid container>
-                                    <Grid item md={4} sm={12} xs={12}>
-                                        <ButtonBase
-                                            focusRipple
 
-                                            className={classes.btn}
-                                            focusVisibleClassName={classes.focusVisible}
-                                        >
-                                            <span className={classes.imageButton}>
-                                                <Typography
-                                                    component="span"
-                                                    variant="subtitle1"
-                                                    color="inherit"
-                                                >
-                                                    Hello World
-                                                    <span className={classes.imageMarked}/>
-                                                </Typography>
-                                            </span>
-                                        </ButtonBase>
+                                <Grid container spacing={3}>
+                                    <Grid item md={6} sm={12} xs={12}>
+                                        <Typography variant="h6" component="h6">
+                                            Admission
+                                        </Typography>
+                                        <Divider className={classes.divider}/>
+                                        <List>
+                                            <ListItem button>
+                                                <ListItemAvatar>
+                                                    <Avatar className={classes.listColor}>
+                                                        <PersonAdd />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText primary="Admission Selection"/>
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem button>
+                                                <ListItemAvatar>
+                                                    <Avatar className={classes.listColor}>
+                                                        <Group />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText primary="Admission Selected"/>
+                                            </ListItem>
+                                        </List>
+                                    </Grid>
+                                    <Grid item md={6} sm={12} xs={12}>
+
                                     </Grid>
                                 </Grid>
                             </CardContent>
