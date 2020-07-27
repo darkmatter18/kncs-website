@@ -50,8 +50,12 @@ jobs:
         mv -v ./frontend/build/.[!.]* ./deploy/
         cd deploy && mkdir api
         mv -v ./../backend/* ./api/
-        touch ./api/.htaccess
-        echo ${{ secrets.DEV_HTACCESS }} >> ./api/.htaccess
+      
+    - name: HTACCESS write
+      run: 'echo "$DEV_HTACCESS " > ./deploy/api/.htaccess'
+      shell: bash
+      env:
+        SSH_KEY: ${{secrets.DEV_HTACCESS }}
     
     - name: Upload Frontend Artifacts
       uses: actions/upload-artifact@v2
