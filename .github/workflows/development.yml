@@ -34,11 +34,11 @@ jobs:
 #       run: npm test
 #       working-directory: ${{env.frontend}}
 
-    - name: Build WWW
+    - name: Build Frontend
       run: npm run build
       working-directory: ${{env.frontend}}
     
-    - name: Install PHP dependencies
+    - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
@@ -56,7 +56,11 @@ jobs:
       run: 'echo "$DEV_HTACCESS " > ./deploy/api/.htaccess'
       shell: bash
       env:
-        SSH_KEY: ${{secrets.DEV_HTACCESS }}
+        DEV_HTACCESS: ${{secrets.DEV_HTACCESS }}
+    
+    - name: Install PHP dependancies
+      run: composer install --no-dev --optimize-autoloader
+      working-directory: ./deploy/api
     
     - name: Upload Frontend Artifacts
       uses: actions/upload-artifact@v2
