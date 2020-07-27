@@ -67,5 +67,5 @@ jobs:
       with:
         host: ${{ secrets.DEV_FTP_HOST }}
         user: ${{ secrets.DEV_FTP_USER }}
-        ftp-password: ${{ secrets.DEV_FTP_PASS }}
+        password: ${{ secrets.DEV_FTP_PASS }}
         localDir: "deploy"
