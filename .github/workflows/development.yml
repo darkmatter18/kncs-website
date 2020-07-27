@@ -44,11 +44,16 @@ jobs:
         php-version: '7.4'
         tools: composer:v2
     
+#     - name: Create deployment
+#       run: |
+#         mkdir deploy
+#         cp -a ./frontend/. /deploy/
+#         cd mkdir && mkdir api
+#         cp -a ./backend/. /api/
     - name: Create deployment
       run: |
-        mkdir deploy
         cp -a ./frontend/. /deploy/
-        cd mkdir && mkdir api
+        cd mkdir
         cp -a ./backend/. /api/
     - name: Upload Frontend Artifacts
       uses: actions/upload-artifact@v2
