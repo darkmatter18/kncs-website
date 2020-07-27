@@ -62,10 +62,11 @@ jobs:
       run: composer install --no-dev --optimize-autoloader
       working-directory: ./deploy/api
     
-    - name: FTP-Deploy-Action
-      uses: sebastianpopp/ftp-action@releases/v2
+    - name: Deploy
+      uses: kevinpainchaud/simple-ftp-deploy-action@v1.1.0
       with:
-        host: ${{ secrets.DEV_FTP_HOST }}
-        user: ${{ secrets.DEV_FTP_USER }}
-        password: ${{ secrets.DEV_FTP_PASS }}
-        localDir: "deploy"
+        ftp_host: ${{ secrets.DEV_FTP_HOST }}
+        ftp_username: ${{ secrets.DEV_FTP_USER }}
+        ftp_password: ${{ secrets.DEV_FTP_PASS }}
+        local_source_dir: "deploy"
+        delete: "true"
