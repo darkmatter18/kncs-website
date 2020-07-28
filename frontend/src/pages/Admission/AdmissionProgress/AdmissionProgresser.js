@@ -11,12 +11,26 @@ import {ADMISSION_PROGRESS} from "../../../constant";
 import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../../routes/route";
-import ApplicationTopStatus from "../../../components/ApplicationTopStatus";
+import IconButton from "@material-ui/core/IconButton";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import {useAuth, useSignOut} from "react-auth-jwt";
 
 const AdmissionProgresser = ({progress}) => {
+    const signOut = useSignOut()
+    const auth = useAuth()
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number
     const steps = ['Personal Info', 'Academic Info', 'Payment Info', "Declaration"]
 
+    const headerLinks = [
+        (
+            `Application No.- (${<b>{auth().authState.application_no}</b>})`
+        ),
+        (
+            <IconButton onClick={() => signOut()} aria-label="show 17 new notifications" color="inherit">
+                <ExitToAppIcon/>
+            </IconButton>
+        )
+    ]
 
     const getStepContent = (step) => {
         switch (step) {
@@ -34,8 +48,7 @@ const AdmissionProgresser = ({progress}) => {
     }
     return (
         <React.Fragment>
-            <Header/>
-            <ApplicationTopStatus/>
+            <Header links={headerLinks}/>
             <Container>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => {
