@@ -14,11 +14,8 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 
 $return = [];
 header('Content-Type: application/json');
-
-
-if (isset($_INPUT['recaptcha_token'])) {
     
-    $smt = $pdocon->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
+    $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                 T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
                                 T3.marks_hist, T3.marks_total, T3.marks_percentage,
                                 T4.stream, T4.first_language, T4.second_language, T4.first_major,
@@ -46,14 +43,6 @@ if (isset($_INPUT['recaptcha_token'])) {
         $return['statusText'] = null;
         $return['error'] = "Unable to connect database";
     }
-
-
-} else {
-    http_response_code(401);
-    $return['status'] = false;
-    $return['statusText'] = null;
-    $return['error'] = "Recaptcha Verification Failed";
-}
 
 echo json_encode($return);
 exit;
