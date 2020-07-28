@@ -151,6 +151,9 @@ const Progress3PaymentInfo = () => {
                         setNetworkState([netState.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
+                }).catch((e)=>{
+                    console.error(e)
+                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
