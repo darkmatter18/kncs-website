@@ -27,6 +27,11 @@ Router::add('/', 'get', function () {
  */
 define('POST_LOGIC_DIR', LOGIC_DIR . 'post' . DIRECTORY_SEPARATOR);
 
+//Log in process
+Router::add('/login', 'post', function () {
+    require POST_LOGIC_DIR . 'user_login_process.php';
+});
+
 //Student Pre Registration
 define('POST_STUDENT_REGISTRATION_DIR', POST_LOGIC_DIR . 'student_registration' . DIRECTORY_SEPARATOR);
 
@@ -67,9 +72,6 @@ Router::add('/preregistration/process/declaration', 'post', function () {
  */
 define('GET_LOGIC_DIR', LOGIC_DIR . 'get' . DIRECTORY_SEPARATOR);
 
-//Admission details
-define('GET_ADDMISSION_DETAILS', GET_ADDMISSION_DETAILS . 'admission_details' . DIRECTORY_SEPARATOR);
-
 //Student Pre Registration
 define('GET_STUDENT_REGISTRATION_DIR', GET_LOGIC_DIR . 'student_registration' . DIRECTORY_SEPARATOR);
 
@@ -93,13 +95,8 @@ Router::add('/preregistration/process/declaration', 'get', function () {
     require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
-
-//Log in process
-
-//post...
-Router::add('/login', 'post', function () {
-    require POST_LOGIC_DIR . 'user_login_process.php';
-});
+//Admission details
+define('GET_ADDMISSION_DETAILS', GET_LOGIC_DIR . 'admission_details' . DIRECTORY_SEPARATOR);
 
 //Get....
 Router::add('/login', 'get', function () {
