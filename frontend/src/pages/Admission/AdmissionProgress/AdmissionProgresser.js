@@ -23,7 +23,7 @@ const AdmissionProgresser = ({progress}) => {
 
     const headerLinks = [
         (
-            `Application No.- (${<b>{auth().authState.application_no}</b>})`
+            `Application No - ${auth().authState.application_no}`
         ),
         (
             <IconButton onClick={() => signOut()} aria-label="show 17 new notifications" color="inherit">
