@@ -95,12 +95,12 @@ Router::add('/preregistration/process/declaration', 'get', function () {
     require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
-//Admission details
-define('GET_ADDMISSION_DETAILS', GET_LOGIC_DIR . 'admission_details' . DIRECTORY_SEPARATOR);
+//Admin Routes
+define('GET_ADMIN_DETAILS', GET_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
 
 //Get....
-Router::add('/login', 'get', function () {
-    require GET_LOG_IN_DIR . 'student_academic.php';
+Router::add('/admin/academic/selection', 'get', function () {
+    require GET_LOG_IN_DIR . 'admission_selection.php';
 });
 
 /**
