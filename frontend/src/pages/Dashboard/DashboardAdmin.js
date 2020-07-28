@@ -13,6 +13,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useHistory} from 'react-router-dom'
+import {ADMIN_ADMISSION_SELECTION} from "../../routes/route";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -28,6 +29,9 @@ const DashboardAdmin = () => {
     const classes = useStyles()
     const history = useHistory()
 
+    const onClickEvent = (url) => (e) => {
+        history.push(url)
+    }
     return (
         <React.Fragment>
             <Container>
@@ -53,7 +57,7 @@ const DashboardAdmin = () => {
                                         </Typography>
                                         <Divider className={classes.divider}/>
                                         <List>
-                                            <ListItem button>
+                                            <ListItem button onClick={onClickEvent(ADMIN_ADMISSION_SELECTION)}>
                                                 <ListItemAvatar>
                                                     <Avatar className={classes.listColor}>
                                                         <PersonAdd />
