@@ -7,6 +7,8 @@ export const PRE_REGISTRATION_ACADEMIC_INFO = '/preregistration/process/academic
 export const PRE_REGISTRATION_PAYMENT_INFO = '/preregistration/process/payment_info'
 export const PRE_REGISTRATION_DECLARATION = '/preregistration/process/declaration'
 
+export const ADMIN_ADMISSION_SELECTION = "/admin/academic/selection"
+
 /**Other Constant */
 export const netState = {IDLE: 11110, BUSY: 11111, ERROR: 11112}
 export const buttonType = {SAVE_NEXT: '15sd34', SUBMIT: '36df34', SEARCH: 'wtv34'}
