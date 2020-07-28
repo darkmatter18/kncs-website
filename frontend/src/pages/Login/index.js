@@ -117,7 +117,7 @@ const AllLogin = () => {
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, e.message])
+                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
