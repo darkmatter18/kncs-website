@@ -68,7 +68,7 @@ jobs:
         ftp-server: ${{ secrets.DEV_FTP_HOST }}
         ftp-username: ${{ secrets.DEV_FTP_USER }}
         ftp-password: ${{ secrets.DEV_FTP_PASS }}
-        local-dir: deploy
+        local-dir: deploy/
 
 #     - name: Deploy
 #       uses: kevinpainchaud/simple-ftp-deploy-action@v1.1.0
