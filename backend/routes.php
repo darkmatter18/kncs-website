@@ -100,7 +100,7 @@ define('GET_ADMIN_DETAILS', GET_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
 
 //Get....
 Router::add('/admin/academic/selection', 'get', function () {
-    require GET_LOG_IN_DIR . 'admission_selection.php';
+    require GET_ADMIN_DETAILS . 'admission_selection.php';
 });
 
 /**
