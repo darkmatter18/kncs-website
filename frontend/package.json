@@ -24,6 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "stage": "cross-env PROXY_SET=staged react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@material-ui/styles": "^4.10.0",
+    "cross-env": "^7.0.2",
     "http-proxy-middleware": "^1.0.5"
   }
 }
