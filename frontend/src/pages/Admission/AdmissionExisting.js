@@ -110,7 +110,7 @@ const AdmissionExisting = () => {
                                     history.push(`/admission/progress/declaration`)
                                 }
                             }else {
-                                setNetworkState([netState.ERROR, 'Internal error occured (Authentication Failed. ' +
+                                setNetworkState([netState.ERROR, 'Internal error occurred (Authentication Failed. ' +
                                 'Please Retry from "http://kncs.com/portal/admission/existing" )'])
                             }
                         }
@@ -119,7 +119,7 @@ const AdmissionExisting = () => {
                         }
                     }).catch((e)=>{
                         console.log(e)
-                        setNetworkState([netState.ERROR, `Internal Error occourred 
+                        setNetworkState([netState.ERROR, `Internal Error occurred 
                         (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
