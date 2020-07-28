@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Dashboard, Group, Person, PersonAdd} from "@material-ui/icons";
+import {Dashboard, Group, PersonAdd} from "@material-ui/icons";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/styles";
 import List from "@material-ui/core/List";
@@ -29,7 +29,7 @@ const DashboardAdmin = () => {
     const classes = useStyles()
     const history = useHistory()
 
-    const onClickEvent = (url) => (e) => {
+    const onClickEvent = (url) => () => {
         history.push(url)
     }
     return (
