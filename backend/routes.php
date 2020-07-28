@@ -27,6 +27,11 @@ Router::add('/', 'get', function () {
  */
 define('POST_LOGIC_DIR', LOGIC_DIR . 'post' . DIRECTORY_SEPARATOR);
 
+//Log in process
+Router::add('/login', 'post', function () {
+    require POST_LOGIC_DIR . 'user_login_process.php';
+});
+
 //Student Pre Registration
 define('POST_STUDENT_REGISTRATION_DIR', POST_LOGIC_DIR . 'student_registration' . DIRECTORY_SEPARATOR);
 
@@ -60,10 +65,7 @@ Router::add('/preregistration/process/declaration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
-//Log in process
-Router::add('/login', 'post', function () {
-    require POST_LOGIC_DIR . 'user_login_process.php';
-});
+
 
 /**
  * Get Requests
@@ -91,6 +93,14 @@ Router::add('/preregistration/process/payment_info', 'get', function () {
 //Declaration info
 Router::add('/preregistration/process/declaration', 'get', function () {
     require GET_STUDENT_REGISTRATION_DIR . 'declaration.php';
+});
+
+//Admin Routes
+define('GET_ADMIN_DETAILS', GET_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
+
+//Get....
+Router::add('/admin/academic/selection', 'get', function () {
+    require GET_LOG_IN_DIR . 'admission_selection.php';
 });
 
 /**
