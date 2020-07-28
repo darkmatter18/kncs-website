@@ -67,6 +67,9 @@ Router::add('/preregistration/process/declaration', 'post', function () {
  */
 define('GET_LOGIC_DIR', LOGIC_DIR . 'get' . DIRECTORY_SEPARATOR);
 
+//Admission details
+define('GET_ADDMISSION_DETAILS', GET_ADDMISSION_DETAILS . 'admission_details' . DIRECTORY_SEPARATOR);
+
 //Student Pre Registration
 define('GET_STUDENT_REGISTRATION_DIR', GET_LOGIC_DIR . 'student_registration' . DIRECTORY_SEPARATOR);
 
