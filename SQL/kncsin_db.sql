@@ -409,7 +409,7 @@ ALTER TABLE `student_preregistration_login`
 -- Constraints for table `users_details`
 --
 ALTER TABLE `users_details`
-  ADD CONSTRAINT `users_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
+  ADD CONSTRAINT `users_details_1` FOREIGN KEY (`id`) REFERENCES `users_login` (`id`);
 
 --
 -- Constraints for table `users_role`
