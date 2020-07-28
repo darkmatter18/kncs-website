@@ -25,6 +25,7 @@ import AdmissionAllDone from "../pages/Admission/AdmissionAllDone";
 import MeetTheDevelopers from "../pages/MeetTheDevelopers";
 import AllLogin from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import AdminAdmissionSelection from "../pages/Admin/Adminssion/AdminAdmissionSelection";
 
 
 const RouteComponent = () => {
@@ -42,7 +43,7 @@ const RouteComponent = () => {
 
                 <Route path={LOGIN} component={AllLogin} exact/>
                 <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
-                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={Dashboard} loginPath={LOGIN} exact/>
+                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN} exact/>
 
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
                 <Route path='*' exact={true} component={Page404} />
