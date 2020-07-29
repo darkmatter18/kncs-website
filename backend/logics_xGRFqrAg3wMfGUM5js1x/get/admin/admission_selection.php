@@ -15,7 +15,8 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
     
-    $smt = $pdocon->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
+    $smt = $pdocon->prepare("SELECT T1.application_no, T1.first_name, T1.middle_name, T1.last_name, 
+                                T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                 T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
                                 T3.marks_hist, T3.marks_total, T3.marks_percentage,
                                 T4.stream, T4.first_language, T4.second_language, T4.first_major,
@@ -31,7 +32,7 @@ header('Content-Type: application/json');
                                 WHERE T1.status='SELECTED' OR T1.Status='SUBMITTED' ");
 
     if ($smt->execute()) {
-        $output = $smt->fetch(PDO::FETCH_ASSOC);
+        $output = $smt->fetchAll(PDO::FETCH_ASSOC);
         $return['data'] = $output;
         $return['status'] = true;
         $return['statusText'] = "Fetch Done (SUBMITTED , SELECTED)";
