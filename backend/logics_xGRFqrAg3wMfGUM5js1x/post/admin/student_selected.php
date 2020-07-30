@@ -14,15 +14,14 @@
         $pdocon->beginTransaction();
         
         $smt = $pdocon->prepare("UPDATE `student_preregistration_details` SET status = 'SELECTED' WHERE application_no = :application_no");
-        $smt->bind_param(':application_no', $application, PDO::PARAM_INT)
-        
+        $smt->bind_param(':application_no', $application, PDO::PARAM_INT);
 
-        foreach ($_INPUT['application_no'])) as $number)
+        foreach ($_INPUT['application_no'] as $number)
         {
             $application = $number;
             $smt->ececute();
         }
-        $x = $smt->commit()
+        $x = $smt->commit();
 
         if ($x)
         {
