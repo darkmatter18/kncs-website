@@ -17,7 +17,7 @@
         $smt->bind_param(':application_no', $application, PDO::PARAM_INT)
         
 
-        foreach (:application_no as $number)
+        foreach ($_INPUT['application_no'])) as $number)
         {
             $application = $number;
             $smt->ececute();
