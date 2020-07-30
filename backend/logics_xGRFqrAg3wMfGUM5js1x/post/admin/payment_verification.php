@@ -12,15 +12,15 @@ $_INPUT = json_decode(file_get_contents('php://input'), true);
 $return = [];
 header('Content-Type: application/json');
 
-if (isset($_INPUT['application_no[]']) ) {
+if (isset($_INPUT['application_no']) ) {
     $pdocon->beginTransaction();
     
 
     foreach ($_input['application_no'] as $application_no) {
-        $application_no = Filter::Int($_INPUT['application_no']);
+        $application_no_clean = Filter::$application_no;
         $smt = $pdocon->prepare("UPDATE student_preregistration_draft_payment_info SET verified_transaction = 'Y' 
                                                                                 WHERE application_no = :application_no ");
-        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
         $smt-> execute();
     }
      
@@ -43,7 +43,7 @@ if (isset($_INPUT['application_no[]']) ) {
 
             if ($smt->execute()) {
 
-            $output = $smt->fetch(PDO::FETCH_ASSOC);
+            $output = $smt->fetchAll(PDO::FETCH_ASSOC);
             $return['data'] = $output;
             $return['status'] = true;
             $return['statusText'] = "Fetch Done (SUBMITTED , SELECTED)";
