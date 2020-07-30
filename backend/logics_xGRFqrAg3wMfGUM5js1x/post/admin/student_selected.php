@@ -8,7 +8,6 @@
 
     $return = [];
     header('Content-Type: application/json');
-    function execution()
 
     if (isset($_INPUT['application_no'])
     {
@@ -71,4 +70,3 @@
     }
     echo json_encode($return);
     exit;
-    
