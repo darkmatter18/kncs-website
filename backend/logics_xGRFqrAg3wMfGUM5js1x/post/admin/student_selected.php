@@ -13,17 +13,16 @@
     {
         $pdocon->beginTransaction();
         
-        $smt = $pdocon->prepare("UPDATE `student_preregistration_details` SET status = 'SELECTED' WHERE application_no = :application_no");
-        $smt->bind_param(':application_no', $application, PDO::PARAM_INT);
-
-        foreach ($_INPUT['application_no'] as $number)
+        
+        foreach ($_INPUT['application_no'] as $application_no) 
         {
-            $application = $number;
-            $smt->ececute();
+            $application_clean = Filter::Int($application_no);
+            $smt = $pdocon->prepare("UPDATE `student_preregistration_details` SET status = 'SELECTED' WHERE application_no = :application_no");
+            $smt->bindParam(":application_no", $application_clean, PDO::PARAM_INT);
+            $smt-> execute();
         }
-        $x = $smt->commit();
 
-        if ($x)
+        if ($pdocon->commit())
         {
             $smt = $pdocon->prepare("SELECT T1.application_no, T1.first_name, T1.middle_name, T1.last_name, T1.status,
                                 T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
