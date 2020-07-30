@@ -6,6 +6,7 @@
 
 define('_inc', true);
 require INC_DIR . 'index.php';
+require INC_DIR . 'protected.php';
 
 $_INPUT = json_decode(file_get_contents('php://input'), true);
 
