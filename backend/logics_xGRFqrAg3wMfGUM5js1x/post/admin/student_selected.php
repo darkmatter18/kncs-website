@@ -9,7 +9,7 @@
     $return = [];
     header('Content-Type: application/json');
 
-    if (isset($_INPUT['application_no'])
+    if (isset($_INPUT['application_no']))
     {
         $pdocon->beginTransaction();
         
@@ -17,7 +17,7 @@
         $smt->bind_param(':application_no', $application, PDO::PARAM_INT)
         
 
-        foreach ($_INPUT['application_no'] as $number)
+        foreach (:application_no as $number)
         {
             $application = $number;
             $smt->ececute();
@@ -67,6 +67,13 @@
             $return['statusText'] = null;
             $return['error'] = "Unable to connect database";
         }
+    }
+    else 
+    {
+        http_response_code(500);
+        $return['status'] = false;
+        $return['statusText'] = null;
+        $return['error'] = "Application no is not found";
     }
     echo json_encode($return);
     exit;
