@@ -17,7 +17,7 @@ if (isset($_INPUT['application_no']) ) {
     
 
     foreach ($_input['application_no'] as $application_no) {
-        $application_no_clean = Filter::$application_no;
+        $application_no_clean = Filter::Int($application_no);
         $smt = $pdocon->prepare("UPDATE student_preregistration_draft_payment_info SET verified_transaction = 'Y' 
                                                                                 WHERE application_no = :application_no ");
         $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
