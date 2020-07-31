@@ -65,6 +65,19 @@ Router::add('/preregistration/process/declaration', 'post', function () {
     require POST_STUDENT_REGISTRATION_DIR . 'declaration.php';
 });
 
+//Admin Details
+define('POST_ADMIN_DETAILS', POST_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
+
+// Payment Verification
+Router::add('/admin/admission/payment', 'post', function () {
+    require POST_ADMIN_DETAILS . 'payment_verification.php';
+});
+
+//Student Selection
+Router::add('/admin/admission/select', 'post', function () {
+    require POST_ADMIN_DETAILS . 'student_selected.php';
+});
+
 
 
 /**
@@ -98,7 +111,7 @@ Router::add('/preregistration/process/declaration', 'get', function () {
 //Admin Routes
 define('GET_ADMIN_DETAILS', GET_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
 
-//
+// Admission Details Fetch
 Router::add('/admin/admission/details', 'get', function () {
     require GET_ADMIN_DETAILS . 'admission_selection.php';
 });
