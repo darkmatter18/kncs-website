@@ -3,7 +3,7 @@ import DashboardHeader from "../../Dashboard/DashboardHeader";
 import {makeStyles} from "@material-ui/styles";
 import MaterialTable from 'material-table'
 import api from "../../../api";
-import {ADMIN_ADMISSION_SELECTION} from "../../../constant";
+import {ADMIN_ADMISSION_DETAILS, ADMIN_ADMISSION_SELECTION, ADMIN_PAYMENT_CONFIRM} from "../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -43,7 +43,7 @@ const AdminAdmissionSelection = () => {
     const TABLE_TITLE = "Student Admission Selection"
 
     React.useEffect(() => {
-        api.get(ADMIN_ADMISSION_SELECTION, {
+        api.get(ADMIN_ADMISSION_DETAILS, {
             headers: {
                 Authorization: authHeader()
             }
@@ -71,7 +71,7 @@ const AdminAdmissionSelection = () => {
      */
 
     const renderC = () => {
-        if(data.length !== 0) {
+        if (data.length !== 0) {
             return (
                 <MaterialTable
                     title={TABLE_TITLE}
@@ -130,14 +130,52 @@ const AdminAdmissionSelection = () => {
                             tooltip: 'Select the student',
                             icon: 'add',
                             onClick: (evt, data) => {
-                                console.log(data)
+                                const _d = data.map((v) => v.application_no)
+                                setData([])
+                                api.post(ADMIN_ADMISSION_SELECTION, {
+                                    application_no: _d
+                                }, {
+                                    headers: {
+                                        Authorization: authHeader()
+                                    }
+                                }).then((res) => {
+                                    if (res.data.status) {
+                                        console.log(res.data.data)
+                                        setData(() => res.data.data.map((v) => {
+                                            return {...v, name: `${v.first_name} ${v.middle_name} ${v.last_name}`}
+                                        }))
+                                    } else {
+                                        console.error(res.data.error)
+                                    }
+                                }).catch((e) => {
+                                    console.error(e)
+                                })
                             }
                         },
                         {
                             tooltip: 'Verified the Payment',
                             icon: () => <AttachMoney/>,
                             onClick: (evt, data) => {
-                                console.log(data)
+                                const _d = data.map((v) => v.application_no)
+                                setData([])
+                                api.post(ADMIN_PAYMENT_CONFIRM, {
+                                    application_no: _d
+                                }, {
+                                    headers: {
+                                        Authorization: authHeader()
+                                    }
+                                }).then((res) => {
+                                    if (res.data.status) {
+                                        console.log(res.data.data)
+                                        setData(() => res.data.data.map((v) => {
+                                            return {...v, name: `${v.first_name} ${v.middle_name} ${v.last_name}`}
+                                        }))
+                                    } else {
+                                        console.error(res.data.error)
+                                    }
+                                }).catch((e) => {
+                                    console.error(e)
+                                })
                             }
                         }
                     ]}
@@ -179,7 +217,8 @@ const AdminAdmissionSelection = () => {
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
-                                                    <Grid container spacing={4} justify={"center"} alignItems={"center"}>
+                                                    <Grid container spacing={4} justify={"center"}
+                                                          alignItems={"center"}>
                                                         <Grid item>
                                                             <Typography variant={"body2"}>
                                                                 History: {rowData.marks_hist}
@@ -197,7 +236,7 @@ const AdminAdmissionSelection = () => {
                                                         </Grid>
                                                         <Grid item>
                                                             <Typography variant={"subtitle1"}>
-                                                               <b> Percentage: {rowData.marks_percentage}%</b>
+                                                                <b> Percentage: {rowData.marks_percentage}%</b>
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
