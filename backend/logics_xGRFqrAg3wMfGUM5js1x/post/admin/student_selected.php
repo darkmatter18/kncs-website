@@ -1,29 +1,33 @@
 <?php
 
-    define('_inc', true);
-    require INC_DIR . 'index.php';
-    require INC_DIR . 'protected.php';
+/**
+ * Student Verification Process
+ * Created By- Pranjal Gain on 30/07/2020
+ * Modified By- Arkadip Bhattacharya on 31/07/2020
+ */
 
-    $_INPUT = json_decode(file_get_contents('php://input'), true);
+define('_inc', true);
+require INC_DIR . 'index.php';
+require INC_DIR . 'protected.php';
 
-    $return = [];
-    header('Content-Type: application/json');
+$_INPUT = json_decode(file_get_contents('php://input'), true);
 
-    if (isset($_INPUT['application_no']))
-    {
+$return = [];
+header('Content-Type: application/json');
+
+if (isset($_INPUT['application_no'])) {
+    if (!empty($pdocon)) {
         $pdocon->beginTransaction();
-        
-        
-        foreach ($_INPUT['application_no'] as $application_no) 
-        {
+
+
+        foreach ($_INPUT['application_no'] as $application_no) {
             $application_clean = Filter::Int($application_no);
             $smt = $pdocon->prepare("UPDATE `student_preregistration_details` SET status = 'SELECTED' WHERE application_no = :application_no");
             $smt->bindParam(":application_no", $application_clean, PDO::PARAM_INT);
-            $smt-> execute();
+            $smt->execute();
         }
 
-        if ($pdocon->commit())
-        {
+        if ($pdocon->commit()) {
             $smt = $pdocon->prepare("SELECT T1.application_no, T1.first_name, T1.middle_name, T1.last_name, T1.status,
                                 T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                 T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
@@ -41,37 +45,36 @@
                                 INNER JOIN student_preregistration_draft_family_info AS T5 
                                     ON T1.application_no = T5.application_no
                                 WHERE T1.status='SELECTED' OR T1.Status='SUBMITTED' ");
-            if ($smt->execute()) 
-            {
+            if ($smt->execute()) {
                 $output = $smt->fetchAll(PDO::FETCH_ASSOC);
                 $return['data'] = $output;
                 $return['status'] = true;
                 $return['statusText'] = "Fetch Done (SUBMITTED , SELECTED)";
                 $return['error'] = null;
-        
-            }
-            else 
-            {
+
+            } else {
                 http_response_code(500);
                 $return['status'] = false;
                 $return['statusText'] = null;
                 $return['error'] = "Unable to connect database";
             }
-        }
-        else 
-        {
+        } else {
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
             $return['error'] = "Unable to connect database";
         }
-    }
-    else 
-    {
+    } else {
         http_response_code(500);
         $return['status'] = false;
         $return['statusText'] = null;
-        $return['error'] = "Application no is not found";
+        $return['error'] = "Unable to connect database";
     }
-    echo json_encode($return);
-    exit;
+} else {
+    http_response_code(500);
+    $return['status'] = false;
+    $return['statusText'] = null;
+    $return['error'] = "Application no is not found";
+}
+echo json_encode($return);
+exit;
