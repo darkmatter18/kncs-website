@@ -98,8 +98,8 @@ Router::add('/preregistration/process/declaration', 'get', function () {
 //Admin Routes
 define('GET_ADMIN_DETAILS', GET_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
 
-//Get....
-Router::add('/admin/academic/selection', 'get', function () {
+//
+Router::add('/admin/admission/details', 'get', function () {
     require GET_ADMIN_DETAILS . 'admission_selection.php';
 });
 
