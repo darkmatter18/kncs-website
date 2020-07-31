@@ -85,3 +85,5 @@ if (isset($_INPUT['application_no'])) {
     $return['statusText'] = null;
     $return['error'] = "Invalid Parameter";
 }
+echo json_encode($return);
+exit;
