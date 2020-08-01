@@ -62,20 +62,6 @@ jobs:
       run: composer install --no-dev --optimize-autoloader
       working-directory: ./deploy/api
     
-    - name: Deploy
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
-      with:
-        ftp-server: ${{ secrets.DEV_FTP_HOST }}
-        ftp-username: ${{ secrets.DEV_FTP_USER }}
-        ftp-password: ${{ secrets.DEV_FTP_PASS }}
-        local-dir: deploy/
-
-#     - name: Deploy
-#       uses: kevinpainchaud/simple-ftp-deploy-action@v1.1.0
-#       with:
-#         ftp_host: ${{ secrets.DEV_FTP_HOST }}
-#         ftp_username: ${{ secrets.DEV_FTP_USER }}
-#         ftp_password: ${{ secrets.DEV_FTP_PASS }}
-#         local_source_dir: "deploy"
-#         dist_target_dir: "./"
-#         delete: "true"
+    - name: Clean Up
+      run: |
+        rm -r !(deploy)
