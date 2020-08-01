@@ -68,6 +68,9 @@ jobs:
       run: |
         shopt -s extglob
         rm -rf !(deploy)
+        cd deploy
+        mv -v .[!.]* ../
+        mv -v * ../
         
     - name: Commit files
       run: |
