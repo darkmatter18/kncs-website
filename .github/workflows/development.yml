@@ -20,8 +20,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
       with:
+        persist-credentials: false
         fetch-depth: 0      
     - name: Node Setup
       uses: actions/setup-node@v1
@@ -31,10 +32,6 @@ jobs:
     - name: NPM Install Frontend
       run: npm ci
       working-directory: ${{env.frontend}}
-
-#     - name: Test Frontend
-#       run: npm test
-#       working-directory: ${{env.frontend}}
 
     - name: Build Frontend
       run: npm run build
@@ -84,4 +81,4 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: deploy-dev
+        branch: deployment-dev
