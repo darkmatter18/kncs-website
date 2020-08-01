@@ -78,6 +78,11 @@ Router::add('/admin/admission/select', 'post', function () {
     require POST_ADMIN_DETAILS . 'student_selected.php';
 });
 
+//Application Deletion
+Router::add('/admin/admission/delete', 'post', function () {
+    require POST_ADMIN_DETAILS . 'application_deletion.php';
+});
+
 
 
 /**

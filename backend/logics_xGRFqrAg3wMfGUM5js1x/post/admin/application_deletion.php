@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Payment Verification
- * Created by - Manojit Karmakar 31.07.2020
- * Modified By - Arkadip Bhattacharya on 21/07/2020
+ * Application deletion process
+ * Created By- Pranjal Gain on 01/08/2020
  */
 
 define('_inc', true);
@@ -22,15 +21,13 @@ if (isset($_INPUT['application_no'])) {
 
 
             foreach ($_INPUT['application_no'] as $application_no) {
-                $application_no_clean = Filter::Int($application_no);
-                $smt = $pdocon->prepare("UPDATE student_preregistration_draft_payment_info SET verified_transaction = 'Y' 
-                                                                                    WHERE application_no = :application_no ");
-                $smt->bindParam(":application_no", $application_no_clean, PDO::PARAM_INT);
+                $application_clean = Filter::Int($application_no);
+                $smt = $pdocon->prepare("DELETE FROM `student_preregistration_details` WHERE application_no = :application_no;");
+                $smt->bindParam(":application_no", $application_clean, PDO::PARAM_INT);
                 $smt->execute();
             }
 
             if ($pdocon->commit()) {
-
                 $smt = $pdocon->prepare("SELECT T1.application_no, T1.first_name, T1.middle_name, T1.last_name, T1.status,
                                         T2.previous_school_name, T2.year_of_madhyamik, T2.previous_student_id,
                                         T3.marks_beng, T3.marks_engb, T3.marks_maths, T3.marks_psc, T3.marks_lsc, T3.marks_geo,
@@ -51,13 +48,11 @@ if (isset($_INPUT['application_no'])) {
                                         INNER JOIN student_preregistration_draft_payment_info AS T6 
                                             ON T1.application_no = T6.application_no
                                         WHERE T1.status='SELECTED' OR T1.Status='SUBMITTED' ");
-
                 if ($smt->execute()) {
-
                     $output = $smt->fetchAll(PDO::FETCH_ASSOC);
                     $return['data'] = $output;
                     $return['status'] = true;
-                    $return['statusText'] = "Fetch Done (SUBMITTED , SELECTED)";
+                    $return['statusText'] = "The application has been deleted deleted";
                     $return['error'] = null;
 
                 } else {
@@ -66,19 +61,17 @@ if (isset($_INPUT['application_no'])) {
                     $return['statusText'] = null;
                     $return['error'] = "Unable to connect database";
                 }
-
             } else {
                 http_response_code(500);
                 $return['status'] = false;
                 $return['statusText'] = null;
-                $return['error'] = "Failed to commit record on Database";
-
+                $return['error'] = "Unable to connect database";
             }
         } else {
             http_response_code(500);
             $return['status'] = false;
             $return['statusText'] = null;
-            $return['error'] = "Failed to commit record on Database";
+            $return['error'] = "Unable to connect database";
         }
     } else {
         http_response_code(500);
@@ -87,10 +80,11 @@ if (isset($_INPUT['application_no'])) {
         $return['error'] = "Permission denied";
     }
 } else {
-    http_response_code(400);
+    http_response_code(500);
     $return['status'] = false;
     $return['statusText'] = null;
-    $return['error'] = "Invalid Parameter";
+    $return['error'] = "Application no is not found";
 }
+
 echo json_encode($return);
 exit;
