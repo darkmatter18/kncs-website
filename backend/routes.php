@@ -27,9 +27,6 @@ Router::add('/', 'get', function () {
  */
 define('POST_LOGIC_DIR', LOGIC_DIR . 'post' . DIRECTORY_SEPARATOR);
 
-//Delete application
-define('DELETE_APPLICTION_DIR', POST_LOGIC_DIR . 'admin' . DIRECTORY_SEPARATOR);
-
 //Log in process
 Router::add('/login', 'post', function () {
     require POST_LOGIC_DIR . 'user_login_process.php';
@@ -79,6 +76,11 @@ Router::add('/admin/admission/payment', 'post', function () {
 //Student Selection
 Router::add('/admin/admission/select', 'post', function () {
     require POST_ADMIN_DETAILS . 'student_selected.php';
+});
+
+//Application Deletion
+Router::add('/admin/admission/delete', 'post', function () {
+    require POST_ADMIN_DETAILS . 'application_deletion.php';
 });
 
 
