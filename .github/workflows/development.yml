@@ -64,4 +64,6 @@ jobs:
     
     - name: Clean Up
       run: |
-        rm -r !(deploy)
+        shopt -s extglob
+        rm -rf !(deploy)
+        ls -l
