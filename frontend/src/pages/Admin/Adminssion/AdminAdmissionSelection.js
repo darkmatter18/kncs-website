@@ -3,13 +3,17 @@ import DashboardHeader from "../../Dashboard/DashboardHeader";
 import {makeStyles} from "@material-ui/styles";
 import MaterialTable from 'material-table'
 import api from "../../../api";
-import {ADMIN_ADMISSION_DETAILS, ADMIN_ADMISSION_SELECTION, ADMIN_PAYMENT_CONFIRM} from "../../../constant";
+import {
+    ADMIN_ADMISSION_DELETE,
+    ADMIN_ADMISSION_DETAILS,
+    ADMIN_ADMISSION_SELECTION,
+    ADMIN_PAYMENT_CONFIRM
+} from "../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Container from "@material-ui/core/Container";
 import {AttachMoney} from "@material-ui/icons";
 
@@ -62,19 +66,36 @@ const AdminAdmissionSelection = () => {
         // eslint-disable-next-line
     }, [])
 
-    /**
-     * Detailed Button
-     *
-     * Subject Selected
-     * Payment Info
-     *
-     */
+    const doAction = (action_url ,data) =>{
+        const _d = data.map((v) => v.application_no)
+        setData([])
+        api.post(action_url, {
+            application_no: _d
+        }, {
+            headers: {
+                Authorization: authHeader()
+            }
+        }).then((res) => {
+            if (res.data.status) {
+                console.log(res.data.data)
+                setData(() => res.data.data.map((v) => {
+                    return {...v, name: `${v.first_name} ${v.middle_name} ${v.last_name}`}
+                }))
+            } else {
+                console.error(res.data.error)
+            }
+        }).catch((e) => {
+            console.error(e)
+        })
+    }
 
-    const renderC = () => {
-        if (data.length !== 0) {
-            return (
+    return (
+        <React.Fragment>
+            <DashboardHeader/>
+            <div className={classes.table}>
                 <MaterialTable
                     title={TABLE_TITLE}
+                    isLoading={data.length === 0}
                     columns={[
                         {title: 'Application No', field: 'application_no', sorting: false, type: "numeric"},
                         {title: 'Name', field: 'name', filtering: false, sorting: false, type: "string"},
@@ -130,54 +151,23 @@ const AdminAdmissionSelection = () => {
                             tooltip: 'Select the student',
                             icon: 'add',
                             onClick: (evt, data) => {
-                                const _d = data.map((v) => v.application_no)
-                                setData([])
-                                api.post(ADMIN_ADMISSION_SELECTION, {
-                                    application_no: _d
-                                }, {
-                                    headers: {
-                                        Authorization: authHeader()
-                                    }
-                                }).then((res) => {
-                                    if (res.data.status) {
-                                        console.log(res.data.data)
-                                        setData(() => res.data.data.map((v) => {
-                                            return {...v, name: `${v.first_name} ${v.middle_name} ${v.last_name}`}
-                                        }))
-                                    } else {
-                                        console.error(res.data.error)
-                                    }
-                                }).catch((e) => {
-                                    console.error(e)
-                                })
+                                doAction(ADMIN_ADMISSION_SELECTION, data)
                             }
                         },
                         {
                             tooltip: 'Verified the Payment',
                             icon: () => <AttachMoney/>,
                             onClick: (evt, data) => {
-                                const _d = data.map((v) => v.application_no)
-                                setData([])
-                                api.post(ADMIN_PAYMENT_CONFIRM, {
-                                    application_no: _d
-                                }, {
-                                    headers: {
-                                        Authorization: authHeader()
-                                    }
-                                }).then((res) => {
-                                    if (res.data.status) {
-                                        console.log(res.data.data)
-                                        setData(() => res.data.data.map((v) => {
-                                            return {...v, name: `${v.first_name} ${v.middle_name} ${v.last_name}`}
-                                        }))
-                                    } else {
-                                        console.error(res.data.error)
-                                    }
-                                }).catch((e) => {
-                                    console.error(e)
-                                })
+                                doAction(ADMIN_PAYMENT_CONFIRM, data)
                             }
-                        }
+                        },
+                        {
+                            tooltip: 'Delete the Record',
+                            icon: 'delete',
+                            onClick: (evt, data) => {
+                                doAction(ADMIN_ADMISSION_DELETE, data)
+                            }
+                        },
                     ]}
                     detailPanel={rowData => {
                         return (
@@ -319,44 +309,6 @@ const AdminAdmissionSelection = () => {
                         )
                     }}
                 />
-            )
-        } else {
-            return (
-                <React.Fragment>
-                    <Card className={classes.card}>
-                        <CardContent>
-                            <Typography variant={"h6"}>
-                                {TABLE_TITLE}
-                                <Grid container justify={"center"} alignItems={"center"}>
-                                    <Grid item md={12} sm={12} xs={12}>
-                                        <Typography component={"div"} align={"center"}>
-                                            <CircularProgress className={classes.loader} />
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </React.Fragment>
-            )
-        }
-    }
-
-    /**
-     * Application,
-     * S name
-     * F name
-     * Stream
-     * Madhyamik total
-     * Medium
-     * Status
-     */
-    console.log(data)
-    return (
-        <React.Fragment>
-            <DashboardHeader/>
-            <div className={classes.table}>
-                {renderC()}
             </div>
         </React.Fragment>
     )
