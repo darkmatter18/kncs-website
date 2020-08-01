@@ -22,7 +22,7 @@ if (isset($_INPUT['application_no'])) {
 
             foreach ($_INPUT['application_no'] as $application_no) {
                 $application_clean = Filter::Int($application_no);
-                $smt = $pdocon->prepare("DELETE FROM `student_preregistration_details` AS T1 WHERE T1.application_no = :application_no;");
+                $smt = $pdocon->prepare("DELETE FROM `student_preregistration_details` WHERE application_no = :application_no;");
                 $smt->bindParam(":application_no", $application_clean, PDO::PARAM_INT);
                 $smt->execute();
             }
