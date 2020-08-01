@@ -30,13 +30,18 @@ import AdmissionStop from "../pages/Admission/AdmissionStopped";
 
 
 const RouteComponent = () => {
+    const admissionOn = true;
     return (
         <Router basename={'/portal'}>
             <Switch>
                 <Route path={HOME} component={Home} exact/>
 
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
-                <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
+                {admissionOn ? (
+                    <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
+                ): (
+                    <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
+                )}
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
                 <Route path={ADMISSION_ALL_DONE} component={AdmissionAllDone} exact/>
