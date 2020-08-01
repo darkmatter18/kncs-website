@@ -163,6 +163,7 @@ const Progress1PersonalInfo = () => {
             }).catch((e) => {
             console.error(e)
         })
+        // eslint-disable-next-line
     }, [])
 
     const [formData, setFormData] = React.useState(initialState)
@@ -330,6 +331,9 @@ const Progress1PersonalInfo = () => {
                             setNetworkState([netState.ERROR, `Internal Error occourred 
                         (${e.response.status} - ${e.response.data.error})`])
                         })
+                    }).catch((e)=>{
+                        console.error(e)
+                        setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                     })
                 })
             }

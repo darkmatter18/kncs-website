@@ -82,6 +82,7 @@ const Progress3PaymentInfo = () => {
             }).catch((e)=>{
             console.error(e)
         })
+        // eslint-disable-next-line
     },[])
     const handleDateChange = (date) => {
         setFormData(prevState => ({...prevState, transaction_date: date}))
@@ -150,6 +151,9 @@ const Progress3PaymentInfo = () => {
                         setNetworkState([netState.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
+                }).catch((e)=>{
+                    console.error(e)
+                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }

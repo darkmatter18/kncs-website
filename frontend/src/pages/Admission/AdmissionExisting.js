@@ -20,6 +20,7 @@ import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
 import Footer from "../../components/Footer";
+import {Link} from "@material-ui/core";
 
 
 const useStyle = makeStyles((theme) => ({
@@ -109,7 +110,7 @@ const AdmissionExisting = () => {
                                     history.push(`/admission/progress/declaration`)
                                 }
                             }else {
-                                setNetworkState([netState.ERROR, 'Internal error occured (Authentication Failed. ' +
+                                setNetworkState([netState.ERROR, 'Internal error occurred (Authentication Failed. ' +
                                 'Please Retry from "http://kncs.com/portal/admission/existing" )'])
                             }
                         }
@@ -118,17 +119,41 @@ const AdmissionExisting = () => {
                         }
                     }).catch((e)=>{
                         console.log(e)
-                        setNetworkState([netState.ERROR, `Internal Error occourred 
+                        setNetworkState([netState.ERROR, `Internal Error occurred 
                         (${e.response.status} - ${e.response.data.error})`])
                     })
+                }).catch((e)=>{
+                    console.error(e)
+                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
     }
 
+    const linkdata = [
+        {name: "Home", link: "#"},
+        {name: "About", link: "#"},
+        {name: "Notice", link: "#"},
+        {name: "Amumni", link: "#"},
+        {name: "Login", link: "#"},
+        {name: "Contact", link: "#"},
+    ]
+
+    const links = () => {
+        return (
+            linkdata.map((v, i)=>{
+                return (
+                    <Link variant="button" color="textPrimary" href={v.link} key={i}>
+                        {v.name}
+                    </Link>
+                )
+            })
+        )
+    }
+
     return (
         <React.Fragment>
-            <Header/>
+            <Header links={links()}/>
             <SubHeader/>
             <AdmissionNewExistingSwitch routeId={1}/>
             <Container>

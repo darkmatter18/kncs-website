@@ -154,6 +154,7 @@ const Progress2AcademicInfo = () => {
             }).catch((e) => {
             console.error(e)
         })
+        // eslint-disable-next-line
     }, [])
 
     const handleFormDataChange = (name) => (e) => {
@@ -239,6 +240,7 @@ const Progress2AcademicInfo = () => {
         } else {
             setStreamDisablityState(StreamDisablityFactors.ALL)
         }
+        // eslint-disable-next-line
     }, [formData.marks_total, formData.direct_admission])
 
     const renderSubjectErrors = () => {
@@ -248,6 +250,8 @@ const Progress2AcademicInfo = () => {
             case StreamDisablityFactors.HU:
                 return `You are not eligible for Admission in Science Stream, as your Total Marks is too low.`
             case StreamDisablityFactors.ALL:
+                return <React.Fragment/>
+            default:
                 return <React.Fragment/>
         }
     }
@@ -277,7 +281,7 @@ const Progress2AcademicInfo = () => {
         } else {
             setCsEligibilyState(() => SubjectElligibilityFactors.ELIGIBLE)
         }
-
+        // eslint-disable-next-line
     }, [formData.marks_geo, formData.marks_maths])
 
     React.useEffect(() => {
@@ -397,6 +401,7 @@ const Progress2AcademicInfo = () => {
                 return qq
             })
         }
+        // eslint-disable-next-line
     }, [formData.first_major, formData.second_major, formData.third_major, formData.forth_major, formData.stream,
         geographyEligibilyState, comaEligibilyState, csEligibilyState])
 
@@ -468,6 +473,9 @@ const Progress2AcademicInfo = () => {
                         setNetworkState([netState.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
+                }).catch((e)=>{
+                    console.error(e)
+                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }

@@ -88,6 +88,7 @@ const ImageUploaderComponent = ({onChange, dataUrl}) => {
 
     useEffect(()=> {
         onChange(dataURL)
+        // eslint-disable-next-line
     }, [dataURL])
 
     /**

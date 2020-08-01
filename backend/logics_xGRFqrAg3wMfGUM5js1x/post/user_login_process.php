@@ -34,7 +34,10 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                 $hashed_p = $_d['password'];
                 if(password_verify($_INPUT['password'], $hashed_p)){
 
-                    $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
+                    $smt = $pdocon->prepare("SELECT users_role.role, users_details.* FROM users_details 
+                                                        INNER JOIN users_role 
+                                                            ON users_role.id = users_details.id 
+                                                        WHERE users_details.id= :id");
                     $smt->bindParam(':id', $id_clean, PDO::PARAM_STR);
 
                     if($smt->execute()) {
@@ -51,7 +54,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                             if($pdocon->commit()){
 
                                 $issuedAt = time();
-                                $expiredAt = time() + (2 * 60* 60); //Expired after 2 hours
+                                $duration = (2 * 60 * 60);
+                                $expiredAt = time() + (2 * 60 * 60); //Expired after 2 hours
 
 
                                 // JWT token
@@ -77,6 +81,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                                 $return['role'] = $role;
                                 $return['statusText'] = "Login Successful and table Updated";
                                 $return['error'] = null;
+                                $return["user"] = $_d;
+                                $return['expiredAt'] = $duration;
                             } else {
                                 $return['status'] = false;
                                 $return['jwt'] = null;
@@ -84,6 +90,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                                 $return['role'] = null;
                                 $return['statusText'] = null;
                                 $return['error'] = "Failed to commit";
+                                $return["user"] = null;
+                                $return['expiredAt'] = null;
                             }
                         } else {
                             http_response_code(500);
@@ -93,6 +101,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                             $return['role'] = null;
                             $return['statusText'] = null;
                             $return['error'] = "Failed to record on database";
+                            $return["user"] = null;
+                            $return['expiredAt'] = null;
                         }
                     } else {
                         http_response_code(500);
@@ -102,6 +112,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                         $return['role'] = null;
                         $return['statusText'] = null;
                         $return['error'] = "Failed to record on database";
+                        $return["user"] = null;
+                        $return['expiredAt'] = null;
                     }
                 } else {
                     http_response_code(401);
@@ -111,6 +123,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                     $return['role'] = null;
                     $return['statusText'] = null;
                     $return['error'] = "Invalid E-mail / Password";
+                    $return["user"] = null;
+                    $return['expiredAt'] = null;
                 }
             } else {
                 http_response_code(401);
@@ -120,7 +134,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
                 $return['role'] = null;
                 $return['statusText'] = null;
                 $return['error'] = "Invalid E-mail Id";
-            }
+                $return["user"] = null;
+                $return['expiredAt'] = null;            }
         } else {
             http_response_code(500);
             $return['status'] = false;
@@ -129,6 +144,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
             $return['role'] = null;
             $return['statusText'] = null;
             $return['error'] = "Login Failed";
+            $return["user"] = null;
+            $return['expiredAt'] = null;
         }
 
     } else {
@@ -139,7 +156,8 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
         $return['role'] = null;
         $return['statusText'] = null;
         $return['error'] = "ReCaptcha verification failed";
-
+        $return["user"] = null;
+        $return['expiredAt'] = null;
     }
 } else {
     http_response_code(400);
@@ -149,7 +167,9 @@ if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['recaptc
     $return['role'] = null;
     $return['statusText'] = null;
     $return['error'] = "Invalid Request";
+    $return["user"] = null;
 
+    $return['expiredAt'] = null;
 }
 
 echo json_encode($return);

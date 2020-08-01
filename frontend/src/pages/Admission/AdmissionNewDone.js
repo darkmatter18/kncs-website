@@ -13,6 +13,7 @@ import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import Footer from "../../components/Footer";
+import {Link} from "@material-ui/core";
 
 const AdmissionNewDone = () => {
     const history = useHistory()
@@ -55,8 +56,32 @@ const AdmissionNewDone = () => {
                     setNetworkState([netState.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                 })
+            }).catch((e)=>{
+                console.error(e)
+                setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
             })
         })
+    }
+
+    const linkdata = [
+        {name: "Home", link: "#"},
+        {name: "About", link: "#"},
+        {name: "Notice", link: "#"},
+        {name: "Amumni", link: "#"},
+        {name: "Login", link: "#"},
+        {name: "Contact", link: "#"},
+    ]
+
+    const links = () => {
+        return (
+            linkdata.map((v, i)=>{
+                return (
+                    <Link variant="button" color="textPrimary" href={v.link} key={i}>
+                        {v.name}
+                    </Link>
+                )
+            })
+        )
     }
 
 
@@ -68,7 +93,7 @@ const AdmissionNewDone = () => {
         const applicationNo = history.location.state.application_no
         return (
             <React.Fragment>
-                <Header/>
+                <Header links={links()}/>
                 <SubHeader/>
                 <Container>
                     <Paper elevation={0} square>

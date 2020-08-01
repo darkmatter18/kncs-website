@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import {AppBar, Link, Toolbar} from "@material-ui/core";
+import {AppBar, Toolbar} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import * as banner from '../../assets/banner_new.jpg'
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +9,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from '@material-ui/icons/MoreVert';
+import {SCHOOL_NAME} from "../../constant";
 
 const useStyle = makeStyles((theme) => ({
     header: {
@@ -18,10 +19,6 @@ const useStyle = makeStyles((theme) => ({
         maxWidth: '4rem',
         maxHeight: '4rem',
         marginRight: theme.spacing(4)
-    },
-    appBar: {
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        backgroundColor: theme.palette.primary.main
     },
     toolbar: {
         flexWrap: 'wrap',
@@ -45,7 +42,7 @@ const useStyle = makeStyles((theme) => ({
 
 }))
 
-const Header = () => {
+const Header = ({links = []}) => {
     const classes = useStyle()
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -62,37 +59,14 @@ const Header = () => {
 
     const renderDesktop = () => {
         return (
-            <Grid container spacing={5} className={classes.sectionDesktop}>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#"  className={classes.link}>
-                        Home
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        About
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        Notice
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        Alumni
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        Login
-                    </Link>
-                </Grid>
-                <Grid item>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                        Contact
-                    </Link>
-                </Grid>
+            <Grid container spacing={5} alignItems={"center"} className={classes.sectionDesktop}>
+                {links.map((v, i)=>{
+                    return (
+                        <Grid item key={i}>
+                            {v}
+                        </Grid>
+                    )
+                })}
             </Grid>
         )
     }
@@ -107,50 +81,25 @@ const Header = () => {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#"  className={classes.link}>
-                    Home
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                    About
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                    Notice
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                    Amumni
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                    Login
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-                    Contact
-                </Link>
-            </MenuItem>
+            {links.map((v, i)=>{
+                return (
+                    <MenuItem key={i}>
+                        {v}
+                    </MenuItem>
+                )
+            })}
         </Menu>
     );
 
 
     return (
         <header className={classes.header}>
-
-            <AppBar position="fixed" className={classes.appBar}>
-
+            <AppBar color={"primary"} position="fixed">
                 <Toolbar className={classes.toolbar}>
                     <img src={banner} alt={"College Banner"} className={clsx(classes.bannerImage, classes.sectionDesktop)}/>
                     <Typography display={"inline"} variant="h5" color="inherit" noWrap
                                 className={classes.hearerText}>
-                        <b>Krishnath College School</b>
+                        <b>{SCHOOL_NAME}</b>
                     </Typography>
                     <nav>
                         <div className={classes.sectionMobile}>
@@ -170,14 +119,6 @@ const Header = () => {
                 </Toolbar>
             </AppBar>
             <Toolbar />
-
-
-            {/*<Container>*/}
-
-            {/*    <Typography className={classes.hearerText}>*/}
-            {/*        Krishnath College School*/}
-            {/*    </Typography>*/}
-            {/*</Container>*/}
         </header>
     )
 }

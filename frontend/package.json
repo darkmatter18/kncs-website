@@ -8,15 +8,16 @@
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/pickers": "^3.2.10",
-    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/jest-dom": "^5.11.2",
     "@testing-library/react": "^10.4.7",
-    "@testing-library/user-event": "^12.0.13",
+    "@testing-library/user-event": "^12.1.0",
     "axios": "^0.19.2",
     "clsx": "^1.1.1",
     "date-fns": "^2.15.0",
     "lodash": "^4.17.19",
+    "material-table": "^1.67.1",
     "react": "^16.13.1",
-    "react-auth-jwt": "^1.6.0",
+    "react-auth-jwt": "^1.6.5",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -24,6 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "stage": "cross-env PROXY_SET=staged react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "@material-ui/styles": "^4.10.0",
+    "cross-env": "^7.0.2",
     "http-proxy-middleware": "^1.0.5"
   }
 }
