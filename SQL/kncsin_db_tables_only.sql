@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 31, 2020 at 05:16 AM
+-- Generation Time: Aug 01, 2020 at 02:22 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.32
 
@@ -386,61 +386,61 @@ ALTER TABLE `users_role`
 -- Constraints for table `student_preregistration_draft_address`
 --
 ALTER TABLE `student_preregistration_draft_address`
-  ADD CONSTRAINT `address_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `address_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_basic_info`
 --
 ALTER TABLE `student_preregistration_draft_basic_info`
-  ADD CONSTRAINT `basic_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `basic_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_declaration_info`
 --
 ALTER TABLE `student_preregistration_draft_declaration_info`
-  ADD CONSTRAINT `declaration_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `declaration_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_family_info`
 --
 ALTER TABLE `student_preregistration_draft_family_info`
-  ADD CONSTRAINT `family_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `family_info_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_image`
 --
 ALTER TABLE `student_preregistration_draft_image`
-  ADD CONSTRAINT `image_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `image_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_payment_info`
 --
 ALTER TABLE `student_preregistration_draft_payment_info`
-  ADD CONSTRAINT `payment_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `payment_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_present_academic`
 --
 ALTER TABLE `student_preregistration_draft_present_academic`
-  ADD CONSTRAINT `present_academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `present_academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_previous_academic_info`
 --
 ALTER TABLE `student_preregistration_draft_previous_academic_info`
-  ADD CONSTRAINT `previous_academic_info_application_no` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `previous_academic_info_application_no` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_draft_previous_academic_marks`
 --
 ALTER TABLE `student_preregistration_draft_previous_academic_marks`
-  ADD CONSTRAINT `academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `academic_marks_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `student_preregistration_login`
 --
 ALTER TABLE `student_preregistration_login`
-  ADD CONSTRAINT `login_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`);
+  ADD CONSTRAINT `login_application_no_constraint` FOREIGN KEY (`application_no`) REFERENCES `student_preregistration_details` (`application_no`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users_details`
