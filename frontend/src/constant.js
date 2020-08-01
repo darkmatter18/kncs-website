@@ -10,6 +10,7 @@ export const PRE_REGISTRATION_DECLARATION = '/preregistration/process/declaratio
 export const ADMIN_ADMISSION_DETAILS = "/admin/admission/details"
 export const ADMIN_PAYMENT_CONFIRM = "/admin/admission/payment"
 export const ADMIN_ADMISSION_SELECTION = "/admin/admission/select"
+export const ADMIN_ADMISSION_DELETE = "/admin/admission/delete"
 
 /**Other Constant */
 export const netState = {IDLE: 11110, BUSY: 11111, ERROR: 11112}
