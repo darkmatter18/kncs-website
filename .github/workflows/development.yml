@@ -68,7 +68,9 @@ jobs:
       run: |
         shopt -s extglob
         rm -rf !(deploy)
-        find . -mindepth 2 -type f -print -exec mv {} . \
+        cd deploy
+        mv -v .[!.]* ../
+        mv -v * ../
         
     - name: Commit files
       run: |
