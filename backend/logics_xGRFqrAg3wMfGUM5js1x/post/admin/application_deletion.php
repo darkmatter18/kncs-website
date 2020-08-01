@@ -22,30 +22,7 @@ if (isset($_INPUT['application_no'])) {
 
             foreach ($_INPUT['application_no'] as $application_no) {
                 $application_clean = Filter::Int($application_no);
-                $smt = $pdocon->prepare("DELETE T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11 
-                                         FROM FROM `student_preregistration_details` AS T1
-                                         INNER JOIN `student_preregistration_draft_address` AS T2
-                                            ON T2.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_basic_info` AS T3
-                                            ON T3.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_declaration_info` AS T4
-                                            ON T4.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_family_info` AS T5
-                                            ON T5.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_image` AS T6
-                                            ON T6.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_payment_info` AS T7
-                                            ON T7.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_payment_info` AS T8
-                                            ON T8.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_payment_info` AS T9
-                                            ON T9.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_payment_info` AS T10
-                                            ON T10.application_no = T1.application_no
-                                         INNER JOIN `student_preregistration_draft_payment_info` AS T11
-                                            ON T11.application_no = T1.application_no
-                                         WHERE
-                                            T1.application_no = :application_no;");
+                $smt = $pdocon->prepare("DELETE FROM `student_preregistration_details` AS T1 WHERE T1.application_no = :application_no;");
                 $smt->bindParam(":application_no", $application_clean, PDO::PARAM_INT);
                 $smt->execute();
             }
