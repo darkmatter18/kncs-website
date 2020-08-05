@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Dashboard, Group, PersonAdd} from "@material-ui/icons";
+import {Dashboard, Person, PersonAdd} from "@material-ui/icons";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/styles";
 import List from "@material-ui/core/List";
@@ -63,16 +63,29 @@ const DashboardAdmin = () => {
                                                         <PersonAdd />
                                                     </Avatar>
                                                 </ListItemAvatar>
-                                                <ListItemText primary="Admission Selection"/>
+                                                <ListItemText
+                                                    primary="Admission Selection"
+                                                    secondary={"View & Select applied students"}/>
                                             </ListItem>
-                                            <Divider />
-                                            <ListItem button>
+                                            <ListItem button onClick={onClickEvent(ADMIN_ADMISSION_SELECTION)}>
                                                 <ListItemAvatar>
                                                     <Avatar className={classes.listColor}>
-                                                        <Group />
+                                                        <Person />
                                                     </Avatar>
                                                 </ListItemAvatar>
-                                                <ListItemText primary="Admission Selected"/>
+                                                <ListItemText
+                                                    primary="Student Database"
+                                                    secondary={"View and Edit Students Database"}/>
+                                            </ListItem>
+                                            <ListItem button onClick={onClickEvent(ADMIN_ADMISSION_SELECTION)}>
+                                                <ListItemAvatar>
+                                                    <Avatar className={classes.listColor}>
+                                                        <Person/>
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary="Teacher Database"
+                                                    secondary={"View and Edit Teacher's Database"}/>
                                             </ListItem>
                                         </List>
                                     </Grid>
