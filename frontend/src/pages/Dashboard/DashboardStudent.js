@@ -56,6 +56,7 @@ const DashboardStudent = () => {
      * Notification Schema:
      * {id: (int) notice_id, title: (string) notice_title, description: (string)notice_description }
      */
+    // eslint-disable-next-line
     const [notices, setNotices] = React.useState(null)
 
 
