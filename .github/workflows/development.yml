@@ -75,4 +75,4 @@ jobs:
         git add .
         git commit -m "Add changes" -a
         git status
-        git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/darkamtter18/kncs-website.git"
+        git push
