@@ -74,6 +74,7 @@ jobs:
         git branch -a
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        echo "Hello World" > hello.txt
         git checkout -f deployment-dev
         git status
         git add .
