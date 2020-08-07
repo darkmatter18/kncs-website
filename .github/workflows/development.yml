@@ -65,16 +65,18 @@ jobs:
       run: |
         shopt -s extglob
         rm -rf !(deploy)
-        cd deploy
-        mv -v .[!.]* ../
-        mv -v * ../
         
     - name: Commit files
       run: |
         git branch -a
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout -f deployment-dev
+        git checkout deployment-dev
+        shopt -s extglob
+        rm -rf !(deploy)
+        cd deploy
+        mv -v .[!.]* ../
+        mv -v * ../
         git status
         git add .
         git commit -m "Add changes" -a
