@@ -1,6 +1,6 @@
 -- MariaDB dump 10.17  Distrib 10.4.13-MariaDB, for Win64 (AMD64)
 --
--- Host: 127.0.0.1    Database: data
+-- Host: 127.0.0.1    Database: kncsin_db
 -- ------------------------------------------------------
 -- Server version	10.4.13-MariaDB
 
@@ -9,7 +9,7 @@
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40103 SET TIME_ZONE='+05:30' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `address` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Address Id',
-  `person_id` int(10) NOT NULL COMMENT 'ID of referred person',
+  `person_id` varchar(50) NOT NULL COMMENT 'ID of referred person',
   `address_line_1` varchar(100) NOT NULL COMMENT 'Address Line 1 of the Person',
   `address_line_2` varchar(100) DEFAULT NULL COMMENT 'Address Line 2 of the Person',
   `vill_town` varchar(50) NOT NULL COMMENT 'Village or Town of the Person',
@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `communication`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `communication` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Communication ID',
-  `person_id` int(10) NOT NULL COMMENT 'Id of communicating Person',
+  `person_id` varchar(50) NOT NULL COMMENT 'Id of communicating Person',
   `com_phone` varchar(10) NOT NULL COMMENT 'Phone number of the Person',
   `com_email` varchar(50) DEFAULT NULL COMMENT 'Email address of the Person',
   PRIMARY KEY (`id`),
@@ -128,6 +128,34 @@ LOCK TABLES `exam` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `login` (
+  `id` varchar(50) NOT NULL COMMENT 'Student, Teacher, Admin ID',
+  `email` varchar(100) NOT NULL COMMENT 'Email ID',
+  `password` varchar(200) NOT NULL COMMENT 'Password',
+  `last_login_time` datetime NOT NULL COMMENT 'Last Login Time',
+  `last_login_ip` varchar(50) NOT NULL COMMENT 'Last Login Ip address',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login_email_uindex` (`email`),
+  CONSTRAINT `login_student_basic_details_id_fk` FOREIGN KEY (`id`) REFERENCES `student_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Login Table';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `s_marks`
 --
 
@@ -169,7 +197,7 @@ DROP TABLE IF EXISTS `student_academic_info`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_academic_info` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Student Academic Info ID',
-  `student_id` int(10) NOT NULL COMMENT 'Student ID',
+  `student_id` varchar(50) NOT NULL COMMENT 'Student ID',
   `s_class` int(10) DEFAULT NULL COMMENT 'Class Details (Foreign to Classes)',
   `s_roll` varchar(5) NOT NULL COMMENT 'Student roll number',
   `s_is_present_class` tinyint(1) NOT NULL COMMENT 'Present Class -> 1 , Past Class -> 0',
@@ -201,7 +229,7 @@ DROP TABLE IF EXISTS `student_basic_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_basic_details` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Student Id',
+  `id` varchar(50) NOT NULL COMMENT 'Student Id',
   `s_first_name` varchar(50) NOT NULL COMMENT 'Student first name',
   `s_middle_name` varchar(50) DEFAULT NULL COMMENT 'Student middle name',
   `s_last_name` varchar(50) NOT NULL COMMENT 'Student last name',
@@ -231,8 +259,8 @@ DROP TABLE IF EXISTS `student_family_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `student_family_details` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Student Family Details Id',
-  `student_id` int(10) NOT NULL COMMENT 'Student ID',
+  `id` varchar(50) NOT NULL COMMENT 'Student Family Details Id',
+  `student_id` varchar(50) NOT NULL COMMENT 'Student ID',
   `s_father_name` varchar(50) NOT NULL COMMENT 'Student father name',
   `s_father_aadhaar` varchar(16) DEFAULT NULL COMMENT 'Student father aadhaar card number',
   `s_mother_name` varchar(50) NOT NULL COMMENT 'Student mother name',
@@ -287,4 +315,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-09 17:26:57
+-- Dump completed on 2020-08-12 12:27:46
