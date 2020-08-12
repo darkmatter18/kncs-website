@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/portal/static/css/main.0a422aba.chunk.css",
-    "main.js": "/portal/static/js/main.914237ab.chunk.js",
-    "main.js.map": "/portal/static/js/main.914237ab.chunk.js.map",
-    "runtime-main.js": "/portal/static/js/runtime-main.62001beb.js",
-    "runtime-main.js.map": "/portal/static/js/runtime-main.62001beb.js.map",
-    "static/js/2.16088bc4.chunk.js": "/portal/static/js/2.16088bc4.chunk.js",
-    "static/js/2.16088bc4.chunk.js.map": "/portal/static/js/2.16088bc4.chunk.js.map",
+    "main.css": "/portal/static/css/main.10e3fdc3.chunk.css",
+    "main.js": "/portal/static/js/main.453b39ba.chunk.js",
+    "main.js.map": "/portal/static/js/main.453b39ba.chunk.js.map",
+    "runtime-main.js": "/portal/static/js/runtime-main.57c4a4e4.js",
+    "runtime-main.js.map": "/portal/static/js/runtime-main.57c4a4e4.js.map",
+    "static/js/2.cfa4b3b5.chunk.js": "/portal/static/js/2.cfa4b3b5.chunk.js",
+    "static/js/2.cfa4b3b5.chunk.js.map": "/portal/static/js/2.cfa4b3b5.chunk.js.map",
     "index.html": "/portal/index.html",
-    "precache-manifest.1200f453b03c3d39b005831ecd01dd0f.js": "/portal/precache-manifest.1200f453b03c3d39b005831ecd01dd0f.js",
+    "precache-manifest.24a15625c953657b817e2d0b2d76f960.js": "/portal/precache-manifest.24a15625c953657b817e2d0b2d76f960.js",
     "service-worker.js": "/portal/service-worker.js",
-    "static/css/main.0a422aba.chunk.css.map": "/portal/static/css/main.0a422aba.chunk.css.map",
-    "static/js/2.16088bc4.chunk.js.LICENSE.txt": "/portal/static/js/2.16088bc4.chunk.js.LICENSE.txt",
+    "static/css/main.10e3fdc3.chunk.css.map": "/portal/static/css/main.10e3fdc3.chunk.css.map",
+    "static/js/2.cfa4b3b5.chunk.js.LICENSE.txt": "/portal/static/js/2.cfa4b3b5.chunk.js.LICENSE.txt",
     "static/media/arkadip.jpeg": "/portal/static/media/arkadip.0fd9aef4.jpeg",
     "static/media/banner.png": "/portal/static/media/banner.1888cd08.png",
     "static/media/manojit.jpeg": "/portal/static/media/manojit.d9fadee8.jpeg",
@@ -19,9 +19,9 @@
     "static/media/uploadIcon.svg": "/portal/static/media/uploadIcon.0632505b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.62001beb.js",
-    "static/js/2.16088bc4.chunk.js",
-    "static/css/main.0a422aba.chunk.css",
-    "static/js/main.914237ab.chunk.js"
+    "static/js/runtime-main.57c4a4e4.js",
+    "static/js/2.cfa4b3b5.chunk.js",
+    "static/css/main.10e3fdc3.chunk.css",
+    "static/js/main.453b39ba.chunk.js"
   ]
 }
