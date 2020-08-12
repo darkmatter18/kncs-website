@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2020 at 02:07 PM
+-- Generation Time: Aug 12, 2020 at 02:51 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -49,8 +49,8 @@ CREATE TABLE `address` (
 
 CREATE TABLE `admin_details` (
   `id` varchar(50) NOT NULL COMMENT 'Admin ID',
-  `first_name` varchar(50) NOT NULL COMMENT 'First name of admin',
-  `last_name` varchar(50) NOT NULL COMMENT 'Last name of admin'
+  `a_first_name` varchar(50) NOT NULL COMMENT 'First name of admin',
+  `a_last_name` varchar(50) NOT NULL COMMENT 'Last name of admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -191,8 +191,8 @@ CREATE TABLE `s_marks` (
 
 CREATE TABLE `teacher_basic_details` (
   `id` varchar(50) NOT NULL COMMENT 'Teacher ID',
-  `first_name` varchar(50) NOT NULL COMMENT 'First name of the teacher',
-  `last_name` varchar(50) NOT NULL COMMENT 'Last name of the teacher'
+  `t_first_name` varchar(50) NOT NULL COMMENT 'First name of the teacher',
+  `t_last_name` varchar(50) NOT NULL COMMENT 'Last name of the teacher'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -344,13 +344,16 @@ ALTER TABLE `s_marks`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_student_basic_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `student_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `address_student_family_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `student_family_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `address_student_family_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `student_family_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `address_teacher_basic_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `teacher_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `communication`
 --
 ALTER TABLE `communication`
-  ADD CONSTRAINT `communication_student_basic_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `student_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `communicaion_admin_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `admin_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `communication_student_basic_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `student_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `communication_teacher_basic_details_id_fk` FOREIGN KEY (`person_id`) REFERENCES `teacher_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `login`
