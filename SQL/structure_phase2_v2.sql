@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2020 at 06:56 AM
+-- Generation Time: Aug 13, 2020 at 09:34 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -100,7 +100,8 @@ CREATE TABLE `exam` (
 CREATE TABLE `login` (
   `id` varchar(50) NOT NULL COMMENT 'Student, Teacher, Admin ID',
   `email` varchar(100) NOT NULL COMMENT 'Email ID',
-  `password` varchar(200) NOT NULL COMMENT 'Password',
+  `password` varchar(20) NOT NULL COMMENT 'Password',
+  `role` varchar(8) NOT NULL COMMENT 'Role of the user',
   `last_login_time` datetime NOT NULL COMMENT 'Last Login Time',
   `last_login_ip` varchar(50) NOT NULL COMMENT 'Last Login Ip address'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Login Table';
@@ -215,7 +216,8 @@ ALTER TABLE `address`
 ALTER TABLE `admin_details`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `id_2` (`id`);
+  ADD KEY `id_2` (`id`),
+  ADD KEY `role` (`role`);
 
 --
 -- Indexes for table `classes`
@@ -243,7 +245,8 @@ ALTER TABLE `exam`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `login_email_uindex` (`email`);
+  ADD UNIQUE KEY `login_email_uindex` (`email`),
+  ADD KEY `login_admin_details_role_fk` (`role`);
 
 --
 -- Indexes for table `student_academic_info`
@@ -258,7 +261,8 @@ ALTER TABLE `student_academic_info`
 -- Indexes for table `student_basic_details`
 --
 ALTER TABLE `student_basic_details`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role` (`role`);
 
 --
 -- Indexes for table `student_family_details`
@@ -290,7 +294,8 @@ ALTER TABLE `s_marks`
 ALTER TABLE `teacher_basic_details`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `id_2` (`id`);
+  ADD KEY `id_2` (`id`),
+  ADD KEY `role` (`role`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -362,9 +367,12 @@ ALTER TABLE `communication`
 -- Constraints for table `login`
 --
 ALTER TABLE `login`
-  ADD CONSTRAINT `login_admin_details` FOREIGN KEY (`id`) REFERENCES `admin_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `login_admin_details_id_fk` FOREIGN KEY (`id`) REFERENCES `admin_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `login_admin_details_role_fk` FOREIGN KEY (`role`) REFERENCES `admin_details` (`role`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `login_student_basic_details_id_fk` FOREIGN KEY (`id`) REFERENCES `student_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `login_techer_basic_details` FOREIGN KEY (`id`) REFERENCES `teacher_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `login_student_basic_details_role_fk` FOREIGN KEY (`role`) REFERENCES `student_basic_details` (`role`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `login_teacher_basic_details_id_fk` FOREIGN KEY (`id`) REFERENCES `teacher_basic_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `login_teacher_basic_details_role_fk` FOREIGN KEY (`role`) REFERENCES `teacher_basic_details` (`role`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student_academic_info`
