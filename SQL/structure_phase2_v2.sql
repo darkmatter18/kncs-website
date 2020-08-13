@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2020 at 02:51 PM
+-- Generation Time: Aug 13, 2020 at 06:56 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.7
 
@@ -49,6 +49,7 @@ CREATE TABLE `address` (
 
 CREATE TABLE `admin_details` (
   `id` varchar(50) NOT NULL COMMENT 'Admin ID',
+  `role` varchar(8) NOT NULL DEFAULT 'admin' COMMENT 'Admin role',
   `a_first_name` varchar(50) NOT NULL COMMENT 'First name of admin',
   `a_last_name` varchar(50) NOT NULL COMMENT 'Last name of admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -128,6 +129,7 @@ CREATE TABLE `student_academic_info` (
 
 CREATE TABLE `student_basic_details` (
   `id` varchar(50) NOT NULL COMMENT 'Student Id',
+  `role` varchar(8) NOT NULL DEFAULT 'student' COMMENT 'User role',
   `s_first_name` varchar(50) NOT NULL COMMENT 'Student first name',
   `s_middle_name` varchar(50) DEFAULT NULL COMMENT 'Student middle name',
   `s_last_name` varchar(50) NOT NULL COMMENT 'Student last name',
@@ -135,7 +137,7 @@ CREATE TABLE `student_basic_details` (
   `s_gender` varchar(15) NOT NULL COMMENT 'Student gender',
   `s_religion` varchar(20) NOT NULL COMMENT 'Student religion',
   `s_caste` varchar(20) NOT NULL COMMENT 'Student caste',
-  `s_aadhaar` varchar(16) DEFAULT NULL COMMENT 'Student aadhaar number'
+  `s_aadhaar` varchar(12) DEFAULT NULL COMMENT 'Student aadhaar number'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -191,6 +193,7 @@ CREATE TABLE `s_marks` (
 
 CREATE TABLE `teacher_basic_details` (
   `id` varchar(50) NOT NULL COMMENT 'Teacher ID',
+  `role` varchar(8) NOT NULL DEFAULT 'teacher' COMMENT 'User role',
   `t_first_name` varchar(50) NOT NULL COMMENT 'First name of the teacher',
   `t_last_name` varchar(50) NOT NULL COMMENT 'Last name of the teacher'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
