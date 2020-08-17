@@ -103,6 +103,7 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
                                 $return["user"] = $_d;
                                 $return['expiredAt'] = $duration;
                             } else {
+                                http_response_code(500);
                                 $return['status'] = false;
                                 $return['jwt'] = null;
                                 $return['userId'] = null;
