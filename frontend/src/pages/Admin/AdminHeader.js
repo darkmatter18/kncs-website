@@ -8,9 +8,10 @@ import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {Divider, List} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
-import {HomeOutlined, Person, PersonAdd} from "@material-ui/icons";
+import {HomeOutlined, Inbox, Person, PersonAdd} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -80,12 +81,21 @@ const AdminHeader = () => {
         </div>
     )
 
+    const miniDrawerElements = (
+        <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                <ListItem button key={text}>
+                    <ListItemIcon><Inbox /></ListItemIcon>
+                    <ListItemText primary={text} />
+                </ListItem>
+            ))}
+        </List>
+    )
+
     return (
         <React.Fragment>
             <HeaderWithDrawer rightLinks={headerLinks} drawerElements={drawerElement}/>
-            <main>
-                <MiniInternalDrawer/>
-            </main>
+            <MiniInternalDrawer miniDrawerElements={miniDrawerElements}/>
         </React.Fragment>
     )
 }

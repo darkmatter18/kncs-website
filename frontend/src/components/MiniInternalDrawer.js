@@ -36,12 +36,10 @@ const MiniInternalDrawer = ({miniDrawerElements}) => {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
-        console.log("Open");
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
-        console.log("Close");
         setOpen(false);
     };
 
