@@ -1,20 +1,18 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
-import MiniInternalDrawer from "../../../components/MiniInternalDrawer";
-import HeaderWithDrawer from "../../../components/Headers/HeaderWithDrawer";
+import AdminHeader from "../AdminHeader";
 
-const useStyles = makeStyles((theme) => ({
-
+const useStyles = makeStyles(() => ({
+    list: {
+        width: 250,
+    },
 }))
 
 const School = () => {
 
     return (
         <React.Fragment>
-            <HeaderWithDrawer/>
-            <main>
-                <MiniInternalDrawer/>
-            </main>
+            <AdminHeader/>
         </React.Fragment>
     )
 }
