@@ -100,7 +100,7 @@ const AdminAdmissionSelection = () => {
                         {title: 'Application No', field: 'application_no', sorting: false, type: "numeric"},
                         {title: 'Name', field: 'name', filtering: false, sorting: false, type: "string"},
                         {
-                            title: 'Father\' name',
+                            title: 'Father\'s name',
                             field: 'father_name',
                             filtering: false,
                             sorting: false,
