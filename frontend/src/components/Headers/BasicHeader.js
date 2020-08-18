@@ -16,6 +16,9 @@ const useStyle = makeStyles((theme) => ({
     header: {
         marginBottom: theme.spacing(6)
     },
+    appbar: {
+        zIndex: theme.zIndex.modal + 1,
+    },
     bannerImage: {
         maxWidth: '4rem',
         maxHeight: '4rem',
@@ -98,7 +101,10 @@ const Header = ({leftMenuClickListener=null, rightLinks = []}) => {
 
     return (
         <header className={classes.header}>
-            <AppBar color={"primary"} position="fixed">
+            <AppBar
+                color={"primary"}
+                position="fixed"
+                className={clsx({[classes.appbar]: (leftMenuClickListener !== null)})}>
                 <Toolbar className={classes.toolbar}>
                     {leftMenuClickListener && (
                         <IconButton
