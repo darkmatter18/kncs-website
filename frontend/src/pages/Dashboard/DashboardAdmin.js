@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {Dashboard, Person, PersonAdd} from "@material-ui/icons";
+import {Dashboard, HomeWorkRounded, Person, PersonAdd} from "@material-ui/icons";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/styles";
 import List from "@material-ui/core/List";
@@ -90,7 +90,22 @@ const DashboardAdmin = () => {
                                         </List>
                                     </Grid>
                                     <Grid item md={6} sm={12} xs={12}>
-
+                                        <Typography variant="h6" component="h6">
+                                            Manage Your school
+                                        </Typography>
+                                        <Divider className={classes.divider}/>
+                                        <List>
+                                            <ListItem button onClick={onClickEvent(ADMIN_ADMISSION_SELECTION)}>
+                                                <ListItemAvatar>
+                                                    <Avatar className={classes.listColor}>
+                                                        <HomeWorkRounded />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary="Manage your School"
+                                                    secondary={"View & change your school"}/>
+                                            </ListItem>
+                                        </List>
                                     </Grid>
                                 </Grid>
                             </CardContent>
