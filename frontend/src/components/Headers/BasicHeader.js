@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuIcon from '@material-ui/icons/Menu';
-import {SCHOOL_NAME} from "../../constant";
+import {SCHOOL_NAME, SCHOOL_NAME_SHORT} from "../../constant";
 
 const useStyle = makeStyles((theme) => ({
     header: {
@@ -118,8 +118,12 @@ const Header = ({leftMenuClickListener=null, rightLinks = []}) => {
                     )}
                     <img src={banner} alt={"College Banner"} className={clsx(classes.bannerImage, classes.sectionDesktop)}/>
                     <Typography display={"inline"} variant="h5" color="inherit" noWrap
-                                className={classes.hearerText}>
+                                className={clsx(classes.hearerText, classes.sectionDesktop)}>
                         <b>{SCHOOL_NAME}</b>
+                    </Typography>
+                    <Typography display={"inline"} variant="h5" color="inherit" noWrap
+                                className={clsx(classes.hearerText, classes.sectionMobile)}>
+                        <b>{SCHOOL_NAME_SHORT}</b>
                     </Typography>
                     <nav>
                         <div className={classes.sectionMobile}>

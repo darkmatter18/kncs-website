@@ -21,3 +21,4 @@ export const RECAPTCHA_SITE_KEY = '6LdTUK0ZAAAAAG71t-pY6p2S57TMe0-Lb0wLKqoy'
 
 /** Default Constant**/
 export const SCHOOL_NAME = "Krishnath College School"
+export const SCHOOL_NAME_SHORT = "KNCS"
