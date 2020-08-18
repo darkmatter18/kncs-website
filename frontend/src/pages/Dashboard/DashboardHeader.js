@@ -23,7 +23,7 @@ const DashboardHeader = () => {
 
     return (
         <React.Fragment>
-            <Header links={headerLinks}/>
+            <Header rightLinks={headerLinks}/>
         </React.Fragment>
     )
 }
