@@ -1,14 +1,8 @@
 import React from "react";
 import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import {ChevronRight, HomeOutlined, Inbox} from "@material-ui/icons";
-import ListItemText from "@material-ui/core/ListItemText";
-import IconButton from "@material-ui/core/IconButton";
 import {makeStyles} from "@material-ui/styles";
 import clsx from "clsx";
+import {Toolbar} from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -35,12 +29,9 @@ const useStyles = makeStyles((theme) => ({
             width: theme.spacing(9),
         },
     },
-    paper: {
-        position: "relative"
-    }
 }))
 
-const MiniInternalDrawer = () => {
+const MiniInternalDrawer = ({miniDrawerElements}) => {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false);
 
@@ -72,24 +63,8 @@ const MiniInternalDrawer = () => {
             onMouseDown={() => handleDrawerClose()}
             onMouseLeave={() => handleDrawerClose()}
         >
-
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon><HomeOutlined /></ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon><Inbox /></ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            <Toolbar/>
+            {miniDrawerElements}
         </Drawer>
     )
 }
