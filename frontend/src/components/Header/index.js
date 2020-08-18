@@ -9,6 +9,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from '@material-ui/icons/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
 import {SCHOOL_NAME} from "../../constant";
 
 const useStyle = makeStyles((theme) => ({
@@ -22,6 +23,9 @@ const useStyle = makeStyles((theme) => ({
     },
     toolbar: {
         flexWrap: 'wrap',
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
     },
     hearerText: {
         fontFamily: 'Raleway, sans-serif',
@@ -42,7 +46,7 @@ const useStyle = makeStyles((theme) => ({
 
 }))
 
-const Header = ({links = []}) => {
+const Header = ({leftMenuClickListener=null, rightLinks = []}) => {
     const classes = useStyle()
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -60,7 +64,7 @@ const Header = ({links = []}) => {
     const renderDesktop = () => {
         return (
             <Grid container spacing={5} alignItems={"center"} className={classes.sectionDesktop}>
-                {links.map((v, i)=>{
+                {rightLinks.map((v, i)=>{
                     return (
                         <Grid item key={i}>
                             {v}
@@ -81,7 +85,7 @@ const Header = ({links = []}) => {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            {links.map((v, i)=>{
+            {rightLinks.map((v, i)=>{
                 return (
                     <MenuItem key={i}>
                         {v}
@@ -96,6 +100,16 @@ const Header = ({links = []}) => {
         <header className={classes.header}>
             <AppBar color={"primary"} position="fixed">
                 <Toolbar className={classes.toolbar}>
+                    {leftMenuClickListener && (
+                        <IconButton
+                            edge="start"
+                            className={classes.menuButton}
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={leftMenuClickListener}>
+                            <MenuIcon />
+                        </IconButton>
+                    )}
                     <img src={banner} alt={"College Banner"} className={clsx(classes.bannerImage, classes.sectionDesktop)}/>
                     <Typography display={"inline"} variant="h5" color="inherit" noWrap
                                 className={classes.hearerText}>
