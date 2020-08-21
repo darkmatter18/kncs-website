@@ -4,9 +4,9 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import {makeStyles} from "@material-ui/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles(()=>({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -32,7 +32,7 @@ const HeaderWithDrawer = ({rightLinks, drawerElements}) => {
 
     return (
         <React.Fragment>
-            <Header leftMenuClickListener={toggleDrawer(true)} rightLinks={rightLinks}/>
+            <Header leftMenuClickListener={toggleDrawer(!menuAnchor)} rightLinks={rightLinks}/>
             <SwipeableDrawer
                 anchor={"left"}
                 open={menuAnchor}
