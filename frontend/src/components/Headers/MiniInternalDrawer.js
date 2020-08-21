@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         }),
         overflowX: 'hidden',
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+            width: theme.spacing(7),
         },
     },
 }))
@@ -47,6 +47,7 @@ const MiniInternalDrawer = ({miniDrawerElements}) => {
     return (
         <Drawer
             variant="permanent"
+            elevation={0}
             className={clsx(classes.drawer, {
                 [classes.drawerOpen]: open,
                 [classes.drawerClose]: !open,
