@@ -1,6 +1,5 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
-import MiniInternalDrawer from "../../components/MiniInternalDrawer";
 import HeaderWithDrawer from "../../components/Headers/HeaderWithDrawer";
 import {useAuth, useSignOut} from "react-auth-jwt";
 import Avatar from "@material-ui/core/Avatar";
@@ -8,10 +7,9 @@ import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {Divider, List} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
-import {HomeOutlined, Inbox, Person, PersonAdd} from "@material-ui/icons";
+import {HomeOutlined, Person, PersonAdd} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -22,6 +20,7 @@ const useStyles = makeStyles(() => ({
 const AdminHeader = () => {
     const classes = useStyles()
     const signOut = useSignOut()
+    // eslint-disable-next-line
     const auth = useAuth()
     //const {first_name, last_name} = auth().authState
     const first_name = "A"
@@ -81,21 +80,9 @@ const AdminHeader = () => {
         </div>
     )
 
-    const miniDrawerElements = (
-        <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                    <ListItemIcon><Inbox /></ListItemIcon>
-                    <ListItemText primary={text} />
-                </ListItem>
-            ))}
-        </List>
-    )
-
     return (
         <React.Fragment>
             <HeaderWithDrawer rightLinks={headerLinks} drawerElements={drawerElement}/>
-            <MiniInternalDrawer miniDrawerElements={miniDrawerElements}/>
         </React.Fragment>
     )
 }
