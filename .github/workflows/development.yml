@@ -68,15 +68,16 @@ jobs:
         
     - name: Commit files
       run: |
-        git branch -a
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git checkout deployment-dev
         shopt -s extglob
         rm -rf !(deploy)
+        ls -l
         cd deploy
         mv -v .[!.]* ../
         mv -v * ../
+        ls -l
         cd ..
         git status
         git add .

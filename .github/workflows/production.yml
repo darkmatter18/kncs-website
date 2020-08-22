@@ -55,7 +55,7 @@ jobs:
       run: 'echo "$DEV_HTACCESS " > ./deploy/api/.htaccess'
       shell: bash
       env:
-        DEV_HTACCESS: ${{secrets.DEV_HTACCESS }}
+        DEV_HTACCESS: ${{secrets.PROD_HTACCESS }}
     
     - name: Install PHP dependancies
       run: composer install --no-dev --optimize-autoloader
