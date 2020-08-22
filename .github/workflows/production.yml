@@ -1,0 +1,85 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Production
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the development branch
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    env:
+     frontend: ./frontend
+     backend: ./backend
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Node Setup
+      uses: actions/setup-node@v1
+      with:
+       node-version: 12
+
+    - name: NPM Install Frontend
+      run: npm ci
+      working-directory: ${{env.frontend}}
+
+    - name: Build Frontend
+      run: npm run build
+      working-directory: ${{env.frontend}}
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer:v2
+    
+    - name: Create deployment
+      run: |
+        mkdir deploy
+        mv -v ./frontend/build/.[!.]* ./deploy/
+        mv -v ./frontend/build/* ./deploy/
+        cd deploy && mkdir api
+        mv -v ./../backend/* ./api/
+      
+    - name: HTACCESS write
+      run: 'echo "$DEV_HTACCESS " > ./deploy/api/.htaccess'
+      shell: bash
+      env:
+        DEV_HTACCESS: ${{secrets.DEV_HTACCESS }}
+    
+    - name: Install PHP dependancies
+      run: composer install --no-dev --optimize-autoloader
+      working-directory: ./deploy/api
+    
+    - name: Clean Up
+      run: |
+        shopt -s extglob
+        rm -rf !(deploy)
+        
+    - name: Commit files
+      run: |
+        git branch -a
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout deployment-prod
+        shopt -s extglob
+        rm -rf !(deploy)
+        cd deploy
+        mv -v .[!.]* ../
+        mv -v * ../
+        cd ..
+        git status
+        git add .
+        git commit -m "Add changes" -a
+        git status
+        git push
