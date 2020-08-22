@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Kncs-Hostinger" uuid="ccbd2481-2fc8-4a34-94ab-8cee3b87b11c">
+    <data-source source="LOCAL" name="Xampp@localhost" uuid="6eaab293-d6e9-4963-8be8-8c5dc22557a1">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://157.43.215.228:3306/u572500670_kncsin_db</jdbc-url>
-    </data-source>
-    <data-source source="LOCAL" name="@localhost" uuid="c9bf9b04-a7fb-4f1d-823f-bb722db3578b">
-      <driver-ref>mariadb</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://localhost:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <driver-properties>
+        <property name="serverTimezone" value="UTC" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

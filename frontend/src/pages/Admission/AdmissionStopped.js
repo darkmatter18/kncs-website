@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../../components/Header";
+import Header from "../../components/Headers/BasicHeader";
 import AdmissionNewExistingSwitch from "../../components/AdmissionNewExistingSwitch";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";

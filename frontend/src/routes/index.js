@@ -10,7 +10,7 @@ import {
     ADMISSION_PROGRESS_ROUTE,
     ADMISSION_ALL_DONE,
     MEET_THE_DEVS,
-    LOGIN, DASHBOARD, ADMIN_ADMISSION_SELECTION
+    LOGIN, DASHBOARD, ADMIN_ADMISSION_SELECTION, ADMIN_MANAGE_SCHOOL
 } from './route';
 
 import Home from '../pages/Home';
@@ -27,16 +27,22 @@ import AllLogin from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import AdminAdmissionSelection from "../pages/Admin/Adminssion/AdminAdmissionSelection";
 import AdmissionStop from "../pages/Admission/AdmissionStopped";
+import School from "../pages/Admin/School";
 
 
 const RouteComponent = () => {
+    const admissionOn = true;
     return (
         <Router basename={'/portal'}>
             <Switch>
                 <Route path={HOME} component={Home} exact/>
 
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
-                <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
+                {admissionOn ? (
+                    <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
+                ): (
+                    <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
+                )}
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
                 <Route path={ADMISSION_ALL_DONE} component={AdmissionAllDone} exact/>
@@ -45,7 +51,7 @@ const RouteComponent = () => {
                 <Route path={LOGIN} component={AllLogin} exact/>
                 <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
                 <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN} exact/>
-
+                <Route path={ADMIN_MANAGE_SCHOOL} component={School} exact/>
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
                 <Route path='*' exact={true} component={Page404} />
             </Switch>

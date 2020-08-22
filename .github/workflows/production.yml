@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Development
+name: Production
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the development branch
 on:
   push:
-    branches: [ development ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -55,7 +55,7 @@ jobs:
       run: 'echo "$DEV_HTACCESS " > ./deploy/api/.htaccess'
       shell: bash
       env:
-        DEV_HTACCESS: ${{secrets.DEV_HTACCESS }}
+        DEV_HTACCESS: ${{secrets.PROD_HTACCESS }}
     
     - name: Install PHP dependancies
       run: composer install --no-dev --optimize-autoloader
@@ -68,16 +68,15 @@ jobs:
         
     - name: Commit files
       run: |
+        git branch -a
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git checkout deployment-dev
+        git checkout deployment-prod
         shopt -s extglob
         rm -rf !(deploy)
-        ls -l
         cd deploy
         mv -v .[!.]* ../
         mv -v * ../
-        ls -l
         cd ..
         git status
         git add .
