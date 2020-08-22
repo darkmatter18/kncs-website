@@ -1,127 +1,196 @@
 <?php
-/**
- * Login Pipe Line
- * Created by: Arkadip Bhattachaya 15/05/2020 12.17PM
- */
 
-
-/**
- * @param $pdocon
- * @param $id
- * @param $password
- * @return bool
- */
-function login($pdocon, $id, $password){
-    //Check if admin already exist or not
-    $smt = $pdocon->prepare("SELECT id, password FROM `users_login` WHERE id =:id LIMIT 1");
-    $smt->bindParam(':id', $id, PDO::PARAM_STR);
-    $smt->execute();
-    if($smt->rowCount() > 0){
-        //Admin exists
-        $_d  = $smt->fetch(PDO::FETCH_ASSOC);
-        $hashed = $_d['password'];
-
-        if(password_verify($password,$hashed)){
-            //loggedin
-            $smt = $pdocon->prepare("UPDATE `users_login` SET `last-login-ip`= :ip WHERE id = :id");
-            $time = time();
-            $ip = get_client_ip();
-            $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
-            $smt->bindParam(':id', $id, PDO::PARAM_STR);
-            if($smt->execute()){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-/**
- * @param $pdocon
- * @param $id
- * @return mixed|void
- */
-function get_user_role($pdocon, $id){
-    $smt = $pdocon->prepare("SELECT role FROM `users_role` WHERE id= :id");
-    $smt->bindParam(':id', $id, PDO::PARAM_STR);
-    $smt->execute();
-    if($smt->rowCount() > 0){
-        $_d  = $smt->fetch(PDO::FETCH_ASSOC);
-        return $_d['role'];
-    }
-    return;
-}
-
-
+/*users_login_process...
+*created by Manojit Karmakar on 24.07.2020
+*Updated by Pranjal Gain on 13.08.2020
+*/
 
 define('_inc', true);
 require INC_DIR . 'index.php';
 require BASE_DIR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 use \Firebase\JWT\JWT;
 
-
-//return array
-$return = [];
 $_INPUT = json_decode(file_get_contents('php://input'), true);
-if (isset($_INPUT['id']) && isset($_INPUT['password']) && isset($_INPUT['g_recaptcha_response'])) {
 
-    //Set the return content type
-    header('Content-Type: application/json');
+$return = [];
+header('Content-Type: application/json');
 
-    if(checkRecaptca($_INPUT['g_recaptcha_response'])){
-        //Escaping variables
-        $id_clean = Filter::String($_INPUT['id']);
-        $password_clean = Filter::String($_INPUT['password']);
+if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['recaptcha_token']) ){
+    if (checkRecaptcha($_INPUT['recaptcha_token'])){
 
-        if(login($pdocon, $id_clean, $password_clean)){
-            
-            $role = get_user_role($pdocon, $id_clean);
+        $pdocon->beginTransaction();
 
-            if(!empty($role)){
-                //JWT config
-                $issusedAt = (time() * 1000);
-                $expiredAt = (time() + (2 * 60* 60)) * 1000; //Exprired after 2 hours
+        $id_clean = Filter::Email($_INPUT['email']);
 
-                // JWT token
-                $token = array (
-                    "iat" => $issusedAt,
-                    "eat" => $expiredAt,
-                    "uae" =>$_SERVER['HTTP_USER_AGENT'],
-                    "data" => array (
-                        "id" => $id_clean,
-                        "role" => $role
-                    )
-                );
+        $time = time();
+        $ip = get_client_ip();
 
-                $jwt = JWT::encode($token, $_SERVER['HTTP_JWT_SECRET']);
-                
-                $return['user'] = array(
-                    "id" => $id_clean,
-                    "role" => $role,
-                );
-                $return['login'] = array(
-                    "loginAt" => $issusedAt,
-                    "jwt" => $jwt,
-                    "expiresAt" => $expiredAt
-                );
-                $return['status'] = true;
-                http_response_code(200);
-            }
+        $smt = $pdocon->prepare("SELECT id, password, role FROM `login` WHERE email = :email LIMIT 1");
+
+        $smt->bindParam(":email", $id_clean, PDO::PARAM_STR);
+
+        if ($smt->execute()){
+            $_d  = $smt->fetch(PDO::FETCH_ASSOC);
+            if($_d){
+                $hashed_p = $_d['password'];
+                if(password_verify($_INPUT['password'], $hashed_p)){
+
+                    if($_d['role'] == 'student'){
+                        $smt = $pdocon->prepare("SELECT communication.*, address.*, student_family_details.*, student_basic_details.* FROM student_basic_details 
+                                                            INNER JOIN communication 
+                                                                ON communication.person_id = student_basic_details.id 
+                                                            INNER JOIN address 
+                                                                ON address.person_id = student_basic_details.id 
+                                                            INNER JOIN student_family_details 
+                                                                ON student_family_details.student_id = student_basic_details.id 
+                                                            WHERE student_basic_details.id= :id");
+                        $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
+                    }elseif($_d['role'] == 'teacher'){
+                        $smt = $pdocon->prepare("SELECT communication.*, address.*, teacher_basic_details.* FROM teacher_basic_details 
+                                                            INNER JOIN communication 
+                                                                ON communication.person_id = student_basic_details.id 
+                                                            INNER JOIN address 
+                                                                ON address.person_id = student_basic_details.id
+                                                            WHERE teacher_basic_details.id= :id");
+                        $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
+                    }
+                    elseif($_d['role'] == 'admin'){
+                        $smt = $pdocon->prepare("SELECT * FROM admin_details WHERE admin_details.id= :id");
+                        $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
+                    }
+
+                    if($smt->execute()) {
+                        $_d  = $smt->fetch(PDO::FETCH_ASSOC);
+                        $role = $_d['role'];
+
+                        $smt = $pdocon->prepare("UPDATE login SET last_login_time = :time , last_login_ip= :ip WHERE id = :email ");
+
+                        $smt->bindParam(':time', $time, PDO::PARAM_STR);
+                        $smt->bindParam(':ip', $ip, PDO::PARAM_STR);
+                        $smt->bindParam(":email", $id_clean, PDO::PARAM_STR);
+
+                        if ($smt->execute()) {
+                            if($pdocon->commit()){
+
+                                $issuedAt = time();
+                                $duration = (2 * 60 * 60);
+                                $expiredAt = time() + (2 * 60 * 60); //Expired after 2 hours
+
+
+                                // JWT token
+                                $token = array (
+                                    'iat'  => $issuedAt,              // Issued at: time when the token was generated
+                                    'jti'  => $id_clean,  // Json Token Id: an unique identifier for the token
+                                    'iss'  => "http://kncs.in",       // Issuer
+                                    'nbf'  => $issuedAt,              // Not before
+                                    'exp'  => $expiredAt,
+                                    "uae"  => $_SERVER['HTTP_USER_AGENT'],
+                                    "data" => array (
+                                        "user_id" => $id_clean,
+                                        "role" => $role
+                                    )
+                                );
+
+                                $jwt = JWT::encode($token, $_SERVER['HTTP_JWT_SECRET']);
+
+
+                                $return['status'] = true;
+                                $return['jwt'] = $jwt;
+                                $return['userId'] = $id_clean;
+                                $return['role'] = $role;
+                                $return['statusText'] = "Login Successful and table Updated";
+                                $return['error'] = null;
+                                $return["user"] = $_d;
+                                $return['expiredAt'] = $duration;
+                            } else {
+                                http_response_code(500);
+                                $return['status'] = false;
+                                $return['jwt'] = null;
+                                $return['userId'] = null;
+                                $return['role'] = null;
+                                $return['statusText'] = null;
+                                $return['error'] = "Failed to commit";
+                                $return["user"] = null;
+                                $return['expiredAt'] = null;
+                            }
+                        } else {
+                            http_response_code(500);
+                            $return['status'] = false;
+                            $return['jwt'] = null;
+                            $return['userId'] = null;
+                            $return['role'] = null;
+                            $return['statusText'] = null;
+                            $return['error'] = "Failed to record on database";
+                            $return["user"] = null;
+                            $return['expiredAt'] = null;
+                        }
+                    } else {
+                        http_response_code(500);
+                        $return['status'] = false;
+                        $return['jwt'] = null;
+                        $return['userId'] = null;
+                        $return['role'] = null;
+                        $return['statusText'] = null;
+                        $return['error'] = "Failed to record on database";
+                        $return["user"] = null;
+                        $return['expiredAt'] = null;
+                    }
+                } else {
+                    http_response_code(401);
+                    $return['status'] = false;
+                    $return['jwt'] = null;
+                    $return['userId'] = null;
+                    $return['role'] = null;
+                    $return['statusText'] = null;
+                    $return['error'] = "Invalid E-mail / Password";
+                    $return["user"] = null;
+                    $return['expiredAt'] = null;
+                }
+            } else {
+                http_response_code(401);
+                $return['status'] = false;
+                $return['jwt'] = null;
+                $return['userId'] = null;
+                $return['role'] = null;
+                $return['statusText'] = null;
+                $return['error'] = "Invalid E-mail Id";
+                $return["user"] = null;
+                $return['expiredAt'] = null;            }
+        } else {
+            http_response_code(500);
+            $return['status'] = false;
+            $return['jwt'] = null;
+            $return['userId'] = null;
+            $return['role'] = null;
+            $return['statusText'] = null;
+            $return['error'] = "Login Failed";
+            $return["user"] = null;
+            $return['expiredAt'] = null;
         }
-        else {
-            http_response_code(401);
-            $return['status'] = "Invalid Username/Password";
-        }
-    }
-    else{
+
+    } else {
         http_response_code(401);
-        $return['status'] = "Re-captcha Verification failed";
+        $return['status'] = false;
+        $return['jwt'] = null;
+        $return['userId'] = null;
+        $return['role'] = null;
+        $return['statusText'] = null;
+        $return['error'] = "ReCaptcha verification failed";
+        $return["user"] = null;
+        $return['expiredAt'] = null;
     }
-}
-else {
+} else {
     http_response_code(400);
-    $return['status'] = "Invalid Request Params";
+    $return['status'] = false;
+    $return['jwt'] = null;
+    $return['userId'] = null;
+    $return['role'] = null;
+    $return['statusText'] = null;
+    $return['error'] = "Invalid Request";
+    $return["user"] = null;
+
+    $return['expiredAt'] = null;
 }
 
-echo json_encode($return, JSON_PRETTY_PRINT);
+echo json_encode($return);
 exit;

@@ -1,5 +1,7 @@
 DirectoryIndex index.php
 
+ 
+
 # enable apache rewrite engine
 RewriteEngine on
 RewriteCond %{HTTP:Authorization} ^(.*)
@@ -7,8 +9,12 @@ RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 # set your rewrite base
 # Edit this in your init method too if you script lives in a subfolder
 
+ 
+
 # Change it on Prod
 RewriteBase /portal/api
+
+ 
 
 # Deliver the folder or file directly if it exists on the server
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -17,12 +23,14 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Push every request to index.php
 RewriteRule ^(.*)$ index.php [QSA]
 
+ 
+
 # Change it on prod
 Setenv HTTP_SERVER_ROOT_DIR "/portal/api"
 SetEnv HTTP_MYSQL_DB_HOST "127.0.0.1"
-SetEnv HTTP_MYSQL_DB_USER "u572500670_devinst_usr"
-SetEnv HTTP_MYSQL_DB_PASS "4&lhfS;OqZ"
-SetEnv HTTP_MYSQL_DB_NAME "u572500670_devinst_db"
+SetEnv HTTP_MYSQL_DB_USER "u572500670_kncsin"
+SetEnv HTTP_MYSQL_DB_PASS "+jB?B~c7"
+SetEnv HTTP_MYSQL_DB_NAME "u572500670_kncsin_db"
 SetEnv HTTP_RECAPTA_SERECT "6LdTUK0ZAAAAAMh6sQwF3fiQzjWi-26mhNg5qaUd"
-SetEnv HTTP_JWT_SECRET "j/toFb9fabgRalJ4rJY+NYKjS06NryHTFs6dDN32f+8BAaHwxtZ6yc2VAitQYsdzSWI+uaSD3r8TbLECdFJ2iA=="
+SetEnv HTTP_JWT_SECRET "fMLdAh1gUVd847WjHKq2SImorf7hVLNjpjs526NHWIDddvX8OB"
 SetEnv HTTP_SENDGRID_API_KEY "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" 

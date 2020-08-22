@@ -14,24 +14,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-development',
-    'version' => 'dev-development',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => '60fb2220c4708c7fbe7dc1d2b287af9ce0c53f82',
+    'reference' => '15b69000d944c700be02c34b044c6963d85f32ef',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-development',
-      'version' => 'dev-development',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => '60fb2220c4708c7fbe7dc1d2b287af9ce0c53f82',
+      'reference' => '15b69000d944c700be02c34b044c6963d85f32ef',
     ),
     'firebase/php-jwt' => 
     array (

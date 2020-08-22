@@ -29,7 +29,7 @@ define('POST_LOGIC_DIR', LOGIC_DIR . 'post' . DIRECTORY_SEPARATOR);
 
 //Log in process
 Router::add('/login', 'post', function () {
-    require POST_LOGIC_DIR . 'user_login_process.php';
+    require POST_LOGIC_DIR . 'login.php';
 });
 
 //Student Pre Registration
