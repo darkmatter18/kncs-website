@@ -55,7 +55,7 @@ const AllLogin = () => {
     const signIn = useSignIn();
     const history = useHistory()
     const classes = useStyles();
-    const [formState, setFormState] = React.useState({id:'', password: ''})
+    const [formState, setFormState] = React.useState({email:'', password: ''})
     const [errors, setErrors] = React.useState({
         email: [false, "Enter registered Email-Id"],
         password: [false, "Password should be minimum 8"],
@@ -151,8 +151,8 @@ const AllLogin = () => {
                                 autoComplete="email"
                                 error={errors.email[0]}
                                 helperText={errors.email[1]}
-                                value={formState.id}
-                                onChange={handleFormDataChange('id')}
+                                value={formState.email}
+                                onChange={handleFormDataChange('email')}
                                 autoFocus
                             />
                             <TextField

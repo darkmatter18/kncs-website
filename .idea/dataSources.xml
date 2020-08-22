@@ -10,5 +10,17 @@
         <property name="serverTimezone" value="UTC" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="devinst@kncs" uuid="d518b30c-e03a-470b-a9fe-3aae15afaa02">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://sql350.main-hosting.eu:3306/u572500670_devinst_db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="prod@kncs" uuid="8c14927f-26c6-492f-b33d-6cf30ebcd0d6">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://sql350.main-hosting.eu:3306/u572500670_kncsin_db</jdbc-url>
+    </data-source>
   </component>
 </project>

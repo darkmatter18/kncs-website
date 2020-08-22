@@ -1,3 +1,3 @@
 <?php
 
-echo password_hash('password', PASSWORD_ARGON2I);
+echo password_hash('admin@KNCS', PASSWORD_ARGON2I);
