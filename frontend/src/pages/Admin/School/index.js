@@ -5,7 +5,7 @@ import {CardContent, Container, Divider, List, Typography} from "@material-ui/co
 import MiniInternalDrawer from "../../../components/Headers/MiniInternalDrawer";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import {ClassOutlined, Inbox, SchoolRounded, SubjectOutlined} from "@material-ui/icons";
+import {ClassOutlined, SchoolRounded, SubjectOutlined} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useParams, useHistory} from "react-router-dom";
 import Classes from "./Classes";

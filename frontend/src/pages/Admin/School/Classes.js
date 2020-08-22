@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import {ClassRounded, TableChart} from "@material-ui/icons";
+import {ClassRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/styles";
 import EnhancedTableToolbar from "../../../components/EnhancedTableToolbar";
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme)=> ({
 
 const Classes = () => {
     const classes = useStyles()
+    // eslint-disable-next-line
     const [selected, setSelected] = React.useState([]);
     return (
         <React.Fragment>
