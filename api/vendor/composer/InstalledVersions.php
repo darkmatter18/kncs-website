@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '6751335d20c8c0b89556690023a030d3807af418',
+    'reference' => '33fa491201050db9a3d346e27d9e336129eda9bc',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,7 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '6751335d20c8c0b89556690023a030d3807af418',
+      'reference' => '33fa491201050db9a3d346e27d9e336129eda9bc',
     ),
     'firebase/php-jwt' => 
     array (
