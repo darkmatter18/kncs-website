@@ -68,7 +68,7 @@ const AllLogin = () => {
     }
 
     const checkEmailId = () => {
-        if (ValidateEmail(formState.id)) {
+        if (ValidateEmail(formState.email)) {
             setErrors(prevState => ({...prevState, email: [false, "Enter registered Email-Id"]}))
             return true
         } else {
