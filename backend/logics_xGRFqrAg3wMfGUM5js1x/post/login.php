@@ -22,40 +22,43 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
 
         $id_clean = Filter::Email($_INPUT['email']);
 
-        $time = time();
+        $time = date('m/d/Y h:i:s a', time());
         $ip = get_client_ip();
 
-        $smt = $pdocon->prepare("SELECT id, password, role FROM `login` WHERE email = :email LIMIT 1");
+        $smt = $pdocon->prepare("SELECT user_id, user_password, user_role FROM `login` WHERE user_email = :email LIMIT 1");
 
         $smt->bindParam(":email", $id_clean, PDO::PARAM_STR);
 
         if ($smt->execute()){
             $_d  = $smt->fetch(PDO::FETCH_ASSOC);
             if($_d){
-                $hashed_p = $_d['password'];
-                if(password_verify($_INPUT['password'], $hashed_p)){
+                $hashed_p = $_d['user_password'];
+                if(password_verify($_INPUT['user_password'], $hashed_p)){
 
-                    if($_d['role'] == 'student'){
-                        $smt = $pdocon->prepare("SELECT communication.*, address.*, student_family_details.*, student_basic_details.* FROM student_basic_details 
-                                                            INNER JOIN communication 
-                                                                ON communication.person_id = student_basic_details.id 
-                                                            INNER JOIN address 
-                                                                ON address.person_id = student_basic_details.id 
+                    if($_d['user_role'] == 'student'){
+                        $smt = $pdocon->prepare("SELECT student_communication.*, student_address.*, student_family_details.*, student_basic_details.* FROM student_basic_details 
+                                                            INNER JOIN student_communication 
+                                                                ON student_communication.person_id = student_basic_details.id 
+                                                            INNER JOIN student_address 
+                                                                ON student_address.student_id = student_basic_details.id 
                                                             INNER JOIN student_family_details 
                                                                 ON student_family_details.student_id = student_basic_details.id 
                                                             WHERE student_basic_details.id= :id");
                         $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
-                    }elseif($_d['role'] == 'teacher'){
-                        $smt = $pdocon->prepare("SELECT communication.*, address.*, teacher_basic_details.* FROM teacher_basic_details 
-                                                            INNER JOIN communication 
-                                                                ON communication.person_id = student_basic_details.id 
-                                                            INNER JOIN address 
-                                                                ON address.person_id = student_basic_details.id
+                    }elseif($_d['user_role'] == 'teacher'){
+                        $smt = $pdocon->prepare("SELECT teacher_communication.*, teacher_address.*, teacher_basic_details.* FROM teacher_basic_details 
+                                                            INNER JOIN teacher_communication 
+                                                                ON teacher_communication.teacher_id = teacher_basic_details.id 
+                                                            INNER JOIN teacher_address 
+                                                                ON teacher_address.teacher_id = teacher_basic_details.id
                                                             WHERE teacher_basic_details.id= :id");
                         $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
                     }
-                    elseif($_d['role'] == 'admin'){
-                        $smt = $pdocon->prepare("SELECT * FROM admin_details WHERE admin_details.id= :id");
+                    elseif($_d['user_role'] == 'admin'){
+                        $smt = $pdocon->prepare("SELECT admin_communication.*, admin_details.* FROM admin_details
+                                                            INNER JOIN admin_communication
+                                                                ON admin_communication.admin_id = admin_details.id
+                                                            WHERE admin_details.id= :id");
                         $smt->bindParam(':id', $_d['id'], PDO::PARAM_STR);
                     }
 
