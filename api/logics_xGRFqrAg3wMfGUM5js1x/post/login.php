@@ -33,7 +33,7 @@ if (isset($_INPUT['email']) && isset($_INPUT['password']) && isset($_INPUT['reca
                 $_d  = $smt->fetch(PDO::FETCH_ASSOC);
                 if($_d){
                     $hashed_p = $_d['user_password'];
-                    if(password_verify($_INPUT['user_password'], $hashed_p)){
+                    if(password_verify($_INPUT['password'], $hashed_p)){
                         $smt = null;
                         if($_d['user_role'] == 'student'){
                             $smt = $pdocon->prepare("SELECT student_basic_details.* 
