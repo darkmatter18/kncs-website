@@ -121,6 +121,15 @@ Router::add('/admin/admission/details', 'get', function () {
     require GET_ADMIN_DETAILS . 'admission_selection.php';
 });
 
+//Class fetching
+Router::add('/admin/admission/details', 'get', function () {
+    require GET_ADMIN_DETAILS . 'get_classes.php';
+});
+
+//Subject fetching
+Router::add('/admin/admission/details', 'get', function () {
+    require GET_ADMIN_DETAILS . 'get_subjects.php';
+});
 /**
  * Run the Router
  */
