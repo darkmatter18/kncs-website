@@ -2,55 +2,47 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import {ClassRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
-import {makeStyles} from "@material-ui/styles";
-import EnhancedTableToolbar from "../../../components/EnhancedTableToolbar";
-import {Table, TableContainer, TableHead, TableRow} from "@material-ui/core";
-import TableCell from "@material-ui/core/TableCell";
+import MaterialTable from "material-table";
 
-const useStyles = makeStyles((theme)=> ({
-
-}))
 
 const Classes = () => {
-    const classes = useStyles()
     // eslint-disable-next-line
-    const [selected, setSelected] = React.useState([]);
+    const [classData, setClassData] = React.useState([])
     return (
         <React.Fragment>
-            <Grid container alignItems={"center"}>
-                <Grid item>
-                    <ClassRounded/>
-                </Grid>
-                <Grid item>
-                    <Typography variant="h5" component="h2">
-                        Classes
-                    </Typography>
-                </Grid>
-            </Grid>
-
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <TableContainer>
-                <Table
-                    className={classes.table}
-                    aria-labelledby="classes"
-                    size={"medium"}
-                    aria-label="classes table"
-                >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>
-                                Class
-                            </TableCell>
-                            <TableCell>
-                                Section
-                            </TableCell>
-                            <TableCell>
-                                Delete
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                </Table>
-            </TableContainer>
+            <MaterialTable
+                columns={[
+                    {title: "Standard", field: "standard", type: "string"},
+                    {title: "Section", field: "section", type: "string"}
+                ]}
+                data={classData}
+                options={{
+                    pageSize: 10,
+                    pageSizeOptions: [10, 20, 30]
+                }}
+                editable={{
+                    onRowAdd: newData => {
+                        console.log(newData)
+                    },
+                    onRowUpdate: newData => {
+                        console.log(newData)
+                    },
+                    onRowDelete: oldData => {
+                        console.log(oldData)
+                    }
+                }}
+                title={(<Grid container alignItems={"center"}>
+                        <Grid item>
+                            <ClassRounded/>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h5" component="h2">
+                                Classes
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                )}
+            />
         </React.Fragment>
     )
 }

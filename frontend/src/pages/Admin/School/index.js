@@ -1,7 +1,7 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
 import AdminHeader from "../AdminHeader";
-import {CardContent, Container, Divider, List, Typography} from "@material-ui/core";
+import {Container, Divider, List, Typography} from "@material-ui/core";
 import MiniInternalDrawer from "../../../components/Headers/MiniInternalDrawer";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -11,7 +11,6 @@ import {useParams, useHistory} from "react-router-dom";
 import Classes from "./Classes";
 import {ADMIN_SCHOOL_ROUTES, ADMIN_SCHOOL_ROUTES_BASE} from "../../../constant";
 import Subjects from "./Subjects";
-import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
     content: {
@@ -74,11 +73,7 @@ const School = () => {
                     <Typography variant={"h4"} className={classes.heading}>
                         Manage My School
                     </Typography>
-                    <Card variant={"outlined"}>
-                        <CardContent>
-                            {renderRoute()}
-                        </CardContent>
-                    </Card>
+                    {renderRoute()}
                 </Container>
             </main>
         </React.Fragment>
