@@ -11,6 +11,8 @@ export const ADMIN_ADMISSION_DETAILS = "/admin/admission/details"
 export const ADMIN_PAYMENT_CONFIRM = "/admin/admission/payment"
 export const ADMIN_ADMISSION_SELECTION = "/admin/admission/select"
 export const ADMIN_ADMISSION_DELETE = "/admin/admission/delete"
+export const ADMIN_SCHOOL_CLASS = "/admin/school/class"
+export const ADMIN_SCHOOL_SUBJECT = "/admin/school/subject"
 
 /**Other Constant */
 export const netState = {IDLE: 11110, BUSY: 11111, ERROR: 11112}

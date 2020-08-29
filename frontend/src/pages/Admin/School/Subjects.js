@@ -3,10 +3,33 @@ import MaterialTable from "material-table";
 import Grid from "@material-ui/core/Grid";
 import {SubjectRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
+import api from "../../../api";
+import {ADMIN_SCHOOL_CLASS} from "../../../constant";
+import {useAuthHeader} from "react-auth-jwt";
 
 const Subjects = () => {
-    // eslint-disable-next-line
+
+    const authHeader = useAuthHeader()
     const [subjectData, setSubjectData] = React.useState([])
+
+    React.useEffect(()=> {
+        api.get(ADMIN_SCHOOL_CLASS,{
+            headers: {
+                Authorization: authHeader()
+            }
+        }).then((res)=>{
+            if (res.data.status) {
+                console.log(res.data.data)
+                setSubjectData(() => res.data.data)
+            } else {
+                console.error(res.data.error)
+            }
+        }).catch((e) => {
+            console.error(e)
+        })
+        // eslint-disable-next-line
+    },[])
+
     return (
         <React.Fragment>
             <MaterialTable
@@ -14,6 +37,7 @@ const Subjects = () => {
                     {title: "Subjects", field: "subject", type: "string"},
                 ]}
                 data={subjectData}
+                isLoading={subjectData.length === 0}
                 options={{
                     pageSize: 10,
                     pageSizeOptions: [10, 20, 30]
