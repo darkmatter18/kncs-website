@@ -1,5 +1,6 @@
 <?php
 
+use Firebase\JWT\JWT;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -32,6 +33,20 @@ return [
 
     BasePathMiddleware::class => function (ContainerInterface $container) {
         return new BasePathMiddleware($container->get(App::class));
+    },
+
+    PDO::class => function (ContainerInterface $container) {
+        $settings = $container->get('settings')['db'];
+
+        $host = $settings['host'];
+        $dbname = $settings['database'];
+        $username = $settings['username'];
+        $password = $settings['password'];
+        $charset = $settings['charset'];
+        $flags = $settings['flags'];
+        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+
+        return new PDO($dsn, $username, $password, $flags);
     },
 
 ];
