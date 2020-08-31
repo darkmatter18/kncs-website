@@ -8,8 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 
-class UserCreateAction
-{
+class UserCreateAction{
+
     private $userCreator;
 
     public function __construct(UserCreator $userCreator){
@@ -23,18 +23,35 @@ class UserCreateAction
         // Invoke the Domain with inputs and retain the result
         $u = $this->userCreator->createUser($data);
 
-        // Transform the result into the JSON representation
-        $result = [
-            'user_id' => $u[0],
-            'jwt' => $u[1]
-        ];
+        // $u [status, id, jwt]
+        if($u['status']){
+            // Transform the result into the JSON representation
+            $result = [
+                'status' => $u['status'],
+                'user_id' => $u[0],
+                'jwt' => $u[1]
+            ];
 
-        // Build the HTTP response
-        $response->getBody()->write((string)json_encode($result));
+            // Build the HTTP response
+            $response->getBody()->write((string)json_encode($result));
 
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(201);
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(201);
+        }
+        else {
+            // Transform the result into the JSON representation
+            $result = [
+                'status' => $u['status']
+            ];
+
+            // Build the HTTP response
+            $response->getBody()->write((string)json_encode($result));
+
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(401);
+        }
     }
 
 }

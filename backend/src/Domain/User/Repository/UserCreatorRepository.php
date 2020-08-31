@@ -17,8 +17,7 @@ class UserCreatorRepository
      *
      * @param PDO $connection The database connection
      */
-    public function __construct(PDO $connection)
-    {
+    public function __construct(PDO $connection){
         $this->connection = $connection;
     }
 
@@ -29,8 +28,7 @@ class UserCreatorRepository
      *
      * @return int The new ID
      */
-    public function insertUser(array $user): int
-    {
+    public function insertUser(array $user): int{
         $row = [
             'username' => $user['username'],
             'first_name' => $user['first_name'],
@@ -38,13 +36,9 @@ class UserCreatorRepository
             'email' => $user['email'],
         ];
 
-        $sql = "INSERT INTO users SET 
-                username=:username, 
-                first_name=:first_name, 
-                last_name=:last_name, 
-                email=:email;";
 
-        $this->connection->prepare($sql)->execute($row);
+        $this->connection->prepare("INSERT INTO users SET username=:username, 
+                      first_name=:first_name, last_name=:last_name, email=:email;")->execute($row);
 
         return (int)$this->connection->lastInsertId();
     }

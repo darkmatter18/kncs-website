@@ -1,6 +1,6 @@
 <?php
 
-use App\Action\HomeAction;
+use App\Action\Home\HomeAction;
 use App\Action\UserCreateAction;
 use Slim\App;
 

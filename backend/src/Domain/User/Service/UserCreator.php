@@ -2,6 +2,7 @@
 
 
 namespace App\Domain\User\Service;
+
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
 use Firebase\JWT\JWT;
@@ -9,8 +10,7 @@ use Firebase\JWT\JWT;
 /**
  * Service.
  */
-final class UserCreator
-{
+final class UserCreator{
     /**
      * @var UserCreatorRepository
      */

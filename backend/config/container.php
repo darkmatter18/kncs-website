@@ -1,6 +1,5 @@
 <?php
 
-use Firebase\JWT\JWT;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
