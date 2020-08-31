@@ -16,6 +16,7 @@ return function (App $app) {
     $app->get('/', HomeAction::class)->setName('home');
     $app->post('/users', UserCreateAction::class);
     $app->post('/token', DummyAuth::class);
+    $app->post('/login', LoginAction::class);
 
     /**
      * Dummy API endpoints. This group is protected with JWT.
