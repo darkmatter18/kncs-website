@@ -8,11 +8,14 @@
       <excludeFolder url="file://$MODULE_DIR$/backend-old/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/backend-old/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/backend-old/vendor/firebase/php-jwt" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/cakephp/chronos" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fig/http-message-util" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/fast-route" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/fast-route/test/RouteParser" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/opis/closure/.github" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/php-di/invoker" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/php-di/invoker/doc" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/php-di/invoker/src/Exception" />
@@ -34,11 +37,13 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/log/Psr/Log/Test" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/selective/basepath" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/php-view" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/psr7/src/Interfaces" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim/Slim/Error/Renderers" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim/Slim/Factory/Psr17" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/frontend/build" />
     </content>
     <orderEntry type="inheritedJdk" />

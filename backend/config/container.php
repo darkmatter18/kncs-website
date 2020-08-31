@@ -1,5 +1,6 @@
 <?php
 
+use App\Auth\JwtAuth;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -48,4 +49,15 @@ return [
         return new PDO($dsn, $username, $password, $flags);
     },
 
+    // And add this entry
+    JwtAuth::class => function (ContainerInterface $container) {
+        $config = $container->get('settings')['jwt'];
+
+        $issuer = (string)$config['issuer'];
+        $lifetime = (int)$config['lifetime'];
+        $privateKey = (string)$config['private_key'];
+        $publicKey = (string)$config['public_key'];
+
+        return new JwtAuth($issuer, $lifetime, $privateKey, $publicKey);
+    },
 ];

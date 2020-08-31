@@ -1,12 +1,15 @@
 {
   "require": {
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "cakephp/chronos": "^2.0",
+    "firebase/php-jwt": "^5.2",
+    "lcobucci/jwt": "^3.3",
     "php-di/php-di": "^6.2",
     "selective/basepath": "^1.0",
+    "slim/php-view": "^3.0",
     "slim/psr7": "^1.2",
-    "slim/slim": "4.*",
-    "firebase/php-jwt": "^5.2",
-    "ext-pdo": "*",
-    "ext-json": "*"
+    "symfony/polyfill-uuid": "^1.18"
   },
   "autoload": {
     "psr-4": {

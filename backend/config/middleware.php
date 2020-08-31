@@ -1,5 +1,6 @@
 <?php
 
+use App\Middleware\JwtClaimMiddleware;
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
 use Selective\BasePath\BasePathMiddleware;
@@ -13,6 +14,9 @@ return function (App $app) {
 
     // Base path middleware
     $app->add(BasePathMiddleware::class);
+
+    // Claims JWT data
+    $app->add(JwtClaimMiddleware::class);
 
     // Catch exceptions and errors
     $app->add(ErrorMiddleware::class);
