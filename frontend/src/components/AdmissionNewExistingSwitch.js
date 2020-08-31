@@ -3,7 +3,7 @@ import Container from "@material-ui/core/Container";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import {useHistory} from "react-router-dom";
-import {ADMISSION_EXISTING, ADMISSION_NEW} from "../routes/route";
+import {ADMISSION_EXISTING, ADMISSION_NEW} from "./RouterComponent/routes";
 import {Person, PersonAdd} from "@material-ui/icons";
 
 

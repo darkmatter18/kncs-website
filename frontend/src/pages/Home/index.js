@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Footer from "../../components/Footer";
-import {LOGIN} from "../../routes/route";
+import {LOGIN} from "../../components/RouterComponent/routes";
 import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({

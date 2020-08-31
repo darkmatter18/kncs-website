@@ -1,7 +1,7 @@
 import React from 'react';
 import { AuthProvider } from 'react-auth-jwt'
 import { CssBaseline } from '@material-ui/core';
-import RouteComponent from '../../routes';
+import RouteComponent from './../RouterComponent';
 import {ThemeProvider} from "@material-ui/styles";
 import theme from "./theme";
 

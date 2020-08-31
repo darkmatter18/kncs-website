@@ -1,37 +1,34 @@
-import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-
+import React from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {
-    HOME,
+    ADMIN_ADMISSION_SELECTION, ADMIN_MANAGE_SCHOOL,
+    ADMISSION_ALL_DONE,
+    ADMISSION_EXISTING,
     ADMISSION_HOME,
     ADMISSION_NEW,
-    ADMISSION_EXISTING,
-    ADMISSION_NEW_DONE,
-    ADMISSION_PROGRESS_ROUTE,
-    ADMISSION_ALL_DONE,
-    MEET_THE_DEVS,
-    LOGIN, DASHBOARD, ADMIN_ADMISSION_SELECTION, ADMIN_MANAGE_SCHOOL
-} from './route';
+    ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE, DASHBOARD,
+    HOME, LOGIN, MEET_THE_DEVS
+} from "./routes";
 
-import Home from '../pages/Home';
-import AdmissionHome from '../pages/Admission/AdmissionHome';
-import AdmissionNew from "../pages/Admission/AdmissionNew";
-import AdmissionExisting from "../pages/Admission/AdmissionExisting";
-import AdmissionNewDone from "../pages/Admission/AdmissionNewDone";
-import AdmissionProgress from "../pages/Admission/AdmissionProgress";
+import Home from "../../pages/Home";
+import AdmissionHome from "../../pages/Admission/AdmissionHome";
+import AdmissionNew from "../../pages/Admission/AdmissionNew";
+import AdmissionStop from "../../pages/Admission/AdmissionStopped";
+import AdmissionNewDone from "../../pages/Admission/AdmissionNewDone";
+import AdmissionExisting from "../../pages/Admission/AdmissionExisting";
+import AdmissionAllDone from "../../pages/Admission/AdmissionAllDone";
 import {PrivateRoute} from "react-auth-jwt";
-import Page404 from "../pages/Page404";
-import AdmissionAllDone from "../pages/Admission/AdmissionAllDone";
-import MeetTheDevelopers from "../pages/MeetTheDevelopers";
-import AllLogin from "../pages/Login";
-import Dashboard from "../pages/Dashboard";
-import AdminAdmissionSelection from "../pages/Admin/Adminssion/AdminAdmissionSelection";
-import AdmissionStop from "../pages/Admission/AdmissionStopped";
-import School from "../pages/Admin/School";
+import AdmissionProgress from "../../pages/Admission/AdmissionProgress";
+import AllLogin from "../../pages/Login";
+import Dashboard from "../../pages/Dashboard";
+import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
+import School from "../../pages/Admin/School";
+import MeetTheDevelopers from "../../pages/MeetTheDevelopers";
+import Page404 from "../../pages/Page404";
 
+const RouterComponent = () => {
+    const admissionOn = false;
 
-const RouteComponent = () => {
-    const admissionOn = true;
     return (
         <Router basename={'/portal'}>
             <Switch>
@@ -59,4 +56,4 @@ const RouteComponent = () => {
     )
 }
 
-export default RouteComponent;
+export default RouterComponent

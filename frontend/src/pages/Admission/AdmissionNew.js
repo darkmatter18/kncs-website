@@ -18,7 +18,7 @@ import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {useHistory} from 'react-router-dom';
 import api from '../../api'
-import {ADMISSION_NEW_DONE} from "../../routes/route";
+import {ADMISSION_NEW_DONE} from "../../components/RouterComponent/routes";
 import Footer from "../../components/Footer";
 import {Link} from "@material-ui/core";
 

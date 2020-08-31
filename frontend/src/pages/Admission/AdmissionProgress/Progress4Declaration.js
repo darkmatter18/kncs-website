@@ -27,7 +27,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import api from '../../../api'
 import {ValidateName} from "../../../utils/validate";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
-import {ADMISSION_ALL_DONE} from "../../../routes/route";
+import {ADMISSION_ALL_DONE} from "../../../components/RouterComponent/routes";
 import Footer from "../../../components/Footer";
 
 const useStyles = makeStyles((theme) => ({

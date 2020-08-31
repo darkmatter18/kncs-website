@@ -6,7 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
-import {ADMISSION_NEW} from "../../routes/route";
+import {ADMISSION_NEW} from "../../components/RouterComponent/routes";
 import {makeStyles} from "@material-ui/core/styles";
 import {ArrowForward} from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";

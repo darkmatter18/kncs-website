@@ -2,7 +2,7 @@ import React from "react";
 import './css/style.css';
 import * as Background from './img/text.png'
 import {Link} from "react-router-dom";
-import {ADMISSION_NEW} from "../../routes/route";
+import {ADMISSION_NEW} from "../../components/RouterComponent/routes";
 import Footer from "../../components/Footer";
 
 

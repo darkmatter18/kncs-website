@@ -10,7 +10,7 @@ import Progress3PaymentInfo from "./Progress3PaymentInfo";
 import {ADMISSION_PROGRESS} from "../../../constant";
 import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
-import {ADMISSION_EXISTING} from "../../../routes/route";
+import {ADMISSION_EXISTING} from "../../../components/RouterComponent/routes";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {useAuth, useSignOut} from "react-auth-jwt";

@@ -1,4 +1,4 @@
-import {ADMIN_SCHOOL_ROUTES_BASE} from "../constant";
+import {ADMIN_SCHOOL_ROUTES_BASE} from '../../constant';
 
 export const HOME = '/';
 
