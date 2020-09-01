@@ -19,7 +19,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkSubmit from "../../../components/NetworkSubmit";
-import {validateMobileNo, ValidateName} from "../../../utils/validate";
+import {validateMobileNo, ValidateName} from "../../../lib/validation";
 import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";

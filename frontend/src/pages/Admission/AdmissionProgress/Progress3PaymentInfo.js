@@ -25,7 +25,7 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import NetworkSubmit from "../../../components/NetworkSubmit";
 import api from "../../../api";
-import {ValidateName} from "../../../utils/validate";
+import {ValidateName} from "../../../lib/validation";
 import Footer from "../../../components/Footer";
 
 

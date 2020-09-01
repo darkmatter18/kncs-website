@@ -11,7 +11,7 @@ import Footer from "../../components/Footer";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {API_ROUTE_LOGIN, buttonType, netState, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
-import {ValidateEmail} from "../../utils/validate";
+import {ValidateEmail} from "../../lib/validation";
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom"

@@ -13,7 +13,7 @@ import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers
 import Button from "@material-ui/core/Button";
 import SubHeader from "../../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
-import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../utils/validate";
+import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../lib/validation";
 import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
 import NetworkSubmit from "../../components/NetworkSubmit";
 import {useHistory} from 'react-router-dom';

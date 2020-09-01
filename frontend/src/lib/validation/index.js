@@ -1,5 +1,13 @@
 /**
+ * Validation File
+ * All Data validation Functions will go here
+ *
+ * Created by- Arkadip Bhattacharya (@darkmatter18)
+ */
+
+/**
  * Mail Validation Function
+ *
  * @param mail - Email id
  * @returns {boolean} - Mail id or not
  */
@@ -8,6 +16,7 @@ export const ValidateEmail = (mail) => {
 }
 /**
  * Name Validation Function
+ *
  * @param name - Person name
  * @returns {boolean} - Validations Status
  */
@@ -17,6 +26,7 @@ export const ValidateName = (name) => {
 
 /**
  * Aadhar Number Verification
+ *
  * @param aadhar_num
  * @returns {boolean}
  */
@@ -25,6 +35,7 @@ export const validateAadhar = (aadhar_num) => {
 }
 /**
  * Mobile Number Verification
+ *
  * @param mobileNum
  * @returns {boolean}
  */

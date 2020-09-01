@@ -25,7 +25,7 @@ import {ArrowDownward} from "@material-ui/icons";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import api from '../../../api'
-import {ValidateName} from "../../../utils/validate";
+import {ValidateName} from "../../../lib/validation";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import {ADMISSION_ALL_DONE} from "../../../components/RouterComponent/routes";
 import Footer from "../../../components/Footer";
