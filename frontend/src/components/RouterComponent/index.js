@@ -11,7 +11,7 @@ import {
 } from "./routes";
 import {PrivateRoute} from "react-auth-jwt";
 
-import Home from "../Home";
+import Home from "../HomeComponent";
 import AdmissionHome from "../../pages/Admission/AdmissionHome";
 import AdmissionNew from "../../pages/Admission/AdmissionNew";
 import AdmissionStop from "../../pages/Admission/AdmissionStopped";
@@ -19,7 +19,7 @@ import AdmissionNewDone from "../../pages/Admission/AdmissionNewDone";
 import AdmissionExisting from "../../pages/Admission/AdmissionExisting";
 import AdmissionAllDone from "../../pages/Admission/AdmissionAllDone";
 import AdmissionProgress from "../../pages/Admission/AdmissionProgress";
-import AllLogin from "../../pages/Login";
+import AllLogin from "../LoginComponent";
 import Dashboard from "../../pages/Dashboard";
 import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
 import School from "../../pages/Admin/School";
