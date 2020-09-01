@@ -50,13 +50,24 @@ final class LoginService{
             throw new AuthenticationException("Invalid Email");
         }
 
-        if(!password_verify($data['password'], $userDetails['password'])){
+        if(!password_verify($data['password'], $userDetails['user_password'])){
             throw new AuthenticationException("Invalid Email/Password");
         }
 
-        $user_data = $this->loginRepository->getUserDataAndLogin($data['email'], $userDetails['user_role']);
-        $this->loginRepository->updateLoginDateTime($data['email']);
+        $user_data = $this->loginRepository->getUserDataAndLogin($userDetails['user_id'], $userDetails['user_role']);
+        $this->loginRepository->updateLoginDateTime($userDetails['user_id']);
 
-        return $user_data;
+        return [
+            'user' =>$user_data,
+            'jwt' => $this->makeAuthToken($userDetails['user_id'], $userDetails['user_role']),
+            'jwt_lifetime' => $this->auth->getLifetime()
+        ];
+    }
+
+    private function makeAuthToken(string $id, string $role){
+        return $this->auth->createJwt([
+            'user_id' => $id,
+            'user_role' => $role
+        ]);
     }
 }

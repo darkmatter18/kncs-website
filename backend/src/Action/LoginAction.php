@@ -26,7 +26,22 @@ class LoginAction{
             // Check ReCaptcha
 
             // Check if the User exist
-            return $this->login->login($data);
+            $success_login_response = $this->login->login($data);
+
+            $return = [
+                'status' => true,
+                'auth' => [
+                    'access_token' => $success_login_response['jwt'],
+                    'token_type' => 'Bearer',
+                    'expires_in' => $success_login_response['jwt_lifetime'],
+                ],
+                'user' => $success_login_response['user']
+            ];
+
+            $response->getBody()->write((string)json_encode($return));
+            return $response
+                ->withHeader('Content-Type', 'application/json');
+
         }
         catch (Exception $e){
             $result = [
