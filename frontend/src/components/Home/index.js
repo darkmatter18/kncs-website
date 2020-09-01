@@ -2,9 +2,10 @@ import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Footer from "../../components/Footer";
-import {LOGIN} from "../../components/RouterComponent/routes";
+import Footer from "../Footer";
+import {LOGIN} from "../RouterComponent/routes";
 import {useHistory} from 'react-router-dom'
+import {HOME_REDIRECT_TO_LOGIN} from "../../constant";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -19,8 +20,7 @@ const useStyles = makeStyles(() => ({
 const Home = () => {
     const classes = useStyles()
     const history = useHistory()
-    const re = true
-    if(re) {
+    if(HOME_REDIRECT_TO_LOGIN) {
         history.push(LOGIN)
         return <React.Fragment/>
     }

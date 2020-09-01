@@ -9,15 +9,15 @@ import {
     ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE, DASHBOARD,
     HOME, LOGIN, MEET_THE_DEVS
 } from "./routes";
+import {PrivateRoute} from "react-auth-jwt";
 
-import Home from "../../pages/Home";
+import Home from "../Home";
 import AdmissionHome from "../../pages/Admission/AdmissionHome";
 import AdmissionNew from "../../pages/Admission/AdmissionNew";
 import AdmissionStop from "../../pages/Admission/AdmissionStopped";
 import AdmissionNewDone from "../../pages/Admission/AdmissionNewDone";
 import AdmissionExisting from "../../pages/Admission/AdmissionExisting";
 import AdmissionAllDone from "../../pages/Admission/AdmissionAllDone";
-import {PrivateRoute} from "react-auth-jwt";
 import AdmissionProgress from "../../pages/Admission/AdmissionProgress";
 import AllLogin from "../../pages/Login";
 import Dashboard from "../../pages/Dashboard";
