@@ -1,6 +1,8 @@
 <?php
 
 // Error reporting for production
+use Monolog\Logger;
+
 error_reporting(0);
 ini_set('display_errors', '0');
 
@@ -14,6 +16,15 @@ $settings = [];
 $settings['root'] = dirname(__DIR__);
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
+
+// Logger settings
+$settings['logger'] = [
+    'name' => 'app',
+    'path' => dirname(__DIR__) . '/logs',
+    'filename' => 'app.log',
+    'level' => Logger::DEBUG,
+    'file_permission' => 0775,
+];
 
 // Error Handling Middleware settings
 $settings['error'] = [
@@ -29,6 +40,7 @@ $settings['error'] = [
     // Display error details in error log
     'log_error_details' => true,
 ];
+
 $settings['jwt'] = [
 
     // The issuer name

@@ -5,6 +5,7 @@ namespace App\Domain\User\Service;
 
 use App\Domain\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
+use App\Factory\LoggerFactory;
 use Firebase\JWT\JWT;
 
 /**
@@ -15,15 +16,22 @@ final class UserCreator{
      * @var UserCreatorRepository
      */
     private $repository;
+    /**
+     * @var LoggerFactory
+     */
+    private $logger;
 
     /**
      * The constructor.
      *
      * @param UserCreatorRepository $repository The repository
+     * @param LoggerFactory $loggerFactory
      */
-    public function __construct(UserCreatorRepository $repository)
+    public function __construct(UserCreatorRepository $repository, LoggerFactory $loggerFactory)
     {
         $this->repository = $repository;
+        $this->logger = $loggerFactory->addFileHandler('user_create.log')
+            ->createInstance('user_creator');
     }
 
     /**
@@ -42,7 +50,8 @@ final class UserCreator{
         $userId = $this->repository->insertUser($data);
 
         // Logging here: User created successfully
-        //$this->logger->info(sprintf('User created successfully: %s', $userId));
+        $this->logger->info(sprintf('User created successfully: %s', $userId));
+
         $payload = array(
             "iss" => "http://example.org",
             "aud" => "http://example.com",

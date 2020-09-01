@@ -1,6 +1,7 @@
 <?php
 
 use App\Auth\JwtAuth;
+use App\Factory\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -59,5 +60,9 @@ return [
         $publicKey = (string)$config['public_key'];
 
         return new JwtAuth($issuer, $lifetime, $privateKey, $publicKey);
+    },
+
+    LoggerFactory::class => function (ContainerInterface $container) {
+        return new LoggerFactory($container->get('settings')['logger']);
     },
 ];
