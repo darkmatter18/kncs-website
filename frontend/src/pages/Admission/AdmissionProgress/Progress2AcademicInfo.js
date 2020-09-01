@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {buttonType, netState, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
+import {networkButtonTypes, networkStates, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -20,7 +20,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import NetworkSubmit from "../../../components/NetworkSubmit";
+import Index from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
@@ -110,7 +110,7 @@ const Progress2AcademicInfo = () => {
     const [formData, setFormData] = React.useState(initialState)
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
     const [geographyEligibilyState, setGeographyEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
     const [comaEligibilyState, setComaEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
@@ -451,7 +451,7 @@ const Progress2AcademicInfo = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState([netState.BUSY, ''])
+            setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
@@ -465,17 +465,17 @@ const Progress2AcademicInfo = () => {
                         if (res.data.status) {
                             history.push(`/admission/progress/payment_info`)
                         } else {
-                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
                             '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        setNetworkState([networkStates.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
@@ -929,12 +929,12 @@ const Progress2AcademicInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState[0]}
-                                                   handleSubmit={handleSubmit}/>
+                                    <Index buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                           handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </Grid>
                             </Grid>

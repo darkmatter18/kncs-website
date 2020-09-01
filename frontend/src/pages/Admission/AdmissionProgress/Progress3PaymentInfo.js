@@ -8,8 +8,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import {
-    buttonType,
-    netState,
+    networkButtonTypes,
+    networkStates,
     PRE_REGISTRATION_PAYMENT_INFO,
     RECAPTCHA_SITE_KEY
 } from "../../../constant";
@@ -23,7 +23,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-import NetworkSubmit from "../../../components/NetworkSubmit";
+import Index from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {ValidateName} from "../../../lib/validation";
 import Footer from "../../../components/Footer";
@@ -61,7 +61,7 @@ const Progress3PaymentInfo = () => {
 
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     React.useEffect(()=>{
         api.get(PRE_REGISTRATION_PAYMENT_INFO, {
@@ -125,7 +125,7 @@ const Progress3PaymentInfo = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()){
-            setNetworkState([netState.BUSY, ''])
+            setNetworkState([networkStates.BUSY, ''])
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.transaction_date))
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.transaction_date))
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.transaction_date))
@@ -143,17 +143,17 @@ const Progress3PaymentInfo = () => {
                         if (res.data.status) {
                             history.push(`/admission/progress/declaration`)
                         } else {
-                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
                             '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        setNetworkState([networkStates.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
@@ -233,12 +233,12 @@ const Progress3PaymentInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState[0]}
-                                                   handleSubmit={handleSubmit}/>
+                                    <Index buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                           handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </Grid>
                             </Grid>

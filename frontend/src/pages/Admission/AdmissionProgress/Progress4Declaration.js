@@ -12,10 +12,10 @@ import ReactToPrint from 'react-to-print';
 
 import * as banner from '../../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
-import NetworkSubmit from "../../../components/NetworkSubmit";
+import Index from "../../../lib/NetworkButton";
 import {
-    buttonType,
-    netState,
+    networkButtonTypes,
+    networkStates,
     PRE_REGISTRATION_DECLARATION,
     RECAPTCHA_SITE_KEY
 } from "../../../constant";
@@ -121,7 +121,7 @@ const Progress4Declaration = () => {
     const [formState, setFormState] = React.useState(formValue)
     const [declarationFormState, setDeclarationFormState] = React.useState(initialDeclarationForm)
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     React.useEffect(() => {
         api.get(PRE_REGISTRATION_DECLARATION, {
@@ -180,7 +180,7 @@ const Progress4Declaration = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setNetworkState([netState.BUSY, ''])
+            setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
                     api.post(PRE_REGISTRATION_DECLARATION, {
@@ -196,17 +196,17 @@ const Progress4Declaration = () => {
                                 status: res.data.status,
                             })
                         } else {
-                            setNetworkState([netState.ERROR, 'Internal error occured ' +
+                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
                             '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        setNetworkState([networkStates.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
@@ -277,8 +277,8 @@ const Progress4Declaration = () => {
                             <AdmissionProgressBack/>
                         </Grid>
                         <Grid item md={6}>
-                            <NetworkSubmit buttonStyle={buttonType.SUBMIT} networkState={networkState[0]}
-                                           handleSubmit={handleSubmit}/>
+                            <Index buttonStyle={networkButtonTypes.SUBMIT} networkState={networkState[0]}
+                                   handleSubmit={handleSubmit}/>
                         </Grid>
                     </Grid>
                 </React.Fragment>

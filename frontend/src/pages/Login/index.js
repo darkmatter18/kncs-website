@@ -8,8 +8,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from "../../components/Footer";
-import NetworkSubmit from "../../components/NetworkSubmit";
-import {API_ROUTE_LOGIN, buttonType, netState, RECAPTCHA_SITE_KEY} from "../../constant";
+import Index from "../../lib/NetworkButton";
+import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../lib/validation";
 import api from "../../api";
@@ -60,7 +60,7 @@ const AllLogin = () => {
         email: [false, "Enter registered Email-Id"],
         password: [false, "Password should be minimum 8"],
     })
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, '']);
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, '']);
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -96,7 +96,7 @@ const AllLogin = () => {
 
     const handleSubmit = () => {
         if(validate()){
-            setNetworkState([netState.BUSY, ''])
+            setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then((token) => {
                     api.post(API_ROUTE_LOGIN, {
@@ -106,18 +106,18 @@ const AllLogin = () => {
                         if (res.data.status) {
                             signIn(res.data.jwt, res.data.expiresAt || 120, res.data.user) ?
                                 history.push(`/${res.data.role}/dashboard`) :
-                                setNetworkState([netState.ERROR, res.data.error])
+                                setNetworkState([networkStates.ERROR, res.data.error])
                         } else {
-                            setNetworkState([netState.ERROR, `Internal error occurred (Sign-In failed)`])
+                            setNetworkState([networkStates.ERROR, `Internal error occurred (Sign-In failed)`])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        setNetworkState([networkStates.ERROR, `Internal error occurred 
                         (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
@@ -170,14 +170,14 @@ const AllLogin = () => {
                                 onChange={handleFormDataChange('password')}
                                 autoComplete="current-password"
                             />
-                            <NetworkSubmit
+                            <Index
                                 networkState={networkState[0]}
-                                buttonStyle={buttonType.SUBMIT}
+                                buttonStyle={networkButtonTypes.SUBMIT}
                                 handleSubmit={handleSubmit}
                             />
                         </form>
                         <Typography variant={"subtitle2"} align={"center"} color={"error"}>
-                            {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                            {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                         </Typography>
                     </div>
                 </Container>

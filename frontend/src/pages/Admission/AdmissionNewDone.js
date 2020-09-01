@@ -8,10 +8,10 @@ import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import {buttonType, netState, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
+import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
-import NetworkSubmit from "../../components/NetworkSubmit";
+import Index from "../../lib/NetworkButton";
 import Footer from "../../components/Footer";
 import {Link} from "@material-ui/core";
 
@@ -19,11 +19,11 @@ const AdmissionNewDone = () => {
     const history = useHistory()
     const signIn = useSignIn()
 
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setNetworkState([netState.BUSY, ''])
+        setNetworkState([networkStates.BUSY, ''])
         const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(history.location.state.dob))
         const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(history.location.state.dob))
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(history.location.state.dob))
@@ -46,19 +46,19 @@ const AdmissionNewDone = () => {
                                 history.push(`/admission/progress/declaration`)
                             }
                         } else {
-                            setNetworkState([netState.ERROR, 'Internal error occurred'])
+                            setNetworkState([networkStates.ERROR, 'Internal error occurred'])
                         }
                     } else {
-                        setNetworkState([netState.ERROR, res.data.error])
+                        setNetworkState([networkStates.ERROR, res.data.error])
                     }
                 }).catch((e) => {
                     console.log(e)
-                    setNetworkState([netState.ERROR, `Internal error occurred 
+                    setNetworkState([networkStates.ERROR, `Internal error occurred 
                     (${e.response.status} - ${e.response.data.error})`])
                 })
             }).catch((e)=>{
                 console.error(e)
-                setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
             })
         })
     }
@@ -106,11 +106,11 @@ const AdmissionNewDone = () => {
                                         Remember "Your account will be invalid after 30 days."<br/>
                                     </Typography>
                                     <Typography align={"center"} style={{marginTop: 16}}>
-                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT}
-                                                       handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <Index buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                               handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Typography>
                                     <Typography variant={"body2"} >
-                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </CardContent>
                             </Card>

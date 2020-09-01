@@ -1,24 +1,25 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import {buttonType, netState} from "../constant";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {Done, NavigateNext, Search} from "@material-ui/icons";
+import PropTypes from "prop-types"
+import {networkButtonTypes, networkStates} from "../../constant";
 
-const NetworkSubmit = ({buttonStyle, handleSubmit, networkState}) => {
-    if (networkState === netState.IDLE || networkState === netState.ERROR) {
-        if (buttonStyle === buttonType.SAVE_NEXT){
+const NetworkButton = ({buttonStyle, handleSubmit, networkState}) => {
+    if (networkState === networkStates.IDLE || networkState === networkStates.ERROR) {
+        if (buttonStyle === networkButtonTypes.SAVE_NEXT){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} endIcon={<NavigateNext/>}>
                     Save & Next
                 </Button>
             )
-        } else if (buttonStyle === buttonType.SEARCH){
+        } else if (buttonStyle === networkButtonTypes.SEARCH){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} startIcon={<Search/>}>
                     Search
                 </Button>
             )
-        } else if (buttonStyle === buttonType.SUBMIT){
+        } else if (buttonStyle === networkButtonTypes.SUBMIT){
             return (
                 <Button variant={"outlined"} color={"primary"} onClick={handleSubmit} endIcon={<Done/>}>
                     submit
@@ -31,7 +32,7 @@ const NetworkSubmit = ({buttonStyle, handleSubmit, networkState}) => {
                 </Button>
             )
         }
-    } else if (networkState === netState.BUSY) {
+    } else if (networkState === networkStates.BUSY) {
         return (
             <Button disabled variant={"outlined"} color={"primary"} startIcon={<CircularProgress size={20}/>}>
                 Submitting
@@ -40,4 +41,10 @@ const NetworkSubmit = ({buttonStyle, handleSubmit, networkState}) => {
     }
 }
 
-export default NetworkSubmit
+NetworkButton.propTypes = {
+    buttonStyle: PropTypes.number.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    networkState: PropTypes.number.isRequired
+}
+
+export default NetworkButton

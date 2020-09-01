@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {buttonType, netState, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
+import {networkButtonTypes, networkStates, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
@@ -18,7 +18,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import NetworkSubmit from "../../../components/NetworkSubmit";
+import Index from "../../../lib/NetworkButton";
 import {validateMobileNo, ValidateName} from "../../../lib/validation";
 import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
@@ -168,7 +168,7 @@ const Progress1PersonalInfo = () => {
 
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -304,7 +304,7 @@ const Progress1PersonalInfo = () => {
             alert("Select a file before Submitting");
         } else {
             if (validate()) {
-                setNetworkState([netState.BUSY, ''])
+                setNetworkState([networkStates.BUSY, ''])
                 console.log("DOB", formData.dob)
                 const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(new Date(formData.dob))
                 const mo = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(new Date(formData.dob))
@@ -323,17 +323,17 @@ const Progress1PersonalInfo = () => {
                             if (res.data.status) {
                                 history.push(`/admission/progress/academic_info`)
                             } else {
-                                setNetworkState([netState.ERROR, 'Internal error occured ' +
+                                setNetworkState([networkStates.ERROR, 'Internal error occured ' +
                                 '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
                             }
                         }).catch((e) => {
                             console.error(e)
-                            setNetworkState([netState.ERROR, `Internal Error occourred 
+                            setNetworkState([networkStates.ERROR, `Internal Error occourred 
                         (${e.response.status} - ${e.response.data.error})`])
                         })
                     }).catch((e)=>{
                         console.error(e)
-                        setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                        setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                     })
                 })
             }
@@ -729,12 +729,12 @@ const Progress1PersonalInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} networkState={networkState[0]}
-                                                   handleSubmit={handleSubmit}/>
+                                    <Index buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                           handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                                     </Typography>
                                 </Grid>
                             </Grid>

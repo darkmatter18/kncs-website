@@ -14,8 +14,8 @@ import Button from "@material-ui/core/Button";
 import SubHeader from "../../components/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../lib/validation";
-import {buttonType, netState, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
-import NetworkSubmit from "../../components/NetworkSubmit";
+import {networkButtonTypes, networkStates, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import Index from "../../lib/NetworkButton";
 import {useHistory} from 'react-router-dom';
 import api from '../../api'
 import {ADMISSION_NEW_DONE} from "../../components/RouterComponent/routes";
@@ -53,7 +53,7 @@ const AdmissionNew = () => {
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     })
-    const [networkState, setNetworkState] = React.useState([netState.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -138,7 +138,7 @@ const AdmissionNew = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState([netState.BUSY, ''])
+            setNetworkState([networkStates.BUSY, ''])
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
@@ -156,16 +156,16 @@ const AdmissionNew = () => {
                                 dob: formData.dob
                             })
                         } else {
-                            setNetworkState([netState.ERROR, res.data.error])
+                            setNetworkState([networkStates.ERROR, res.data.error])
                         }
                     }).catch((e) => {
                         console.error(e)
-                        setNetworkState([netState.ERROR, `Internal error occurred 
+                        setNetworkState([networkStates.ERROR, `Internal error occurred 
                         (${e.response.status} - ${e.response.data.error})`])
                     })
                 }).catch((e)=>{
                     console.error(e)
-                    setNetworkState([netState.ERROR, "Recaptcha failed - Please try again"])
+                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
                 })
             })
         }
@@ -277,7 +277,7 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkSubmit buttonStyle={buttonType.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <Index buttonStyle={networkButtonTypes.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
@@ -286,7 +286,7 @@ const AdmissionNew = () => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant={"subtitle2"} align={"center"} color={"error"}>
-                                            {networkState[0] === netState.ERROR ? networkState[1] : ""}
+                                            {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
                                         </Typography>
                                     </Grid>
                                 </Grid>
