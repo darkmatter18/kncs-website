@@ -3,9 +3,10 @@
 
 namespace App\Action;
 
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use App\Domain\User\Service\LoginService;
+use App\Domain\Login\Service\LoginService;
 class LoginAction{
     private $login;
 
@@ -14,10 +15,23 @@ class LoginAction{
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response){
-        // Collect input from the HTTP request
-        $data = (array)$request->getParseBody();
 
-        // Invoke the Domain with inputs and retain the result
-        $u = $this->login->loginData($data);
+        // Collect input from the HTTP request
+        $data = (array)$request->getParsedBody();
+
+        try {
+            // Checking the input
+            $this->login->checkInput($data);
+
+            // Check ReCaptcha
+
+            // Check if the User exist
+            $this->login->login($data);
+        }
+        catch (Exception $e){
+            $result =
+            $response->getBody()->write((string)json_encode($result));
+        }
+
     }
 }
