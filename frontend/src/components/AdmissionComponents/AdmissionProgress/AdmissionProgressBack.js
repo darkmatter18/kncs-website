@@ -2,7 +2,7 @@ import React from "react";
 import {ArrowLeft} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
 import {useHistory, useParams} from "react-router-dom";
-import {ADMISSION_PROGRESS} from "../constant";
+import {ADMISSION_PROGRESS} from "../../../constant";
 
 const AdmissionProgressBack = () => {
     let {progress} = useParams();

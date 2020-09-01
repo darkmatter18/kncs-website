@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Headers/BasicHeader";
-import AdmissionNewExistingSwitch from "../AdmissionNewExistingSwitch";
+import AdmissionNewExistingSwitch from "./AdmissionNewExistingSwitch";
 import SubHeader from "../SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -19,7 +19,7 @@ import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SIT
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
 
 
@@ -202,7 +202,7 @@ const AdmissionExisting = () => {
                                 </Grid>
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <Index buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <Footer buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>

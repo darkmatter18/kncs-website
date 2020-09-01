@@ -3,7 +3,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import {Link} from "react-router-dom";
-import {MEET_THE_DEVS} from "./RouterComponent/routes";
+import {MEET_THE_DEVS} from "../../components/RouterComponent/routes";
 
 const useStyles = makeStyles((theme) => ({
     root: {

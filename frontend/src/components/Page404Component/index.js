@@ -3,7 +3,7 @@ import './css/style.css';
 import * as Background from './img/text.png'
 import {Link} from "react-router-dom";
 import {ADMISSION_NEW} from "../RouterComponent/routes";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 
 
 const Page404Component = () => {

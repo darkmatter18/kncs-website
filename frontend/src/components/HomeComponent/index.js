@@ -2,7 +2,7 @@ import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 import {LOGIN} from "../RouterComponent/routes";
 import {useHistory} from 'react-router-dom'
 import {HOME_REDIRECT_TO_LOGIN} from "../../constant";

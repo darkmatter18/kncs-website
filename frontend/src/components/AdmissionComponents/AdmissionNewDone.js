@@ -12,7 +12,7 @@ import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SIT
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import Index from "../../lib/NetworkButton";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
 
 const AdmissionNewDone = () => {
@@ -106,8 +106,8 @@ const AdmissionNewDone = () => {
                                         Remember "Your account will be invalid after 30 days."<br/>
                                     </Typography>
                                     <Typography align={"center"} style={{marginTop: 16}}>
-                                        <Index buttonStyle={networkButtonTypes.SAVE_NEXT}
-                                               handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <Footer buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                                handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Typography>
                                     <Typography variant={"body2"} >
                                         {networkState[0] === networkStates.ERROR ? networkState[1] : ""}

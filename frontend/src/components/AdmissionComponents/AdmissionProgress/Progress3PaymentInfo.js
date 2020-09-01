@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../AdmissionProgressBack";
+import AdmissionProgressBack from "./AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
@@ -26,7 +26,7 @@ import Card from "@material-ui/core/Card";
 import Index from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {ValidateName} from "../../../lib/validation";
-import Footer from "../../Footer";
+import Footer from "../../../lib/Footer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -233,8 +233,8 @@ const Progress3PaymentInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <Index buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
-                                           handleSubmit={handleSubmit}/>
+                                    <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                            handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>

@@ -10,7 +10,7 @@ import {ADMISSION_NEW} from "../RouterComponent/routes";
 import {makeStyles} from "@material-ui/core/styles";
 import {ArrowForward} from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 
 const useStyle = makeStyles((theme) => ({
     card: {

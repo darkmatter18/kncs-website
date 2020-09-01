@@ -7,7 +7,7 @@ import * as ArkadipImg from './../assets/arkadip.jpeg';
 import * as ManojitImg from './../assets/manojit.jpeg';
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
-import Footer from "../components/Footer";
+import Footer from "../lib/Footer";
 
 const useStyle = makeStyles((theme) =>({
     bar: {

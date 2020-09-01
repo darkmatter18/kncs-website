@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import {useSignOut} from "react-auth-jwt";
 import Button from "@material-ui/core/Button";
 import {Home} from "@material-ui/icons";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 
 const AdmissionAllDone = () => {
     const history = useHistory()

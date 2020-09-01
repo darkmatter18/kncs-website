@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../AdmissionProgressBack";
+import AdmissionProgressBack from "./AdmissionProgressBack";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -24,7 +24,7 @@ import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../ImageUploaderComponent";
-import Footer from "../../Footer";
+import Footer from "../../../lib/Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -729,8 +729,8 @@ const Progress1PersonalInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <Index buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
-                                           handleSubmit={handleSubmit}/>
+                                    <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                            handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
                                     <Typography variant={"subtitle2"} color={"error"}>

@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 import Index from "../../lib/NetworkButton";
 import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
@@ -182,7 +182,7 @@ const AllLogin = () => {
                     </div>
                 </Container>
                 <Box mt={5}>
-                    <Footer />
+                    <Index />
                 </Box>
             </Grid>
         </Grid>

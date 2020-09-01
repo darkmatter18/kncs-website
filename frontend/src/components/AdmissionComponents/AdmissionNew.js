@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Headers/BasicHeader";
-import AdmissionNewExistingSwitch from "../AdmissionNewExistingSwitch";
+import AdmissionNewExistingSwitch from "./AdmissionNewExistingSwitch";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -19,7 +19,7 @@ import Index from "../../lib/NetworkButton";
 import {useHistory} from 'react-router-dom';
 import api from '../../api'
 import {ADMISSION_NEW_DONE} from "../RouterComponent/routes";
-import Footer from "../Footer";
+import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => ({
@@ -277,7 +277,7 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <Index buttonStyle={networkButtonTypes.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
