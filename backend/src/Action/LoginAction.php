@@ -26,11 +26,17 @@ class LoginAction{
             // Check ReCaptcha
 
             // Check if the User exist
-            $this->login->login($data);
+            return $this->login->login($data);
         }
         catch (Exception $e){
-            $result =
+            $result = [
+                "status" => false,
+                "error_no" => $e->getCode(),
+                "error" => $e->getMessage()
+            ];
             $response->getBody()->write((string)json_encode($result));
+            return $response
+                ->withHeader('Content-Type', 'application/json');
         }
 
     }
