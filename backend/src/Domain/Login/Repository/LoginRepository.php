@@ -16,14 +16,20 @@ final class LoginRepository{
         $this->connection = $PDO;
     }
 
-    public function checkUser(string $user_id): array {
-        $smt = $this->connection->prepare("SELECT user_id, user_password, user_role 
+    public function checkUser(string $user_id): array{
+        $smt = $this->connection->prepare("SELECT user_id, user_password, user_role
                                                     FROM login WHERE user_email = :email LIMIT 1");
 
         $smt->bindParam(":email", $user_id, PDO::PARAM_STR);
         $smt->execute();
+        $data = $smt->fetch(PDO::FETCH_ASSOC);
+        if($data){
+            return $smt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            return array(0);
+        }
 
-        return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getUserDataAndLogin(string $user_id, string $user_role):array{
