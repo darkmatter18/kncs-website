@@ -32,7 +32,7 @@ $settings['error'] = [
 $settings['jwt'] = [
 
     // The issuer name
-    'issuer' => 'www.example.com',
+    'issuer' => 'https://kncs.in',
 
     // Max lifetime in seconds (4 hours)
     'lifetime' => 14400,
@@ -83,7 +83,7 @@ $settings['db'] = [
     'driver' => 'mysql',
     'host' => 'localhost',
     'username' => 'root',
-    'database' => 'test',
+    'database' => 'kncs_db',
     'password' => '',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
