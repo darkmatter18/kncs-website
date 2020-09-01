@@ -2,11 +2,11 @@ import React from "react";
 import './css/style.css';
 import * as Background from './img/text.png'
 import {Link} from "react-router-dom";
-import {ADMISSION_NEW} from "../../components/RouterComponent/routes";
-import Footer from "../../components/Footer";
+import {ADMISSION_NEW} from "../RouterComponent/routes";
+import Footer from "../Footer";
 
 
-const Page404 = () => {
+const Page404Component = () => {
     return (
         <React.Fragment>
             <div id="notfound">
@@ -27,4 +27,4 @@ const Page404 = () => {
     )
 }
 
-export default Page404
+export default Page404Component

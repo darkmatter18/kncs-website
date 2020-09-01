@@ -24,7 +24,7 @@ import Dashboard from "../../pages/Dashboard";
 import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
 import School from "../../pages/Admin/School";
 import MeetTheDevelopers from "../../pages/MeetTheDevelopers";
-import Page404 from "../../pages/Page404";
+import Page404Component from "../Page404Component";
 
 const RouterComponent = () => {
     const admissionOn = false;
@@ -50,7 +50,7 @@ const RouterComponent = () => {
                 <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN} exact/>
                 <Route path={ADMIN_MANAGE_SCHOOL} component={School} exact/>
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
-                <Route path='*' exact={true} component={Page404} />
+                <Route path='*' exact={true} component={Page404Component} />
             </Switch>
         </Router>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Fade, Card, CardContent, Typography, Backdrop } from '@material-ui/core';
-import HomeLoginModalForm from '../HomeLoginModalForm';
+import HomeLoginModalForm from '../../scrap/HomeLoginModalForm';
 
 class HomeLoginModal extends React.Component {
 

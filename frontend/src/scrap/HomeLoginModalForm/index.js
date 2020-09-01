@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Button, CircularProgress, withStyles } from '@material-ui/core';
-import api from './../../api';
+import api from '../../api';
 
 import { API_ROUTE_LOGIN } from "../../constant";
 
