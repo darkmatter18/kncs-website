@@ -1,16 +1,16 @@
 import React from 'react'
-import Header from "../../components/Headers/BasicHeader";
+import Header from "../Headers/BasicHeader";
 import {Container} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import {Link} from "react-router-dom";
-import {ADMISSION_NEW} from "../../components/RouterComponent/routes";
+import {ADMISSION_NEW} from "../RouterComponent/routes";
 import {makeStyles} from "@material-ui/core/styles";
 import {ArrowForward} from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import Footer from "../../components/Footer";
+import Footer from "../Footer";
 
 const useStyle = makeStyles((theme) => ({
     card: {

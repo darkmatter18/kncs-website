@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../../components/Headers/BasicHeader";
-import AdmissionNewExistingSwitch from "../../components/AdmissionNewExistingSwitch";
-import SubHeader from "../../components/SubHeader";
+import Header from "../Headers/BasicHeader";
+import AdmissionNewExistingSwitch from "../AdmissionNewExistingSwitch";
+import SubHeader from "../SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -19,7 +19,7 @@ import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SIT
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
-import Footer from "../../components/Footer";
+import Footer from "../Footer";
 import {Link} from "@material-ui/core";
 
 

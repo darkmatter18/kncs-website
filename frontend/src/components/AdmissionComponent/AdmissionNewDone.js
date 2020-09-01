@@ -1,8 +1,8 @@
 import React from "react";
 import {useHistory, Redirect} from 'react-router-dom';
-import { ADMISSION_NEW} from "../../components/RouterComponent/routes";
-import Header from "../../components/Headers/BasicHeader";
-import SubHeader from "../../components/SubHeader";
+import { ADMISSION_NEW} from "../RouterComponent/routes";
+import Header from "../Headers/BasicHeader";
+import SubHeader from "../SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
@@ -12,7 +12,7 @@ import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SIT
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import Index from "../../lib/NetworkButton";
-import Footer from "../../components/Footer";
+import Footer from "../Footer";
 import {Link} from "@material-ui/core";
 
 const AdmissionNewDone = () => {

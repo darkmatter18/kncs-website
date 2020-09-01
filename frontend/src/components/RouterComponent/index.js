@@ -12,19 +12,21 @@ import {
 import {PrivateRoute} from "react-auth-jwt";
 
 import Home from "../HomeComponent";
-import AdmissionHome from "../../pages/Admission/AdmissionHome";
-import AdmissionNew from "../../pages/Admission/AdmissionNew";
-import AdmissionStop from "../../pages/Admission/AdmissionStopped";
-import AdmissionNewDone from "../../pages/Admission/AdmissionNewDone";
-import AdmissionExisting from "../../pages/Admission/AdmissionExisting";
-import AdmissionAllDone from "../../pages/Admission/AdmissionAllDone";
-import AdmissionProgress from "../../pages/Admission/AdmissionProgress";
 import AllLogin from "../LoginComponent";
 import Dashboard from "../../pages/Dashboard";
 import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
 import School from "../../pages/Admin/School";
 import MeetTheDevelopers from "../../pages/MeetTheDevelopers";
 import Page404Component from "../Page404Component";
+import {
+    AdmissionHome,
+    AdmissionNew,
+    AdmissionNewDone,
+    AdmissionExisting,
+    AdmissionAllDone,
+    AdmissionProgress,
+    AdmissionStop
+} from "../AdmissionComponent";
 
 const RouterComponent = () => {
     const admissionOn = false;
@@ -37,20 +39,22 @@ const RouterComponent = () => {
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
                 {admissionOn ? (
                     <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
-                ): (
+                ) : (
                     <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
                 )}
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
                 <Route path={ADMISSION_ALL_DONE} component={AdmissionAllDone} exact/>
-                <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW} exact/>
+                <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW}
+                              exact/>
 
                 <Route path={LOGIN} component={AllLogin} exact/>
                 <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
-                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN} exact/>
+                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN}
+                              exact/>
                 <Route path={ADMIN_MANAGE_SCHOOL} component={School} exact/>
                 <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
-                <Route path='*' exact={true} component={Page404Component} />
+                <Route path='*' exact={true} component={Page404Component}/>
             </Switch>
         </Router>
     )

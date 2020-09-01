@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../AdmissionProgressBack";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -23,8 +23,8 @@ import {validateMobileNo, ValidateName} from "../../../lib/validation";
 import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
-import ImageUploaderComponent from "../../../components/ImageUploaderComponent";
-import Footer from "../../../components/Footer";
+import ImageUploaderComponent from "../../ImageUploaderComponent";
+import Footer from "../../Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

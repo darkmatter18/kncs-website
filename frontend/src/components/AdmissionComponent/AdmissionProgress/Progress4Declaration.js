@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
-import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -27,8 +27,8 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import api from '../../../api'
 import {ValidateName} from "../../../lib/validation";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
-import {ADMISSION_ALL_DONE} from "../../../components/RouterComponent/routes";
-import Footer from "../../../components/Footer";
+import {ADMISSION_ALL_DONE} from "../../RouterComponent/routes";
+import Footer from "../../Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

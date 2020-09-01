@@ -1,5 +1,5 @@
 import React from "react";
-import AdmissionProgressBack from "../../../components/AdmissionProgressBack";
+import AdmissionProgressBack from "../../AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
@@ -26,7 +26,7 @@ import Card from "@material-ui/core/Card";
 import Index from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {ValidateName} from "../../../lib/validation";
-import Footer from "../../../components/Footer";
+import Footer from "../../Footer";
 
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
-import Header from "../../../components/Headers/BasicHeader";
+import Header from "../../Headers/BasicHeader";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -10,7 +10,7 @@ import Progress3PaymentInfo from "./Progress3PaymentInfo";
 import {ADMISSION_PROGRESS} from "../../../constant";
 import Progress4Declaration from "./Progress4Declaration";
 import {Redirect} from "react-router-dom";
-import {ADMISSION_EXISTING} from "../../../components/RouterComponent/routes";
+import {ADMISSION_EXISTING} from "../../RouterComponent/routes";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {useAuth, useSignOut} from "react-auth-jwt";

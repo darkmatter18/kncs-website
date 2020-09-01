@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "../../components/Headers/BasicHeader";
-import AdmissionNewExistingSwitch from "../../components/AdmissionNewExistingSwitch";
+import Header from "../Headers/BasicHeader";
+import AdmissionNewExistingSwitch from "../AdmissionNewExistingSwitch";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import SubHeader from "../../components/SubHeader";
+import SubHeader from "../SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
-import Footer from "../../components/Footer";
+import Footer from "../Footer";
 import {Link} from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => ({
