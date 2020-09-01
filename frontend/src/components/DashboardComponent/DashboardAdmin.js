@@ -13,7 +13,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useHistory} from 'react-router-dom'
-import {ADMIN_ADMISSION_SELECTION} from "../../components/RouterComponent/routes";
+import {ADMIN_ADMISSION_SELECTION} from "../RouterComponent/routes";
 
 const useStyles = makeStyles((theme) => ({
     divider: {

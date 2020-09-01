@@ -13,7 +13,7 @@ import {PrivateRoute} from "react-auth-jwt";
 
 import Home from "../HomeComponent";
 import AllLogin from "../LoginComponent";
-import Dashboard from "../../pages/Dashboard";
+import Dashboard from "../DashboardComponent";
 import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
 import School from "../../pages/Admin/School";
 import MeetTheDevelopers from "../../pages/MeetTheDevelopers";
@@ -26,7 +26,7 @@ import {
     AdmissionAllDone,
     AdmissionProgress,
     AdmissionStop
-} from "../AdmissionComponent";
+} from "../AdmissionComponents";
 
 const RouterComponent = () => {
     const admissionOn = false;

@@ -1,6 +1,6 @@
 import React from "react";
 import {Redirect, useParams} from "react-router-dom";
-import {ADMISSION_EXISTING} from "../../components/RouterComponent/routes";
+import {ADMISSION_EXISTING} from "../RouterComponent/routes";
 import {DASHBOARD_TYPE} from "../../constant";
 import DashboardAdmin from "./DashboardAdmin";
 import DashboardStudent from "./DashboardStudent";

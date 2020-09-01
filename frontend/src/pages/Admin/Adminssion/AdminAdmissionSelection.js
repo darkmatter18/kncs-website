@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardHeader from "../../Dashboard/DashboardHeader";
+import DashboardHeader from "../../../components/DashboardComponent/DashboardHeader";
 import {makeStyles} from "@material-ui/styles";
 import MaterialTable from 'material-table'
 import api from "../../../api";

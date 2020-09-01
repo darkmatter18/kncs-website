@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect, useParams} from "react-router-dom";
 import {DASHBOARD_TYPE} from "../../constant";
-import {LOGIN} from "../../components/RouterComponent/routes";
+import {LOGIN} from "../RouterComponent/routes";
 import DashboardComponent from "./Dashboard";
 
 const Dashboard = () => {
