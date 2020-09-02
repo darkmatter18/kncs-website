@@ -13,7 +13,6 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/fast-route" />
-      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/fast-route/test/RouteParser" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/opis/closure" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/opis/closure/.github" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/paragonie/random_compat" />
@@ -42,8 +41,6 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/psr7/src/Interfaces" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim" />
-      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim/Slim/Error/Renderers" />
-      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/slim/slim/Slim/Factory/Psr17" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/polyfill-uuid" />
       <excludeFolder url="file://$MODULE_DIR$/frontend/build" />
     </content>

@@ -36,9 +36,6 @@ final class JwtAuthMiddleware implements MiddlewareInterface{
         $this->responseFactory = $responseFactory;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface{
         $token = explode(' ', (string)$request->getHeaderLine('Authorization'))[1] ?? '';
 

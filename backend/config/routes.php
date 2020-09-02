@@ -1,5 +1,9 @@
 <?php
 
+use App\Action\Admin\School\Classes\CreateClassAction;
+use App\Action\Admin\School\Classes\DeleteClassAction;
+use App\Action\Admin\School\Classes\GetClassesAction;
+use App\Action\Admin\School\Classes\UpdateClassAction;
 use App\Action\DummyAuth;
 use App\Action\Home\HomeAction;
 use App\Action\LoginAction;
@@ -30,6 +34,16 @@ return function (App $app) {
 
     //Login Route
     $app->post('/login', LoginAction::class);
+
+    //Admin route
+    $app->group('/admin', function (RouteCollectorProxy $group){
+        $group->group('/school/class', function (RouteCollectorProxy $classGroup){
+            $classGroup->get('', GetClassesAction::class );
+            $classGroup->post('', CreateClassAction::class);
+            $classGroup->put('{class_id}', UpdateClassAction::class);
+            $classGroup->delete('{class_id}', DeleteClassAction::class);
+        });
+    })->add(JwtAuthMiddleware::class);
 
 
 };
