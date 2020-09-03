@@ -7,7 +7,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Domain\Login\Service\LoginService;
-class LoginAction{
+final class LoginAction{
     private $login;
 
     public function __construct(LoginService $login){

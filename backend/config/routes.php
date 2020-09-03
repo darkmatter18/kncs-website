@@ -40,8 +40,8 @@ return function (App $app) {
         $group->group('/school/class', function (RouteCollectorProxy $classGroup){
             $classGroup->get('', GetClassesAction::class );
             $classGroup->post('', CreateClassAction::class);
-            $classGroup->put('{class_id}', UpdateClassAction::class);
-            $classGroup->delete('{class_id}', DeleteClassAction::class);
+            $classGroup->put('/{class_id}', UpdateClassAction::class);
+            $classGroup->delete('/{class_id}', DeleteClassAction::class);
         });
     })->add(JwtAuthMiddleware::class);
 

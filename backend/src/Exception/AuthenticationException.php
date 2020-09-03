@@ -7,14 +7,14 @@ namespace App\Exception;
 use RuntimeException;
 use Throwable;
 
-class AuthenticationException extends RuntimeException
+final class AuthenticationException extends RuntimeException
 {
     private $errors;
 
     public function __construct(
         string $message,
         array $errors = [],
-        int $code = 1011,
+        int $code = 401,
         Throwable $previous = null
     ){
         parent::__construct($message, $code, $previous);
