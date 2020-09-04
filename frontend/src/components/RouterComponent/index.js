@@ -16,7 +16,7 @@ import AllLogin from "../LoginComponent";
 import Dashboard from "../DashboardComponent";
 import AdminAdmissionSelection from "../../pages/Admin/Adminssion/AdminAdmissionSelection";
 import School from "../../pages/Admin/School";
-import MeetTheDevelopers from "../../pages/MeetTheDevelopers";
+import MeetTheDeveloperComponent from "../MeetTheDeveloperComponent";
 import Page404Component from "../Page404Component";
 import {
     AdmissionHome,
@@ -53,7 +53,7 @@ const RouterComponent = () => {
                 <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN}
                               exact/>
                 <Route path={ADMIN_MANAGE_SCHOOL} component={School} exact/>
-                <Route path={MEET_THE_DEVS} component={MeetTheDevelopers} exact/>
+                <Route path={MEET_THE_DEVS} component={MeetTheDeveloperComponent} exact/>
                 <Route path='*' exact={true} component={Page404Component}/>
             </Switch>
         </Router>
