@@ -3,21 +3,20 @@ import Grid from "@material-ui/core/Grid";
 import {ClassRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import MaterialTable from "material-table";
-import {Api} from "../../../api";
-import {ADMIN_SCHOOL_CLASS} from "../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
+import {classApi} from "./api";
 
 const Classes = () => {
-    
-    const authHeader =useAuthHeader()
+
+    const authHeader = useAuthHeader()
     const [classData, setClassData] = React.useState([])
 
-    React.useEffect(()=> {
-        Api.get(ADMIN_SCHOOL_CLASS,{
+    React.useEffect(() => {
+        classApi({
             headers: {
                 Authorization: authHeader()
             }
-        }).then((res)=>{
+        }).then((res) => {
             if (res.data.status) {
                 console.log(res.data.data)
                 setClassData(() => res.data.data)
@@ -28,11 +27,8 @@ const Classes = () => {
             console.error(e)
         })
         // eslint-disable-next-line
-    },[])
+    }, [])
 
-    const actionNetwork = (action_type) => {
-        Api.post()
-    }
 
     return (
         <React.Fragment>
@@ -47,14 +43,38 @@ const Classes = () => {
                     pageSizeOptions: [10, 20, 30]
                 }}
                 editable={{
-                    onRowAdd: newData => {
+                    onRowAdd: async newData => {
                         console.log(newData)
+                        const res = await classApi.post('', newData,
+                            {headers: {Authorization: authHeader()}})
+                        if(res.statusText === '200'){
+                            setClassData(res.data.data)
+                        }
+                        else {
+                            //TODO: Handle Error
+                        }
                     },
-                    onRowUpdate: newData => {
+                    onRowUpdate: async newData => {
                         console.log(newData)
+                        const res = await classApi.put(`/${newData.id}`, newData,
+                            {headers: {Authorization: authHeader()}})
+                        if(res.statusText === '200'){
+                            setClassData(res.data.data)
+                        }
+                        else {
+                            //TODO: Handle Error
+                        }
                     },
-                    onRowDelete: oldData => {
+                    onRowDelete: async oldData => {
                         console.log(oldData)
+                        const res = await classApi.delete(`/${oldData.id}`,
+                            {headers: {Authorization: authHeader()}})
+                        if(res.statusText === '200'){
+                            setClassData(res.data.data)
+                        }
+                        else {
+                            //TODO: Handle Error
+                        }
                     }
                 }}
                 title={(<Grid container alignItems={"center"}>
