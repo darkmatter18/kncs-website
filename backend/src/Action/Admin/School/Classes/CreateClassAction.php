@@ -28,7 +28,7 @@ final class CreateClassAction{
             $this->classService->createClass($class_details);
 
             $result = [
-
+                'status' => true
             ];
 
             $response->getBody()->write((string)json_encode($result));

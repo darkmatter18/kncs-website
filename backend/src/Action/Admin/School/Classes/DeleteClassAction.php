@@ -28,8 +28,11 @@ final class DeleteClassAction{
             //Delete class
             $this->classService->deleteClass($args['class_id']);
 
-            $result = [
+            //Fetch all classes
+            $classes = $this->classService->getClasses();
 
+            $result = [
+                'data' => $classes
             ];
 
             $response->getBody()->write((string)json_encode($result));

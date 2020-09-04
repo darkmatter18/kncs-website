@@ -23,10 +23,10 @@ final class GetClassesAction{
             $this->classService->checkUser($request->getAttribute('JwtClaims')['user_role']);
 
             //Get classes
-            $this->classService->getClasses();
+            $classes = $this->classService->getClasses();
 
             $return = [
-
+                'data' => $classes
             ];
 
             $response->getBody()->write((string)json_encode($return));
