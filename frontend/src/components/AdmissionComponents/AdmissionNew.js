@@ -17,7 +17,7 @@ import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../
 import {networkButtonTypes, networkStates, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
 import NetworkButton from "../../lib/NetworkButton";
 import {useHistory} from 'react-router-dom';
-import api from '../../api'
+import {Api} from '../../api'
 import {ADMISSION_NEW_DONE} from "../RouterComponent/routes";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
@@ -144,7 +144,7 @@ const AdmissionNew = () => {
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    api.post(PRE_REGISTRATION, {
+                    Api.post(PRE_REGISTRATION, {
                         ...formData,
                         dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token

@@ -3,9 +3,9 @@ import MaterialTable from "material-table";
 import Grid from "@material-ui/core/Grid";
 import {SubjectRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
-import api from "../../../api";
 import {ADMIN_SCHOOL_CLASS} from "../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
+import {Api} from "../../../api";
 
 const Subjects = () => {
 
@@ -13,7 +13,7 @@ const Subjects = () => {
     const [subjectData, setSubjectData] = React.useState([])
 
     React.useEffect(()=> {
-        api.get(ADMIN_SCHOOL_CLASS,{
+        Api.get(ADMIN_SCHOOL_CLASS,{
             headers: {
                 Authorization: authHeader()
             }

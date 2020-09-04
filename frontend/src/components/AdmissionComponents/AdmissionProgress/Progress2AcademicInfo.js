@@ -21,7 +21,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import NetworkButton from "../../../lib/NetworkButton";
-import api from "../../../api";
+import {Api} from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import _ from 'lodash'
@@ -129,7 +129,7 @@ const Progress2AcademicInfo = () => {
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(initialHumanitiesSubjectCombo)
 
     React.useEffect(() => {
-        api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
+        Api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
             headers: {
                 Authorization: authHeader()
             }
@@ -454,7 +454,7 @@ const Progress2AcademicInfo = () => {
             setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
+                    Api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
                         ...formData,
                         recaptcha_token: token
                     }, {

@@ -15,7 +15,7 @@ import Button from "@material-ui/core/Button";
 import {ValidateEmail} from "../../lib/validation";
 import NetworkButton from "../../lib/NetworkButton";
 import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
-import api from "../../api";
+import {Api} from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom";
 import Footer from "../../lib/Footer";
@@ -93,7 +93,7 @@ const AdmissionExisting = () => {
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
-                    api.post(PRE_REGISTRATION_LOGIN, {
+                    Api.post(PRE_REGISTRATION_LOGIN, {
                         ...formData,
                         dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token

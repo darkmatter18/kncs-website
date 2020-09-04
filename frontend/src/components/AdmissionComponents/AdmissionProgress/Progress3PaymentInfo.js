@@ -24,7 +24,7 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import NetworkButton from "../../../lib/NetworkButton";
-import api from "../../../api";
+import {Api} from "../../../api";
 import {ValidateName} from "../../../lib/validation";
 import Footer from "../../../lib/Footer";
 
@@ -64,7 +64,7 @@ const Progress3PaymentInfo = () => {
     const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     React.useEffect(()=>{
-        api.get(PRE_REGISTRATION_PAYMENT_INFO, {
+        Api.get(PRE_REGISTRATION_PAYMENT_INFO, {
             headers: {
                 Authorization: authHeader()
             }
@@ -131,7 +131,7 @@ const Progress3PaymentInfo = () => {
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.transaction_date))
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
-                    api.post(PRE_REGISTRATION_PAYMENT_INFO, {
+                    Api.post(PRE_REGISTRATION_PAYMENT_INFO, {
                         ...formData,
                         transaction_date: `${ye}-${mo}-${da}`,
                         recaptcha_token: token

@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import {ClassRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import MaterialTable from "material-table";
-import api from "../../../api";
+import {Api} from "../../../api";
 import {ADMIN_SCHOOL_CLASS} from "../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
 
@@ -13,7 +13,7 @@ const Classes = () => {
     const [classData, setClassData] = React.useState([])
 
     React.useEffect(()=> {
-        api.get(ADMIN_SCHOOL_CLASS,{
+        Api.get(ADMIN_SCHOOL_CLASS,{
             headers: {
                 Authorization: authHeader()
             }
@@ -30,6 +30,10 @@ const Classes = () => {
         // eslint-disable-next-line
     },[])
 
+    const actionNetwork = (action_type) => {
+        Api.post()
+    }
+
     return (
         <React.Fragment>
             <MaterialTable
@@ -38,7 +42,6 @@ const Classes = () => {
                     {title: "Section", field: "section", type: "string"}
                 ]}
                 data={classData}
-                isLoading={classData.length === 0}
                 options={{
                     pageSize: 10,
                     pageSizeOptions: [10, 20, 30]

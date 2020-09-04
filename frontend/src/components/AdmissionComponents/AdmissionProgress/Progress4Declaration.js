@@ -24,7 +24,7 @@ import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import api from '../../../api'
+import {Api} from '../../../api'
 import {ValidateName} from "../../../lib/validation";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import {ADMISSION_ALL_DONE} from "../../RouterComponent/routes";
@@ -124,7 +124,7 @@ const Progress4Declaration = () => {
     const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
 
     React.useEffect(() => {
-        api.get(PRE_REGISTRATION_DECLARATION, {
+        Api.get(PRE_REGISTRATION_DECLARATION, {
             headers: {
                 Authorization: authHeader()
             }
@@ -183,7 +183,7 @@ const Progress4Declaration = () => {
             setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    api.post(PRE_REGISTRATION_DECLARATION, {
+                    Api.post(PRE_REGISTRATION_DECLARATION, {
                         ...declarationFormState,
                         recaptcha_token: token
                     }, {

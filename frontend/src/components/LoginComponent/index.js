@@ -12,9 +12,9 @@ import NetworkButton from "../../lib/NetworkButton";
 import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../lib/validation";
-import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom"
+import {Api} from "../../api";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,7 +99,7 @@ const AllLogin = () => {
             setNetworkState([networkStates.BUSY, ''])
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then((token) => {
-                    api.post(API_ROUTE_LOGIN, {
+                    Api.post(API_ROUTE_LOGIN, {
                         ...formState,
                         recaptcha_token: token
                     }).then((res) => {

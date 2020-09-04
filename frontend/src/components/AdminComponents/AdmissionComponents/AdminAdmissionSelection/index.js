@@ -2,7 +2,7 @@ import React from "react";
 import DashboardHeader from "../../../DashboardComponent/DashboardHeader";
 import {makeStyles} from "@material-ui/styles";
 import MaterialTable from 'material-table'
-import api from "../../../../api";
+import {Api} from "../../../../api";
 import {
     ADMIN_ADMISSION_DELETE,
     ADMIN_ADMISSION_DETAILS,
@@ -47,7 +47,7 @@ const AdminAdmissionSelection = () => {
     const TABLE_TITLE = "Student Admission Selection"
 
     React.useEffect(() => {
-        api.get(ADMIN_ADMISSION_DETAILS, {
+        Api.get(ADMIN_ADMISSION_DETAILS, {
             headers: {
                 Authorization: authHeader()
             }
@@ -69,7 +69,7 @@ const AdminAdmissionSelection = () => {
     const doAction = (action_url ,data) =>{
         const _d = data.map((v) => v.application_no)
         setData([])
-        api.post(action_url, {
+        Api.post(action_url, {
             application_no: _d
         }, {
             headers: {

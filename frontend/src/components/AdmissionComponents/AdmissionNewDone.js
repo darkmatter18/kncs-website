@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
-import api from "../../api";
+import {Api} from "../../api";
 import {useSignIn} from "react-auth-jwt";
 import NetworkButton from "../../lib/NetworkButton";
 import Footer from "../../lib/Footer";
@@ -28,7 +28,7 @@ const AdmissionNewDone = () => {
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(history.location.state.dob))
         window.grecaptcha.ready(() => {
             window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                api.post(PRE_REGISTRATION_LOGIN, {
+                Api.post(PRE_REGISTRATION_LOGIN, {
                     application_no: history.location.state.application_no,
                     email: history.location.state.email,
                     dob: `${ye}-${mo}-${da}`,

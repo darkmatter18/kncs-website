@@ -20,7 +20,7 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkButton from "../../../lib/NetworkButton";
 import {validateMobileNo, ValidateName} from "../../../lib/validation";
-import api from '../../../api'
+import {Api} from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
 import ImageUploaderComponent from "../../ImageUploaderComponent";
@@ -107,7 +107,7 @@ const Progress1PersonalInfo = () => {
     }
 
     React.useEffect(() => {
-        api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+        Api.get(PRE_REGISTRATION_PRESONAL_INFO, {
             headers: {
                 Authorization: authHeader()
             }
@@ -311,7 +311,7 @@ const Progress1PersonalInfo = () => {
                 const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(new Date(formData.dob))
                 window.grecaptcha.ready(() => {
                     window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                        api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                        Api.post(PRE_REGISTRATION_PRESONAL_INFO, {
                             ...formData,
                             dob: `${ye}-${mo}-${da}`,
                             recaptcha_token: token
