@@ -23,7 +23,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
-import Index from "../../../lib/NetworkButton";
+import NetworkButton from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {ValidateName} from "../../../lib/validation";
 import Footer from "../../../lib/Footer";
@@ -233,7 +233,7 @@ const Progress3PaymentInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
                                             handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>

@@ -12,7 +12,7 @@ import ReactToPrint from 'react-to-print';
 
 import * as banner from '../../../assets/banner.png'
 import TextField from "@material-ui/core/TextField";
-import Index from "../../../lib/NetworkButton";
+import NetworkButton from "../../../lib/NetworkButton";
 import {
     networkButtonTypes,
     networkStates,
@@ -277,7 +277,7 @@ const Progress4Declaration = () => {
                             <AdmissionProgressBack/>
                         </Grid>
                         <Grid item md={6}>
-                            <Footer buttonStyle={networkButtonTypes.SUBMIT} networkState={networkState[0]}
+                            <NetworkButton buttonStyle={networkButtonTypes.SUBMIT} networkState={networkState[0]}
                                     handleSubmit={handleSubmit}/>
                         </Grid>
                     </Grid>

@@ -8,7 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from "../../lib/Footer";
-import Index from "../../lib/NetworkButton";
+import NetworkButton from "../../lib/NetworkButton";
 import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import Container from "@material-ui/core/Container";
 import {ValidateEmail} from "../../lib/validation";
@@ -170,7 +170,7 @@ const AllLogin = () => {
                                 onChange={handleFormDataChange('password')}
                                 autoComplete="current-password"
                             />
-                            <Index
+                            <NetworkButton
                                 networkState={networkState[0]}
                                 buttonStyle={networkButtonTypes.SUBMIT}
                                 handleSubmit={handleSubmit}
@@ -182,7 +182,7 @@ const AllLogin = () => {
                     </div>
                 </Container>
                 <Box mt={5}>
-                    <Index />
+                    <Footer />
                 </Box>
             </Grid>
         </Grid>

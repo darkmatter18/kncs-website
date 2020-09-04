@@ -14,7 +14,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {ValidateEmail} from "../../lib/validation";
-import Index from "../../lib/NetworkButton";
+import NetworkButton from "../../lib/NetworkButton";
 import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
@@ -202,7 +202,7 @@ const AdmissionExisting = () => {
                                 </Grid>
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <Footer buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <NetworkButton buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>

@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
 import api from "../../api";
 import {useSignIn} from "react-auth-jwt";
-import Index from "../../lib/NetworkButton";
+import NetworkButton from "../../lib/NetworkButton";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
 
@@ -106,7 +106,7 @@ const AdmissionNewDone = () => {
                                         Remember "Your account will be invalid after 30 days."<br/>
                                     </Typography>
                                     <Typography align={"center"} style={{marginTop: 16}}>
-                                        <Footer buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                        <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT}
                                                 handleSubmit={handleSubmit} networkState={networkState[0]}/>
                                     </Typography>
                                     <Typography variant={"body2"} >

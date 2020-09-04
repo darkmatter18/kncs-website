@@ -20,7 +20,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import Index from "../../../lib/NetworkButton";
+import NetworkButton from "../../../lib/NetworkButton";
 import api from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-jwt";
@@ -929,7 +929,7 @@ const Progress2AcademicInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
                                             handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>

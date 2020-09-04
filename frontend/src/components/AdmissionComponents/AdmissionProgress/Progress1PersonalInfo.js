@@ -18,7 +18,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Index from "../../../lib/NetworkButton";
+import NetworkButton from "../../../lib/NetworkButton";
 import {validateMobileNo, ValidateName} from "../../../lib/validation";
 import api from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
@@ -729,7 +729,7 @@ const Progress1PersonalInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <Footer buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
+                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
                                             handleSubmit={handleSubmit}/>
                                 </Grid>
                                 <Grid item>
