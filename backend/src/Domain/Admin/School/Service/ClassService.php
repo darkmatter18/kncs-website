@@ -6,6 +6,7 @@ namespace App\Domain\Admin\School\Service;
 
 use App\Domain\Admin\School\Repository\ClassRepository;
 use App\Exception\AuthenticationException;
+use App\Exception\NotFoundException;
 
 final class ClassService{
     /**
@@ -32,8 +33,12 @@ final class ClassService{
         $errors = [];
         $class = $this->classRepository->checkClassId($class_id);
 
-        if(empty($class)){
+        if($class){
+            $errors = ["Class doesn't exists."];
+        }
 
+        if($errors){
+            throw new NotFoundException($errors[0], $errors);
         }
 
     }
@@ -42,8 +47,12 @@ final class ClassService{
         $errors = [];
         $class = $this->classRepository->getClasses();
 
-        if(empty($class)){
+        if(!$class){
+            $errors = ["No classes found."];
+        }
 
+        if($errors){
+            throw new NotFoundException($errors[0], $errors);
         }else{
             return $class;
         }
