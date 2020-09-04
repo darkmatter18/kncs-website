@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles(()=>({
     card: {
         width: '250px'
     },

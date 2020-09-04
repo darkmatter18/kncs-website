@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "../components/Headers/BasicHeader";
+import Header from "../Headers/BasicHeader";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import DeveloperCard from "../components/DeveloperCard";
-import * as ArkadipImg from './../assets/arkadip.jpeg';
-import * as ManojitImg from './../assets/manojit.jpeg';
+import DeveloperCard from "./DeveloperCard";
+import * as ArkadipImg from '../../assets/arkadip.jpeg';
+import * as ManojitImg from '../../assets/manojit.jpeg';
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
-import Footer from "../lib/Footer";
+import Footer from "../../lib/Footer";
 
 const useStyle = makeStyles((theme) =>({
     bar: {
@@ -20,7 +20,7 @@ const useStyle = makeStyles((theme) =>({
     }
 }))
 
-const MeetTheDevelopers = () => {
+const MeetTheDeveloperComponent = () => {
     const classes = useStyle()
     return (
         <React.Fragment>
@@ -46,4 +46,4 @@ const MeetTheDevelopers = () => {
     )
 }
 
-export default MeetTheDevelopers
+export default MeetTheDeveloperComponent
