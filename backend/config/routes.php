@@ -9,6 +9,7 @@ use App\Action\Home\HomeAction;
 use App\Action\LoginAction;
 use App\Action\UserCreateAction;
 use App\Middleware\JwtAuthMiddleware;
+use App\Middleware\ReCaptchaValidateMiddleware;
 use Slim\App;
 use Slim\Routing\RouteCollectorProxy;
 
@@ -33,7 +34,7 @@ return function (App $app) {
 
 
     //Login Route
-    $app->post('/login', LoginAction::class);
+    $app->post('/login', LoginAction::class);//->add(ReCaptchaValidateMiddleware::class);
 
     //Admin route
     $app->group('/admin', function (RouteCollectorProxy $group){

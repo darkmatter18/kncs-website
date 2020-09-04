@@ -42,8 +42,7 @@ final class LoginAction{
             return $response
                 ->withHeader('Content-Type', 'application/json');
 
-        }
-        catch (Exception $e){
+        }catch (Exception $e){
             $result = [
                 "status" => false,
                 "error_no" => $e->getCode(),
