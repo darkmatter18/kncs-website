@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, KeyboardDatePicker,} from '@material-ui/pickers';
 import Button from "@material-ui/core/Button";
-import SubHeader from "../SubHeader";
+import SubHeader from "../../lib/HeaderComponents/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../lib/validation";
 import {networkButtonTypes, networkStates, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";

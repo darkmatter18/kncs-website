@@ -1,11 +1,10 @@
 import React from "react";
-import {Header} from "../../lib/HeaderComponents";
+import {Header, SubHeader} from "../../lib/HeaderComponents";
 import AdmissionNewExistingSwitch from "./AdmissionNewExistingSwitch";
 import CardContent from "@material-ui/core/CardContent";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import SubHeader from "../SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
