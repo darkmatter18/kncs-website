@@ -29,11 +29,25 @@ final class ClassService{
     }
 
     public function checkClassId(string $class_id): void{
-        $this->classRepository->checkClassId($class_id);
+        $errors = [];
+        $class = $this->classRepository->checkClassId($class_id);
+
+        if(empty($class)){
+
+        }
+
     }
 
     public function getClasses(): array{
-        return (array)$this->classRepository->getClasses();
+        $errors = [];
+        $class = $this->classRepository->getClasses();
+
+        if(empty($class)){
+
+        }else{
+            return $class;
+        }
+
     }
 
     public function createClass(array $class_details){

@@ -28,15 +28,19 @@ final class UpdateClassAction
             $this->classService->checkUser($request->getAttribute('JwtClaims')['user_role']);
 
             //Check if input class id exists
-            $this->classService->checkClassId((string)$args);
+            $this->classService->checkClassId($args['class_id']);
 
+            //Get input by HTTP request
             $new_class_details = (array)$request->getParsedBody();
 
             //Update class
             $this->classService->updateClass($new_class_details, (string)$args);
 
+            //Fetch all classes
+            $classes = $this->classService->getClasses();
+
             $result = [
-                'status' => true
+                'data' => $classes
             ];
 
             $response->getBody()->write((string)json_encode($result));

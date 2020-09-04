@@ -27,8 +27,11 @@ final class CreateClassAction{
             //Creation of a new class
             $this->classService->createClass($class_details);
 
+            //Fetch all classes
+            $classes = $this->classService->getClasses();
+
             $result = [
-                'status' => true
+                'data' => $classes
             ];
 
             $response->getBody()->write((string)json_encode($result));
