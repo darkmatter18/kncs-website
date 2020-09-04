@@ -1,6 +1,6 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
-import AdminHeader from "../AdminHeader";
+import {AdminHeader} from "../";
 import {Container, Divider, List, Typography} from "@material-ui/core";
 import MiniInternalDrawer from "../../../lib/HeaderComponents/MiniInternalDrawer";
 import ListItem from "@material-ui/core/ListItem";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-const School = () => {
+const SchoolComponent = () => {
     const classes = useStyles()
     const {school_route} = useParams()
     const history = useHistory()
@@ -80,4 +80,4 @@ const School = () => {
     )
 }
 
-export default School
+export default SchoolComponent

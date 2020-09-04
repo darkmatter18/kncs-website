@@ -1,14 +1,14 @@
 import React from "react";
-import DashboardHeader from "../../../components/DashboardComponent/DashboardHeader";
+import DashboardHeader from "../../../DashboardComponent/DashboardHeader";
 import {makeStyles} from "@material-ui/styles";
 import MaterialTable from 'material-table'
-import api from "../../../api";
+import api from "../../../../api";
 import {
     ADMIN_ADMISSION_DELETE,
     ADMIN_ADMISSION_DETAILS,
     ADMIN_ADMISSION_SELECTION,
     ADMIN_PAYMENT_CONFIRM
-} from "../../../constant";
+} from "../../../../constant";
 import {useAuthHeader} from "react-auth-jwt";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";

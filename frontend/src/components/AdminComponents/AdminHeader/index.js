@@ -1,6 +1,6 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
-import HeaderWithDrawer from "../../lib/HeaderComponents/HeaderWithDrawer";
+import HeaderWithDrawer from "../../../lib/HeaderComponents/HeaderWithDrawer";
 import {useAuth, useSignOut} from "react-auth-jwt";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
