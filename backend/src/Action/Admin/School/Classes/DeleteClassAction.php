@@ -29,7 +29,7 @@ final class DeleteClassAction{
             $this->classService->deleteClass($args['class_id']);
 
             $result = [
-                'status' => true
+
             ];
 
             $response->getBody()->write((string)json_encode($result));

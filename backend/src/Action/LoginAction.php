@@ -33,7 +33,6 @@ final class LoginAction
             $success_login_response = $this->login->login($data);
 
             $return = [
-                'status' => true,
                 'auth' => [
                     'access_token' => $success_login_response['jwt'],
                     'token_type' => 'Bearer',

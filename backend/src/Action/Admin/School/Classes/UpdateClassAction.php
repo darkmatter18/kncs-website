@@ -35,7 +35,7 @@ final class UpdateClassAction
             $this->classService->updateClass($new_class_details, (string)$args);
 
             $result = [
-                'status' => true
+
             ];
 
             $response->getBody()->write((string)json_encode($result));

@@ -26,7 +26,7 @@ final class GetClassesAction{
             $this->classService->getClasses();
 
             $return = [
-                'status' => true
+
             ];
 
             $response->getBody()->write((string)json_encode($return));
