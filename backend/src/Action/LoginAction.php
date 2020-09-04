@@ -7,14 +7,18 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Domain\Login\Service\LoginService;
-final class LoginAction{
+
+final class LoginAction
+{
     private $login;
 
-    public function __construct(LoginService $login){
+    public function __construct(LoginService $login)
+    {
         $this->login = $login;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response){
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    {
 
         // Collect input from the HTTP request
         $data = (array)$request->getParsedBody();
@@ -42,16 +46,8 @@ final class LoginAction{
             return $response
                 ->withHeader('Content-Type', 'application/json');
 
-        }catch (Exception $e){
-            $result = [
-                "status" => false,
-                "error_no" => $e->getCode(),
-                "error" => $e->getMessage()
-            ];
-            $response->getBody()->write((string)json_encode($result));
-            return $response
-                ->withHeader('Content-Type', 'application/json');
+        } catch (Exception $e) {
+            return $response->withStatus($e->getCode(), $e->getMessage());
         }
-
     }
 }

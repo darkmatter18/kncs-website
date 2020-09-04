@@ -8,7 +8,6 @@ use App\Domain\Admin\School\Service\ClassService;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function DI\get;
 
 final class UpdateClassAction
 {
@@ -44,15 +43,7 @@ final class UpdateClassAction
                 ->withHeader('Content-Type', 'application/json');
 
         }catch (Exception $e){
-            $result = [
-                "status" => false,
-                "error_no" => $e->getCode(),
-                "error" => $e->getMessage()
-            ];
-
-            $response->getBody()->write((string)json_encode($result));
-            return $response
-                ->withHeader('Content-Type', 'application/json');
+            return $response->withStatus($e->getCode(), $e->getMessage());
         }
 
 

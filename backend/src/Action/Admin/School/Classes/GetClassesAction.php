@@ -34,17 +34,7 @@ final class GetClassesAction{
                 ->withHeader('Content-Type', 'application/json');
 
         }catch (Exception $e){
-            $result = [
-                "status" => false,
-                "error_no" => $e->getCode(),
-                "error" => $e->getMessage()
-            ];
-
-            $response->getBody()->write((string)json_encode($result));
-            return $response
-                ->withHeader('Content-Type', 'application/json');
+            return $response->withStatus($e->getCode(), $e->getMessage());
         }
-
     }
-
 }
