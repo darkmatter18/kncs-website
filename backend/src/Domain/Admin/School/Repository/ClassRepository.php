@@ -18,15 +18,17 @@ final class ClassRepository
     }
 
     public function checkClassId(string $class_id): bool{
-        $smt = $this->connection->prepare("SELECT id FROM classes WHERE id = :id");
+        $smt = $this->connection->prepare("SELECT COUNT(*) FROM classes WHERE id = :id");
         $smt->bindParam(":id", $class_id, PDO::PARAM_STR);
-        return $smt->execute();
+        $smt->execute();
+
+        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getClasses(): array{
         $smt = $this->connection->prepare("SELECT * FROM classes");
         $smt->execute();
-        return (array)$smt->fetch(PDO::FETCH_ASSOC);
+        return (array)$smt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function createClass(array $class_details): void{
@@ -52,6 +54,5 @@ final class ClassRepository
         $smt->bindParam(":section", $new_class_details['section'], PDO::PARAM_STR);
         $smt->bindParam(":id", $class_id, PDO::PARAM_STR);
         $smt->execute();
-
     }
 }
