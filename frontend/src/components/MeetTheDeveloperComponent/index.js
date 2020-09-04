@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Headers/BasicHeader";
+import {Header} from "../../lib/HeaderComponents";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import DeveloperCard from "./DeveloperCard";

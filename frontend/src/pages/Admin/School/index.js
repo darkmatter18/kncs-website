@@ -2,7 +2,7 @@ import React from "react"
 import {makeStyles} from "@material-ui/styles";
 import AdminHeader from "../AdminHeader";
 import {Container, Divider, List, Typography} from "@material-ui/core";
-import MiniInternalDrawer from "../../../components/Headers/MiniInternalDrawer";
+import MiniInternalDrawer from "../../../lib/HeaderComponents/MiniInternalDrawer";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {ClassOutlined, SchoolRounded, SubjectOutlined} from "@material-ui/icons";

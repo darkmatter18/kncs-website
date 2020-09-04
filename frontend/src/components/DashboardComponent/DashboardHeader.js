@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Headers/BasicHeader";
+import {Header} from "../../lib/HeaderComponents";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";

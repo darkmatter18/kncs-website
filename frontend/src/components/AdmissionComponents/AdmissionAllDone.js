@@ -1,7 +1,7 @@
 import React from "react";
 import {useHistory, Redirect} from 'react-router-dom';
 import {ADMISSION_NEW} from "../RouterComponent/routes";
-import Header from "../Headers/BasicHeader";
+import {Header} from "../../lib/HeaderComponents";
 import SubHeader from "../SubHeader";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";

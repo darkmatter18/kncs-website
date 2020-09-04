@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Headers/BasicHeader";
+import {Header} from "../../lib/HeaderComponents";
 import AdmissionNewExistingSwitch from "./AdmissionNewExistingSwitch";
 import SubHeader from "../SubHeader";
 import Container from "@material-ui/core/Container";
