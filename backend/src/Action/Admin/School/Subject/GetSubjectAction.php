@@ -4,7 +4,7 @@
 namespace App\Action\Admin\School\Subject;
 
 
-use App\Domain\Admin\School\Subject\Service\SubjectService;
+use App\Domain\Admin\School\Service\SubjectService;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +26,7 @@ final class GetSubjectAction
             $this->subjectService->checkUser($request->getAttribute('JwtClaims')['user_role']);
 
             //Fetch all classes
-            $classes = $this->subjectService->getSubjects();
+            $classes = $this->subjectService->getSubject();
 
             $result = [
                 'data' => $classes

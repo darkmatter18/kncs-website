@@ -4,7 +4,7 @@
 namespace App\Action\Admin\School\Subject;
 
 
-use App\Domain\Admin\School\Subject\Service\SubjectService;
+use App\Domain\Admin\School\Service\SubjectService;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +34,7 @@ final class UpdateSubjectAction{
             $this->subjectService->updateSubject($new_subject_details, $args['subject_id']);
 
             //Fetch all subjects
-            $subjects = $this->subjectService->getSubjects();
+            $subjects = $this->subjectService->getSubject();
 
             $result = [
                 'data' => $subjects

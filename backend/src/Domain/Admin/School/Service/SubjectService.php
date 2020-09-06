@@ -41,9 +41,9 @@ final class SubjectService
         }
     }
 
-    public function getSubjects(): array{
+    public function getSubject(): array{
         $errors = [];
-        $subjects = $this->subjectRepository->getSubjects();
+        $subjects = $this->subjectRepository->getSubject();
         if (empty($subjects)){
             $errors = ['No subjects found'];
         }

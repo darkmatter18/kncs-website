@@ -4,7 +4,7 @@
 namespace App\Action\Admin\School\Subject;
 
 
-use App\Domain\Admin\School\Subject\Service\SubjectService;
+use App\Domain\Admin\School\Service\SubjectService;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,7 +33,7 @@ final class CreateSubjectAction
             $this->subjectService->createSubject($subject_details);
 
             //Get all subjects
-            $subjects = $this->subjectService->getSubjects();
+            $subjects = $this->subjectService->getSubject();
 
             $result = [
                 'data' => $subjects

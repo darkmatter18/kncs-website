@@ -37,10 +37,10 @@ class SubjectRepository
         $smt->execute();
     }
 
-    public function updateSubject(string $new_subject_details, string $subject_id){
+    public function updateSubject(array $new_subject_details, string $subject_id){
         $smt = $this->connection->prepare("UPDATE subjects SET subject_name = :subject_name WHERE id = :id");
         $smt->bindParam(":id", $subject_id, PDO::PARAM_STR);
-        $smt->bindParam(":subject_name", $new_subject_details, PDO::PARAM_STR);
+        $smt->bindParam(":subject_name", $new_subject_details['subject_name'], PDO::PARAM_STR);
         $smt->execute();
     }
 
