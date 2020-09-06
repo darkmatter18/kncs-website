@@ -30,12 +30,18 @@ final class UpdateSubjectAction{
             //Get subject details from user
             $new_subject_details = (array)$request->getParsedBody();
 
+            //Check user data
+            $this->subjectService->checkInput($new_subject_details);
+
             //Update subject
             $this->subjectService->updateSubject($new_subject_details, $args['subject_id']);
 
             //Fetch all subjects
             $subjects = $this->subjectService->getSubject();
 
+            if (sizeof($subjects) === 0){
+                return $response->withStatus(204, 'No subject found');
+            }
             $result = [
                 'data' => $subjects
             ];

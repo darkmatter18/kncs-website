@@ -7,6 +7,7 @@ namespace App\Domain\Admin\School\Service;
 use App\Domain\Admin\School\Repository\SubjectRepository;
 use App\Exception\AuthenticationException;
 use App\Exception\NotFoundException;
+use App\Exception\ValidationException;
 
 final class SubjectService
 {
@@ -19,6 +20,10 @@ final class SubjectService
         $this->subjectRepository = $subjectRepository;
     }
 
+    /**
+     * Check user role
+     * @param string $userRole
+     */
     public function checkUser(string $userRole): void{
         $errors = [];
         if ($userRole != 'admin'){
@@ -34,61 +39,33 @@ final class SubjectService
         $errors = [];
         $subject = $this->subjectRepository->checkSubjectId($subject_id);
         if (!$subject){
-            $errors = ["Subject doesn't exists"];
+            $errors['subject_id'] = "Subject doesn't exists";
         }
         if ($errors){
-            throw new NotFoundException($errors[0], $errors);
+            throw new NotFoundException('Please enter a valid subject ID', $errors);
         }
     }
 
     public function getSubject(): array{
+        return $this->subjectRepository->getSubject();
+    }
+
+    public function checkInput(array $subject_details): void{
         $errors = [];
-        $subjects = $this->subjectRepository->getSubject();
-        if (empty($subjects)){
-            $errors = ['No subjects found'];
+        if (empty($subject_details['subject_name'])){
+            $errors['subject_name'] = 'Please enter subject name';
         }
 
         if ($errors){
-            throw new NotFoundException($errors[0], $errors);
-        }else{
-            return $subjects;
+            throw new ValidationException('Please check your input', $errors);
         }
     }
 
     public function createSubject(array $subject_details){
-        $errors = [];
-        if (empty($subject_details)){
-            $errors['subject_details'] = 'Please enter subject name';
-        }elseif (filter_var($subject_details, FILTER_VALIDATE_INT) === false){
-            $errors['subject_details'] = 'Please enter a valid input';
-        }
-
-        if ($errors){
-            throw new NotFoundException('Please check your input', $errors);
-        }
         $this->subjectRepository->createSubject($subject_details);
     }
 
     public function updateSubject(array $new_subject_details, string $subject_id){
-
-        $errors = [];
-
-        //Checking if subject id is valid or not
-        if (empty($subject_id)){
-            $errors['subject_id'] = 'Please enter a subject ID';
-        }elseif (filter_var($subject_id, FILTER_VALIDATE_INT) === false){
-            $errors['subject_id'] = 'Please enter a valid input';
-        }
-
-        //Checking if new subject details is valid or not
-        if (empty($new_subject_details)){
-            $errors['subject_name'] = 'Please enter a subject name';
-        }
-
-        if ($errors){
-            throw new NotFoundException('Please check your input', $errors);
-        }
-
         $this->subjectRepository->updateSubject($new_subject_details, $subject_id);
     }
 

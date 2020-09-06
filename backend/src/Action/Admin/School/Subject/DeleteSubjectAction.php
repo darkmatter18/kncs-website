@@ -34,9 +34,13 @@ final class DeleteSubjectAction
             //Fetch all subjects
             $subjects = $this->subjectService->getSubject();
 
+            if (sizeof($subjects) === 0){
+                return $response->withStatus(204, 'No subject found');
+            }
             $result = [
                 'data' => $subjects
             ];
+
             $response->getBody()->write((string)json_encode($result));
 
         }catch (Exception $e){

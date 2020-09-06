@@ -27,8 +27,14 @@ final class CreateClassAction{
             //Creation of a new class
             $this->classService->createClass($class_details);
 
+            //Get all classes
+            $classes = $this->classService->getClasses();
+
+            if (sizeof($classes) === 0){
+                return $response->withStatus(204, 'No class found');
+            }
             $result = [
-                'status' => true
+                'data' => $classes
             ];
 
             $response->getBody()->write((string)json_encode($result));

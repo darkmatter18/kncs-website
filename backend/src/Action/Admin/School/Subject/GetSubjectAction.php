@@ -26,11 +26,15 @@ final class GetSubjectAction
             $this->subjectService->checkUser($request->getAttribute('JwtClaims')['user_role']);
 
             //Fetch all classes
-            $classes = $this->subjectService->getSubject();
+            $subjects = $this->subjectService->getSubject();
 
+            if (sizeof($subjects) === 0){
+                return $response->withStatus(204, 'No subject found');
+            }
             $result = [
-                'data' => $classes
+                'data' => $subjects
             ];
+
             $response->getBody()->write((string)json_encode($result));
             return $response
                     ->withHeader('Content-type', 'application/json');

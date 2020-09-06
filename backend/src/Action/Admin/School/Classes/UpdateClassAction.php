@@ -35,9 +35,12 @@ final class UpdateClassAction
             //Update class
             $this->classService->updateClass($new_class_details, $args['class_id']);
 
-            //Fetch all classes
+            //Get all classes
             $classes = $this->classService->getClasses();
 
+            if (sizeof($classes) === 0){
+                return $response->withStatus(204, 'No class found');
+            }
             $result = [
                 'data' => $classes
             ];

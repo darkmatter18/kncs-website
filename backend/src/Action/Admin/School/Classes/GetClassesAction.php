@@ -22,14 +22,17 @@ final class GetClassesAction{
             //Check user role
             $this->classService->checkUser($request->getAttribute('JwtClaims')['user_role']);
 
-            //Get classes
+            //Get all classes
             $classes = $this->classService->getClasses();
 
-            $return = [
+            if (sizeof($classes) === 0){
+                return $response->withStatus(204, 'No class found');
+            }
+            $result = [
                 'data' => $classes
             ];
 
-            $response->getBody()->write((string)json_encode($return));
+            $response->getBody()->write((string)json_encode($result));
             return $response
                 ->withHeader('Content-Type', 'application/json');
 

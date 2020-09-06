@@ -29,15 +29,22 @@ final class CreateSubjectAction
             //Request and get data from HTTP method
             $subject_details = (array)$request->getParsedBody();
 
+            //Check user data
+            $this->subjectService->checkInput($subject_details);
+
             //Creation of new subject
             $this->subjectService->createSubject($subject_details);
 
             //Get all subjects
             $subjects = $this->subjectService->getSubject();
 
+            if (sizeof($subjects) === 0){
+                return $response->withStatus(204, 'No subject found');
+            }
             $result = [
                 'data' => $subjects
             ];
+
             $response->getBody()->write((string)json_encode($result));
             return $response
                     ->withHeader('Content-type', 'application/json');
