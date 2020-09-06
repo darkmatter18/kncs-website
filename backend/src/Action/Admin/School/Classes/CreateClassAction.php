@@ -24,6 +24,9 @@ final class CreateClassAction{
             //Request data from HTTP request
             $class_details = (array)$request->getParsedBody();
 
+            //Check user input
+            $this->classService->checkInput($class_details);
+
             //Creation of a new class
             $this->classService->createClass($class_details);
 

@@ -32,6 +32,9 @@ final class UpdateClassAction
             //Get input by HTTP request
             $new_class_details = (array)$request->getParsedBody();
 
+            //Check user input
+            $this->classService->checkInput($new_class_details);
+
             //Update class
             $this->classService->updateClass($new_class_details, $args['class_id']);
 
