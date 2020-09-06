@@ -4,18 +4,19 @@
 namespace App\Domain\Admin\School\Service;
 
 
+use App\Domain\Admin\School\Repository\SubjectRepository;
 use App\Exception\AuthenticationException;
 use App\Exception\NotFoundException;
 
 final class SubjectService
 {
     /**
-     * @var SubjectService
+     * @var SubjectRepository
      */
-    private $subjectService;
+    private $subjectRepository;
 
-    public function __construct(SubjectService $subjectService){
-        $this->subjectService = $subjectService;
+    public function __construct(SubjectRepository $subjectRepository){
+        $this->subjectRepository = $subjectRepository;
     }
 
     public function checkUser(string $userRole): void{
@@ -31,7 +32,7 @@ final class SubjectService
 
     public function checkSubjectId(string $subject_id): void{
         $errors = [];
-        $subject = $this->subjectService->checkSubjectId($subject_id);
+        $subject = $this->subjectRepository->checkSubjectId($subject_id);
         if (!$subject){
             $errors = ["Subject doesn't exists"];
         }
@@ -42,7 +43,7 @@ final class SubjectService
 
     public function getSubjects(): array{
         $errors = [];
-        $subjects = $this->subjectService->getSubjects();
+        $subjects = $this->subjectRepository->getSubjects();
         if (empty($subjects)){
             $errors = ['No subjects found'];
         }
@@ -63,10 +64,11 @@ final class SubjectService
         if ($errors){
             throw new NotFoundException($errors[0], $errors);
         }
-        $this->subjectService->createSubject($subject_details);
+        $this->subjectRepository->createSubject($subject_details);
     }
 
     public function updateSubject(array $new_subject_details, string $subject_id){
+
         $errors = [];
         if (empty($subject_id)){
             $errors = ['Subject ID is required to update subject'];
@@ -77,7 +79,8 @@ final class SubjectService
         if ($errors){
             throw new NotFoundException($errors[0], $errors);
         }
-        $this->subjectService->updateSubject($new_subject_details, $subject_id);
+
+        $this->subjectRepository->updateSubject($new_subject_details, $subject_id);
     }
 
     public function deleteSubject(string $subject_id){
@@ -88,6 +91,6 @@ final class SubjectService
         if ($errors){
             throw new NotFoundException($errors[0], $errors);
         }
-        $this->subjectService->deleteSubject($subject_id);
+        $this->subjectRepository->deleteSubject($subject_id);
     }
 }
