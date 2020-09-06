@@ -4,6 +4,7 @@ import { CssBaseline } from '@material-ui/core';
 import RouteComponent from './../RouterComponent';
 import {ThemeProvider} from "@material-ui/styles";
 import theme from "./theme";
+import {ErrorProvider} from "../../context/NetworkError";
 
 const App = () => (
     <React.Fragment>
@@ -14,7 +15,9 @@ const App = () => (
                           cookieDomain={window.location.hostname}
                           cookieSecure={window.location.protocol === "https:"}>
                 <CssBaseline />
-                <RouteComponent />
+                <ErrorProvider>
+                    <RouteComponent />
+                </ErrorProvider>
             </AuthProvider>
         </ThemeProvider>
     </React.Fragment>

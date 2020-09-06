@@ -5,27 +5,27 @@ import Typography from "@material-ui/core/Typography";
 import MaterialTable from "material-table";
 import {useAuthHeader} from "react-auth-jwt";
 import {classApi} from "./api";
+import {useAxiosNetworkError} from "../../../context/NetworkError";
 
 const Classes = () => {
 
     const authHeader = useAuthHeader()
+    const axiosNetworkError = useAxiosNetworkError()
     const [classData, setClassData] = React.useState([])
 
     React.useEffect(() => {
-        classApi({
-            headers: {
-                Authorization: authHeader()
+        const networkRequest = async () => {
+            try{
+                const res = await classApi({headers: {Authorization: authHeader()}})
+                if (res.status === 200 ) {
+                    console.log(res.data.data)
+                    setClassData(() => res.data.data)
+                }
+            } catch (e) {
+                axiosNetworkError(e)
             }
-        }).then((res) => {
-            if (res.data.status) {
-                console.log(res.data.data)
-                setClassData(() => res.data.data)
-            } else {
-                console.error(res.data.error)
-            }
-        }).catch((e) => {
-            console.error(e)
-        })
+        }
+        networkRequest()
         // eslint-disable-next-line
     }, [])
 
@@ -45,35 +45,38 @@ const Classes = () => {
                 editable={{
                     onRowAdd: async newData => {
                         console.log(newData)
-                        const res = await classApi.post('', newData,
-                            {headers: {Authorization: authHeader()}})
-                        if(res.statusText === '200'){
-                            setClassData(res.data.data)
-                        }
-                        else {
-                            //TODO: Handle Error
+                        try {
+                            const res = await classApi.post('', newData,
+                                {headers: {Authorization: authHeader()}})
+                            if (res.status === 200 ) {
+                                setClassData(() => res.data.data)
+                            }
+                        } catch (error) {
+                            axiosNetworkError(error)
                         }
                     },
                     onRowUpdate: async newData => {
                         console.log(newData)
-                        const res = await classApi.put(`/${newData.id}`, newData,
-                            {headers: {Authorization: authHeader()}})
-                        if(res.statusText === '200'){
-                            setClassData(res.data.data)
-                        }
-                        else {
-                            //TODO: Handle Error
+                        try {
+                            const res = await classApi.put(`/${newData.id}`, newData,
+                                {headers: {Authorization: authHeader()}})
+                            if (res.status === 200 ) {
+                                setClassData(() => res.data.data)
+                            }
+                        } catch (error) {
+                            axiosNetworkError(error)
                         }
                     },
                     onRowDelete: async oldData => {
                         console.log(oldData)
-                        const res = await classApi.delete(`/${oldData.id}`,
-                            {headers: {Authorization: authHeader()}})
-                        if(res.statusText === '200'){
-                            setClassData(res.data.data)
-                        }
-                        else {
-                            //TODO: Handle Error
+                        try {
+                            const res = await classApi.delete(`/${oldData.id}`,
+                                {headers: {Authorization: authHeader()}})
+                            if (res.status === 200 ) {
+                                setClassData(() => res.data.data)
+                            }
+                        } catch (error) {
+                            axiosNetworkError(error)
                         }
                     }
                 }}
