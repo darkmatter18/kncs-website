@@ -35,7 +35,7 @@ final class ClassService{
         $errors = [];
         $class = $this->classRepository->checkClassId($class_id);
 
-        if($class){
+        if(!$class){
             $errors = ["Class doesn't exists."];
         }
 
