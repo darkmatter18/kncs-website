@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\Admin\School\Subject\Repository;
+namespace App\Domain\Admin\School\Repository;
 
 
 use PDO;

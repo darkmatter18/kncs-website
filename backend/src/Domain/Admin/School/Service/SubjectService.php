@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\Admin\School\Subject\Service;
+namespace App\Domain\Admin\School\Service;
 
 
 use App\Exception\AuthenticationException;
@@ -55,14 +55,39 @@ final class SubjectService
     }
 
     public function createSubject(array $subject_details){
+        $errors = [];
+        if (empty($subject_details['subject_name'])){
+            $errors = ['Subject name is required to create subject'];
+        }
+
+        if ($errors){
+            throw new NotFoundException($errors[0], $errors);
+        }
         $this->subjectService->createSubject($subject_details);
     }
 
     public function updateSubject(array $new_subject_details, string $subject_id){
+        $errors = [];
+        if (empty($subject_id)){
+            $errors = ['Subject ID is required to update subject'];
+        }elseif (empty($new_subject_details['subject_name'])){
+            $errors = ['Subject name is required'];
+        }
+
+        if ($errors){
+            throw new NotFoundException($errors[0], $errors);
+        }
         $this->subjectService->updateSubject($new_subject_details, $subject_id);
     }
 
     public function deleteSubject(string $subject_id){
+        $errors = [];
+        if (empty($subject_id)){
+            $errors = ['Subject ID is required to delete subject'];
+        }
+        if ($errors){
+            throw new NotFoundException($errors[0], $errors);
+        }
         $this->subjectService->deleteSubject($subject_id);
     }
 }
