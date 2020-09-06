@@ -8,6 +8,16 @@ use App\Action\Admin\School\Subject\CreateSubjectAction;
 use App\Action\Admin\School\Subject\DeleteSubjectAction;
 use App\Action\Admin\School\Subject\GetSubjectAction;
 use App\Action\Admin\School\Subject\UpdateSubjectAction;
+use App\Action\Admission\GetProgress\GetAcademicInfo;
+use App\Action\Admission\GetProgress\GetDeclaration;
+use App\Action\Admission\GetProgress\GetPaymentInfo;
+use App\Action\Admission\GetProgress\GetPersonalInfo;
+use App\Action\Admission\Preregistration;
+use App\Action\Admission\PreregistrationLogin;
+use App\Action\Admission\SetProgress\SetAcademicInfo;
+use App\Action\Admission\SetProgress\SetDeclaration;
+use App\Action\Admission\SetProgress\SetPaymentInfo;
+use App\Action\Admission\SetProgress\SetPersonalInfo;
 use App\Action\DummyAuth;
 use App\Action\Home\HomeAction;
 use App\Action\LoginAction;
@@ -54,7 +64,33 @@ return function (App $app) {
             $classGroup->put('/{subject_id}', UpdateSubjectAction::class);
             $classGroup->delete('/{subject_id}', DeleteSubjectAction::class);
         });
+        $group->group('/admission', function (RouteCollectorProxy $admissionGroup){
+
+        });
     })->add(JwtAuthMiddleware::class);
 
+    //Admission Routes - preregistration is now admission
+    $app->group('/admission', function (RouteCollectorProxy  $admissionGroup){
+        $admissionGroup->post('', Preregistration::class);
+        $admissionGroup->post('/login', PreregistrationLogin::class);
 
+        $admissionGroup->group('/progress', function (RouteCollectorProxy $admissionProgressGroup){
+            $admissionProgressGroup->group('/personal_info', function (RouteCollectorProxy $personalInfoGroup){
+                $personalInfoGroup->get('', GetPersonalInfo::class);
+                $personalInfoGroup->post('', SetPersonalInfo::class);
+            });
+            $admissionProgressGroup->group('/academic_info', function (RouteCollectorProxy $academicInfoGroup){
+                $academicInfoGroup->get('', GetAcademicInfo::class);
+                $academicInfoGroup->post('', SetAcademicInfo::class);
+            });
+            $admissionProgressGroup->group('/payment_info', function (RouteCollectorProxy $paymentInfoGroup){
+                $paymentInfoGroup->get('', GetPaymentInfo::class);
+                $paymentInfoGroup->post('', SetPaymentInfo::class);
+            });
+            $admissionProgressGroup->group('/declaration', function (RouteCollectorProxy $declarationGroup){
+                $declarationGroup->get('', GetDeclaration::class);
+                $declarationGroup->post('', SetDeclaration::class);
+            });
+        })->add(JwtAuthMiddleware::class);
+    });
 };
