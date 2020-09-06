@@ -60,6 +60,19 @@ final class ClassService{
     }
 
     public function createClass(array $class_details){
+        $errors = [];
+        if (empty($class_details['standard'])){
+            $errors['standard'] = 'Please enter standard name';
+        }elseif (filter_var($class_details['standard'], FILTER_VALIDATE_INT) === false){
+            $errors['standard'] = 'Please enter a valid input';
+        }
+        if (empty($class_details['section'])){
+            $errors['section'] = 'Please enter a section';
+        }
+
+        if ($errors){
+            throw new NotFoundException('Please check your input', $errors);
+        }
         $this->classRepository->createClass($class_details);
     }
 
@@ -68,6 +81,28 @@ final class ClassService{
     }
 
     public function updateClass(array $new_class_details, string $class_id){
-        $this->classRepository->updateClass($new_class_details, $class_id);
+        $errors = [];
+
+        //Checking if class id is valid or not
+        if (empty($class_id)){
+            $errors['class_id'] = 'Please enter a class id';
+        }elseif (filter_var($class_id, FILTER_VALIDATE_INT) === false){
+            $errors['class_id'] = 'Please enter a valid class id';
+        }
+
+        //Checking if new class details is valid or not
+        if (empty($new_class_details['standard'])){
+            $errors['standard'] = 'Please enter standard name';
+        }elseif (filter_var($new_class_details['standard'], FILTER_VALIDATE_INT) === false){
+            $errors['standard'] = 'Please enter a valid input';
+        }
+        if (empty($new_class_details['section'])){
+            $errors['section'] = 'Please enter a section';
+        }
+
+        if ($errors){
+            throw new NotFoundException('Please check your input', $errors);
+        }
+        $this->classRepository->createClass($new_class_details);
     }
 }

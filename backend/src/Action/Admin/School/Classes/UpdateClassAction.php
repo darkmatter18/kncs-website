@@ -33,7 +33,7 @@ final class UpdateClassAction
             $new_class_details = (array)$request->getParsedBody();
 
             //Update class
-            $this->classService->updateClass($new_class_details, (string)$args);
+            $this->classService->updateClass($new_class_details, $args['class_id']);
 
             //Fetch all classes
             $classes = $this->classService->getClasses();

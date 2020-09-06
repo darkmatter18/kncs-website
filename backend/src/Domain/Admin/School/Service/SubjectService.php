@@ -57,12 +57,14 @@ final class SubjectService
 
     public function createSubject(array $subject_details){
         $errors = [];
-        if (empty($subject_details['subject_name'])){
-            $errors = ['Subject name is required to create subject'];
+        if (empty($subject_details)){
+            $errors['subject_details'] = 'Please enter subject name';
+        }elseif (filter_var($subject_details, FILTER_VALIDATE_INT) === false){
+            $errors['subject_details'] = 'Please enter a valid input';
         }
 
         if ($errors){
-            throw new NotFoundException($errors[0], $errors);
+            throw new NotFoundException('Please check your input', $errors);
         }
         $this->subjectRepository->createSubject($subject_details);
     }
@@ -70,14 +72,21 @@ final class SubjectService
     public function updateSubject(array $new_subject_details, string $subject_id){
 
         $errors = [];
+
+        //Checking if subject id is valid or not
         if (empty($subject_id)){
-            $errors = ['Subject ID is required to update subject'];
-        }elseif (empty($new_subject_details['subject_name'])){
-            $errors = ['Subject name is required'];
+            $errors['subject_id'] = 'Please enter a subject ID';
+        }elseif (filter_var($subject_id, FILTER_VALIDATE_INT) === false){
+            $errors['subject_id'] = 'Please enter a valid input';
+        }
+
+        //Checking if new subject details is valid or not
+        if (empty($new_subject_details)){
+            $errors['subject_name'] = 'Please enter a subject name';
         }
 
         if ($errors){
-            throw new NotFoundException($errors[0], $errors);
+            throw new NotFoundException('Please check your input', $errors);
         }
 
         $this->subjectRepository->updateSubject($new_subject_details, $subject_id);
