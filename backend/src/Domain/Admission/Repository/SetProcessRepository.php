@@ -1,0 +1,390 @@
+<?php
+
+
+namespace App\Domain\Admission\Repository;
+
+
+use PDO;
+
+final class SetProcessRepository
+{
+
+    /**
+     * @var PDO
+     */
+    private $connection;
+
+    public function __construct(PDO $PDO)
+    {
+        $this->connection = $PDO;
+    }
+
+    /*
+     * Academic Info set
+     */
+
+    public function fetchAcademicInfo(int $application_no): bool{
+        $smt = $this->connection->prepare("SELECT COUNT(*) 
+                                                    FROM admission_student_preregistration_draft_previous_academic_info 
+                                                    WHERE application_no= :application_no");
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        $smt->execute();
+        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateAcademicInfo(int $application_no, array $details): void{
+        $smt1 = $this->connection->prepare("UPDATE 
+                                                    admission_student_preregistration_draft_previous_academic_info
+                                                    SET previous_school_name = :previous_school_name, 
+                                                    year_of_madhyamik = :year_of_madhyamik,
+                                                    previous_student_id = :previous_student_id
+                                                    WHERE application_no = :application_no");
+
+        // TABLE: student_preregistration_draft_previous_academic_marks
+        $smt2 = $this->connection->prepare('UPDATE 
+                                                    admission_student_preregistration_draft_previous_academic_marks
+                                                    SET marks_beng = :marks_beng, marks_engb = :marks_engb, 
+                                                    marks_maths = :marks_maths, marks_psc = :marks_psc, 
+                                                    marks_lsc = :marks_lsc, marks_geo = :marks_geo, 
+                                                    marks_hist = :marks_hist, marks_total = :marks_total, 
+                                                    marks_percentage = :marks_percentage
+                                                    WHERE application_no = :application_no');
+
+        // TABLE : student_preregistration_draft_present_academic
+        $smt3 = $this->connection->prepare('UPDATE admission_student_preregistration_draft_present_academic
+                                                    SET stream = :stream, first_language = :first_language, 
+                                                    second_language = :second_language, first_major = :first_major, 
+                                                    second_major = :second_major, third_major = :third_major,
+                                                    forth_major = :forth_major, direct_admission = :direct_admission, 
+                                                    medium = :medium
+                                                    WHERE application_no = :application_no');
+
+        // Previous Academic Info
+        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt1->bindParam(':previous_school_name', $details['previous_school_name'], PDO::PARAM_STR);
+        $smt1->bindParam(':year_of_madhyamik', $details['year_of_madhyamik'], PDO::PARAM_INT);
+        $smt1->bindParam(':previous_student_id', $details['previous_student_id'], PDO::PARAM_STR);
+
+        // Previous Academic Marks
+        $smt2->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt2->bindParam(':marks_beng', $details['marks_beng'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_engb', $details['marks_engb'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_maths', $details['marks_maths'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_psc', $details['marks_psc'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_lsc', $details['marks_lsc'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_geo', $details['marks_geo'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_hist', $details['marks_hist'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_total', $details['marks_total'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_percentage', $details['marks_percentage'], PDO::PARAM_STR);
+
+        // Present Academic
+        $smt3->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt3->bindParam(':stream', $details['stream'], PDO::PARAM_STR);
+        $smt3->bindParam(':first_language', $details['first_language'], PDO::PARAM_STR);
+        $smt3->bindParam(':second_language', $details['second_language'], PDO::PARAM_STR);
+        $smt3->bindParam(':first_major', $details['first_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':second_major', $details['second_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':third_major', $details['third_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':forth_major', $details['forth_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':direct_admission', $details['direct_admission'], PDO::PARAM_BOOL);
+        $smt3->bindParam(':medium', $details['medium'], PDO::PARAM_STR);
+
+        $smt1->execute();
+        $smt2->execute();
+        $smt3->execute();
+        $this->connection->commit();
+    }
+
+    public function setAcademicInfo(int $application_no, array $details): void{
+        // TABLE : Previous Academic Info
+        $smt1 = $this->connection->prepare('INSERT INTO 
+                                                    admission_student_preregistration_draft_previous_academic_info
+                                                    (application_no, previous_school_name, year_of_madhyamik, 
+                                                     previous_student_id)
+                                                    VALUES(:application_no, :previous_school_name, :year_of_madhyamik, 
+                                                           :previous_student_id)');
+
+        // TABLE : student_preregistration_draft_previous_academic_marks
+        $smt2 = $this->connection->prepare('INSERT INTO 
+                                                     admission_student_preregistration_draft_previous_academic_marks
+                                                    (application_no, marks_beng, marks_engb, marks_maths, marks_psc, 
+                                                     marks_lsc, marks_geo, marks_hist, marks_total, marks_percentage)
+                                                    VALUES(:application_no, :marks_beng, :marks_engb, :marks_maths, 
+                                                           :marks_psc, :marks_lsc, :marks_geo, :marks_hist, 
+                                                           :marks_total, :marks_percentage)');
+
+        //TABLE :
+        $smt3 = $this->connection->prepare('INSERT INTO 
+                                                    admission_student_preregistration_draft_present_academic
+                                                    (application_no, stream, first_language, second_language, 
+                                                     first_major, second_major, third_major, forth_major, 
+                                                     direct_admission, medium)
+                                                    VALUES(:application_no, :stream, :first_language, :second_language, 
+                                                           :first_major, :second_major, :third_major, :forth_major, 
+                                                           :direct_admission, :medium)');
+
+        // Previous Academic Info
+        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt1->bindParam(':previous_school_name', $details['previous_school_name'], PDO::PARAM_STR);
+        $smt1->bindParam(':year_of_madhyamik', $details['year_of_madhyamik'], PDO::PARAM_INT);
+        $smt1->bindParam(':previous_student_id', $details['previous_student_id'], PDO::PARAM_STR);
+
+        // Previous Academic Marks
+        $smt2->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt2->bindParam(':marks_beng', $details['marks_beng'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_engb', $details['marks_engb'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_maths', $details['marks_maths'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_psc', $details['marks_psc'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_lsc', $details['marks_lsc'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_geo', $details['marks_geo'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_hist', $details['marks_hist'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_total', $details['marks_total'], PDO::PARAM_INT);
+        $smt2->bindParam(':marks_percentage', $details['marks_percentage'], PDO::PARAM_STR);
+
+        // Present Academic
+        $smt3->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt3->bindParam(':stream', $details['stream'], PDO::PARAM_STR);
+        $smt3->bindParam(':first_language', $details['first_language'], PDO::PARAM_STR);
+        $smt3->bindParam(':second_language', $details['second_language'], PDO::PARAM_STR);
+        $smt3->bindParam(':first_major', $details['first_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':second_major', $details['second_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':third_major', $details['third_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':forth_major', $details['forth_major'], PDO::PARAM_STR);
+        $smt3->bindParam(':direct_admission', $details['direct_admission'], PDO::PARAM_BOOL);
+        $smt3->bindParam(':medium', $details['medium'], PDO::PARAM_STR);
+
+        $smt1->execute();
+        $smt2->execute();
+        $smt3->execute();
+        $this->connection->commit();
+    }
+
+    /*
+     * Payment Info Set
+     */
+
+    public function fetchPaymentInfo(int $application_no): bool{
+        $smt = $this->connection->prepare("SELECT COUNT(*) 
+                                                    FROM admission_student_preregistration_draft_payment_info 
+                                                    WHERE application_no= :application_no");
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        $smt->execute();
+        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updatePaymentInfo(int $application_no, array $payment_data): void{
+        //UPDATE
+        $smt = $this->connection->prepare('UPDATE admission_student_preregistration_draft_payment_info
+                                                        SET mode_of_payment = :mode_of_payment, 
+                                                            name_of_bank = :name_of_bank, 
+                                                            transaction_id = :transaction_id, 
+                                                            transaction_date = :transaction_date
+                                                        WHERE application_no = :application_no');
+        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt->bindParam(':mode_of_payment', $payment_data['mode_of_payment'], PDO::PARAM_STR);
+        $smt->bindParam(':name_of_bank', $payment_data['name_of_bank'], PDO::PARAM_STR);
+        $smt->bindParam(':transaction_id', $payment_data['transaction_id'], PDO::PARAM_STR);
+        $smt->bindParam(':transaction_date', $payment_data['transaction_date'], PDO::PARAM_STR);
+        $smt->execute();
+    }
+
+    public function setPaymentInfo(int $application_no, array $payment_data){
+        $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_payment_info
+                                                (application_no, mode_of_payment, name_of_bank, transaction_id, 
+                                                 transaction_date)
+                                                    VALUES(:application_no, :mode_of_payment, :name_of_bank, 
+                                                           :transaction_id, :transaction_date)');
+        $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt->bindParam(':mode_of_payment', $payment_data['mode_of_payment'], PDO::PARAM_STR);
+        $smt->bindParam(':name_of_bank', $payment_data['name_of_bank'], PDO::PARAM_STR);
+        $smt->bindParam(':transaction_id', $payment_data['transaction_id'], PDO::PARAM_STR);
+        $smt->bindParam(':transaction_date', $payment_data['transaction_date'], PDO::PARAM_STR);
+        $smt->execute();
+    }
+
+    /*
+     * Personal Info set
+     */
+
+    public function fetchPersonalInfo(int $application_no): bool{
+        $smt = $this->connection->prepare("SELECT COUNT(*) 
+                                                    FROM admission_student_preregistration_draft_basic_info  
+                                                    WHERE application_no= :application_no");
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        $smt->execute();
+        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateBasicInfo(int $application_no, array $basic_info){
+        //table :  BASIC INFO
+        $smt1= $this->connection->prepare('UPDATE admission_student_preregistration_draft_basic_info
+                                                        SET gender = :gender, religion = :religion, caste = :caste, 
+                                                            mother_tongue = :mother_tongue,
+                                                            apply_for_reserved_seat = :apply_for_reserved_seat, 
+                                                            caste_certificate_no = :caste_certificate_no,
+                                                            weather_bpl = :weather_bpl, bpl_card_no = :bpl_card_no, 
+                                                            whatsapp_no = :whatsapp_no
+                                                        WHERE application_no = :application_no');
+        //table: FAMILY INFO
+        $smt2 = $this->connection->prepare('UPDATE admission_student_preregistration_draft_family_info
+                                                        SET father_name = :father_name, 
+                                                            father_occupation = :father_occupation,
+                                                            mother_name = :mother_name, 
+                                                            mother_occupation = :mother_occupation,
+                                                            guardian_name = :guardian_name, 
+                                                            guardian_occupation = :guardian_occupation,
+                                                            guardian_same_father = :guardian_same_father
+                                                        WHERE application_no = :application_no');
+
+        //TABLE: ADDRESS
+        $smt3 = $this->connection->prepare('UPDATE admission_student_preregistration_draft_address
+                                                SET address_line_1 = :address_line_1, address_line_2 = :address_line_2,
+                                                    city = :city, district = :district, pin = :pin
+                                                WHERE application_no = :application_no');
+        // Table : Image
+        $smt4 = $this->connection->prepare('UPDATE admission_student_preregistration_draft_image
+                                            SET image_type = :image_type, image = :image
+                                            WHERE application_no = :application_no');
+
+        // BASIC INFO
+        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt1->bindParam(':gender', $basic_info['gender'], PDO::PARAM_STR);
+        $smt1->bindParam(':religion', $basic_info['religion'], PDO::PARAM_STR);
+        $smt1->bindParam(':caste', $basic_info['caste'], PDO::PARAM_STR);
+        $smt1->bindParam(':mother_tongue', $basic_info['mother_tongue'], PDO::PARAM_STR);
+        $smt1->bindParam(':apply_for_reserved_seat', $basic_info['apply_for_reserved_seat'], PDO::PARAM_BOOL);
+        $smt1->bindParam(':caste_certificate_no', $basic_info['caste_certificate_no'], PDO::PARAM_STR);
+        $smt1->bindParam(':weather_bpl', $basic_info['weather_bpl'], PDO::PARAM_BOOL);
+        $smt1->bindParam(':bpl_card_no', $basic_info['bpl_card_no'], PDO::PARAM_STR);
+        $smt1->bindParam(':whatsapp_no', $basic_info['whatsapp_no'], PDO::PARAM_INT);
+
+        //FAMILY INFO
+        $smt2->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt2->bindParam(':father_name', $basic_info['father_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':father_occupation', $basic_info['father_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':mother_name', $basic_info['mother_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':mother_occupation', $basic_info['mother_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_name', $basic_info['guardian_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_occupation', $basic_info['guardian_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_same_father', $basic_info['guardian_same_father'], PDO::PARAM_BOOL);
+
+        //ADDRESS INFO
+        $smt3->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt3->bindParam(':address_line_1', $basic_info['address_line_1'], PDO::PARAM_STR);
+        $smt3->bindParam(':address_line_2', $basic_info['address_line_2'], PDO::PARAM_STR);
+        $smt3->bindParam(':city', $basic_info['city'], PDO::PARAM_STR);
+        $smt3->bindParam(':district', $basic_info['district'], PDO::PARAM_STR);
+        $smt3->bindParam(':pin', $basic_info['pin'], PDO::PARAM_INT);
+
+        //IMAGE
+        $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt4->bindParam(':image_type', $basic_info['image_type'], PDO::PARAM_STR);
+        $smt4->bindParam(':image', $basic_info['base64_decode'], PDO::PARAM_LOB);
+    }
+
+    public function setBasicInfo(int $application_no, array $basic_info): void{
+        // TABLE : BASIC INFO
+        $smt1 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_basic_info
+                                                    (application_no, gender, religion, caste, mother_tongue,
+                                                     apply_for_reserved_seat, caste_certificate_no,  weather_bpl, 
+                                                     bpl_card_no, whatsapp_no)
+                                                    VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, 
+                                                           :apply_for_reserved_seat,
+                                                           :caste_certificate_no,  :weather_bpl, :bpl_card_no, 
+                                                           :whatsapp_no )');
+
+        //TABLE : FAMILY INFO
+        $smt2 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_family_info
+                                                    (application_no, father_name, father_occupation, mother_name, 
+                                                     mother_occupation, guardian_name,
+                                                     guardian_occupation, guardian_same_father)
+                                                    VALUES(:application_no, :father_name, :father_occupation, 
+                                                           :mother_name, :mother_occupation,
+                                                           :guardian_name, :guardian_occupation, 
+                                                           :guardian_same_father)');
+        // TABLE :
+        $smt3 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_address
+                                                    (application_no, address_line_1, address_line_2, city, district, 
+                                                     pin)
+                                                    VALUES(:application_no,:address_line_1, :address_line_2, :city, 
+                                                           :district, :pin)');
+
+        // Table : student_preregistration_draft_image
+        $smt4 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_image
+                                                    (application_no, image_type, image)
+                                                    VALUES(:application_no, :image_type, :image)');
+
+        // BASIC INFO
+        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt1->bindParam(':gender', $basic_info['gender'], PDO::PARAM_STR);
+        $smt1->bindParam(':religion', $basic_info['religion'], PDO::PARAM_STR);
+        $smt1->bindParam(':caste', $basic_info['caste'], PDO::PARAM_STR);
+        $smt1->bindParam(':mother_tongue', $basic_info['mother_tongue'], PDO::PARAM_STR);
+        $smt1->bindParam(':apply_for_reserved_seat', $basic_info['apply_for_reserved_seat'], PDO::PARAM_BOOL);
+        $smt1->bindParam(':caste_certificate_no', $basic_info['caste_certificate_no'], PDO::PARAM_STR);
+        $smt1->bindParam(':weather_bpl', $basic_info['weather_bpl'], PDO::PARAM_BOOL);
+        $smt1->bindParam(':bpl_card_no', $basic_info['bpl_card_no'], PDO::PARAM_STR);
+        $smt1->bindParam(':whatsapp_no', $basic_info['whatsapp_no'], PDO::PARAM_INT);
+
+        //FAMILY INFO
+        $smt2->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt2->bindParam(':father_name', $basic_info['father_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':father_occupation', $basic_info['father_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':mother_name', $basic_info['mother_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':mother_occupation', $basic_info['mother_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_name', $basic_info['guardian_name'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_occupation', $basic_info['guardian_occupation'], PDO::PARAM_STR);
+        $smt2->bindParam(':guardian_same_father', $basic_info['guardian_same_father'], PDO::PARAM_BOOL);
+
+        //ADDRESS INFO
+        $smt3->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt3->bindParam(':address_line_1', $basic_info['address_line_1'], PDO::PARAM_STR);
+        $smt3->bindParam(':address_line_2', $basic_info['address_line_2'], PDO::PARAM_STR);
+        $smt3->bindParam(':city', $basic_info['city'], PDO::PARAM_STR);
+        $smt3->bindParam(':district', $basic_info['district'], PDO::PARAM_STR);
+        $smt3->bindParam(':pin', $basic_info['pin'], PDO::PARAM_INT);
+
+        //IMAGE
+        $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt4->bindParam(':image_type', $basic_info['image_type'], PDO::PARAM_STR);
+        $smt4->bindParam(':image', $basic_info['base64_decode'], PDO::PARAM_LOB);
+
+        $smt1->execute();
+        $smt2->execute();
+        $smt3->execute();
+        $smt4->execute();
+        $this->connection->commit();
+    }
+
+    public function studentPreregistration(int $application_no, array $preregistration_data): void{
+        $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_details
+                                                    (application_no, first_name, middle_name, last_name, aadhar_no, 
+                                                     email, mobile, dob, status)
+                                                    VALUES(:application_no, :first_name, :middle_name, :last_name, 
+                                                           :aadhar_no, :email, :mobile, :dob, :status)');
+
+        //echo $aadhar_no_clean. " ". $mobile_clean;
+        $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt->bindParam(':first_name', $preregistration_data['first_name'], PDO::PARAM_STR);
+        $smt->bindParam(':middle_name', $preregistration_data['middle_name'], PDO::PARAM_STR);
+        $smt->bindParam(':last_name', $preregistration_data['last_name'], PDO::PARAM_STR);
+        $smt->bindParam(':aadhar_no', $preregistration_data['aadhar_no'], PDO::PARAM_STR);
+        $smt->bindParam(':email', $preregistration_data['email'], PDO::PARAM_STR);
+        $smt->bindParam(':mobile', $preregistration_data['mobile'], PDO::PARAM_STR);
+        $smt->bindParam(':dob', $preregistration_data['dob'], PDO::PARAM_STR);
+        $smt->bindParam(':status', $preregistration_data['status'], PDO::PARAM_STR);
+
+        $smt->execute();
+
+        // student_preregistration_login PDO will go here
+        $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_login
+                                                                (application_no, email, dob) 
+                                                    VALUES(:application_no, :email, :dob)');
+
+        $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
+        $smt->bindParam(':email', $preregistration_data['email'], PDO::PARAM_STR);
+        $smt->bindParam(':dob', $preregistration_data['dob'], PDO::PARAM_STR);
+        $smt->execute();
+    }
+
+}

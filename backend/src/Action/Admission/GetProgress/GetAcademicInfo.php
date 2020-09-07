@@ -4,16 +4,22 @@
 namespace App\Action\Admission\GetProgress;
 
 
+use App\Domain\Admission\Service\GetProcessService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class GetAcademicInfo
 {
-    public function __construct(){
+    /**
+     * @var GetProcessService
+     */
+    private $getProcessService;
 
+    public function __construct(GetProcessService $getProcessService){
+        $this->getProcessService = $getProcessService;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
-        // TODO: Implement __invoke() method.
+
     }
 }

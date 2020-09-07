@@ -12,8 +12,8 @@ use App\Action\Admission\GetProgress\GetAcademicInfo;
 use App\Action\Admission\GetProgress\GetDeclaration;
 use App\Action\Admission\GetProgress\GetPaymentInfo;
 use App\Action\Admission\GetProgress\GetPersonalInfo;
-use App\Action\Admission\Preregistration;
-use App\Action\Admission\PreregistrationLogin;
+use App\Action\Admission\PreRegistrationAction;
+use App\Action\Admission\PreRegistrationLoginAction;
 use App\Action\Admission\SetProgress\SetAcademicInfo;
 use App\Action\Admission\SetProgress\SetDeclaration;
 use App\Action\Admission\SetProgress\SetPaymentInfo;
@@ -71,8 +71,8 @@ return function (App $app) {
 
     //Admission Routes - preregistration is now admission
     $app->group('/admission', function (RouteCollectorProxy  $admissionGroup){
-        $admissionGroup->post('', Preregistration::class);
-        $admissionGroup->post('/login', PreregistrationLogin::class);
+        $admissionGroup->post('', PreRegistrationAction::class);
+        $admissionGroup->post('/login', PreRegistrationLoginAction::class);
 
         $admissionGroup->group('/progress', function (RouteCollectorProxy $admissionProgressGroup){
             $admissionProgressGroup->group('/personal_info', function (RouteCollectorProxy $personalInfoGroup){
