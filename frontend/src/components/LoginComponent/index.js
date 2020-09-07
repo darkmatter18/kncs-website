@@ -6,16 +6,16 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Footer from "../../lib/Footer";
-import NetworkButton from "../../lib/NetworkButton";
-import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
+import {makeStyles} from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
-import {ValidateEmail} from "../../lib/validation";
 import {useSignIn} from "react-auth-jwt";
 import {useHistory} from "react-router-dom"
-import {Api} from "../../api";
-
+import {useForm} from "react-hook-form";
+import LoginApi from "./api";
+import Footer from "../../lib/Footer";
+import NetworkButton from "../../lib/NetworkButton";
+import {useAxiosNetworkError, useError} from "../../context/NetworkError";
+import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,77 +55,44 @@ const AllLogin = () => {
     const signIn = useSignIn();
     const history = useHistory()
     const classes = useStyles();
-    const [formState, setFormState] = React.useState({email:'', password: ''})
-    const [errors, setErrors] = React.useState({
-        email: [false, "Enter registered Email-Id"],
-        password: [false, "Password should be minimum 8"],
+    const setError = useError()
+    const axiosNetworkError = useAxiosNetworkError()
+    const {register, errors, handleSubmit} = useForm({
+        reValidateMode: "onBlur",
+        mode: "onBlur"
     })
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, '']);
 
-    const handleFormDataChange = (name) => (e) => {
-        e.persist()
-        setFormState(prevState => ({...prevState, [name]: e.target.value}))
-    }
-
-    const checkEmailId = () => {
-        if (ValidateEmail(formState.email)) {
-            setErrors(prevState => ({...prevState, email: [false, "Enter registered Email-Id"]}))
-            return true
-        } else {
-            setErrors(prevState => ({...prevState, email: [true, "Invalid Email-ID"]}))
-            return false
-        }
-    }
-
-    const checkPassword = () => {
-        if (formState.password.length > 7) {
-            setErrors(prevState => ({...prevState, password: [false, "Password should be minimum 8"]}))
-            return true
-        } else {
-            setErrors(prevState => ({...prevState, password: [true, "Invalid Password"]}))
-            return false
-        }
-    }
-
-    const validate = () => {
-        const e = checkEmailId()
-        const p = checkPassword()
-
-        return e && p
-    }
-
-    const handleSubmit = () => {
-        if(validate()){
-            setNetworkState([networkStates.BUSY, ''])
-            window.grecaptcha.ready(() => {
-                window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then((token) => {
-                    Api.post(API_ROUTE_LOGIN, {
-                        ...formState,
-                        recaptcha_token: token
-                    }).then((res) => {
-                        if (res.data.status) {
-                            signIn(res.data.jwt, res.data.expiresAt || 120, res.data.user) ?
-                                history.push(`/${res.data.role}/dashboard`) :
-                                setNetworkState([networkStates.ERROR, res.data.error])
-                        } else {
-                            setNetworkState([networkStates.ERROR, `Internal error occurred (Sign-In failed)`])
-                        }
-                    }).catch((e) => {
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, `Internal error occurred 
-                        (${e.response.status} - ${e.response.data.error})`])
-                    })
-                }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
-                })
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE);
+    const onSubmitEvent = (data) => {
+        console.log(data)
+        setNetworkState(networkStates.BUSY)
+        window.grecaptcha.ready(() => {
+            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then(async (token) => {
+                try {
+                    const res = await LoginApi.post(API_ROUTE_LOGIN, {...data, recaptcha_token: token})
+                    if (res.status === 200){
+                        signIn(res.data.auth.access_token, res.data.auth.expires_in || 120, res.data.user) ?
+                            history.push(`/${res.data.user.role}/dashboard`) :
+                            setError("Unexpected Error Occurred. Try Again!")
+                    }
+                    else {
+                        setError(res.status + "Unexpected Error Occurred. Try Again!")
+                        setNetworkState(networkStates.IDLE)
+                    }
+                } catch (error) {
+                    axiosNetworkError(error)
+                    setNetworkState(networkStates.IDLE)
+                }
+            }).catch(() => {
+                setError("ReCaptcha Validation failed. Try Again!")
+                setNetworkState(networkStates.IDLE)
             })
-        }
+        })
     }
 
     return (
         <Grid container component="main" className={classes.root}>
-            <Grid item xs={false} sm={4} md={8} className={classes.image} />
+            <Grid item xs={false} sm={4} md={8} className={classes.image}/>
             <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
                 <Container>
                     <div className={classes.paper}>
@@ -134,44 +101,50 @@ const AllLogin = () => {
                         </Typography>
                         <div className={classes.bar}/>
                         <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
+                            <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <form className={classes.form} noValidate>
+                        <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmitEvent)}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
-                                required
                                 fullWidth
                                 id="email"
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                                error={errors.email[0]}
-                                helperText={errors.email[1]}
-                                value={formState.email}
-                                onChange={handleFormDataChange('email')}
+                                inputRef={
+                                    register({
+                                        required: "Input must be an E-mail Address",
+                                        pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+                                    })
+                                }
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
                                 autoFocus
                             />
                             <TextField
                                 variant="outlined"
                                 margin="normal"
-                                required
                                 fullWidth
                                 name="password"
                                 label="Password"
                                 type="password"
                                 id="password"
-                                error={errors.password[0]}
-                                helperText={errors.password[1]}
-                                value={formState.password}
-                                onChange={handleFormDataChange('password')}
+                                inputRef={register({
+                                    required: "Password must have length 8",
+                                    minLength: 8,
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
                                 autoComplete="current-password"
                             />
                             <NetworkButton
-                                networkState={networkState[0]}
+                                type={"submit"}
+                                disabled={!!errors.email || !!errors.password}
+                                networkState={networkState}
                                 buttonStyle={networkButtonTypes.SUBMIT}
                                 handleSubmit={handleSubmit}
                             />
@@ -182,7 +155,7 @@ const AllLogin = () => {
                     </div>
                 </Container>
                 <Box mt={5}>
-                    <Footer />
+                    <Footer/>
                 </Box>
             </Grid>
         </Grid>
