@@ -183,6 +183,7 @@ const AllLogin = () => {
                                 autoComplete="current-password"
                             />
                             <NetworkButton
+                                type={"submit"}
                                 networkState={networkState[0]}
                                 buttonStyle={networkButtonTypes.SUBMIT}
                                 handleSubmit={handleSubmit}
