@@ -206,7 +206,7 @@ final class SetProcessRepository
      * Personal Info set
      */
 
-    public function fetchPersonalInfo(int $application_no): bool{
+    public function fetchBasicInfo(int $application_no): bool{
         $smt = $this->connection->prepare("SELECT COUNT(*) 
                                                     FROM admission_student_preregistration_draft_basic_info  
                                                     WHERE application_no= :application_no");
@@ -356,35 +356,44 @@ final class SetProcessRepository
         $this->connection->commit();
     }
 
-    public function studentPreregistration(int $application_no, array $preregistration_data): void{
-        $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_details
-                                                    (application_no, first_name, middle_name, last_name, aadhar_no, 
-                                                     email, mobile, dob, status)
-                                                    VALUES(:application_no, :first_name, :middle_name, :last_name, 
-                                                           :aadhar_no, :email, :mobile, :dob, :status)');
+    /*
+     * Declaration info
+     */
+    public function setDeclarationInfo(int $application_no, $declaration_info): void
+    {
+        $this->connection->beginTransaction();
+        //Insert declaration info
+        $insertsmt = $this->connection->prepare('INSERT INTO 
+                                                                admission_student_preregistration_draft_declaration_info 
+                                                                (application_no, date, place, full_name)
+                                                          VALUES(:application_no, :date, :place, :full_name)');
 
-        //echo $aadhar_no_clean. " ". $mobile_clean;
-        $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-        $smt->bindParam(':first_name', $preregistration_data['first_name'], PDO::PARAM_STR);
-        $smt->bindParam(':middle_name', $preregistration_data['middle_name'], PDO::PARAM_STR);
-        $smt->bindParam(':last_name', $preregistration_data['last_name'], PDO::PARAM_STR);
-        $smt->bindParam(':aadhar_no', $preregistration_data['aadhar_no'], PDO::PARAM_STR);
-        $smt->bindParam(':email', $preregistration_data['email'], PDO::PARAM_STR);
-        $smt->bindParam(':mobile', $preregistration_data['mobile'], PDO::PARAM_STR);
-        $smt->bindParam(':dob', $preregistration_data['dob'], PDO::PARAM_STR);
-        $smt->bindParam(':status', $preregistration_data['status'], PDO::PARAM_STR);
+        $insertsmt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
 
-        $smt->execute();
+        $insertsmt->bindParam(':date', $declaration_info['date'], PDO::PARAM_STR);
+        $insertsmt->bindParam(':place', $declaration_info['place'], PDO::PARAM_STR);
+        $insertsmt->bindParam(':full_name', $declaration_info['full_name'], PDO::PARAM_STR);
+        $insertsmt->execute();
 
-        // student_preregistration_login PDO will go here
-        $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_login
-                                                                (application_no, email, dob) 
-                                                    VALUES(:application_no, :email, :dob)');
+        //Fetch declaration info
+        $fetchSmt = $this->connection->prepare("SELECT direct_admission
+                                                         FROM admission_student_preregistration_draft_present_academic
+                                                         WHERE application_no = :application_no");
+        $fetchSmt->bindParam(':application_no', $application_no);
+        $fetchSmt->execute();
+        $output = $fetchSmt->fetch(PDO::FETCH_ASSOC);
 
-        $smt->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-        $smt->bindParam(':email', $preregistration_data['email'], PDO::PARAM_STR);
-        $smt->bindParam(':dob', $preregistration_data['dob'], PDO::PARAM_STR);
-        $smt->execute();
+        //Update declaration info
+        $updateSmt = $this->connection->prepare("UPDATE admission_student_preregistration_details 
+                                                          SET status=:status WHERE application_no=:application_no");
+        if ((string)$output['direct_admission'] == "1") {
+            $status = "SELECTED";
+            $updateSmt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $updateSmt->bindParam(':status', $status, PDO::PARAM_STR);
+        } else {
+            $status = "SUBMITTED";
+            $updateSmt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+            $updateSmt->bindParam(':status', $status, PDO::PARAM_STR);
+        }
     }
-
 }

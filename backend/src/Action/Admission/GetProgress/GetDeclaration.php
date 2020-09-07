@@ -4,16 +4,28 @@
 namespace App\Action\Admission\GetProgress;
 
 
+use App\Domain\Admission\Service\GetProcessService;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class GetDeclaration
+final class GetDeclaration
 {
-    public function __construct(){
+    /**
+     * @var GetProcessService
+     */
+    private $getPrecessService;
 
+    public function __construct(GetProcessService $getProcessService){
+        $this->getPrecessService = $getProcessService;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
-        // TODO: Implement __invoke() method.
+        try {
+            $application_no = $request->getAttribute('JwtClaims')['application_no'];
+            $declaration_info = $this->getPrecessService->getDeclarationInfo($application_no);
+        }catch (Exception $e){
+            return $response->withStatus($e->getCode(), $e->getMessage());
+        }
     }
 }
