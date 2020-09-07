@@ -1,6 +1,3 @@
-import axios from 'axios';
+import Api from "./Api";
 
-export default axios.create({
-    baseURL: '/portal/api'
-    
-})
+export {Api}
