@@ -9,7 +9,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
 import {Api} from "../../api";
-import {useSignIn} from "react-auth-jwt";
+import {useSignIn} from "react-auth-kit";
 import NetworkButton from "../../lib/NetworkButton";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
@@ -35,8 +35,14 @@ const AdmissionNewDone = () => {
                     recaptcha_token: token
                 }).then((res) => {
                     if (res.data.status) {
-                        const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no,
-                            status: res.data.RecStatus})
+                        const r = signIn({
+                            token:res.data.auth.access_token,
+                            authState: {
+                                application_no: res.data.application_no,
+                                status: res.data.RecStatus
+                            },
+                            expiresIn: 120,
+                            tokenType: 'Bearer'})
                         if (r) {
                             console.log("Signing In")
                             if(res.data.RecStatus === 'DRAFT'){
