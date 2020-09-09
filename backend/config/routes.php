@@ -4,10 +4,18 @@ use App\Action\Admin\School\Classes\CreateClassAction;
 use App\Action\Admin\School\Classes\DeleteClassAction;
 use App\Action\Admin\School\Classes\GetClassesAction;
 use App\Action\Admin\School\Classes\UpdateClassAction;
+use App\Action\Admin\School\Student\CreateStudentAction;
+use App\Action\Admin\School\Student\DeleteStudentAction;
+use App\Action\Admin\School\Student\GetStudentAction;
+use App\Action\Admin\School\Student\UpdateStudentAction;
 use App\Action\Admin\School\Subject\CreateSubjectAction;
 use App\Action\Admin\School\Subject\DeleteSubjectAction;
 use App\Action\Admin\School\Subject\GetSubjectAction;
 use App\Action\Admin\School\Subject\UpdateSubjectAction;
+use App\Action\Admin\School\Teacher\CreateTeacherAction;
+use App\Action\Admin\School\Teacher\DeleteTeacherAction;
+use App\Action\Admin\School\Teacher\GetTeacherAction;
+use App\Action\Admin\School\Teacher\UpdateTeacherAction;
 use App\Action\Admission\GetProgress\GetAcademicInfo;
 use App\Action\Admission\GetProgress\GetDeclaration;
 use App\Action\Admission\GetProgress\GetPaymentInfo;
@@ -63,6 +71,18 @@ return function (App $app) {
             $classGroup->post('', CreateSubjectAction::class);
             $classGroup->put('/{subject_id}', UpdateSubjectAction::class);
             $classGroup->delete('/{subject_id}', DeleteSubjectAction::class);
+        });
+        $group->group('/school/student', function (RouteCollectorProxy $classGroup){
+            $classGroup->get('', GetStudentAction::class );
+            $classGroup->post('', CreateStudentAction::class);
+            $classGroup->put('/{student_id}', UpdateStudentAction::class);
+            $classGroup->delete('/{student_id}', DeleteStudentAction::class);
+        });
+        $group->group('/school/teacher', function (RouteCollectorProxy $classGroup){
+            $classGroup->get('', GetTeacherAction::class );
+            $classGroup->post('', CreateTeacherAction::class);
+            $classGroup->put('/{teacher_id}', UpdateTeacherAction::class);
+            $classGroup->delete('/{teacher_id}', DeleteTeacherAction::class);
         });
         $group->group('/admission', function (RouteCollectorProxy $admissionGroup){
 
