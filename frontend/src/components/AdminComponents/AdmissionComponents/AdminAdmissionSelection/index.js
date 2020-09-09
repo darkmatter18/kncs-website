@@ -9,7 +9,7 @@ import {
     ADMIN_ADMISSION_SELECTION,
     ADMIN_PAYMENT_CONFIRM
 } from "../../../../constant";
-import {useAuthHeader} from "react-auth-jwt";
+import {useAuthHeader} from "react-auth-kit";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";

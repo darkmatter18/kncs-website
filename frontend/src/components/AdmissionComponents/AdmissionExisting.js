@@ -16,7 +16,7 @@ import {ValidateEmail} from "../../lib/validation";
 import NetworkButton from "../../lib/NetworkButton";
 import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
 import {Api} from "../../api";
-import {useSignIn} from "react-auth-jwt";
+import {useSignIn} from "react-auth-kit";
 import {useHistory} from "react-router-dom";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
@@ -99,8 +99,14 @@ const AdmissionExisting = () => {
                         recaptcha_token: token
                     }).then((res)=>{
                         if(res.data.status){
-                            const r = signIn(res.data.jwt, 120, {application_no: res.data.application_no,
-                                status: res.data.RecStatus})
+                            const r = signIn({
+                                token:res.data.auth.access_token,
+                                authState: {
+                                    application_no: res.data.application_no,
+                                    status: res.data.RecStatus
+                                },
+                                expiresIn: 120,
+                                tokenType: 'Bearer'})
                             if(r){
                                 console.log("Signing In")
                                 if(res.data.RecStatus === 'DRAFT'){

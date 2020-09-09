@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import {useSignOut} from "react-auth-jwt";
+import {useSignOut} from "react-auth-kit";
 import Button from "@material-ui/core/Button";
 import {Home} from "@material-ui/icons";
 import Footer from "../../lib/Footer";

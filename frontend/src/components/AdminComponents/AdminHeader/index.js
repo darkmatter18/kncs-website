@@ -1,7 +1,7 @@
 import React from "react"
 import {makeStyles} from "@material-ui/styles";
 import HeaderWithDrawer from "../../../lib/HeaderComponents/HeaderWithDrawer";
-import {useAuth, useSignOut} from "react-auth-jwt";
+import {useAuth, useSignOut} from "react-auth-kit";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -22,7 +22,7 @@ const AdminHeader = () => {
     const signOut = useSignOut()
     // eslint-disable-next-line
     const auth = useAuth()
-    //const {first_name, last_name} = auth().authState
+    //const {first_name, last_name} = auth()
     const first_name = "A"
     const last_name = "B"
     const nameInitial = first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase()

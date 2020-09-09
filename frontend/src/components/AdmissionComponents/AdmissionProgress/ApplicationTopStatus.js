@@ -3,7 +3,7 @@ import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import {useAuth, useSignOut} from "react-auth-jwt";
+import {useAuth, useSignOut} from "react-auth-kit";
 import Button from "@material-ui/core/Button";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -23,7 +23,7 @@ const ApplicationTopStatus = () => {
                 <Grid container justify={"center"} alignItems={"center"}>
                     <Grid item md={6}>
                         <Typography variant={"body1"} align={"left"}>
-                            Application No: <b>{auth().authState.application_no}</b>
+                            Application No: <b>{auth().application_no}</b>
                         </Typography>
                     </Grid>
                     <Grid item md={6}>

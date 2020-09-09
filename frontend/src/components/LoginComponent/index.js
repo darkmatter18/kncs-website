@@ -8,7 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from "@material-ui/core/Container";
-import {useSignIn} from "react-auth-jwt";
+import {useSignIn} from "react-auth-kit";
 import {useHistory} from "react-router-dom"
 import {useForm} from "react-hook-form";
 import LoginApi from "./api";
@@ -71,7 +71,12 @@ const AllLogin = () => {
                 try {
                     const res = await LoginApi.post(API_ROUTE_LOGIN, {...data, recaptcha_token: token})
                     if (res.status === 200){
-                        signIn(res.data.auth.access_token, res.data.auth.expires_in || 120, res.data.user) ?
+                        signIn({
+                            token:res.data.auth.access_token,
+                            authState:res.data.user,
+                            expiresIn: 120,
+                            tokenType: 'Bearer'})
+                            ?
                             history.push(`/${res.data.user.role}/dashboard`) :
                             setError("Unexpected Error Occurred. Try Again!")
                     }
