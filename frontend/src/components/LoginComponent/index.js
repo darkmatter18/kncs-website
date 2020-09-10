@@ -15,7 +15,7 @@ import LoginApi from "./api";
 import Footer from "../../lib/Footer";
 import NetworkButton from "../../lib/NetworkButton";
 import {useAxiosNetworkError, useError} from "../../context/NetworkError";
-import {API_ROUTE_LOGIN, networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
+import {networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,7 +69,7 @@ const AllLogin = () => {
         window.grecaptcha.ready(() => {
             window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'login'}).then(async (token) => {
                 try {
-                    const res = await LoginApi.post(API_ROUTE_LOGIN, {...data, recaptcha_token: token})
+                    const res = await LoginApi.post('', {...data, recaptcha_token: token})
                     if (res.status === 200){
                         signIn({
                             token:res.data.auth.access_token,
