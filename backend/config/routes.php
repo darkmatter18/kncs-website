@@ -46,6 +46,9 @@ return function (App $app) {
         $group->post('/users', UserCreateAction::class);
     })->add(JwtAuthMiddleware::class);
 
+    $app->options('/{routes:.+}', function ($request, $response, $args) {
+        return $response;
+    });
 
     //Login Route
     $app->post('/login', LoginAction::class);//->add(ReCaptchaValidateMiddleware::class);
