@@ -42,6 +42,8 @@ final class DeleteSubjectAction
             ];
 
             $response->getBody()->write((string)json_encode($result));
+            return $response
+                ->withHeader('Content-type', 'application/json');
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());
