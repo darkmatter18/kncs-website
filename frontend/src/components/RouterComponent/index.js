@@ -51,7 +51,7 @@ const RouterComponent = () => {
                 <PrivateRoute path={DASHBOARD} component={Dashboard} loginPath={LOGIN} exact/>
                 <PrivateRoute path={ADMIN_ADMISSION_SELECTION} component={AdminAdmissionSelection} loginPath={LOGIN}
                               exact/>
-                <Route path={ADMIN_MANAGE_SCHOOL} component={SchoolComponent} exact/>
+                <PrivateRoute path={ADMIN_MANAGE_SCHOOL} component={SchoolComponent} exact/>
                 <Route path={MEET_THE_DEVS} component={MeetTheDeveloperComponent} exact/>
                 <Route path='*' exact={true} component={Page404Component}/>
             </Switch>

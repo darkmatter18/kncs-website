@@ -14,6 +14,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import {useHistory} from 'react-router-dom'
 import {ADMIN_ADMISSION_SELECTION} from "../RouterComponent/routes";
+import {ADMIN_SCHOOL_ROUTES_BASE} from "../../constant";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -95,7 +96,7 @@ const DashboardAdmin = () => {
                                         </Typography>
                                         <Divider className={classes.divider}/>
                                         <List>
-                                            <ListItem button onClick={onClickEvent(ADMIN_ADMISSION_SELECTION)}>
+                                            <ListItem button onClick={onClickEvent(ADMIN_SCHOOL_ROUTES_BASE + '/classes')}>
                                                 <ListItemAvatar>
                                                     <Avatar className={classes.listColor}>
                                                         <HomeWorkRounded />
