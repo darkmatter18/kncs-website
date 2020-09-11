@@ -40,8 +40,8 @@ final class PreRegistrationLoginAction
             ];
 
             $response->getBody()->write((string)json_encode($return));
-            return $response
-                ->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Content-Type', 'application/json');
+
         } catch (Exception $e) {
             return $response->withStatus($e->getCode(), $e->getMessage());
         }

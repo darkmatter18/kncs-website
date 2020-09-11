@@ -14,12 +14,13 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {ValidateEmail} from "../../lib/validation";
 import NetworkButton from "../../lib/NetworkButton";
-import {networkStates, networkButtonTypes, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
-import {Api} from "../../api";
+import {networkStates, networkButtonTypes, RECAPTCHA_SITE_KEY} from "../../constant";
 import {useSignIn} from "react-auth-kit";
 import {useHistory} from "react-router-dom";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
+import AdmissionApi from "./api";
+import {useAxiosNetworkError, useError} from "../../context/NetworkError";
 
 
 const useStyle = makeStyles((theme) => ({
@@ -35,13 +36,16 @@ const AdmissionExisting = () => {
     const signIn = useSignIn()
     const classes = useStyle()
     const history = useHistory()
+    const setError = useError()
+    const setAxiosError = useAxiosNetworkError()
+
     const initialState = {application_no: '', email: '', dob: new Date("2006-04-01")}
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState({
         application_no: [false, "Enter Your 10 digit Application No"],
         email: [false, "Enter your E-Mail Id"]
     })
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
         e.preventDefault()
@@ -87,49 +91,45 @@ const AdmissionExisting = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setNetworkState([networkState.BUSY, ''] )
+            setNetworkState(networkState.BUSY)
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
-                    Api.post(PRE_REGISTRATION_LOGIN, {
+                    AdmissionApi.post('/login', {
                         ...formData,
                         dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
                     }).then((res)=>{
-                        if(res.data.status){
+                        if(res.status === 200){
                             const r = signIn({
                                 token:res.data.auth.access_token,
-                                authState: {
-                                    application_no: res.data.application_no,
-                                    status: res.data.RecStatus
-                                },
+                                authState: res.data.user,
                                 expiresIn: 120,
-                                tokenType: 'Bearer'})
+                                tokenType: res.data.auth.token_type})
                             if(r){
-                                console.log("Signing In")
-                                if(res.data.RecStatus === 'DRAFT'){
+                                if(res.data.user.status === 'DRAFT'){
                                     history.push(`/admission/progress/personal_info`)
                                 } else {
                                     history.push(`/admission/progress/declaration`)
                                 }
                             }else {
-                                setNetworkState([networkStates.ERROR, 'Internal error occurred (Authentication Failed. ' +
-                                'Please Retry from "http://kncs.com/portal/admission/existing" )'])
+                                setNetworkState(networkStates.ERROR)
+                                setError("Some unexpected error occurred")
                             }
                         }
                         else {
-                            setNetworkState([networkStates.ERROR, res.data.error])
+                            setNetworkState(networkStates.ERROR)
+                            setError("Some unexpected error occurred")
                         }
                     }).catch((e)=>{
-                        console.log(e)
-                        setNetworkState([networkStates.ERROR, `Internal Error occurred 
-                        (${e.response.status} - ${e.response.data.error})`])
+                        setNetworkState(networkStates.ERROR)
+                        setAxiosError(e)
                     })
-                }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                }).catch(()=>{
+                    setNetworkState(networkStates.ERROR)
+                    setError("ReCaptcha Verification failed")
                 })
             })
         }
@@ -207,17 +207,12 @@ const AdmissionExisting = () => {
                                 </Grid>
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkButton buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <NetworkButton buttonStyle={networkButtonTypes.SEARCH} handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant={"subtitle2"} color={"error"}>
-                                            {networkState[0] === networkStates.ERROR ? networkState[1] :""}
-                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </CardContent>

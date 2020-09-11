@@ -7,63 +7,64 @@ import Paper from "@material-ui/core/Paper";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import {networkButtonTypes, networkStates, PRE_REGISTRATION_LOGIN, RECAPTCHA_SITE_KEY} from "../../constant";
-import {Api} from "../../api";
+import {networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import {useSignIn} from "react-auth-kit";
 import NetworkButton from "../../lib/NetworkButton";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
+import AdmissionApi from "./api";
+import {useAxiosNetworkError, useError} from "../../context/NetworkError";
 
 const AdmissionNewDone = () => {
     const history = useHistory()
     const signIn = useSignIn()
+    const setError = useError()
+    const setAxiosError = useAxiosNetworkError()
 
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setNetworkState([networkStates.BUSY, ''])
+        setNetworkState(networkStates.BUSY)
         const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(history.location.state.dob))
         const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(history.location.state.dob))
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(history.location.state.dob))
-        window.grecaptcha.ready(() => {
-            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                Api.post(PRE_REGISTRATION_LOGIN, {
+        window.grecaptcha.ready(()=>{
+            window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=> {
+                AdmissionApi.post('/login', {
                     application_no: history.location.state.application_no,
                     email: history.location.state.email,
                     dob: `${ye}-${mo}-${da}`,
                     recaptcha_token: token
-                }).then((res) => {
-                    if (res.data.status) {
+                }).then((res)=>{
+                    if(res.status === 200){
                         const r = signIn({
                             token:res.data.auth.access_token,
-                            authState: {
-                                application_no: res.data.application_no,
-                                status: res.data.RecStatus
-                            },
+                            authState: res.data.user,
                             expiresIn: 120,
-                            tokenType: 'Bearer'})
-                        if (r) {
-                            console.log("Signing In")
-                            if(res.data.RecStatus === 'DRAFT'){
+                            tokenType: res.data.auth.token_type})
+                        if(r){
+                            if(res.data.user.status === 'DRAFT'){
                                 history.push(`/admission/progress/personal_info`)
                             } else {
                                 history.push(`/admission/progress/declaration`)
                             }
-                        } else {
-                            setNetworkState([networkStates.ERROR, 'Internal error occurred'])
+                        }else {
+                            setNetworkState(networkStates.ERROR)
+                            setError("Some unexpected error occurred")
                         }
-                    } else {
-                        setNetworkState([networkStates.ERROR, res.data.error])
                     }
-                }).catch((e) => {
-                    console.log(e)
-                    setNetworkState([networkStates.ERROR, `Internal error occurred 
-                    (${e.response.status} - ${e.response.data.error})`])
+                    else {
+                        setNetworkState(networkStates.ERROR)
+                        setError("Some unexpected error occurred")
+                    }
+                }).catch((e)=>{
+                    setNetworkState(networkStates.ERROR)
+                    setAxiosError(e)
                 })
-            }).catch((e)=>{
-                console.error(e)
-                setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+            }).catch(()=>{
+                setNetworkState(networkStates.ERROR)
+                setError("ReCaptcha Verification failed")
             })
         })
     }
@@ -112,10 +113,7 @@ const AdmissionNewDone = () => {
                                     </Typography>
                                     <Typography align={"center"} style={{marginTop: 16}}>
                                         <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT}
-                                                handleSubmit={handleSubmit} networkState={networkState[0]}/>
-                                    </Typography>
-                                    <Typography variant={"body2"} >
-                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
+                                                handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Typography>
                                 </CardContent>
                             </Card>
