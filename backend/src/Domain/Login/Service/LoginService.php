@@ -57,6 +57,7 @@ final class LoginService{
         $user_data = $this->loginRepository->getUserDataAndLogin($userDetails['user_id'], $userDetails['user_role']);
         $this->loginRepository->updateLoginDateTime($userDetails['user_id']);
 
+        $user_data['role'] = $userDetails['user_role'];
         return [
             'user' =>$user_data,
             'jwt' => $this->makeAuthToken($userDetails['user_id'], $userDetails['user_role']),

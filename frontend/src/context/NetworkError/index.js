@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import PropTypes from 'prop-types';
-import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Button} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
