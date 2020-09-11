@@ -31,5 +31,5 @@ export const SCHOOL_NAME_SHORT = "KNCS"
 export const HOME_REDIRECT_TO_LOGIN = true
 
 export const APP_DEFAULT_SETTINGS = {
-    ADMISSION_ON: false
+    ADMISSION_ON: "false"
 }
