@@ -37,7 +37,7 @@ const RouterComponent = () => {
                 <Route path={HOME} component={Home} exact/>
 
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
-                {appSettings().ADMISSION_ON ? (
+                {appSettings().ADMISSION_ON === "true" ? (
                     <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
                 ) : (
                     <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
