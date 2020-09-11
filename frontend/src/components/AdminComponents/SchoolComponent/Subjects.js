@@ -21,8 +21,10 @@ const Subjects = () => {
                 const res = await schoolApi({headers: {Authorization: authHeader()}})
                 setIsLoading(false)
                 if (res.status === 200) {
-                    console.log(res.data.data)
                     setSubjectData(() => res.data.data)
+                }
+                if (res.status === 204) {
+                    setSubjectData(() => [])
                 }
             } catch (e) {
                 setIsLoading(false)

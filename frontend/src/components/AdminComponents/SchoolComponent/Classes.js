@@ -24,6 +24,9 @@ const Classes = () => {
                     console.log(res.data.data)
                     setClassData(() => res.data.data)
                 }
+                if (res.status === 204) {
+                    setClassData(()=> [])
+                }
             } catch (e) {
                 axiosNetworkError(e)
                 setIsLoading(false)
