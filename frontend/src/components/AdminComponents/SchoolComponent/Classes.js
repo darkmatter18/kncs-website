@@ -12,17 +12,21 @@ const Classes = () => {
     const authHeader = useAuthHeader()
     const axiosNetworkError = useAxiosNetworkError()
     const [classData, setClassData] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(false)
 
     React.useEffect(() => {
         const networkRequest = async () => {
             try {
+                setIsLoading(true)
                 const res = await classApi({headers: {Authorization: authHeader()}})
+                setIsLoading(false)
                 if (res.status === 200) {
                     console.log(res.data.data)
                     setClassData(() => res.data.data)
                 }
             } catch (e) {
                 axiosNetworkError(e)
+                setIsLoading(false)
             }
         }
         networkRequest()
@@ -42,41 +46,51 @@ const Classes = () => {
                     pageSize: 10,
                     pageSizeOptions: [10, 20, 30]
                 }}
+                isLoading={isLoading}
                 editable={{
                     onRowAdd: async newData => {
                         console.log(newData)
                         try {
+                            setIsLoading(true)
                             const res = await classApi.post('', newData,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
                             }
                         } catch (error) {
                             axiosNetworkError(error)
+                            setIsLoading(false)
                         }
                     },
                     onRowUpdate: async newData => {
                         console.log(newData)
                         try {
+                            setIsLoading(true)
                             const res = await classApi.put(`/${newData.id}`, newData,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
                             }
                         } catch (error) {
                             axiosNetworkError(error)
+                            setIsLoading(false)
                         }
                     },
                     onRowDelete: async oldData => {
                         console.log(oldData)
                         try {
+                            setIsLoading(true)
                             const res = await classApi.delete(`/${oldData.id}`,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
                             }
                         } catch (error) {
                             axiosNetworkError(error)
+                            setIsLoading(false)
                         }
                     }
                 }}

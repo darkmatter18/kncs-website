@@ -12,16 +12,20 @@ const Subjects = () => {
     const authHeader = useAuthHeader()
     const axiosNetworkError = useAxiosNetworkError()
     const [subjectData, setSubjectData] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(false)
 
     React.useEffect(() => {
         const networkRequest = async () => {
             try {
+                setIsLoading(true)
                 const res = await schoolApi({headers: {Authorization: authHeader()}})
+                setIsLoading(false)
                 if (res.status === 200) {
                     console.log(res.data.data)
                     setSubjectData(() => res.data.data)
                 }
             } catch (e) {
+                setIsLoading(false)
                 axiosNetworkError(e)
             }
         }
@@ -36,7 +40,7 @@ const Subjects = () => {
                     {title: "Subjects", field: "subject", type: "string"},
                 ]}
                 data={subjectData}
-                isLoading={subjectData.length === 0}
+                isLoading={isLoading}
                 options={{
                     pageSize: 10,
                     pageSizeOptions: [10, 20, 30]
@@ -45,36 +49,45 @@ const Subjects = () => {
                     onRowAdd: async newData => {
                         console.log(newData)
                         try {
+                            setIsLoading(true)
                             const res = await schoolApi.post('', newData,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
                             }
                         } catch (error) {
+                            setIsLoading(false)
                             axiosNetworkError(error)
                         }
                     },
                     onRowUpdate: async newData => {
                         console.log(newData)
                         try {
+                            setIsLoading(true)
                             const res = await schoolApi.put(`/${newData.id}`, newData,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
                             }
                         } catch (error) {
+                            setIsLoading(false)
                             axiosNetworkError(error)
                         }
                     },
                     onRowDelete: async oldData => {
                         console.log(oldData)
                         try {
+                            setIsLoading(true)
                             const res = await schoolApi.delete(`/${oldData.id}`,
                                 {headers: {Authorization: authHeader()}})
+                            setIsLoading(false)
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
                             }
                         } catch (error) {
+                            setIsLoading(false)
                             axiosNetworkError(error)
                         }
                     }
