@@ -26,7 +26,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import {Api} from '../../../api'
 import {ValidateName} from "../../../lib/validation";
-import {useAuth, useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-kit";
 import {ADMISSION_ALL_DONE} from "../../RouterComponent/routes";
 import Footer from "../../../lib/Footer";
 
@@ -303,7 +303,7 @@ const Progress4Declaration = () => {
                                         <Grid item md={4}>
                                             <Typography variant={"body1"} color={"textPrimary"}
                                                         align={"center"}>
-                                                Application No: <b>{auth().authState.application_no}</b>
+                                                Application No: <b>{auth().application_no}</b>
                                             </Typography>
                                         </Grid>
                                         <Grid item md={4}>

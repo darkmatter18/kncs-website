@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthProvider } from 'react-auth-jwt'
+import { AuthProvider } from 'react-auth-kit'
 import { CssBaseline } from '@material-ui/core';
 import RouteComponent from './../RouterComponent';
 import {ThemeProvider} from "@material-ui/styles";
@@ -9,11 +9,7 @@ import {ErrorProvider} from "../../context/NetworkError";
 const App = () => (
     <React.Fragment>
         <ThemeProvider theme={theme}>
-            <AuthProvider authCookieName={"_a"}
-                          authTimeCookieName={"_at"}
-                          stateCookieName={"_s"}
-                          cookieDomain={window.location.hostname}
-                          cookieSecure={window.location.protocol === "https:"}>
+            <AuthProvider authStorageType={"localstorage"}>
                 <CssBaseline />
                 <ErrorProvider>
                     <RouteComponent />

@@ -3,7 +3,7 @@ import MaterialTable from "material-table";
 import Grid from "@material-ui/core/Grid";
 import {SubjectRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
-import {useAuthHeader} from "react-auth-jwt";
+import {useAuthHeader} from "react-auth-kit";
 import {schoolApi} from "./api";
 import {useAxiosNetworkError} from "../../../context/NetworkError";
 

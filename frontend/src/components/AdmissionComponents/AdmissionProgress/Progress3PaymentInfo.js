@@ -2,7 +2,7 @@ import React from "react";
 import AdmissionProgressBack from "./AdmissionProgressBack";
 import {makeStyles} from "@material-ui/core/styles";
 import {Redirect, useHistory} from "react-router-dom";
-import {useAuth, useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-kit";
 import Container from "@material-ui/core/Container";
 import CardContent from "@material-ui/core/CardContent";
 import Paper from "@material-ui/core/Paper";
@@ -158,7 +158,7 @@ const Progress3PaymentInfo = () => {
             })
         }
     }
-    if(auth().authState.status !== 'DRAFT'){
+    if(auth().status !== 'DRAFT'){
         return <Redirect to={`/admission/progress/declaration`} />
     } else {
         return (

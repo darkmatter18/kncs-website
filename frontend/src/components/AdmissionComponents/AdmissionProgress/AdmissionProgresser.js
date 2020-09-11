@@ -13,7 +13,7 @@ import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../RouterComponent/routes";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {useAuth, useSignOut} from "react-auth-jwt";
+import {useAuth, useSignOut} from "react-auth-kit";
 
 const AdmissionProgresser = ({progress}) => {
     const signOut = useSignOut()
@@ -23,7 +23,7 @@ const AdmissionProgresser = ({progress}) => {
 
     const headerLinks = [
         (
-            `Application No - ${auth().authState.application_no}`
+            `Application No - ${auth().application_no}`
         ),
         (
             <IconButton onClick={() => signOut()} aria-label="show 17 new notifications" color="inherit">

@@ -23,7 +23,7 @@ import Radio from "@material-ui/core/Radio";
 import NetworkButton from "../../../lib/NetworkButton";
 import {Api} from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
-import {useAuth, useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-kit";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
 import Footer from "../../../lib/Footer";
@@ -677,7 +677,7 @@ const Progress2AcademicInfo = () => {
         }
     }
 
-    if (auth().authState.status !== 'DRAFT') {
+    if (auth().status !== 'DRAFT') {
         return <Redirect to={`/admission/progress/declaration`}/>
     } else {
         return (

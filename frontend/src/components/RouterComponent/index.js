@@ -9,7 +9,7 @@ import {
     ADMISSION_NEW_DONE, ADMISSION_PROGRESS_ROUTE, DASHBOARD,
     HOME, LOGIN, MEET_THE_DEVS
 } from "./routes";
-import {PrivateRoute} from "react-auth-jwt";
+import {PrivateRoute} from "react-auth-kit";
 
 import Home from "../HomeComponent";
 import AllLogin from "../LoginComponent";
@@ -44,12 +44,12 @@ const RouterComponent = () => {
                 <Route path={ADMISSION_NEW_DONE} component={AdmissionNewDone} exact/>
                 <Route path={ADMISSION_EXISTING} component={AdmissionExisting} exact/>
                 <Route path={ADMISSION_ALL_DONE} component={AdmissionAllDone} exact/>
-                <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} Component={AdmissionProgress} loginPath={ADMISSION_NEW}
+                <PrivateRoute path={ADMISSION_PROGRESS_ROUTE} component={AdmissionProgress} loginPath={ADMISSION_NEW}
                               exact/>
 
                 <Route path={LOGIN} component={AllLogin} exact/>
-                <PrivateRoute path={DASHBOARD} Component={Dashboard} loginPath={LOGIN} exact/>
-                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} Component={AdminAdmissionSelection} loginPath={LOGIN}
+                <PrivateRoute path={DASHBOARD} component={Dashboard} loginPath={LOGIN} exact/>
+                <PrivateRoute path={ADMIN_ADMISSION_SELECTION} component={AdminAdmissionSelection} loginPath={LOGIN}
                               exact/>
                 <Route path={ADMIN_MANAGE_SCHOOL} component={SchoolComponent} exact/>
                 <Route path={MEET_THE_DEVS} component={MeetTheDeveloperComponent} exact/>

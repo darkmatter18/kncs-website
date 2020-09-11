@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import {ClassRounded} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import MaterialTable from "material-table";
-import {useAuthHeader} from "react-auth-jwt";
+import {useAuthHeader} from "react-auth-kit";
 import {classApi} from "./api";
 import {useAxiosNetworkError} from "../../../context/NetworkError";
 

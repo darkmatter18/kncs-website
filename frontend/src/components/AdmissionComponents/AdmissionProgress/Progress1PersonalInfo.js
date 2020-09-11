@@ -22,7 +22,7 @@ import NetworkButton from "../../../lib/NetworkButton";
 import {validateMobileNo, ValidateName} from "../../../lib/validation";
 import {Api} from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
-import {useAuth, useAuthHeader} from "react-auth-jwt";
+import {useAuth, useAuthHeader} from "react-auth-kit";
 import ImageUploaderComponent from "../../ImageUploaderComponent";
 import Footer from "../../../lib/Footer";
 
@@ -340,7 +340,7 @@ const Progress1PersonalInfo = () => {
         }
     }
 
-    if(auth().authState.status !== 'DRAFT'){
+    if(auth().status !== 'DRAFT'){
         return <Redirect to={`/admission/progress/declaration`} />
     } else {
         return (
