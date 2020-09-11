@@ -1,5 +1,6 @@
 /**Api Routes */
 export const baseURL = process.env.NODE_ENV === "development" ? "http://localhost/kncs-website/backend" : "/portal/api"
+export const API_WEBSITE_SETTINGS = "/settings"
 export const API_ROUTE_LOGIN = '/login';
 export const PRE_REGISTRATION = '/preregistration'
 export const PRE_REGISTRATION_LOGIN = '/preregistration/login'
