@@ -63,9 +63,15 @@ const useAxiosNetworkError = () => {
         if (axiosCatch.response) {
             c.setError(`${axiosCatch.response.status} - ${axiosCatch.response.statusText}`)
         } else if (axiosCatch.request) {
-            c.setError(axiosCatch.request)
+            console.log(axiosCatch.request)
+            c.setError("Uncaught server error occurred")
         } else {
-            c.setError(axiosCatch.message)
+            console.log(axiosCatch.message)
+            if (typeof axiosCatch.message  === "string"){
+                c.setError(axiosCatch.message)
+            } else {
+                c.setError("Uncaught server error occurred")
+            }
         }
     }
 }
