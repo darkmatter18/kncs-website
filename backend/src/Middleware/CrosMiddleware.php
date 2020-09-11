@@ -33,13 +33,15 @@ class CrosMiddleware implements MiddlewareInterface
         $requestHeaders = $request->getHeaderLine('Access-Control-Request-Headers');
 
         $response = $handler->handle($request);
-        $cros_url = $this->container->get('settings')['cros_url'];
-        $response = $response->withHeader('Access-Control-Allow-Origin', $cros_url);
-        $response = $response->withHeader('Access-Control-Allow-Methods', implode(',', $methods));
-        $response = $response->withHeader('Access-Control-Allow-Headers', $requestHeaders);
 
-        // Optional: Allow Ajax CORS requests with Authorization header
-        // $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
+        $cros_urls = $this->container->get('settings')['cros_urls'];
+
+        if (in_array($_SERVER['HTTP_ORIGIN'], $cros_urls)) {
+            $response = $response->withHeader('Access-Control-Allow-Origin', $_SERVER['HTTP_ORIGIN']);
+            $response = $response->withHeader('Access-Control-Allow-Methods', implode(',', $methods));
+            $response = $response->withHeader('Access-Control-Allow-Headers', $requestHeaders);
+            $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
+        }
 
         return $response;
     }

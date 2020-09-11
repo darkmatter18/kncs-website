@@ -26,7 +26,7 @@ $settings['logger'] = [
     'file_permission' => 0775,
 ];
 
-$settings['cros_url'] = 'http://localhost:3000';
+$settings['cros_urls'] = ['http://localhost:3000'];
 
 // Error Handling Middleware settings
 $settings['error'] = [
