@@ -6,7 +6,7 @@ namespace App\Domain\Admin\School\Repository;
 
 use PDO;
 
-class SubjectRepository
+final class SubjectRepository
 {
     /**
      * @var PDO
