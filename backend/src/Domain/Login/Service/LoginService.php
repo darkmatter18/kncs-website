@@ -25,6 +25,10 @@ final class LoginService{
         $this->loginRepository = $loginRepository;
     }
 
+    /**
+     * Check login credentials inputs
+     * @param array $data
+     */
     public function checkInput(array $data): void{
         $errors = [];
         if(!(isset($data['email']) && isset($data['password']) && isset($data['recaptcha_token']))){
@@ -43,6 +47,11 @@ final class LoginService{
 
     }
 
+    /**
+     * Check and verify credentials with database data
+     * @param array $data
+     * @return array
+     */
     public function login(array $data): array {
         $userDetails = $this->loginRepository->checkUser($data['email']);
 
@@ -65,6 +74,12 @@ final class LoginService{
         ];
     }
 
+    /**
+     * Making Authentication token
+     * @param string $id
+     * @param string $role
+     * @return string
+     */
     private function makeAuthToken(string $id, string $role){
         return $this->auth->createJwt([
             'user_id' => $id,

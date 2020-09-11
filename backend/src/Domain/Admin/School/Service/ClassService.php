@@ -19,7 +19,10 @@ final class ClassService{
         $this->classRepository = $classRepository;
     }
 
-
+    /**
+     * Check if the user exists or not
+     * @param string $user_role
+     */
     public function checkUser(string $user_role): void{
         $errors = [];
         if($user_role != 'admin'){
@@ -31,20 +34,28 @@ final class ClassService{
         }
     }
 
+    /**
+     * Check if the class exists or not
+     * @param string $class_id
+     */
     public function checkClassId(string $class_id): void{
         $errors = [];
         $class = $this->classRepository->checkClassId($class_id);
 
         if(!$class){
-            $errors = ["Class doesn't exists."];
+            $errors['class'] = ["Class doesn't exists."];
         }
 
         if($errors){
-            throw new NotFoundException($errors[0], $errors);
+            throw new NotFoundException("Class id doesn't exists", $errors);
         }
 
     }
 
+    /**
+     * Check user input for class details
+     * @param array $class_details
+     */
     public function checkInput(array $class_details): void{
         $errors = [];
         if (empty($class_details['standard'])){
@@ -61,6 +72,10 @@ final class ClassService{
         }
     }
 
+    /**
+     * Fetch all classes
+     * @return array
+     */
     public function getClasses(): array{
         return $this->classRepository->getClasses();
     }
@@ -69,10 +84,19 @@ final class ClassService{
         $this->classRepository->createClass($class_details);
     }
 
+    /**
+     * Delete a class
+     * @param string $class_id
+     */
     public function deleteClass(string $class_id): void{
         $this->classRepository->deleteClass($class_id);
     }
 
+    /**
+     * Update a class
+     * @param array $new_class_details
+     * @param string $class_id
+     */
     public function updateClass(array $new_class_details, string $class_id): void{
         $this->classRepository->updateClass($new_class_details, $class_id);
     }

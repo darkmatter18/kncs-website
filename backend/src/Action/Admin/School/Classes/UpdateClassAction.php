@@ -41,6 +41,7 @@ final class UpdateClassAction
             //Get all classes
             $classes = $this->classService->getClasses();
 
+            //Return response
             if (sizeof($classes) === 0){
                 return $response->withStatus(204, 'No class found');
             }

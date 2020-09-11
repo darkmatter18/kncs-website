@@ -32,6 +32,7 @@ final class LoginAction
             // Check if the User exist
             $success_login_response = $this->login->login($data);
 
+            //Return response
             $return = [
                 'auth' => [
                     'access_token' => $success_login_response['jwt'],

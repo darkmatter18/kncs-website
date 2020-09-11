@@ -16,6 +16,11 @@ final class LoginRepository{
         $this->connection = $PDO;
     }
 
+    /**
+     * Check user id
+     * @param string $user_id
+     * @return array
+     */
     public function checkUser(string $user_id): array{
         $smt = $this->connection->prepare("SELECT user_id, user_password, user_role
                                                     FROM login WHERE user_email = :email LIMIT 1");
@@ -27,6 +32,12 @@ final class LoginRepository{
         return $data ? $data : array();
     }
 
+    /**
+     * Fetch User data while login
+     * @param string $user_id
+     * @param string $user_role
+     * @return array
+     */
     public function getUserDataAndLogin(string $user_id, string $user_role):array{
         $smt = null;
         if($user_role == 'student'){
@@ -50,6 +61,11 @@ final class LoginRepository{
 
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Update date and time
+     * @param string $user_id
+     */
     public function updateLoginDateTime(string $user_id): void{
 
         $current_time = date('m/d/Y h:i:s a', time());

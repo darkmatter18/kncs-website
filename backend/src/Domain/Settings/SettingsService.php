@@ -3,7 +3,6 @@
 
 namespace App\Domain\Settings;
 
-use App\Domain\Settings\SettingsRepository;
 
 final class SettingsService
 {
@@ -17,6 +16,10 @@ final class SettingsService
         $this->settingsRepository = $settingsRepository;
     }
 
+    /**
+     * Settings fetching
+     * @return array
+     */
     public function getAllSettings(): array{
         $x = $this->settingsRepository->getAllSettings();
         $result = [];
