@@ -27,6 +27,7 @@ use App\Action\Admission\SetProgress\SetDeclaration;
 use App\Action\Admission\SetProgress\SetPaymentInfo;
 use App\Action\Admission\SetProgress\SetPersonalInfo;
 use App\Action\DummyAuth;
+use App\Action\GetSettingAction;
 use App\Action\Home\HomeAction;
 use App\Action\LoginAction;
 use App\Action\UserCreateAction;
@@ -54,9 +55,17 @@ return function (App $app) {
         $group->post('/users', UserCreateAction::class);
     })->add(JwtAuthMiddleware::class);
 
+    /*
+     * Option route
+     */
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;
     });
+
+    /*
+     * Website settings route
+     */
+    $app->get('/settings', GetSettingAction::class);
 
     //Login Route
     $app->post('/login', LoginAction::class);//->add(ReCaptchaValidateMiddleware::class);
