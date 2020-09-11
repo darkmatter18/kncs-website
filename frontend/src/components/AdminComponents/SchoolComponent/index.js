@@ -51,7 +51,6 @@ const SchoolComponent = () => {
     )
 
     const renderRoute = () => {
-        console.log(school_route)
         switch (school_route) {
             case ADMIN_SCHOOL_ROUTES[0]:
                 return <Classes/>

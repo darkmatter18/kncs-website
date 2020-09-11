@@ -21,11 +21,9 @@ const Classes = () => {
                 const res = await classApi({headers: {Authorization: authHeader()}})
                 setIsLoading(false)
                 if (res.status === 200) {
-                    console.log(res.data.data)
                     setClassData(() => res.data.data)
                 }
                 if (res.status === 204) {
-                    console.log("Empty Classes")
                     setClassData(()=> [])
                 }
             } catch (e) {
@@ -62,6 +60,9 @@ const Classes = () => {
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
                             }
+                            if (res.status === 204) {
+                                setClassData(() => [])
+                            }
                         } catch (error) {
                             axiosNetworkError(error)
                             setIsLoading(false)
@@ -77,13 +78,16 @@ const Classes = () => {
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
                             }
+                            if (res.status === 204) {
+                                setClassData(()=> [])
+                            }
                         } catch (error) {
                             axiosNetworkError(error)
                             setIsLoading(false)
                         }
                     },
                     onRowDelete: async oldData => {
-                        console.log(oldData)
+
                         try {
                             setIsLoading(true)
                             const res = await classApi.delete(`/${oldData.id}`,
@@ -91,6 +95,9 @@ const Classes = () => {
                             setIsLoading(false)
                             if (res.status === 200) {
                                 setClassData(() => res.data.data)
+                            }
+                            if (res.status === 204) {
+                                setClassData(()=> [])
                             }
                         } catch (error) {
                             axiosNetworkError(error)

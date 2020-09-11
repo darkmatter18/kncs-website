@@ -24,7 +24,6 @@ const Subjects = () => {
                     setSubjectData(() => res.data.data)
                 }
                 if (res.status === 204) {
-                    console.log("Empty Subjects")
                     setSubjectData(() => [])
                 }
             } catch (e) {
@@ -59,6 +58,9 @@ const Subjects = () => {
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
                             }
+                            if (res.status === 204) {
+                                setSubjectData(() => [])
+                            }
                         } catch (error) {
                             setIsLoading(false)
                             axiosNetworkError(error)
@@ -74,6 +76,9 @@ const Subjects = () => {
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
                             }
+                            if (res.status === 204) {
+                                setSubjectData(() => [])
+                            }
                         } catch (error) {
                             setIsLoading(false)
                             axiosNetworkError(error)
@@ -88,6 +93,9 @@ const Subjects = () => {
                             setIsLoading(false)
                             if (res.status === 200) {
                                 setSubjectData(() => res.data.data)
+                            }
+                            if (res.status === 204) {
+                                setSubjectData(() => [])
                             }
                         } catch (error) {
                             setIsLoading(false)
