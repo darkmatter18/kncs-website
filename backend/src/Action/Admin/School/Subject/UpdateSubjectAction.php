@@ -39,6 +39,7 @@ final class UpdateSubjectAction{
             //Fetch all subjects
             $subjects = $this->subjectService->getSubject();
 
+            //Return response
             if (sizeof($subjects) === 0){
                 return $response->withStatus(204, 'No subject found');
             }

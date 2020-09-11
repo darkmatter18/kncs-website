@@ -18,8 +18,9 @@ final class SettingsRepository
         $this->connection = $PDO;
     }
 
-    /*
+    /**
      * Get all settings
+     * @return array
      */
     public function getAllSettings(): array{
         $smt = $this->connection->prepare("SELECT setting_key, setting_value FROM website_setting");

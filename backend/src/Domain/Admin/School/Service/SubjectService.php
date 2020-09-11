@@ -21,7 +21,7 @@ final class SubjectService
     }
 
     /**
-     * Check user role
+     * Check User role
      * @param string $userRole
      */
     public function checkUser(string $userRole): void{
@@ -35,6 +35,10 @@ final class SubjectService
         }
     }
 
+    /**
+     * Check subject id existence
+     * @param string $subject_id
+     */
     public function checkSubjectId(string $subject_id): void{
         $errors = [];
         $subject = $this->subjectRepository->checkSubjectId($subject_id);
@@ -46,10 +50,18 @@ final class SubjectService
         }
     }
 
+    /**
+     * Fetch all subjects
+     * @return array
+     */
     public function getSubject(): array{
         return $this->subjectRepository->getSubject();
     }
 
+    /**
+     * Check user input for subject
+     * @param array $subject_details
+     */
     public function checkInput(array $subject_details): void{
         $errors = [];
         if (empty($subject_details['subject_name'])){
@@ -61,14 +73,27 @@ final class SubjectService
         }
     }
 
+    /**
+     * Create new subject
+     * @param array $subject_details
+     */
     public function createSubject(array $subject_details){
         $this->subjectRepository->createSubject($subject_details);
     }
 
+    /**
+     * Update a existing subject
+     * @param array $new_subject_details
+     * @param string $subject_id
+     */
     public function updateSubject(array $new_subject_details, string $subject_id){
         $this->subjectRepository->updateSubject($new_subject_details, $subject_id);
     }
 
+    /**
+     * Delete a subject
+     * @param string $subject_id
+     */
     public function deleteSubject(string $subject_id): void{
         $this->subjectRepository->deleteSubject($subject_id);
     }

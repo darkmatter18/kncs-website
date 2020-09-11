@@ -6,7 +6,7 @@ namespace App\Domain\Admin\School\Repository;
 
 use PDO;
 
-class TeacherRepository
+final class TeacherRepository
 {
     /**
      * @var PDO
@@ -18,8 +18,10 @@ class TeacherRepository
         $this->connection = $PDO;
     }
 
-    /*
+    /**
      * Check if teacher id exists or not
+     * @param string $id
+     * @return bool
      */
     public function checkID(string $id): bool{
         $smt = $this->connection->prepare("SELECT COUNT(*) FROM teacher_basic_details WHERE id = :id");
@@ -28,8 +30,10 @@ class TeacherRepository
         return (bool)$smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get teacher basic details
+     * @param string $id
+     * @return array
      */
     public function getTeacherBasicDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM teacher_basic_details WHERE id = :id");
@@ -38,8 +42,10 @@ class TeacherRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get teacher address details
+     * @param string $id
+     * @return array
      */
     public function getTeacherAddressDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM teacher_address WHERE id = :id");
@@ -48,8 +54,10 @@ class TeacherRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get teacher communication details
+     * @param string $id
+     * @return array
      */
     public function getTeacherCommunicationDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM teacher_communication WHERE id = :id");

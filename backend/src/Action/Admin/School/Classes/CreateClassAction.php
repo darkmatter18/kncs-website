@@ -16,6 +16,7 @@ final class CreateClassAction{
     public function __construct(ClassService $classService){
         $this->classService = $classService;
     }
+
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response){
         try{
             //Check user role
@@ -33,6 +34,7 @@ final class CreateClassAction{
             //Get all classes
             $classes = $this->classService->getClasses();
 
+            //Return response
             if (sizeof($classes) === 0){
                 return $response->withStatus(204, 'No class found');
             }

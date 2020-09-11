@@ -25,7 +25,10 @@ final class GetSettingAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         try {
+            //Get settings
             $setting = $this->settingsService->getAllSettings();
+
+            //Return response
             if (sizeof($setting) === 0){
                 return $response->withStatus(204, 'No settings available');
             }

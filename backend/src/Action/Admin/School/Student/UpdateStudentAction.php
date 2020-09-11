@@ -8,7 +8,7 @@ use App\Domain\Admin\School\Service\StudentService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class UpdateStudentAction
+final class UpdateStudentAction
 {
     /**
      * @var StudentService

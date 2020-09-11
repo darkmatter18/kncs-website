@@ -6,7 +6,7 @@ namespace App\Domain\Admin\School\Repository;
 
 use PDO;
 
-class StudentRepository
+final class StudentRepository
 {
     /**
      * @var PDO
@@ -18,8 +18,10 @@ class StudentRepository
         $this->connection = $PDO;
     }
 
-    /*
+    /**
      * Check if student id exists or not
+     * @param string $id
+     * @return bool
      */
     public function checkID(string $id): bool{
         $smt = $this->connection->prepare("SELECT COUNT(*) FROM student_basic_details WHERE id = :id");
@@ -28,8 +30,10 @@ class StudentRepository
         return (bool)$smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student basic details
+     * @param string $id
+     * @return array
      */
     public function getStudentBasicDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_basic_details WHERE id = :id");
@@ -38,8 +42,10 @@ class StudentRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student academic info
+     * @param string $id
+     * @return array
      */
     public function getStudentAcademicDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_academic_info WHERE id = :id");
@@ -48,8 +54,10 @@ class StudentRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student address details
+     * @param string $id
+     * @return array
      */
     public function getStudentAddressDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_address WHERE id = :id");
@@ -58,8 +66,10 @@ class StudentRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student communication details
+     * @param string $id
+     * @return array
      */
     public function getStudentCommunicationDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_communication WHERE id = :id");
@@ -68,8 +78,10 @@ class StudentRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student family details
+     * @param string $id
+     * @return array
      */
     public function getStudentFamilyDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_family_details WHERE id = :id");
@@ -78,8 +90,10 @@ class StudentRepository
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /*
+    /**
      * Get student family communication details
+     * @param string $id
+     * @return array
      */
     public function getStudentFamilyCommunicationDetails(string $id): array{
         $smt = $this->connection->prepare("SELECT * FROM student_family_communication WHERE id = :id");
