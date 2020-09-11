@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import settingsApi from "./api";
 import PropTypes from "prop-types";
+import {APP_DEFAULT_SETTINGS} from "../../constant";
 
 const AppSettingsContext = React.createContext(null)
 
@@ -38,7 +39,11 @@ AppSettingsProvider.propTypes = {
 const useAppSettings = () => {
     const c = useContext(AppSettingsContext)
     return () => {
-        return c
+        if(c){
+            return c
+        } else {
+            return APP_DEFAULT_SETTINGS
+        }
     }
 }
 
