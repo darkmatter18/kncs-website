@@ -26,9 +26,10 @@ import {
     AdmissionProgress,
     AdmissionStop
 } from "../AdmissionComponents";
+import {useAppSettings} from "../../context/AppSettings";
 
 const RouterComponent = () => {
-    const admissionOn = false;
+    const appSettings = useAppSettings()
 
     return (
         <Router basename={'/portal'}>
@@ -36,7 +37,7 @@ const RouterComponent = () => {
                 <Route path={HOME} component={Home} exact/>
 
                 <Route path={ADMISSION_HOME} component={AdmissionHome} exact/>
-                {admissionOn ? (
+                {appSettings().ADMISSION_ON ? (
                     <Route path={ADMISSION_NEW} component={AdmissionNew} exact/>
                 ) : (
                     <Route path={ADMISSION_NEW} component={AdmissionStop} exact/>
