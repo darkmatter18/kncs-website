@@ -17,7 +17,7 @@ final class DeleteSubjectAction
     private $subjectService;
 
     public function __construct(SubjectService $subjectService){
-        $this->subjectService->$subjectService;
+        $this->subjectService = $subjectService;
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args){
@@ -42,8 +42,7 @@ final class DeleteSubjectAction
             ];
 
             $response->getBody()->write((string)json_encode($result));
-            return $response
-                ->withHeader('Content-type', 'application/json');
+            return $response->withHeader('Content-type', 'application/json');
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());
