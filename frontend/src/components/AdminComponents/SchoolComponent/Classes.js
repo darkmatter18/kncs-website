@@ -25,6 +25,7 @@ const Classes = () => {
                     setClassData(() => res.data.data)
                 }
                 if (res.status === 204) {
+                    console.log("Empty Classes")
                     setClassData(()=> [])
                 }
             } catch (e) {

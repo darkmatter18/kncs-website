@@ -24,6 +24,7 @@ const Subjects = () => {
                     setSubjectData(() => res.data.data)
                 }
                 if (res.status === 204) {
+                    console.log("Empty Subjects")
                     setSubjectData(() => [])
                 }
             } catch (e) {
@@ -39,7 +40,7 @@ const Subjects = () => {
         <React.Fragment>
             <MaterialTable
                 columns={[
-                    {title: "Subjects", field: "subject", type: "string"},
+                    {title: "Subjects", field: "subject_name", type: "string"},
                 ]}
                 data={subjectData}
                 isLoading={isLoading}
