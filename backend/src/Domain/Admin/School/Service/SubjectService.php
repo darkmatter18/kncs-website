@@ -72,10 +72,10 @@ final class SubjectService
     public function deleteSubject(string $subject_id){
         $errors = [];
         if (empty($subject_id)){
-            $errors = ['Subject ID is required to delete subject'];
+            $errors['subject'] = ['Subject ID is required to delete subject'];
         }
         if ($errors){
-            throw new NotFoundException($errors[0], $errors);
+            throw new NotFoundException('Subject ID not found', $errors);
         }
         $this->subjectRepository->deleteSubject($subject_id);
     }
