@@ -14,13 +14,14 @@ import Button from "@material-ui/core/Button";
 import SubHeader from "../../lib/HeaderComponents/SubHeader";
 import {makeStyles} from "@material-ui/core/styles";
 import {validateAadhar, ValidateEmail, validateMobileNo, ValidateName} from "../../lib/validation";
-import {networkButtonTypes, networkStates, PRE_REGISTRATION, RECAPTCHA_SITE_KEY} from "../../constant";
+import {networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../constant";
 import NetworkButton from "../../lib/NetworkButton";
 import {useHistory} from 'react-router-dom';
-import {Api} from '../../api'
 import {ADMISSION_NEW_DONE} from "../RouterComponent/routes";
 import Footer from "../../lib/Footer";
 import {Link} from "@material-ui/core";
+import AdmissionApi from "./api";
+import {useAxiosNetworkError, useError} from "../../context/NetworkError";
 
 const useStyle = makeStyles((theme) => ({
     subLine: {
@@ -34,6 +35,8 @@ const useStyle = makeStyles((theme) => ({
 const AdmissionNew = () => {
     const classes = useStyle()
     const history = useHistory()
+    const setError = useError()
+    const setAxiosError = useAxiosNetworkError()
 
     const initialState = {
         first_name: '',
@@ -53,7 +56,7 @@ const AdmissionNew = () => {
         email: [false, "Enter your E-Mail Id"],
         mobile: [false, "Enter 10 Digit Mobile Number"],
     })
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -138,34 +141,34 @@ const AdmissionNew = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState([networkStates.BUSY, ''])
+            setNetworkState(networkStates.BUSY)
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(formData.dob)
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(formData.dob)
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(formData.dob)
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    Api.post(PRE_REGISTRATION, {
+                    AdmissionApi.post('', {
                         ...formData,
                         dob: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
                     }).then((res) => {
-                        if (res.data.status) {
+                        if (res.status === 200) {
                             history.push(ADMISSION_NEW_DONE, {
                                 application_no: res.data.application_no,
                                 email: formData.email,
                                 dob: formData.dob
                             })
                         } else {
-                            setNetworkState([networkStates.ERROR, res.data.error])
+                            setError(res.statusText)
+                            setNetworkState(networkStates.IDLE)
                         }
                     }).catch((e) => {
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, `Internal error occurred 
-                        (${e.response.status} - ${e.response.data.error})`])
+                        setAxiosError(e)
+                        setNetworkState(networkStates.IDLE)
                     })
                 }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                    setError(e)
+                    setNetworkState(networkStates.IDLE)
                 })
             })
         }
@@ -277,17 +280,12 @@ const AdmissionNew = () => {
 
                                 <Grid container style={{marginTop: 16}} spacing={3} alignItems={"center"}>
                                     <Grid item>
-                                        <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState[0]}/>
+                                        <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} handleSubmit={handleSubmit} networkState={networkState}/>
                                     </Grid>
                                     <Grid item>
                                         <Button variant={"outlined"} color={"secondary"} onClick={handleReset}>
                                             reset
                                         </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant={"subtitle2"} align={"center"} color={"error"}>
-                                            {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
-                                        </Typography>
                                     </Grid>
                                 </Grid>
                             </CardContent>

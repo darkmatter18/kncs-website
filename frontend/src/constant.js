@@ -2,7 +2,7 @@
 export const baseURL = process.env.NODE_ENV === "development" ? "http://localhost/kncs-website/backend" : "/portal/api"
 export const API_WEBSITE_SETTINGS = "/settings"
 export const API_ROUTE_LOGIN = '/login';
-export const PRE_REGISTRATION = '/preregistration'
+export const API_ADMISSION = '/admission'
 export const PRE_REGISTRATION_LOGIN = '/preregistration/login'
 export const PRE_REGISTRATION_PRESONAL_INFO = '/preregistration/process/personal_info'
 export const PRE_REGISTRATION_ACADEMIC_INFO = '/preregistration/process/academic_info'

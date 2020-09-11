@@ -154,9 +154,6 @@ const AllLogin = () => {
                                 handleSubmit={handleSubmit}
                             />
                         </form>
-                        <Typography variant={"subtitle2"} align={"center"} color={"error"}>
-                            {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
-                        </Typography>
                     </div>
                 </Container>
                 <Box mt={5}>
