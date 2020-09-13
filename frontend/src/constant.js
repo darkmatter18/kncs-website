@@ -3,11 +3,10 @@ export const baseURL = process.env.NODE_ENV === "development" ? "http://localhos
 export const API_WEBSITE_SETTINGS = "/settings"
 export const API_ROUTE_LOGIN = '/login';
 export const API_ADMISSION = '/admission'
-export const PRE_REGISTRATION_LOGIN = '/preregistration/login'
-export const PRE_REGISTRATION_PRESONAL_INFO = '/preregistration/process/personal_info'
-export const PRE_REGISTRATION_ACADEMIC_INFO = '/preregistration/process/academic_info'
-export const PRE_REGISTRATION_PAYMENT_INFO = '/preregistration/process/payment_info'
-export const PRE_REGISTRATION_DECLARATION = '/preregistration/process/declaration'
+export const API_ADMISSION_PRESONAL_INFO = API_ADMISSION + '/process/personal_info'
+export const API_ADMISSION_ACADEMIC_INFO = API_ADMISSION + '/process/academic_info'
+export const API_ADMISSION_PAYMENT_INFO = API_ADMISSION + '/process/payment_info'
+export const API_ADMISSION_DECLARATION = API_ADMISSION + '/process/declaration'
 
 export const ADMIN_ADMISSION_DETAILS = "/admin/admission/details"
 export const ADMIN_PAYMENT_CONFIRM = "/admin/admission/payment"

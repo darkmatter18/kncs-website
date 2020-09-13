@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {networkButtonTypes, networkStates, PRE_REGISTRATION_PRESONAL_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
+import {networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../../constant";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import FormControl from "@material-ui/core/FormControl";
@@ -20,11 +20,12 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import NetworkButton from "../../../lib/NetworkButton";
 import {validateMobileNo, ValidateName} from "../../../lib/validation";
-import {Api} from '../../../api'
 import {useHistory, Redirect} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-kit";
 import ImageUploaderComponent from "../../ImageUploaderComponent";
 import Footer from "../../../lib/Footer";
+import {PersonalInfoApi} from "./api";
+import {useAxiosNetworkError, useError} from "../../../context/NetworkError";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,6 +46,9 @@ const Progress1PersonalInfo = () => {
     const history = useHistory()
     const authHeader = useAuthHeader()
     const auth = useAuth()
+    const axiosNetworkError = useAxiosNetworkError()
+    const networkError = useError()
+
     const initialState = {
         first_name: '',
         middle_name: '',
@@ -107,13 +111,13 @@ const Progress1PersonalInfo = () => {
     }
 
     React.useEffect(() => {
-        Api.get(PRE_REGISTRATION_PRESONAL_INFO, {
+        PersonalInfoApi({
             headers: {
                 Authorization: authHeader()
             }
         })
             .then((res) => {
-                if (res.data.status) {
+                if (res.status === 200) {
                     if (res.data.data) {
                         setFormData(prevState => ({
                             ...prevState,
@@ -158,17 +162,17 @@ const Progress1PersonalInfo = () => {
                         }))
                     }
                 } else {
-                    console.error(res.data.error)
+                    networkError(res.statusText)
                 }
             }).catch((e) => {
-            console.error(e)
+            axiosNetworkError(e)
         })
         // eslint-disable-next-line
     }, [])
 
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     const handleFormDataChange = (name) => (e) => {
         e.persist()
@@ -304,14 +308,14 @@ const Progress1PersonalInfo = () => {
             alert("Select a file before Submitting");
         } else {
             if (validate()) {
-                setNetworkState([networkStates.BUSY, ''])
+                setNetworkState(networkStates.BUSY)
                 console.log("DOB", formData.dob)
                 const ye = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(new Date(formData.dob))
                 const mo = new Intl.DateTimeFormat('en', {month: '2-digit'}).format(new Date(formData.dob))
                 const da = new Intl.DateTimeFormat('en', {day: '2-digit'}).format(new Date(formData.dob))
                 window.grecaptcha.ready(() => {
                     window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                        Api.post(PRE_REGISTRATION_PRESONAL_INFO, {
+                        PersonalInfoApi.post('', {
                             ...formData,
                             dob: `${ye}-${mo}-${da}`,
                             recaptcha_token: token
@@ -320,28 +324,27 @@ const Progress1PersonalInfo = () => {
                                 Authorization: authHeader()
                             }
                         }).then((res) => {
-                            if (res.data.status) {
+                            if (res.status === 200) {
                                 history.push(`/admission/progress/academic_info`)
                             } else {
-                                setNetworkState([networkStates.ERROR, 'Internal error occured ' +
-                                '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
+                                networkError(res.statusText)
+                                setNetworkState(networkStates.IDLE)
                             }
                         }).catch((e) => {
-                            console.error(e)
-                            setNetworkState([networkStates.ERROR, `Internal Error occourred 
-                        (${e.response.status} - ${e.response.data.error})`])
+                            axiosNetworkError(e)
+                            setNetworkState(networkStates.IDLE)
                         })
-                    }).catch((e)=>{
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                    }).catch(() => {
+                        networkError("Recaptcha failed - Please try again")
+                        setNetworkState(networkStates.IDLE)
                     })
                 })
             }
         }
     }
 
-    if(auth().status !== 'DRAFT'){
-        return <Redirect to={`/admission/progress/declaration`} />
+    if (auth().status !== 'DRAFT') {
+        return <Redirect to={`/admission/progress/declaration`}/>
     } else {
         return (
             <React.Fragment>
@@ -729,13 +732,9 @@ const Progress1PersonalInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
-                                            handleSubmit={handleSubmit}/>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
-                                    </Typography>
+                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                                   networkState={networkState}
+                                                   handleSubmit={handleSubmit}/>
                                 </Grid>
                             </Grid>
                         </CardContent>
