@@ -19,14 +19,51 @@ final class SetProcessRepository
         $this->connection = $PDO;
     }
 
-    /*
-     * Academic Info set
+    /**
+     * Check if the User already has a Academic Info
+     *
+     * @param int $application_no application_no of the user
+     * @return bool true if the exist, else false
      */
-
-    public function fetchAcademicInfo(int $application_no): bool{
-        $smt = $this->connection->prepare("SELECT COUNT(*) 
+    public function isAcademicInfoExists(int $application_no): bool{
+        return $this->isExist($application_no,"SELECT COUNT(*) 
                                                     FROM admission_student_preregistration_draft_previous_academic_info 
                                                     WHERE application_no= :application_no");
+    }
+
+    /**
+     * Check if the User already has a Personal Info
+     *
+     * @param int $application_no application_no of the user
+     * @return bool true if the exist, else false
+     */
+    public function isPersonalInfoExists(int $application_no): bool{
+        return $this->isExist($application_no,"SELECT COUNT(*) 
+                                                    FROM admission_student_preregistration_draft_basic_info  
+                                                    WHERE application_no= :application_no");
+    }
+
+    /**
+     * Check if the User already has a Payment Info
+     *
+     * @param int $application_no application_no of the user
+     * @return bool true if the exist, else false
+     */
+    public function isPaymentInfoExists(int $application_no): bool{
+        return $this->isExist($application_no,"SELECT COUNT(*) 
+                                                    FROM admission_student_preregistration_draft_payment_info 
+                                                    WHERE application_no= :application_no");
+    }
+
+    /**
+     * Check if the User already exist.
+     *
+     * @param int $application_no application_no of the user
+     * @param string $query_statement SQL Query
+     * @return bool true if the exist, else false
+     */
+    private function isExist(int $application_no, string $query_statement): bool {
+        $smt = $this->connection->prepare($query_statement);
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
         $smt->execute();
         return (bool)$smt->fetch(PDO::FETCH_ASSOC);
@@ -162,16 +199,6 @@ final class SetProcessRepository
     /*
      * Payment Info Set
      */
-
-    public function fetchPaymentInfo(int $application_no): bool{
-        $smt = $this->connection->prepare("SELECT COUNT(*) 
-                                                    FROM admission_student_preregistration_draft_payment_info 
-                                                    WHERE application_no= :application_no");
-        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
-        $smt->execute();
-        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function updatePaymentInfo(int $application_no, array $payment_data): void{
         //UPDATE
         $smt = $this->connection->prepare('UPDATE admission_student_preregistration_draft_payment_info
@@ -205,16 +232,6 @@ final class SetProcessRepository
     /*
      * Personal Info set
      */
-
-    public function fetchBasicInfo(int $application_no): bool{
-        $smt = $this->connection->prepare("SELECT COUNT(*) 
-                                                    FROM admission_student_preregistration_draft_basic_info  
-                                                    WHERE application_no= :application_no");
-        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
-        $smt->execute();
-        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function updateBasicInfo(int $application_no, array $basic_info){
         //table :  BASIC INFO
         $smt1= $this->connection->prepare('UPDATE admission_student_preregistration_draft_basic_info

@@ -22,11 +22,51 @@ final class SetProcessService
     /*
      * Academic info
      */
-    public function fetchAcademicInfo(int $application_no): bool{
-        return $this->setProcessRepository->fetchAcademicInfo($application_no);
+    public function isAcademicInfoExists(int $application_no): bool{
+        return $this->setProcessRepository->isAcademicInfoExists($application_no);
     }
 
-    public function checkAcademicInfo(array $academic_info): void{
+    public function updateAcademicInfo(int $application_no, array $academic_info){
+        $this->setProcessRepository->updateAcademicInfo($application_no, $academic_info);
+    }
+
+    public function addAcademicInfo(int $application_no, array $academic_info){
+        $this->setProcessRepository->setAcademicInfo($application_no, $academic_info);
+    }
+
+
+    public function isPaymentInfoExists(int $application_no): bool{
+        return $this->setProcessRepository->isPaymentInfoExists($application_no);
+    }
+
+    public function updatePaymentInfo(int $application_no, array $payment_info){
+        $this->setProcessRepository->updatePaymentInfo($application_no, $payment_info);
+    }
+
+    public function setPaymentInfo(int $application_no, array $payment_info){
+        $this->setProcessRepository->setPaymentInfo($application_no, $payment_info);
+    }
+
+    /*
+     * Personal info
+     */
+    public function isPersonalInfoExists(int $application_no): bool{
+        return $this->setProcessRepository->isPersonalInfoExists($application_no);
+    }
+
+    public function updateBasicInfo(int $application_no, array $personal_info){
+        $this->setProcessRepository->updateBasicInfo($application_no, $personal_info);
+    }
+
+    public function setBasicInfo(int $application_no, array $personal_info){
+        $this->setProcessRepository->setBasicInfo($application_no, $personal_info);
+    }
+
+    public function setDeclarationInfo(int $application_no, array $declaration_info){
+        $this->setProcessRepository->setDeclarationInfo($application_no, $declaration_info);
+    }
+
+    public function checkAcademicInfoInputs(array $academic_info): void{
         $errors = [];
         //Previous School Details   --- 3 inputs ---
         if (empty($academic_info['previous_school_name'])){
@@ -92,22 +132,7 @@ final class SetProcessService
         }
     }
 
-    public function updateAcademicInfo(int $application_no, array $academic_info){
-        $this->setProcessRepository->updateAcademicInfo($application_no, $academic_info);
-    }
-
-    public function setAcademicInfo(int $application_no, array $academic_info){
-        $this->setProcessRepository->setAcademicInfo($application_no, $academic_info);
-    }
-
-    /*
-     * Payment info
-     */
-    public function fetchPaymentInfo(int $application_no): bool{
-        return $this->setProcessRepository->fetchPaymentInfo($application_no);
-    }
-
-    public function checkPaymentInfo(array $payment_info): void{
+    public function checkPaymentInfoInputs(array $payment_info): void{
         $errors = [];
         if (empty($payment_info['mode_of_payment'])){
             $errors['mode_of_payment'] = 'Please enter the mode of payment';
@@ -127,22 +152,7 @@ final class SetProcessService
         }
     }
 
-    public function updatePaymentInfo(int $application_no, array $payment_info){
-        $this->setProcessRepository->updatePaymentInfo($application_no, $payment_info);
-    }
-
-    public function setPaymentInfo(int $application_no, array $payment_info){
-        $this->setProcessRepository->setPaymentInfo($application_no, $payment_info);
-    }
-
-    /*
-     * Personal info
-     */
-    public function fetchBasicInfo(int $application_no): bool{
-        return $this->setProcessRepository->fetchBasicInfo($application_no);
-    }
-
-    public function checkBasicInfo(array $basic_info): array{
+    public function checkPersonalInfoInputs(array $basic_info): array{
         $errors = [];
 
         if (empty($basic_info['gender'])){
@@ -205,21 +215,12 @@ final class SetProcessService
             return $basic_info;
         }
 
-
-    }
-
-    public function updateBasicInfo(int $application_no, array $personal_info){
-        $this->setProcessRepository->updateBasicInfo($application_no, $personal_info);
-    }
-
-    public function setBasicInfo(int $application_no, array $personal_info){
-        $this->setProcessRepository->setBasicInfo($application_no, $personal_info);
     }
 
     /*
      * Declaration info
      */
-    public function checkDeclarationInfo(array $declaration_info){
+    public function checkDeclarationInfoInputs(array $declaration_info){
         $errors = [];
         if (empty($declaration_info['date'])){
             $errors['date'] = 'Please enter a date';
@@ -234,9 +235,5 @@ final class SetProcessService
         if ($errors){
             throw new ValidationException('Please check your input.', $errors);
         }
-    }
-
-    public function setDeclarationInfo(int $application_no, array $declaration_info){
-        $this->setProcessRepository->setDeclarationInfo($application_no, $declaration_info);
     }
 }
