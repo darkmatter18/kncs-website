@@ -23,6 +23,15 @@ final class GetPersonalInfo{
         try {
             $application_no = $request->getAttribute('JwtClaims')['application_no'];
             $personal_info = $this->getServiceProcess->getPersonalInfo($application_no);
+
+            $result = [
+                'data' => $personal_info
+            ];
+
+            $response->getBody()->write((string)json_encode($result));
+            return $response
+                ->withHeader('Content-Type', 'application/json');
+
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());
         }

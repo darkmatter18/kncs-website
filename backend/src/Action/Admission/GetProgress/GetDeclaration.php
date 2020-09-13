@@ -24,6 +24,14 @@ final class GetDeclaration
         try {
             $application_no = $request->getAttribute('JwtClaims')['application_no'];
             $declaration_info = $this->getPrecessService->getDeclarationInfo($application_no);
+            $result = [
+                'data' => $declaration_info
+            ];
+
+            $response->getBody()->write((string)json_encode($result));
+            return $response
+                ->withHeader('Content-Type', 'application/json');
+
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());
         }
