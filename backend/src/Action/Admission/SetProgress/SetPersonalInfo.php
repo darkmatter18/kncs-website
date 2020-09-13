@@ -29,16 +29,20 @@ final class SetPersonalInfo
             $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
 
             //Check personal info data
-            $personal_info = $this->setProcessService->checkBasicInfo($personal_info);
+            // TODO: Convert this Function Just for Checking Input This function will return void
+            $personal_info = $this->setProcessService->checkPersonalInfoInputs($personal_info);
+
+            // TODO: Make a function to sanitize inputs
 
             //Set or update personal info
-            if ($this->setProcessService->fetchBasicInfo($application_no)){
+            if ($this->setProcessService->isPersonalInfoExists($application_no)){
                 $this->setProcessService->updateBasicInfo($application_no, $personal_info);
             }else{
                 $this->setProcessService->setBasicInfo($application_no, $personal_info);
             }
 
-
+            // On Successful Completion on the Request, server sends a 204 response without any body
+            return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());
