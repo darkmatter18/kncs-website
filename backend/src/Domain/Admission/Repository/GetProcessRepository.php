@@ -26,17 +26,17 @@ final class GetProcessRepository{
                                                     T4.second_major, T4.third_major, T4.forth_major, 
                                                     T4.direct_admission, T4.medium
                                                     FROM `admission_student_preregistration_details` AS T1
-                                    INNER JOIN `admission_student_preregistration_draft_previous_academic_info` AS T2
-                                                    ON T1.application_no=T2.application_no
-                                    INNER JOIN `admission_student_preregistration_draft_previous_academic_marks` AS T3
-                                                    ON T1.application_no=T3.application_no
-                                    INNER JOIN `admission_student_preregistration_draft_present_academic` AS T4
-                                                    ON T1.application_no=T4.application_no
-                                                    WHERE T1.application_no = :application_no");
+                                                    INNER JOIN `admission_student_preregistration_draft_previous_academic_info` AS T2
+                                                                    ON T1.application_no=T2.application_no
+                                                    INNER JOIN `admission_student_preregistration_draft_previous_academic_marks` AS T3
+                                                                    ON T1.application_no=T3.application_no
+                                                    INNER JOIN `admission_student_preregistration_draft_present_academic` AS T4
+                                                                    ON T1.application_no=T4.application_no
+                                                                    WHERE T1.application_no = :application_no");
 
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetchAll(PDO::FETCH_ASSOC);
+        return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getDeclarationInfo(int $application_no): array{
@@ -54,25 +54,25 @@ final class GetProcessRepository{
                                                     second_major, third_major, forth_major, direct_admission, medium,
                                                     T8.mode_of_payment, name_of_bank, transaction_id, transaction_date
                                                     FROM admission_student_preregistration_details AS T1
-                                    INNER JOIN admission_student_preregistration_draft_basic_info AS T2
-                                                    ON T1.application_no = T2.application_no
-                                    INNER JOIN admission_student_preregistration_draft_address AS T3
-                                                    ON T1.application_no = T3.application_no
-                                    INNER JOIN admission_student_preregistration_draft_family_info AS T4
-                                                    ON T1.application_no = T4.application_no
-                                    INNER JOIN admission_student_preregistration_draft_previous_academic_info AS T5
-                                                    ON T1.application_no = T5.application_no
-                                    INNER JOIN admission_student_preregistration_draft_previous_academic_marks AS T6
-                                                    ON T1.application_no = T6.application_no
-                                    INNER JOIN admission_student_preregistration_draft_present_academic AS T7
-                                                    ON T1.application_no = T7.application_no
-                                    INNER JOIN admission_student_preregistration_draft_payment_info AS T8
-                                                    ON T1.application_no = T8.application_no
-                                                    WHERE T1.application_no = :application_no");
+                                                    INNER JOIN admission_student_preregistration_draft_basic_info AS T2
+                                                                    ON T1.application_no = T2.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_address AS T3
+                                                                    ON T1.application_no = T3.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_family_info AS T4
+                                                                    ON T1.application_no = T4.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_previous_academic_info AS T5
+                                                                    ON T1.application_no = T5.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_previous_academic_marks AS T6
+                                                                    ON T1.application_no = T6.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_present_academic AS T7
+                                                                    ON T1.application_no = T7.application_no
+                                                    INNER JOIN admission_student_preregistration_draft_payment_info AS T8
+                                                                    ON T1.application_no = T8.application_no
+                                                                    WHERE T1.application_no = :application_no");
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetchAll(PDO::FETCH_ASSOC);
+        return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getPaymentInfo(int $application_no): array{
@@ -84,7 +84,8 @@ final class GetProcessRepository{
                                                     WHERE T1.application_no = :application_no");
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
-        return $smt->fetchAll(PDO::FETCH_ASSOC);
+        $smt->execute();
+        return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getPersonalInfo(int $application_no): array{
@@ -97,17 +98,18 @@ final class GetProcessRepository{
                                                     T4.address_line_1, T4.address_line_2, T4.city, T4.district, T4.pin,
                                                     T5.image_type, T5.image
                                                     FROM `admission_student_preregistration_details` AS T1
-                                    LEFT OUTER JOIN `admission_student_preregistration_draft_basic_info` AS T2
-                                                    ON T1.application_no=T2.application_no
-                                    LEFT OUTER JOIN `admission_student_preregistration_draft_family_info` AS T3
-                                                    ON T1.application_no=T3.application_no
-                                    LEFT OUTER JOIN `admission_student_preregistration_draft_address` AS T4
-                                                    ON T1.application_no=T4.application_no
-                                    LEFT OUTER JOIN `admission_student_preregistration_draft_image` AS T5
-                                                    ON T1.application_no=T5.application_no
-                                                    WHERE T1.application_no = :application_no");
+                                                    LEFT OUTER JOIN `admission_student_preregistration_draft_basic_info` AS T2
+                                                                    ON T1.application_no=T2.application_no
+                                                    LEFT OUTER JOIN `admission_student_preregistration_draft_family_info` AS T3
+                                                                    ON T1.application_no=T3.application_no
+                                                    LEFT OUTER JOIN `admission_student_preregistration_draft_address` AS T4
+                                                                    ON T1.application_no=T4.application_no
+                                                    LEFT OUTER JOIN `admission_student_preregistration_draft_image` AS T5
+                                                                    ON T1.application_no=T5.application_no
+                                                                    WHERE T1.application_no = :application_no");
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt->execute();
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 }
