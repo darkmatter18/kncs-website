@@ -21,10 +21,10 @@ final class GetProcessService
 
     /**
      * Fetch academic info
-     * @param int $application_no
+     * @param string $application_no
      * @return array
      */
-    public function getAcademicInfo(int $application_no): array{
+    public function getAcademicInfo(string $application_no): array{
         return $this->getProcessRepository->getAcademicInfo($application_no);
     }
 

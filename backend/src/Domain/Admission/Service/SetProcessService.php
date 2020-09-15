@@ -214,49 +214,69 @@ final class SetProcessService
         if (empty($basic_info['gender'])){
             $errors['gender'] = 'Please enter your gender';
         }
+
         if (empty($basic_info['religion'])){
             $errors['religion'] = 'Please enter your religion';
         }
+
         if (empty($basic_info['caste'])){
             $errors['caste'] = 'Please enter your caste';
         }
+
         if (empty($basic_info['mother_tongue'])){
             $errors['mother_tongue'] = 'Please enter your mother tongue';
         }
+
         if (empty($basic_info['whatsapp_no'])){
-            $errors['whatsapp_no'] = 'Please enter your whatsapp no';
+            $errors['whatsapp_no'] = 'Please enter a mobile number';
+        }elseif (strlen($basic_info['whatsapp_no']) != 10){
+            $errors['whatsapp_no'] = 'Please enter a valid mobile number';
+        }elseif (filter_var($basic_info['whatsapp_no'], FILTER_VALIDATE_INT) === false){
+            $errors['whatsapp_no'] = 'Please enter a valid mobile number';
         }
+
         if (empty($basic_info['father_name'])){
             $errors['father_name'] = 'Please enter your father name';
         }
+
         if (empty($basic_info['mother_name'])){
             $errors['mother_name'] = 'Please enter your mother name';
         }
+
         if (empty($basic_info['guardian_name'])){
             $errors['guardian_name'] = 'Please enter your guardian name';
         }
+
         if (empty($basic_info['guardian_occupation'])){
             $errors['guardian_occupation'] = 'Please enter your guardian occupation';
         }
+
         if (empty($basic_info['address_line_1'])){
             $errors['address_line_1'] = 'Please enter your address';
         }
+
         if (empty($basic_info['city'])){
             $errors['city'] = 'Please enter your city';
         }
+
         if (empty($basic_info['district'])){
             $errors['district'] = 'Please enter your district';
         }
+
         if (empty($basic_info['pin'])){
             $errors['pin'] = 'Please enter your pin';
         }elseif (filter_var($basic_info['pin'], FILTER_VALIDATE_INT) === false){
             $errors['pin'] = 'Please enter a valid pin';
+        }elseif (strlen($basic_info['pin']) != 6){
+            $errors['pin'] = 'Please enter a valid pin';
         }
+
         if ($basic_info['apply_for_reserved_seat']){
             $basic_info['apply_for_reserved_seat'] = 1;
         }else{
             $basic_info['apply_for_reserved_seat'] = 0;
         }
+
         if ($basic_info['guardian_same_father']){
             $basic_info['guardian_same_father'] = 1;
         }else{

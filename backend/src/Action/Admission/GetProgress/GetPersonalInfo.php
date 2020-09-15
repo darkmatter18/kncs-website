@@ -21,7 +21,7 @@ final class GetPersonalInfo{
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
-            $application_no = $request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
             $personal_info = $this->getServiceProcess->getPersonalInfo($application_no);
 
             $result = [
