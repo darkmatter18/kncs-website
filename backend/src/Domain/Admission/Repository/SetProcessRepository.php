@@ -34,10 +34,10 @@ final class SetProcessRepository
     /**
      * Check if the User already has a Personal Info
      *
-     * @param int $application_no application_no of the user
+     * @param string $application_no application_no of the user
      * @return bool true if the exist, else false
      */
-    public function isPersonalInfoExists(int $application_no): bool{
+    public function isPersonalInfoExists(string $application_no): bool{
         return $this->isExist($application_no,"SELECT COUNT(*) 
                                                     FROM admission_student_preregistration_draft_basic_info  
                                                     WHERE application_no= :application_no");
@@ -58,15 +58,16 @@ final class SetProcessRepository
     /**
      * Check if the User already exist.
      *
-     * @param int $application_no application_no of the user
+     * @param string $application_no application_no of the user
      * @param string $query_statement SQL Query
      * @return bool true if the exist, else false
      */
-    private function isExist(int $application_no, string $query_statement): bool {
+    private function isExist(string $application_no, string $query_statement): bool {
         $smt = $this->connection->prepare($query_statement);
-        $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
+        $smt->bindParam(":application_no", $application_no, PDO::PARAM_STR);
         $smt->execute();
-        return (bool)$smt->fetch(PDO::FETCH_ASSOC);
+        print_r($smt->fetch(PDO::FETCH_ASSOC));
+        return false;
     }
 
     /**
@@ -246,7 +247,7 @@ final class SetProcessRepository
      * @param int $application_no application_no of the user
      * @param array $basic_info personal info
      */
-    public function updateBasicInfo(int $application_no, array $basic_info){
+    public function updateBasicInfo(int $application_no, array $basic_info): void{
         //table :  BASIC INFO
         $smt1= $this->connection->prepare('UPDATE admission_student_preregistration_draft_basic_info
                                                         SET gender = :gender, religion = :religion, caste = :caste, 

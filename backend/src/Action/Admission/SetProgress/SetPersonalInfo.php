@@ -26,17 +26,18 @@ final class SetPersonalInfo
             $personal_info = (array)$request->getParsedBody();
 
             //Get application number
-            $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
 
             //Verify inputs for personal info
             $this->setProcessService->checkPersonalInfoInputs($personal_info);
-
+            print_r($this->setProcessService->isPersonalInfoExists($application_no));
             //Set or update personal info
-            if ($this->setProcessService->isPersonalInfoExists($application_no)){
-                $this->setProcessService->updateBasicInfo($application_no, $personal_info);
-            }else{
-                $this->setProcessService->setBasicInfo($application_no, $personal_info);
-            }
+//            if ($this->setProcessService->isPersonalInfoExists($application_no)){
+//                $this->setProcessService->updateBasicInfo($application_no, $personal_info);
+//            }else{
+//                print_r('x');
+//                $this->setProcessService->setBasicInfo($application_no, $personal_info);
+//            }
 
             // On Successful Completion on the Request, server sends a 204 response without any body
             return $response->withStatus(204, "Submitted Successfully");

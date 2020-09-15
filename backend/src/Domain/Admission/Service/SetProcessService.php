@@ -84,10 +84,10 @@ final class SetProcessService
 
     /**
      * Update basic info
-     * @param int $application_no
+     * @param string $application_no
      * @param array $personal_info
      */
-    public function updateBasicInfo(int $application_no, array $personal_info){
+    public function updateBasicInfo(string $application_no, array $personal_info): void{
         $this->setProcessRepository->updateBasicInfo($application_no, $personal_info);
     }
 
