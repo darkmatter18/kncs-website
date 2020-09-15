@@ -19,53 +19,100 @@ final class SetProcessService
         $this->setProcessRepository = $setProcessRepository;
     }
 
-    /*
-     * Academic info
+    /**
+     * Check if academic info exists or not
+     * @param int $application_no
+     * @return bool
      */
     public function isAcademicInfoExists(int $application_no): bool{
         return $this->setProcessRepository->isAcademicInfoExists($application_no);
     }
 
+    /**
+     * Update academic info
+     * @param int $application_no
+     * @param array $academic_info
+     */
     public function updateAcademicInfo(int $application_no, array $academic_info){
         $this->setProcessRepository->updateAcademicInfo($application_no, $academic_info);
     }
 
-    public function addAcademicInfo(int $application_no, array $academic_info){
+    /**
+     * Insert academic info
+     * @param int $application_no
+     * @param array $academic_info
+     */
+    public function setAcademicInfo(int $application_no, array $academic_info){
         $this->setProcessRepository->setAcademicInfo($application_no, $academic_info);
     }
 
-
+    /**
+     * Check if payment info exists or not
+     * @param int $application_no
+     * @return bool
+     */
     public function isPaymentInfoExists(int $application_no): bool{
         return $this->setProcessRepository->isPaymentInfoExists($application_no);
     }
 
+    /**
+     * Update payment info
+     * @param int $application_no
+     * @param array $payment_info
+     */
     public function updatePaymentInfo(int $application_no, array $payment_info){
         $this->setProcessRepository->updatePaymentInfo($application_no, $payment_info);
     }
 
+    /**
+     * Insert payment info
+     * @param int $application_no
+     * @param array $payment_info
+     */
     public function setPaymentInfo(int $application_no, array $payment_info){
         $this->setProcessRepository->setPaymentInfo($application_no, $payment_info);
     }
 
-    /*
-     * Personal info
+    /**
+     * Check if personal data exists or not
+     * @param int $application_no
+     * @return bool
      */
     public function isPersonalInfoExists(int $application_no): bool{
         return $this->setProcessRepository->isPersonalInfoExists($application_no);
     }
 
+    /**
+     * Update basic info
+     * @param int $application_no
+     * @param array $personal_info
+     */
     public function updateBasicInfo(int $application_no, array $personal_info){
         $this->setProcessRepository->updateBasicInfo($application_no, $personal_info);
     }
 
+    /**
+     * Insert basic info
+     * @param int $application_no
+     * @param array $personal_info
+     */
     public function setBasicInfo(int $application_no, array $personal_info){
         $this->setProcessRepository->setBasicInfo($application_no, $personal_info);
     }
 
+    /**
+     * Insert declaration info
+     * @param int $application_no
+     * @param array $declaration_info
+     */
     public function setDeclarationInfo(int $application_no, array $declaration_info){
         $this->setProcessRepository->setDeclarationInfo($application_no, $declaration_info);
     }
 
+    /**
+     * Check input data for academic info
+     * @param array $academic_info
+     */
     public function checkAcademicInfoInputs(array $academic_info): void{
         $errors = [];
         //Previous School Details   --- 3 inputs ---
@@ -132,6 +179,10 @@ final class SetProcessService
         }
     }
 
+    /**
+     * Check input data for payment info
+     * @param array $payment_info
+     */
     public function checkPaymentInfoInputs(array $payment_info): void{
         $errors = [];
         if (empty($payment_info['mode_of_payment'])){
@@ -152,6 +203,11 @@ final class SetProcessService
         }
     }
 
+    /**
+     * Check input data for personal info
+     * @param array $basic_info
+     * @return array
+     */
     public function checkPersonalInfoInputs(array $basic_info): array{
         $errors = [];
 
@@ -217,8 +273,9 @@ final class SetProcessService
 
     }
 
-    /*
-     * Declaration info
+    /**
+     * Check input data for declaration info
+     * @param array $declaration_info
      */
     public function checkDeclarationInfoInputs(array $declaration_info){
         $errors = [];

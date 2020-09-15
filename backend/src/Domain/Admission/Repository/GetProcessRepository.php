@@ -16,6 +16,11 @@ final class GetProcessRepository{
         $this->connection = $PDO;
     }
 
+    /**
+     * Fetch user academic info
+     * @param int $application_no application_no of the user
+     * @return array user academic info
+     */
     public function getAcademicInfo(int $application_no): array{
         $smt = $this->connection->prepare("SELECT T2.previous_school_name, T2.year_of_madhyamik, 
                                                     T2.previous_student_id,
@@ -39,6 +44,11 @@ final class GetProcessRepository{
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Fetch user declaration info
+     * @param int $application_no application_no of the user
+     * @return array user declaration info
+     */
     public function getDeclarationInfo(int $application_no): array{
         $smt = $this->connection->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.email, 
                                                     T1.aadhar_no, T1.mobile, T1.dob, T1.status,
@@ -75,6 +85,11 @@ final class GetProcessRepository{
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Fetch user payment info
+     * @param int $application_no application_no of the user
+     * @return array user payment info
+     */
     public function getPaymentInfo(int $application_no): array{
         $smt = $this->connection->prepare("SELECT T2.mode_of_payment, T2.name_of_bank, T2.transaction_id, 
                                                     T2.transaction_date
@@ -88,6 +103,11 @@ final class GetProcessRepository{
         return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Fetch user personal info
+     * @param int $application_no application_no of the user
+     * @return array user data
+     */
     public function getPersonalInfo(int $application_no): array{
         $smt = $this->connection->prepare("SELECT T1.first_name, T1.middle_name, T1.last_name, T1.aadhar_no, 
                                                     T1.email, T1.mobile, T1.dob,

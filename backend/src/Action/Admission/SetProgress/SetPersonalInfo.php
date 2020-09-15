@@ -28,11 +28,8 @@ final class SetPersonalInfo
             //Get application number
             $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
 
-            //Check personal info data
-            // TODO: Convert this Function Just for Checking Input This function will return void
-            $personal_info = $this->setProcessService->checkPersonalInfoInputs($personal_info);
-
-            // TODO: Make a function to sanitize inputs
+            //Verify inputs for personal info
+            $this->setProcessService->checkPersonalInfoInputs($personal_info);
 
             //Set or update personal info
             if ($this->setProcessService->isPersonalInfoExists($application_no)){

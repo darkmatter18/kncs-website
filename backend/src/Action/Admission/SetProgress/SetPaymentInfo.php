@@ -28,15 +28,18 @@ final class SetPaymentInfo
             //Get application number
             $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
 
-            //Check payment details
-            $this->setProcessService->checkPaymentInfo($payment_info);
+            //Verify inputs for payment info
+            $this->setProcessService->checkPaymentInfoInputs($payment_info);
 
             //Set or update payment info
-            if ($this->setProcessService->fetchPaymentInfo($application_no)){
+            if ($this->setProcessService->isPaymentInfoExists($application_no)){
                 $this->setProcessService->updatePaymentInfo($application_no, $payment_info);
             }else{
                 $this->setProcessService->setPaymentInfo($application_no, $payment_info);
             }
+
+            // On Successful Completion on the Request, server sends a 204 response without any body
+            return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());

@@ -19,6 +19,10 @@ final class PreRegistrationService
         $this->preRegistrationRepository = $preRegistrationRepository;
     }
 
+    /**
+     * Check if user input is valid or not
+     * @param array $data
+     */
     public function checkInput(array $data): void{
         $errors = [];
         if (empty($data['first_name'])){
@@ -47,6 +51,10 @@ final class PreRegistrationService
         }
     }
 
+    /**
+     * Insert preregistration details
+     * @param array $data
+     */
     public function preRegistrationDetails(array $data){
         $this->preRegistrationRepository->preRegistrationDetails($data);
     }

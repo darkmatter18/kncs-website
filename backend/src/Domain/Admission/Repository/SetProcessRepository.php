@@ -69,6 +69,11 @@ final class SetProcessRepository
         return (bool)$smt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Update academic info
+     * @param int $application_no application_no of the user
+     * @param array $details academic info
+     */
     public function updateAcademicInfo(int $application_no, array $details): void{
         $smt1 = $this->connection->prepare("UPDATE 
                                                     admission_student_preregistration_draft_previous_academic_info
@@ -132,6 +137,11 @@ final class SetProcessRepository
         $this->connection->commit();
     }
 
+    /**
+     * Insert academic info
+     * @param int $application_no application_no of the user
+     * @param array $details academic info
+     */
     public function setAcademicInfo(int $application_no, array $details): void{
         // TABLE : Previous Academic Info
         $smt1 = $this->connection->prepare('INSERT INTO 
@@ -196,8 +206,10 @@ final class SetProcessRepository
         $this->connection->commit();
     }
 
-    /*
-     * Payment Info Set
+    /**
+     * Update payment info
+     * @param int $application_no application_no of the user
+     * @param array $payment_data payment info
      */
     public function updatePaymentInfo(int $application_no, array $payment_data): void{
         //UPDATE
@@ -229,8 +241,10 @@ final class SetProcessRepository
         $smt->execute();
     }
 
-    /*
-     * Personal Info set
+    /**
+     * Update personal info
+     * @param int $application_no application_no of the user
+     * @param array $basic_info personal info
      */
     public function updateBasicInfo(int $application_no, array $basic_info){
         //table :  BASIC INFO
@@ -297,8 +311,19 @@ final class SetProcessRepository
         $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
         $smt4->bindParam(':image_type', $basic_info['image_type'], PDO::PARAM_STR);
         $smt4->bindParam(':image', $basic_info['base64_decode'], PDO::PARAM_LOB);
+
+        $smt1->execute();
+        $smt2->execute();
+        $smt3->execute();
+        $smt4->execute();
+        $this->connection->commit();
     }
 
+    /**
+     * Insert personal info
+     * @param int $application_no application_no of the user
+     * @param array $basic_info personal info
+     */
     public function setBasicInfo(int $application_no, array $basic_info): void{
         // TABLE : BASIC INFO
         $smt1 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_basic_info
@@ -373,10 +398,12 @@ final class SetProcessRepository
         $this->connection->commit();
     }
 
-    /*
-     * Declaration info
+    /**
+     * Insert Declaration info
+     * @param int $application_no application_no of the user
+     * @param array $declaration_info declaration info
      */
-    public function setDeclarationInfo(int $application_no, $declaration_info): void
+    public function setDeclarationInfo(int $application_no, array $declaration_info): void
     {
         $this->connection->beginTransaction();
         //Insert declaration info
@@ -412,5 +439,6 @@ final class SetProcessRepository
             $updateSmt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
             $updateSmt->bindParam(':status', $status, PDO::PARAM_STR);
         }
+        $updateSmt->execute();
     }
 }

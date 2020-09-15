@@ -18,7 +18,12 @@ final class PreRegistrationLoginRepository
         $this->connection = $PDO;
     }
 
-
+    /**
+     * @param int $application_no application_no of the user
+     * @param string $email email address if the user
+     * @param string $dob date of birth of the user
+     * @return array user data
+     */
     public function login(int $application_no, string $email, string $dob): array{
         $smt = $this->connection->prepare("SELECT T1.*, T2.status 
                                                     FROM admission_student_preregistration_login AS T1

@@ -28,16 +28,18 @@ final class SetAcademicInfo
             //Get application number
             $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
 
-            //Check academic info
-            $this->setProcessService->checkAcademicInfo($academic_info);
+            //Verify the inputs for Academic info
+            $this->setProcessService->checkAcademicInfoInputs($academic_info);
 
             //Update or set academic info
-            if ($this->setProcessService->fetchPaymentInfo($application_no)){
+            if ($this->setProcessService->isAcademicInfoExists($application_no)){
                 $this->setProcessService->updateAcademicInfo($application_no, $academic_info);
             }else{
                 $this->setProcessService->setAcademicInfo($application_no, $academic_info);
             }
 
+            // On Successful Completion on the Request, server sends a 204 response without any body
+            return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());

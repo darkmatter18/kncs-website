@@ -18,6 +18,10 @@ final class PreRegistrationRepository
         $this->connection = $PDO;
     }
 
+    /**
+     * Insert preregistration details
+     * @param array $data user data
+     */
     public function preRegistrationDetails(array $data): void{
         $smt = $this->connection->prepare('INSERT INTO admission_student_preregistration_details
                                                     (application_no, first_name, middle_name, last_name, aadhar_no, 

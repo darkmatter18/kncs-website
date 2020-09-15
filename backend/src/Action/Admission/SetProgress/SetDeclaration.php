@@ -29,12 +29,13 @@ final class SetDeclaration
             $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
 
             //Check declaration data
-            $this->setProcessService->checkDeclarationInfo($declaration_info);
+            $this->setProcessService->checkDeclarationInfoInputs($declaration_info);
 
             //Set declaration data
             $this->setProcessService->setDeclarationInfo($application_no, $declaration_info);
 
-
+            // On Successful Completion on the Request, server sends a 204 response without any body
+            return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());

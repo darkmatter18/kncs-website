@@ -24,6 +24,10 @@ final class PreRegistrationLoginService
         $this->auth = $auth;
     }
 
+    /**
+     * Check input data is valid or not
+     * @param array $data
+     */
     public function checkInput(array $data){
         $errors = [];
         if (empty($data['application_no'])){
@@ -47,6 +51,11 @@ final class PreRegistrationLoginService
         }
     }
 
+    /**
+     * Login
+     * @param array $data
+     * @return array
+     */
     public function login(array $data): array{
         $errors = [];
         $user_data = $this->preRegistrationLoginRepository->login($data['application_no'], $data['email'], $data['dob']);
@@ -65,6 +74,12 @@ final class PreRegistrationLoginService
         ];
     }
 
+    /**
+     * Making user authentication token
+     * @param string $application_no
+     * @param string $status
+     * @return string
+     */
     private function makeAuthToken(string $application_no, string $status){
         return $this->auth->createJwt([
             'application_no' => $application_no,
