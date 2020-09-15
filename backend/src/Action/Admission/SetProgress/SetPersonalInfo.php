@@ -40,7 +40,7 @@ final class SetPersonalInfo
 //            }
 
             // On Successful Completion on the Request, server sends a 204 response without any body
-            return $response->withStatus(204, "Submitted Successfully");
+            //return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
             return $response->withStatus($e->getCode(), $e->getMessage());

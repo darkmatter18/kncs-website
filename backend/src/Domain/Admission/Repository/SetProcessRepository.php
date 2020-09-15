@@ -66,8 +66,7 @@ final class SetProcessRepository
         $smt = $this->connection->prepare($query_statement);
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_STR);
         $smt->execute();
-        print_r($smt->fetch(PDO::FETCH_ASSOC));
-        return false;
+        return $smt->fetchColumn();
     }
 
     /**

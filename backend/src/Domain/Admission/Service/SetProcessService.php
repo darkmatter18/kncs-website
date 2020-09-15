@@ -75,10 +75,10 @@ final class SetProcessService
 
     /**
      * Check if personal data exists or not
-     * @param int $application_no
+     * @param string $application_no
      * @return bool
      */
-    public function isPersonalInfoExists(int $application_no): bool{
+    public function isPersonalInfoExists(string $application_no): bool{
         return $this->setProcessRepository->isPersonalInfoExists($application_no);
     }
 
