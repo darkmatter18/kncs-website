@@ -8,6 +8,7 @@ use App\Domain\Admission\Service\GetProcessService;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function DI\string;
 
 final class GetDeclaration
 {
@@ -22,8 +23,17 @@ final class GetDeclaration
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
-            $application_no = $request->getAttribute('JwtClaims')['application_no'];
+            //Get application number
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
+
+            //Get declaration info
             $declaration_info = $this->getPrecessService->getDeclarationInfo($application_no);
+
+            //Return response
+            if (sizeof($declaration_info) === 0){
+                return $response->withStatus(204, 'No declaration info found on your id');
+            }
+
             $result = [
                 'data' => $declaration_info
             ];

@@ -22,8 +22,16 @@ final class GetPaymentInfo
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
-            $application_no = $request->getAttribute('JwtClaims')['application_no'];
+            //Get application number
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
+
+            //Get payment info
             $payment_info = $this->getServiceProcess->getPaymentInfo($application_no);
+
+            //Return response
+            if (sizeof($payment_info) === 0){
+                return $response->withStatus(204, 'No payment info found on your id');
+            }
             $result = [
                 'data' => $payment_info
             ];

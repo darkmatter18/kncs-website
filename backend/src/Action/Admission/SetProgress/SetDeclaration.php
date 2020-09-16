@@ -26,7 +26,7 @@ final class SetDeclaration
             $declaration_info = (array)$request->getParsedBody();
 
             //Get application number
-            $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
 
             //Check declaration data
             $this->setProcessService->checkDeclarationInfoInputs($declaration_info);
@@ -38,7 +38,8 @@ final class SetDeclaration
             return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
-            return $response->withStatus($e->getCode(), $e->getMessage());
+            print_r($e->getMessage());
+//            return $response->withStatus($e->getCode(), $e->getMessage());
         }
     }
 }

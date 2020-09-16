@@ -41,7 +41,8 @@ final class GetProcessRepository{
 
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetch(PDO::FETCH_ASSOC);
+        $result = $smt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : array();
     }
 
     /**
@@ -82,7 +83,8 @@ final class GetProcessRepository{
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetch(PDO::FETCH_ASSOC);
+        $result = $smt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : array();
     }
 
     /**
@@ -100,7 +102,8 @@ final class GetProcessRepository{
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetch(PDO::FETCH_ASSOC);
+        $result = $smt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : array();
     }
 
     /**
@@ -130,6 +133,7 @@ final class GetProcessRepository{
 
         $smt->bindParam(':application_no', $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return $smt->fetch(PDO::FETCH_ASSOC);
+        $result = $smt->fetch(PDO::FETCH_ASSOC);
+        return $result ? $result : array();
     }
 }

@@ -21,9 +21,16 @@ final class GetPersonalInfo{
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
+            //Get application number
             $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
+
+            //Get personal info
             $personal_info = $this->getServiceProcess->getPersonalInfo($application_no);
 
+            //Return response
+            if (sizeof($personal_info) === 0){
+                return $response->withStatus(204, 'No personal found on your id');
+            }
             $result = [
                 'data' => $personal_info
             ];

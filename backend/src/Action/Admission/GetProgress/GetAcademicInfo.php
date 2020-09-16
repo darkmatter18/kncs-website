@@ -22,8 +22,16 @@ final class GetAcademicInfo
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
+            //Get application number
             $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
+
+            //Get academic info
             $academic_info = $this->getProcessService->getAcademicInfo($application_no);
+
+            //Return response
+            if (sizeof($academic_info) === 0){
+                return $response->withStatus(204, 'No academic record found on your id');
+            }
 
             $result = [
                 'data' => $academic_info

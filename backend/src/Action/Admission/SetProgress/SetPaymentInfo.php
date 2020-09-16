@@ -26,7 +26,7 @@ final class SetPaymentInfo
             $payment_info = (array)$request->getParsedBody();
 
             //Get application number
-            $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
 
             //Verify inputs for payment info
             $this->setProcessService->checkPaymentInfoInputs($payment_info);
@@ -42,6 +42,7 @@ final class SetPaymentInfo
             return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
+            print_r($e->getMessage());
             return $response->withStatus($e->getCode(), $e->getMessage());
         }
     }
