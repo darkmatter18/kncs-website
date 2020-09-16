@@ -16,7 +16,6 @@ import NetworkButton from "../../../lib/NetworkButton";
 import {
     networkButtonTypes,
     networkStates,
-    PRE_REGISTRATION_DECLARATION,
     RECAPTCHA_SITE_KEY
 } from "../../../constant";
 import Divider from "@material-ui/core/Divider";
@@ -24,11 +23,12 @@ import Button from "@material-ui/core/Button";
 import {ArrowDownward} from "@material-ui/icons";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import {Api} from '../../../api'
 import {ValidateName} from "../../../lib/validation";
 import {useAuth, useAuthHeader} from "react-auth-kit";
 import {ADMISSION_ALL_DONE} from "../../RouterComponent/routes";
 import Footer from "../../../lib/Footer";
+import {useAxiosNetworkError, useError} from "../../../context/NetworkError";
+import {DeclarationApi} from "./api";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,6 +51,10 @@ const Progress4Declaration = () => {
     const authHeader = useAuthHeader()
     const auth = useAuth()
     const classes = useStyles()
+    const networkError = useError()
+    const axiosNetworkError = useAxiosNetworkError()
+
+
     const printRef = React.useRef()
 
     const formValue = {
@@ -121,33 +125,32 @@ const Progress4Declaration = () => {
     const [formState, setFormState] = React.useState(formValue)
     const [declarationFormState, setDeclarationFormState] = React.useState(initialDeclarationForm)
     const [declarationFormErrorState, setDeclarationFormErrorState] = React.useState(initialDeclarationError)
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     React.useEffect(() => {
-        Api.get(PRE_REGISTRATION_DECLARATION, {
+        DeclarationApi({
             headers: {
                 Authorization: authHeader()
             }
-        })
-            .then((res) => {
-                if (res.data.status) {
-                    setFormState(prevState => ({
-                        ...prevState,
-                        ...res.data.data,
-                        apply_for_reserved_seat: (res.data.data.apply_for_reserved_seat === "1" ||
-                            res.data.data.apply_for_reserved_seat === 1) ? "Yes" : "No",
-                        weather_bpl: (res.data.data.weather_bpl === "1" ||
-                            res.data.data.weather_bpl === 1) ? "Yes" : "No",
-                        guardian_same_father: (res.data.data.guardian_same_father === "1" ||
-                            res.data.data.guardian_same_father === 1) ? "Yes" : "No",
-                        direct_admission: (res.data.data.direct_admission === "1" ||
-                            res.data.data.direct_admission === 1) ? "Yes" : "No",
-                    }))
-                } else {
-                    console.error(res.data.error)
-                }
-            }).catch((e) => {
-            console.error(e)
+        }).then((res) => {
+            if (res.status === 200 && !!res.data.data) {
+                setFormState(prevState => ({
+                    ...prevState,
+                    ...res.data.data,
+                    apply_for_reserved_seat: (res.data.data.apply_for_reserved_seat === "1" ||
+                        res.data.data.apply_for_reserved_seat === 1) ? "Yes" : "No",
+                    weather_bpl: (res.data.data.weather_bpl === "1" ||
+                        res.data.data.weather_bpl === 1) ? "Yes" : "No",
+                    guardian_same_father: (res.data.data.guardian_same_father === "1" ||
+                        res.data.data.guardian_same_father === 1) ? "Yes" : "No",
+                    direct_admission: (res.data.data.direct_admission === "1" ||
+                        res.data.data.direct_admission === 1) ? "Yes" : "No",
+                }))
+            } else {
+                networkError(res.statusText)
+            }
+        }).catch((e) => {
+            axiosNetworkError(e)
         })
         // eslint-disable-next-line
     }, [])
@@ -180,10 +183,10 @@ const Progress4Declaration = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()) {
-            setNetworkState([networkStates.BUSY, ''])
+            setNetworkState(networkStates.BUSY)
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    Api.post(PRE_REGISTRATION_DECLARATION, {
+                    DeclarationApi.post('', {
                         ...declarationFormState,
                         recaptcha_token: token
                     }, {
@@ -191,22 +194,21 @@ const Progress4Declaration = () => {
                             Authorization: authHeader()
                         }
                     }).then((res) => {
-                        if (res.data.status) {
+                        if (res.status === 204 && res.statusText === "Submitted Successfully") {
                             history.push(ADMISSION_ALL_DONE, {
                                 status: res.data.status,
                             })
                         } else {
-                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
-                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
+                            setNetworkState(networkStates.IDLE)
+                            networkError(res.statusText)
                         }
                     }).catch((e) => {
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, `Internal error occurred 
-                    (${e.response.status} - ${e.response.data.error})`])
+                        setNetworkState(networkStates.ERROR)
+                        axiosNetworkError(e)
                     })
-                }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                }).catch(() => {
+                    setNetworkState(networkStates.IDLE)
+                    networkError("ReCaptcha Validation failed")
                 })
             })
         }
@@ -228,7 +230,7 @@ const Progress4Declaration = () => {
                                     it
                                     under any circumstance.b)that I have read the prospectus and undertake to abide
                                     by
-                                    every rule and decesion of the school and the Head Master willingly.
+                                    every rule and decision of the school and the Head Master willingly.
                                 </Typography>
                                 <Grid container alignItems={"center"} className={classes.spacer}>
                                     <Grid item style={{float: "left"}} md={6}>
@@ -277,8 +279,8 @@ const Progress4Declaration = () => {
                             <AdmissionProgressBack/>
                         </Grid>
                         <Grid item md={6}>
-                            <NetworkButton buttonStyle={networkButtonTypes.SUBMIT} networkState={networkState[0]}
-                                    handleSubmit={handleSubmit}/>
+                            <NetworkButton buttonStyle={networkButtonTypes.SUBMIT} networkState={networkState}
+                                           handleSubmit={handleSubmit}/>
                         </Grid>
                     </Grid>
                 </React.Fragment>

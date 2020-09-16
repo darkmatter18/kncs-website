@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {networkButtonTypes, networkStates, PRE_REGISTRATION_ACADEMIC_INFO, RECAPTCHA_SITE_KEY} from "../../../constant";
+import {networkButtonTypes, networkStates, RECAPTCHA_SITE_KEY} from "../../../constant";
 import TextField from "@material-ui/core/TextField";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -21,12 +21,13 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import NetworkButton from "../../../lib/NetworkButton";
-import {Api} from "../../../api";
 import {Redirect, useHistory} from "react-router-dom";
 import {useAuth, useAuthHeader} from "react-auth-kit";
 import _ from 'lodash'
 import Checkbox from "@material-ui/core/Checkbox";
 import Footer from "../../../lib/Footer";
+import {AcademicInfoApi} from "./api";
+import {useAxiosNetworkError, useError} from "../../../context/NetworkError";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +44,8 @@ const Progress2AcademicInfo = () => {
     const history = useHistory()
     const authHeader = useAuthHeader()
     const auth = useAuth()
+    const networkError = useError()
+    const axiosNetworkError = useAxiosNetworkError()
 
     const scienceSubjects = [
         {id: 1, sub: ['PHYSICS', 'NUTRITION']},
@@ -110,7 +113,7 @@ const Progress2AcademicInfo = () => {
     const [formData, setFormData] = React.useState(initialState)
     const [schoolRadioButton, setSchoolRadioButton] = React.useState("Krishnanath College School")
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
     const [streamDisablityState, setStreamDisablityState] = React.useState(StreamDisablityFactors.ALL)
     const [geographyEligibilyState, setGeographyEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
     const [comaEligibilyState, setComaEligibilyState] = React.useState(SubjectElligibilityFactors.NOT_ELIGIBLE)
@@ -129,13 +132,13 @@ const Progress2AcademicInfo = () => {
     const [humanitiesForthMajorList, setHumanitiesForthMajorList] = React.useState(initialHumanitiesSubjectCombo)
 
     React.useEffect(() => {
-        Api.get(PRE_REGISTRATION_ACADEMIC_INFO, {
+        AcademicInfoApi({
             headers: {
                 Authorization: authHeader()
             }
         })
             .then((res) => {
-                if (res.data.status) {
+                if (res.status === 200) {
                     if (res.data.data) {
                         setFormData(prevState => ({
                             ...prevState,
@@ -149,10 +152,10 @@ const Progress2AcademicInfo = () => {
                         }))
                     }
                 } else {
-                    console.error(res.data.error)
+                    networkError(res.statusText)
                 }
             }).catch((e) => {
-            console.error(e)
+            axiosNetworkError(e)
         })
         // eslint-disable-next-line
     }, [])
@@ -451,10 +454,10 @@ const Progress2AcademicInfo = () => {
         e.preventDefault()
         console.log(formData)
         if (validate()) {
-            setNetworkState([networkStates.BUSY, ''])
+            setNetworkState(networkStates.BUSY)
             window.grecaptcha.ready(() => {
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token) => {
-                    Api.post(PRE_REGISTRATION_ACADEMIC_INFO, {
+                    AcademicInfoApi.post('', {
                         ...formData,
                         recaptcha_token: token
                     }, {
@@ -462,20 +465,19 @@ const Progress2AcademicInfo = () => {
                             Authorization: authHeader()
                         }
                     }).then((res) => {
-                        if (res.data.status) {
+                        if (res.status === 200 && res.statusText === "Submitted Successfully") {
                             history.push(`/admission/progress/payment_info`)
                         } else {
-                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
-                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
+                            setNetworkState(networkStates.IDLE)
+                            networkError(res.statusText)
                         }
                     }).catch((e) => {
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, `Internal error occurred 
-                    (${e.response.status} - ${e.response.data.error})`])
+                        setNetworkState(networkStates.IDLE)
+                        axiosNetworkError(e)
                     })
-                }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                }).catch(() => {
+                    setNetworkState(networkStates.IDLE)
+                    networkError("ReCaptcha validation failed")
                 })
             })
         }
@@ -929,13 +931,9 @@ const Progress2AcademicInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
-                                            handleSubmit={handleSubmit}/>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
-                                    </Typography>
+                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                                   networkState={networkState}
+                                                   handleSubmit={handleSubmit}/>
                                 </Grid>
                             </Grid>
                         </CardContent>

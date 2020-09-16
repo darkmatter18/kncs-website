@@ -10,7 +10,6 @@ import Grid from "@material-ui/core/Grid";
 import {
     networkButtonTypes,
     networkStates,
-    PRE_REGISTRATION_PAYMENT_INFO,
     RECAPTCHA_SITE_KEY
 } from "../../../constant";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -24,9 +23,10 @@ import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers"
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import NetworkButton from "../../../lib/NetworkButton";
-import {Api} from "../../../api";
 import {ValidateName} from "../../../lib/validation";
 import Footer from "../../../lib/Footer";
+import {useAxiosNetworkError, useError} from "../../../context/NetworkError";
+import {PaymentInfoApi} from "./api";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +44,8 @@ const Progress3PaymentInfo = () => {
     const history = useHistory()
     const authHeader = useAuthHeader()
     const auth = useAuth()
+    const networkError = useError()
+    const axiosNetworkError = useAxiosNetworkError()
 
     const initialState = {
         mode_of_payment: '',
@@ -61,26 +63,24 @@ const Progress3PaymentInfo = () => {
 
     const [formData, setFormData] = React.useState(initialState)
     const [errors, setErrors] = React.useState(initialErrorState)
-    const [networkState, setNetworkState] = React.useState([networkStates.IDLE, ''])
+    const [networkState, setNetworkState] = React.useState(networkStates.IDLE)
 
     React.useEffect(()=>{
-        Api.get(PRE_REGISTRATION_PAYMENT_INFO, {
+        PaymentInfoApi({
             headers: {
                 Authorization: authHeader()
             }
         })
             .then((res)=>{
-                if(res.data.status){
-                    if(res.data.data){
-                        setFormData(prevState => ({...prevState, ...res.data.data,
-                            transaction_date: new Date(res.data.data.transaction_date)
-                        }))
-                    }
+                if(res.status === 200 && !!res.data.data){
+                    setFormData(prevState => ({...prevState, ...res.data.data,
+                        transaction_date: new Date(res.data.data.transaction_date)
+                    }))
                 }else {
-                    console.error(res.data.error)
+                    networkError(res.statusText)
                 }
             }).catch((e)=>{
-            console.error(e)
+                axiosNetworkError(e)
         })
         // eslint-disable-next-line
     },[])
@@ -125,13 +125,13 @@ const Progress3PaymentInfo = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (validate()){
-            setNetworkState([networkStates.BUSY, ''])
+            setNetworkState(networkStates.BUSY)
             const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date(formData.transaction_date))
             const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(new Date(formData.transaction_date))
             const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date(formData.transaction_date))
             window.grecaptcha.ready(()=>{
                 window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {action: 'submit'}).then((token)=>{
-                    Api.post(PRE_REGISTRATION_PAYMENT_INFO, {
+                    PaymentInfoApi.post('', {
                         ...formData,
                         transaction_date: `${ye}-${mo}-${da}`,
                         recaptcha_token: token
@@ -140,20 +140,19 @@ const Progress3PaymentInfo = () => {
                             Authorization: authHeader()
                         }
                     }).then((res) => {
-                        if (res.data.status) {
+                        if (res.status === 204 && res.statusText === "Submitted Successfully") {
                             history.push(`/admission/progress/declaration`)
                         } else {
-                            setNetworkState([networkStates.ERROR, 'Internal error occured ' +
-                            '(Please Logout and Retry from "http://kncs.com/portal/admission/existing" )'])
+                            setNetworkState(networkStates.IDLE)
+                            networkError(res.statusText)
                         }
                     }).catch((e) => {
-                        console.error(e)
-                        setNetworkState([networkStates.ERROR, `Internal error occurred 
-                    (${e.response.status} - ${e.response.data.error})`])
+                        setNetworkState(networkStates.IDLE)
+                        axiosNetworkError(e)
                     })
-                }).catch((e)=>{
-                    console.error(e)
-                    setNetworkState([networkStates.ERROR, "Recaptcha failed - Please try again"])
+                }).catch(()=>{
+                    setNetworkState(networkStates.IDLE)
+                    networkError("ReCaptcha validation failed")
                 })
             })
         }
@@ -233,13 +232,10 @@ const Progress3PaymentInfo = () => {
                                     <AdmissionProgressBack/>
                                 </Grid>
                                 <Grid item>
-                                    <NetworkButton buttonStyle={networkButtonTypes.SAVE_NEXT} networkState={networkState[0]}
-                                            handleSubmit={handleSubmit}/>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant={"subtitle2"} color={"error"}>
-                                        {networkState[0] === networkStates.ERROR ? networkState[1] : ""}
-                                    </Typography>
+                                    <NetworkButton
+                                        buttonStyle={networkButtonTypes.SAVE_NEXT}
+                                        networkState={networkState}
+                                        handleSubmit={handleSubmit}/>
                                 </Grid>
                             </Grid>
                         </CardContent>
