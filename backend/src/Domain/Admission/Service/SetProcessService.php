@@ -204,19 +204,6 @@ final class SetProcessService
     }
 
     /**
-     * Sanitize personal info inputs
-     * @param array $basic_info
-     * @return array
-     */
-    public function  sanitizePersonalInfoInputs(array $basic_info): array{
-
-        $basic_info['apply_for_reserved_seat'] = $basic_info['apply_for_reserved_seat'] == 'true' ? 1 : 0;
-
-        $basic_info['guardian_same_father'] = $basic_info['guardian_same_father'] == 'true' ? 1 : 0;
-
-    }
-
-    /**
      * Check input data for personal info
      * @param array $basic_info
      * @return void
