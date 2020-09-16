@@ -114,63 +114,101 @@ final class SetProcessService
      * @param array $academic_info
      */
     public function checkAcademicInfoInputs(array $academic_info): void{
+
         $errors = [];
-        //Previous School Details   --- 3 inputs ---
+
         if (empty($academic_info['previous_school_name'])){
             $errors['previous_school_name'] = 'Please enter your previous school name';
         }
+
         if (empty($academic_info['year_of_madhyamik'])){
             $errors['year_of_madhyamik'] = 'Please enter your year of madhyamik';
         }
+
         if (empty($academic_info['previous_student_id'])){
-            $errors['previous_student_id'] = 'Please enter your previous academic info';
+            $errors['previous_student_id'] = 'Please enter your previous student id';
         }
 
-        //Previous academic marks    --- 9 inputs ---
         if (empty($academic_info['marks_beng'])){
-            $errors['marks_beng'] = 'Please enter your marks in Bengali';
+            $errors['marks_beng'] = 'Please enter your marks in bengali';
         }elseif (filter_var($academic_info['marks_beng'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_beng'] = 'Please enter a valid marks';
+            $errors['marks_beng'] = 'Please enter your marks in bengali';
         }
+
         if (empty($academic_info['marks_engb'])){
-            $errors['marks_engb'] = 'Please enter your marks in English';
+            $errors['marks_engb'] = 'Please enter your marks in english';
         }elseif (filter_var($academic_info['marks_engb'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_engb'] = 'Please enter a valid marks';
+            $errors['marks_engb'] = 'Please enter your marks in english';
         }
-        if (empty($academic_info[''])){
-            $errors['marks_maths'] = 'Please enter your marks in Mathematics';
+
+        if (empty($academic_info['marks_maths'])){
+            $errors['marks_maths'] = 'Please enter your marks in maths';
         }elseif (filter_var($academic_info['marks_maths'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_maths'] = 'Please enter a valid marks';
+            $errors['marks_maths'] = 'Please enter your marks in maths';
         }
+
         if (empty($academic_info['marks_psc'])){
-            $errors['marks_psc'] = 'Please enter your marks in Physical Science';
+            $errors['marks_psc'] = 'Please enter your marks in physical science';
         }elseif (filter_var($academic_info['marks_psc'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_psc'] = 'Please enter a valid marks';
+            $errors['marks_psc'] = 'Please enter your marks in psc';
         }
+
         if (empty($academic_info['marks_lsc'])){
-            $errors['marks_lsc'] = 'Please enter your marks in Life Science';
+            $errors['marks_lsc'] = 'Please enter your marks in life science';
         }elseif (filter_var($academic_info['marks_lsc'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_lsc'] = 'Please enter a valid marks';
+            $errors['marks_lsc'] = 'Please enter your marks in lsc';
         }
+
         if (empty($academic_info['marks_geo'])){
-            $errors['marks_geo'] = 'Please enter your marks in Geography';
+            $errors['marks_geo'] = 'Please enter your marks in geography';
         }elseif (filter_var($academic_info['marks_geo'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_geo'] = 'Please enter a valid marks';
+            $errors['marks_geo'] = 'Please enter your marks in geography';
         }
+
         if (empty($academic_info['marks_hist'])){
-            $errors['marks_hist'] = 'Please enter your marks in History';
+            $errors['marks_hist'] = 'Please enter your marks in history';
         }elseif (filter_var($academic_info['marks_hist'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_hist'] = 'Please enter a valid marks';
+            $errors['marks_hist'] = 'Please enter your marks in bengali';
         }
+
         if (empty($academic_info['marks_total'])){
             $errors['marks_total'] = 'Please enter your total marks';
         }elseif (filter_var($academic_info['marks_total'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_total'] = 'Please enter a valid marks';
+            $errors['marks_total'] = 'Please enter your total marks';
         }
+
         if (empty($academic_info['marks_percentage'])){
-            $errors['marks_percentage'] = 'Please enter your percentage';
+            $errors['marks_percentage'] = 'Please enter your marks percentage';
         }elseif (filter_var($academic_info['marks_percentage'], FILTER_VALIDATE_INT) === false){
-            $errors['marks_percentage'] = 'Please enter a valid marks';
+            $errors['marks_percentage'] = 'Please enter your marks percentage';
+        }
+
+        if (empty($academic_info['stream'])){
+            $errors['stream'] = 'Please enter your stream';
+        }
+        if (empty($academic_info['first_language'])){
+            $errors['first_language'] = 'Please enter your first language';
+        }
+        if (empty($academic_info['second_language'])){
+            $errors['second_language'] = 'Please enter your second language';
+        }
+        if (empty($academic_info['first_major'])){
+            $errors['first_major'] = 'Please enter your first major subject';
+        }
+        if (empty($academic_info['second_major'])){
+            $errors['second_major'] = 'Please enter your second major subject';
+        }
+        if (empty($academic_info['third_major'])){
+            $errors['third_major'] = 'Please enter your third major subject';
+        }
+        if (empty($academic_info['forth_major'])){
+            $errors['forth_major'] = 'Please enter your forth major subject';
+        }
+        if (empty($academic_info['direct_admission'])){
+            $errors['direct_admission'] = 'Please enter your admission type';
+        }
+        if (empty($academic_info['medium'])){
+            $errors['medium'] = 'Please enter your medium';
         }
 
         //Error checking

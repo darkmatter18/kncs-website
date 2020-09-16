@@ -26,7 +26,8 @@ final class SetAcademicInfo
             $academic_info = (array)$request->getParsedBody();
 
             //Get application number
-            $application_no = (int)$request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
+
 
             //Verify the inputs for Academic info
             $this->setProcessService->checkAcademicInfoInputs($academic_info);

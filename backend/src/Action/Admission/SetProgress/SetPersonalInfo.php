@@ -43,8 +43,7 @@ final class SetPersonalInfo
             return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
-            print_r($e->getMessage());
-            //return $response->withStatus($e->getCode(), $e->getMessage());
+            return $response->withStatus($e->getCode(), $e->getMessage());
         }
     }
 }

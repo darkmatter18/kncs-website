@@ -22,8 +22,9 @@ final class GetAcademicInfo
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response):ResponseInterface{
         try {
-            $application_no = $request->getAttribute('JwtClaims')['application_no'];
+            $application_no = (string)$request->getAttribute('JwtClaims')['application_no'];
             $academic_info = $this->getProcessService->getAcademicInfo($application_no);
+
             $result = [
                 'data' => $academic_info
             ];

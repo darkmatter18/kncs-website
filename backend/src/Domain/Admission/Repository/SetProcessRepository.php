@@ -75,6 +75,7 @@ final class SetProcessRepository
      * @param array $details academic info
      */
     public function updateAcademicInfo(int $application_no, array $details): void{
+        $this->connection->beginTransaction();
         $smt1 = $this->connection->prepare("UPDATE 
                                                     admission_student_preregistration_draft_previous_academic_info
                                                     SET previous_school_name = :previous_school_name, 
@@ -143,6 +144,7 @@ final class SetProcessRepository
      * @param array $details academic info
      */
     public function setAcademicInfo(int $application_no, array $details): void{
+        $this->connection->beginTransaction();
         // TABLE : Previous Academic Info
         $smt1 = $this->connection->prepare('INSERT INTO 
                                                     admission_student_preregistration_draft_previous_academic_info
