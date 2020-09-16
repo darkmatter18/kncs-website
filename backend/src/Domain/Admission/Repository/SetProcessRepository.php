@@ -247,6 +247,7 @@ final class SetProcessRepository
      * @param array $basic_info personal info
      */
     public function updateBasicInfo(int $application_no, array $basic_info): void{
+        $this->connection->beginTransaction();
         //table :  BASIC INFO
         $smt1= $this->connection->prepare('UPDATE admission_student_preregistration_draft_basic_info
                                                         SET gender = :gender, religion = :religion, caste = :caste, 
@@ -344,7 +345,7 @@ final class SetProcessRepository
                                             VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
         // Table : student_preregistration_draft_image
-        $smt4 = $this->connection->prepare('INSERT INTO student_preregistration_draft_image(application_no, image_type, image)
+        $smt4 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_image(application_no, image_type, image)
                                             VALUES(:application_no, :image_type, :image)');
 
         // BASIC INFO

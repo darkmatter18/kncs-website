@@ -204,11 +204,24 @@ final class SetProcessService
     }
 
     /**
-     * Check input data for personal info
+     * Sanitize personal info inputs
      * @param array $basic_info
      * @return array
      */
-    public function checkPersonalInfoInputs(array $basic_info): array{
+    public function  sanitizePersonalInfoInputs(array $basic_info): array{
+
+        $basic_info['apply_for_reserved_seat'] = $basic_info['apply_for_reserved_seat'] == 'true' ? 1 : 0;
+
+        $basic_info['guardian_same_father'] = $basic_info['guardian_same_father'] == 'true' ? 1 : 0;
+
+    }
+
+    /**
+     * Check input data for personal info
+     * @param array $basic_info
+     * @return void
+     */
+    public function checkPersonalInfoInputs(array $basic_info): void{
         $errors = [];
 
         if (empty($basic_info['gender'])){
@@ -219,12 +232,16 @@ final class SetProcessService
             $errors['religion'] = 'Please enter your religion';
         }
 
-        if (empty($basic_info['caste'])){
-            $errors['caste'] = 'Please enter your caste';
-        }
-
         if (empty($basic_info['mother_tongue'])){
             $errors['mother_tongue'] = 'Please enter your mother tongue';
+        }
+
+        if (empty($basic_info['apply_for_reserved_seat'])){
+            $errors['apply_for_reserved_seat'] = 'Enter your choice';
+        }
+
+        if (empty($basic_info['caste'])){
+            $errors['caste'] = 'Please enter your caste';
         }
 
         if (empty($basic_info['whatsapp_no'])){
@@ -271,24 +288,21 @@ final class SetProcessService
             $errors['pin'] = 'Please enter a valid pin';
         }
 
-        if ($basic_info['apply_for_reserved_seat']){
-            $basic_info['apply_for_reserved_seat'] = 1;
-        }else{
-            $basic_info['apply_for_reserved_seat'] = 0;
+        if (empty($basic_info['weather_bpl'])){
+            $errors['guardian_same_father'] = 'Enter your choice';
+        }
+        if (empty($basic_info['guardian_same_father'])){
+            $errors['guardian_same_father'] = 'Enter your choice';
         }
 
-        if ($basic_info['guardian_same_father']){
-            $basic_info['guardian_same_father'] = 1;
-        }else{
-            $basic_info['guardian_same_father'] = 0;
-        }
+
+
+
 
         //: TODO image validation
 
-        if ($errors){
+        if ($errors) {
             throw new ValidationException('Please check your input', $errors);
-        }else{
-            return $basic_info;
         }
 
     }
