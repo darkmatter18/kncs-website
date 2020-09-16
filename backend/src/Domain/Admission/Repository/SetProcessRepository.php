@@ -321,43 +321,34 @@ final class SetProcessRepository
 
     /**
      * Insert personal info
-     * @param int $application_no application_no of the user
+     * @param string $application_no application_no of the user
      * @param array $basic_info personal info
      */
-    public function setBasicInfo(int $application_no, array $basic_info): void{
+    public function setBasicInfo(string $application_no, array $basic_info): void{
         // TABLE : BASIC INFO
-        $smt1 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_basic_info
-                                                    (application_no, gender, religion, caste, mother_tongue,
-                                                     apply_for_reserved_seat, caste_certificate_no,  weather_bpl, 
-                                                     bpl_card_no, whatsapp_no)
-                                                    VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, 
-                                                           :apply_for_reserved_seat,
-                                                           :caste_certificate_no,  :weather_bpl, :bpl_card_no, 
-                                                           :whatsapp_no )');
+        $this->connection->beginTransaction();
+        $smt1 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_basic_info(application_no, gender, religion, caste, mother_tongue,
+                                            apply_for_reserved_seat, caste_certificate_no,  weather_bpl, bpl_card_no, whatsapp_no)
+                                VALUES(:application_no, :gender, :religion, :caste, :mother_tongue, :apply_for_reserved_seat,
+                                        :caste_certificate_no,  :weather_bpl, :bpl_card_no, :whatsapp_no )');
 
         //TABLE : FAMILY INFO
         $smt2 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_family_info
-                                                    (application_no, father_name, father_occupation, mother_name, 
-                                                     mother_occupation, guardian_name,
-                                                     guardian_occupation, guardian_same_father)
-                                                    VALUES(:application_no, :father_name, :father_occupation, 
-                                                           :mother_name, :mother_occupation,
-                                                           :guardian_name, :guardian_occupation, 
-                                                           :guardian_same_father)');
+                                            (application_no, father_name, father_occupation, mother_name, mother_occupation, guardian_name,
+                                                guardian_occupation, guardian_same_father)
+                                            VALUES(:application_no, :father_name, :father_occupation, :mother_name, :mother_occupation,
+                                                :guardian_name, :guardian_occupation, :guardian_same_father)');
         // TABLE :
         $smt3 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_address
-                                                    (application_no, address_line_1, address_line_2, city, district, 
-                                                     pin)
-                                                    VALUES(:application_no,:address_line_1, :address_line_2, :city, 
-                                                           :district, :pin)');
+                                            (application_no, address_line_1, address_line_2, city, district, pin)
+                                            VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
         // Table : student_preregistration_draft_image
-        $smt4 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_image
-                                                    (application_no, image_type, image)
-                                                    VALUES(:application_no, :image_type, :image)');
+        $smt4 = $this->connection->prepare('INSERT INTO student_preregistration_draft_image(application_no, image_type, image)
+                                            VALUES(:application_no, :image_type, :image)');
 
         // BASIC INFO
-        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_INT);
+        $smt1->bindParam(':application_no', $application_no, PDO::PARAM_STR);
         $smt1->bindParam(':gender', $basic_info['gender'], PDO::PARAM_STR);
         $smt1->bindParam(':religion', $basic_info['religion'], PDO::PARAM_STR);
         $smt1->bindParam(':caste', $basic_info['caste'], PDO::PARAM_STR);

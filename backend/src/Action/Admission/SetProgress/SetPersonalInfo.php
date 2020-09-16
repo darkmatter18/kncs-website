@@ -30,20 +30,21 @@ final class SetPersonalInfo
 
             //Verify inputs for personal info
             $this->setProcessService->checkPersonalInfoInputs($personal_info);
-            print_r($this->setProcessService->isPersonalInfoExists($application_no));
-            //Set or update personal info
-//            if ($this->setProcessService->isPersonalInfoExists($application_no)){
-//                $this->setProcessService->updateBasicInfo($application_no, $personal_info);
-//            }else{
-//                print_r('x');
-//                $this->setProcessService->setBasicInfo($application_no, $personal_info);
-//            }
 
-            // On Successful Completion on the Request, server sends a 204 response without any body
-            //return $response->withStatus(204, "Submitted Successfully");
+            //Set or update personal info
+            if ($this->setProcessService->isPersonalInfoExists($application_no)){
+                $this->setProcessService->updateBasicInfo($application_no, $personal_info);
+            }else{
+
+                $this->setProcessService->setBasicInfo($application_no, $personal_info);
+            }
+
+            //On Successful Completion on the Request, server sends a 204 response without any body
+            return $response->withStatus(204, "Submitted Successfully");
 
         }catch (Exception $e){
-            return $response->withStatus($e->getCode(), $e->getMessage());
+            print_r($e->getCode(), $e->getMessage());
+            //return $response->withStatus($e->getCode(), $e->getMessage());
         }
     }
 }

@@ -93,10 +93,10 @@ final class SetProcessService
 
     /**
      * Insert basic info
-     * @param int $application_no
+     * @param string $application_no
      * @param array $personal_info
      */
-    public function setBasicInfo(int $application_no, array $personal_info){
+    public function setBasicInfo(string $application_no, array $personal_info){
         $this->setProcessRepository->setBasicInfo($application_no, $personal_info);
     }
 
