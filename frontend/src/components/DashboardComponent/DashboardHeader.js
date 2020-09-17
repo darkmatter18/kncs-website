@@ -3,12 +3,13 @@ import {Header} from "../../lib/HeaderComponents";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {useAuth, useSignOut} from "react-auth-kit";
+import { useAuthUser, useSignOut} from "react-auth-kit";
 
 const DashboardHeader = () => {
     const signOut = useSignOut()
-    const auth = useAuth()
-    const {first_name, last_name} = auth()
+    const authUser = useAuthUser()
+    const {first_name, last_name} = authUser()
+
     const nameInitial = first_name.charAt(0).toUpperCase() + last_name.charAt(0).toUpperCase()
     const headerLinks = [
         (

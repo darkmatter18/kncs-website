@@ -19,7 +19,7 @@
     "material-table": "^1.69.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
-    "react-auth-kit": "^1.1.1",
+    "react-auth-kit": "^1.2.0",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.7.2",
     "react-router-dom": "^5.2.0",
