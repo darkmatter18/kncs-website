@@ -1,2 +1,4 @@
 /vendor
 /client/
+/files/
+!/files/.placeholder
