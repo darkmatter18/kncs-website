@@ -29,6 +29,7 @@ use App\Action\Admission\SetProgress\SetPersonalInfo;
 use App\Action\DummyAuth;
 use App\Action\GetSettingAction;
 use App\Action\Home\HomeAction;
+use App\Action\ImageU;
 use App\Action\LoginAction;
 use App\Action\UserCreateAction;
 use App\Middleware\JwtAuthMiddleware;
@@ -45,6 +46,7 @@ return function (App $app) {
     $app->get('/', HomeAction::class)->setName('home');
     $app->post('/users', UserCreateAction::class);
     $app->post('/token', DummyAuth::class);
+    $app->post('/imageu', ImageU::class);
 
     /**
      * Dummy API endpoints. This group is protected with JWT.
