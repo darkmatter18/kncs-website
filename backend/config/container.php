@@ -1,6 +1,7 @@
 <?php
 
 use App\Auth\JwtAuth;
+use App\Factory\ImageUploaderFactory;
 use App\Factory\LoggerFactory;
 use Psr\Container\ContainerInterface;
 use Slim\App;
@@ -65,4 +66,8 @@ return [
     LoggerFactory::class => function (ContainerInterface $container) {
         return new LoggerFactory($container->get('settings')['logger']);
     },
+
+    ImageUploaderFactory::class => function(ContainerInterface $container) {
+        return new ImageUploaderFactory($container->get('settings')['images']);
+    }
 ];

@@ -26,7 +26,13 @@ $settings['logger'] = [
     'file_permission' => 0775,
 ];
 
+// CROS Urls
 $settings['cros_urls'] = ['http://localhost:3000'];
+
+// Uploaded Image URL
+$settings['images'] = [
+    'dir' => dirname(__DIR__) . '/images'
+];
 
 // Error Handling Middleware settings
 $settings['error'] = [
