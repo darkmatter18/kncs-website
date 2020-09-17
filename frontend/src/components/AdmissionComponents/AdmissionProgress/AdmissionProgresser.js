@@ -13,11 +13,11 @@ import {Redirect} from "react-router-dom";
 import {ADMISSION_EXISTING} from "../../RouterComponent/routes";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import {useAuth, useSignOut} from "react-auth-kit";
+import {useAuthUser, useSignOut} from "react-auth-kit";
 
 const AdmissionProgresser = ({progress}) => {
     const signOut = useSignOut()
-    const auth = useAuth()
+    const auth = useAuthUser()
     const activeStep = ADMISSION_PROGRESS.findIndex((e) => e === progress)//Stepper step number
     const steps = ['Personal Info', 'Academic Info', 'Payment Info', "Declaration"]
 

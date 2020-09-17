@@ -11,9 +11,11 @@ const App = () => (
     <React.Fragment>
         <ThemeProvider theme={theme}>
             <AppSettingsProvider>
-                <AuthProvider authStorageType={"cookie"}
-                              cookieDomain={window.location.hostname}
-                              cookieSecure={window.location.protocol === "https:"}>
+                <AuthProvider
+                    authStorageType={"localstorage"}
+                    authStorageName={"_1f24n1259"}
+                    authTimeStorageName={"_wvt7nyt"}
+                    stateStorageName={"_wv8n89tye"}>
                     <CssBaseline/>
                     <ErrorProvider>
                         <RouteComponent/>
