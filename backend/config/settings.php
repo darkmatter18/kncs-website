@@ -30,8 +30,8 @@ $settings['logger'] = [
 $settings['cros_urls'] = ['http://localhost:3000'];
 
 // Uploaded Image URL
-$settings['images'] = [
-    'dir' => dirname(__DIR__) . '/images'
+$settings['files'] = [
+    'dir' => dirname(__DIR__) . '/files'
 ];
 
 // Error Handling Middleware settings

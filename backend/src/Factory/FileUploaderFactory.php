@@ -7,7 +7,7 @@ namespace App\Factory;
 use Exception;
 use Psr\Http\Message\UploadedFileInterface;
 
-final class ImageUploaderFactory
+final class FileUploaderFactory
 {
     /**
      * @var string
@@ -20,7 +20,7 @@ final class ImageUploaderFactory
     }
 
     /**
-     * Upload Image for normal Image
+     * Upload Image for form-data
      *
      * @param UploadedFileInterface $uploadedFile
      * @return string|null

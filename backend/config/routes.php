@@ -27,6 +27,7 @@ use App\Action\Admission\SetProgress\SetDeclaration;
 use App\Action\Admission\SetProgress\SetPaymentInfo;
 use App\Action\Admission\SetProgress\SetPersonalInfo;
 use App\Action\DummyAuth;
+use App\Action\FileRetriveAction;
 use App\Action\GetSettingAction;
 use App\Action\Home\HomeAction;
 use App\Action\ImageU;
@@ -127,4 +128,6 @@ return function (App $app) {
             });
         })->add(JwtAuthMiddleware::class);
     });
+
+    $app->get('/f/i/{file_name:.+}', FileRetriveAction::class);
 };

@@ -4,18 +4,18 @@
 namespace App\Action;
 
 
-use App\Factory\ImageUploaderFactory;
+use App\Factory\FileUploaderFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class ImageU
 {
     /**
-     * @var ImageUploaderFactory
+     * @var FileUploaderFactory
      */
     private $uploader;
 
-    public function __construct(ImageUploaderFactory $uploaderFactory)
+    public function __construct(FileUploaderFactory $uploaderFactory)
     {
         $this->uploader = $uploaderFactory;
     }
