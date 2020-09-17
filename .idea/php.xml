@@ -25,6 +25,8 @@
       <path value="$PROJECT_DIR$/backend/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/backend/vendor/slim/slim" />
       <path value="$PROJECT_DIR$/backend/vendor/nikic/fast-route" />
+      <path value="$PROJECT_DIR$/backend/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/backend/vendor/intervention/image" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

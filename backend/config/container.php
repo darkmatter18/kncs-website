@@ -3,6 +3,7 @@
 use App\Auth\JwtAuth;
 use App\Factory\FileUploaderFactory;
 use App\Factory\LoggerFactory;
+use Intervention\Image\ImageManager;
 use Psr\Container\ContainerInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -69,5 +70,9 @@ return [
 
     FileUploaderFactory::class => function(ContainerInterface $container) {
         return new FileUploaderFactory($container->get('settings')['files']);
-    }
+    },
+
+    ImageManager::class => function (ContainerInterface $container) {
+        return new ImageManager($container->get('settings')['image_manager']);
+    },
 ];

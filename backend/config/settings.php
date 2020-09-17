@@ -34,6 +34,12 @@ $settings['files'] = [
     'dir' => dirname(__DIR__) . '/files'
 ];
 
+// Image Manager settings
+$settings['image_manager'] = [
+    // configure image driver (gd by default)
+    'driver' => 'gd',
+];
+
 // Error Handling Middleware settings
 $settings['error'] = [
 

@@ -10,6 +10,8 @@
       <excludeFolder url="file://$MODULE_DIR$/backend-old/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/cakephp/chronos" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fig/http-message-util" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/intervention/image" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nikic/fast-route" />
