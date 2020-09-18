@@ -34,6 +34,20 @@ final class FileUploaderFactory
     }
 
     /**
+     * Deletes a file
+     *
+     * @param string $file_name - the name of the file
+     * @return bool - Whether the file is deleted or not
+     */
+    public function deleteFile(string $file_name): bool {
+        if(file_exists($this->path.DIRECTORY_SEPARATOR.$file_name)){
+            return unlink($this->path.DIRECTORY_SEPARATOR.$file_name);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Move the file to desired location
      *
      * @param string $directory
