@@ -34,14 +34,14 @@ final class ImageUploadRepository
     /**
      * Check if image of the applicant exists or not
      * @param int $application_no application number of the user
-     * @return bool return boolean on the basis of the existence of the image of the user
+     * @return array return the data available on the application number
      */
-    public function isImageExists(int $application_no): bool{
+    public function isImageExists(int $application_no): array{
         $smt = $this->connection->prepare("SELECT * FROM admission_student_preregistration_draft_image
                                                     WHERE application_no = :application_no");
         $smt->bindParam(":application_no", $application_no, PDO::PARAM_INT);
         $smt->execute();
-        return (bool)$smt->fetchColumn();
+        return $smt->fetch(PDO::FETCH_ASSOC);
     }
 
     /**

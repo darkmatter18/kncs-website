@@ -45,8 +45,10 @@ final class ImageUploadAction
             $file_name = $this->uploader->uploadFile($image);
 
             //Check if image already exists or not
-            if ($this->imageUploadService->isImageExists($application_no)){
+            $result = $this->imageUploadService->isImageExists($application_no);
+            if (sizeof($result) > 0){
                 //Update image
+                $this->uploader->deleteFile($result['image_name']);
                 $this->imageUploadService->updateImageName($application_no, $file_name);
             }else{
                 //Upload image

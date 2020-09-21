@@ -37,7 +37,7 @@ final class ImageUploadService
         }
     }
 
-    public function isImageExists(int $application_no): bool{
+    public function isImageExists(int $application_no): array{
         return $this->imageUploadRepository->isImageExists($application_no);
     }
 
