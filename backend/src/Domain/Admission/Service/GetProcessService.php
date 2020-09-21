@@ -13,10 +13,12 @@ final class GetProcessService
      * @var GetProcessRepository
      */
     private $getProcessRepository;
+    private string $url;
 
     public function __construct(GetProcessRepository $getProcessRepository)
     {
         $this->getProcessRepository = $getProcessRepository;
+        $this->url = "localhost";
     }
 
     /**
@@ -52,6 +54,8 @@ final class GetProcessService
      * @return array
      */
     public function getPersonalInfo(int $application_no): array{
-        return $this->getProcessRepository->getPersonalInfo($application_no);
+        $result = $this->getProcessRepository->getPersonalInfo($application_no);
+        $result['image_name'] = $this->url . $result['image_name'];
+        return $result;
     }
 }

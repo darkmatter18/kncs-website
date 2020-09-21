@@ -119,7 +119,7 @@ final class GetProcessRepository{
                                                     T3.father_name, T3.father_occupation, T3.mother_name, T3.mother_occupation, T3.guardian_name,
                                                     T3.guardian_occupation, T3.guardian_same_father,
                                                     T4.address_line_1, T4.address_line_2, T4.city, T4.district, T4.pin,
-                                                    T5.image_type, T5.image
+                                                    T5.image_name
                                                     FROM `admission_student_preregistration_details` AS T1
                                                     LEFT OUTER JOIN `admission_student_preregistration_draft_basic_info` AS T2
                                                                     ON T1.application_no=T2.application_no

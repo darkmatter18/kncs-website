@@ -346,9 +346,6 @@ final class SetProcessRepository
                                             (application_no, address_line_1, address_line_2, city, district, pin)
                                             VALUES(:application_no,:address_line_1, :address_line_2, :city, :district, :pin)');
 
-        // Table : student_preregistration_draft_image
-        $smt4 = $this->connection->prepare('INSERT INTO admission_student_preregistration_draft_image(application_no, image_type, image)
-                                            VALUES(:application_no, :image_type, :image)');
 
         // BASIC INFO
         $smt1->bindParam(':application_no', $application_no, PDO::PARAM_STR);
@@ -380,15 +377,10 @@ final class SetProcessRepository
         $smt3->bindParam(':district', $basic_info['district'], PDO::PARAM_STR);
         $smt3->bindParam(':pin', $basic_info['pin'], PDO::PARAM_INT);
 
-        //IMAGE
-        $smt4->bindParam(':application_no', $application_no, PDO::PARAM_STR);
-        $smt4->bindParam(':image_type', $basic_info['image_type'], PDO::PARAM_STR);
-        $smt4->bindParam(':image', $basic_info['base64_decode'], PDO::PARAM_LOB);
 
         $smt1->execute();
         $smt2->execute();
         $smt3->execute();
-        $smt4->execute();
         $this->connection->commit();
     }
 
