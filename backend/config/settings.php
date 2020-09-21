@@ -31,7 +31,12 @@ $settings['cros_urls'] = ['http://localhost:3000'];
 
 // Uploaded Image URL
 $settings['files'] = [
-    'dir' => dirname(__DIR__) . '/files'
+    'dir' => dirname(__DIR__) . '/files',
+    'types_img' => ['image/jpeg', 'image/png'],
+    'max_size' => [
+        'max_all' => 3145728,
+        'img' => 1048576
+    ]
 ];
 
 // Image Manager settings

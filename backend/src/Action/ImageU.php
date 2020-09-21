@@ -13,7 +13,7 @@ final class ImageU
     /**
      * @var FileUploaderFactory
      */
-    private $uploader;
+    private FileUploaderFactory $uploader;
 
     public function __construct(FileUploaderFactory $uploaderFactory)
     {

@@ -4,19 +4,31 @@
 namespace App\Factory;
 
 
+use App\Exception\ValidationException;
 use Exception;
 use Psr\Http\Message\UploadedFileInterface;
 
 final class FileUploaderFactory
 {
+    const TYPE_IMG = 0000;
     /**
      * @var string
      */
     private $path;
+    /**
+     * @var array
+     */
+    private $types_img;
+    /**
+     * @var array
+     */
+    private $max_size;
 
     public function __construct(array $settings)
     {
         $this->path = $settings['dir'];
+        $this->types_img = $settings['types_img'];
+        $this->max_size = $settings['max_size'];
     }
 
     /**
@@ -32,6 +44,83 @@ final class FileUploaderFactory
             return null;
         }
     }
+
+    /**
+     * Check if the uploaded file is eligible
+     *
+     * @param UploadedFileInterface $uploadedFile
+     * @param int $file_type
+     * @param int|null $size
+     */
+    public function checkFile(UploadedFileInterface $uploadedFile, int $file_type, int $size=null): void{
+        $errors = [];
+        $msg = "";
+        if($uploadedFile->getError() != UPLOAD_ERR_OK){
+            $msg = $errors['file_upload_error'] = "File is not updated properly";
+        } else {
+            if(!$this->getSizeEligibility($file_type,$uploadedFile->getSize(), $size)){
+                $msg = $errors['file_size_error'] = "File size is greater than expected";
+            }
+            else {
+                if(!$this->checkUploadedType($file_type, $uploadedFile->getClientMediaType())){
+                    $msg = $errors['file_type_error'] = "File type is expected";
+                }
+            }
+        }
+
+        if($errors){
+            throw new ValidationException($msg, $errors);
+        }
+    }
+
+    /**
+     * @param int $allotted_file_type
+     * @param string|null $uploaded_file_type
+     * @return bool
+     */
+    private function checkUploadedType(int $allotted_file_type, string $uploaded_file_type = null){
+        if(!$uploaded_file_type){
+            return false;
+        } else {
+            switch ($allotted_file_type){
+                case self::TYPE_IMG:
+                    return in_array($uploaded_file_type, $this->types_img);
+
+                default:
+                    return false;
+            }
+        }
+    }
+
+    /**
+     * Get if the file size is eligible for upload or not
+     *
+     * @param int $file_type - Type of the uploaded file
+     * @param int|null $file_size - Size of the uploaded file
+     * @param int|null $allotted_size - Allotted size by the developer
+     * @return bool - Eligible ot not
+     */
+    private function getSizeEligibility(int $file_type, int $file_size =null, int $allotted_size = null){
+        return $file_size && $this->getPermissibleSizePerType($file_type, $allotted_size) > $file_size;
+    }
+
+    /**
+     * get the max permissible size as per image type
+     *
+     * @param int $file_type - Default Size
+     * @param int|null $allotted_size - Size allotted by Developer
+     * @return int - Eligible size
+     */
+    private function getPermissibleSizePerType(int $file_type, int $allotted_size = null): int{
+        switch ($file_type){
+            case self::TYPE_IMG:
+                return $allotted_size ? $allotted_size : $this->max_size['img'];
+
+            default:
+                return $allotted_size ? $allotted_size : $this->max_size['max_all'];
+        }
+    }
+
 
     /**
      * Deletes a file
