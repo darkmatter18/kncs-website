@@ -56,14 +56,14 @@ final class FileUploaderFactory
         $errors = [];
         $msg = "";
         if($uploadedFile->getError() != UPLOAD_ERR_OK){
-            $msg = $errors['file_upload_error'] = "File is not updated properly";
+            $msg = $errors['file_upload_error'] = "Please select a file";
         } else {
             if(!$this->getSizeEligibility($file_type,$uploadedFile->getSize(), $size)){
-                $msg = $errors['file_size_error'] = "File size is greater than expected";
+                $msg = $errors['file_size_error'] = "File size is large";
             }
             else {
                 if(!$this->checkUploadedType($file_type, $uploadedFile->getClientMediaType())){
-                    $msg = $errors['file_type_error'] = "File type is expected";
+                    $msg = $errors['file_type_error'] = "File type is not valid";
                 }
             }
         }
