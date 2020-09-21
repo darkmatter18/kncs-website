@@ -22,6 +22,7 @@ use App\Action\Admission\GetProgress\GetPaymentInfo;
 use App\Action\Admission\GetProgress\GetPersonalInfo;
 use App\Action\Admission\PreRegistrationAction;
 use App\Action\Admission\PreRegistrationLoginAction;
+use App\Action\Admission\SetProgress\ImageUploadAction;
 use App\Action\Admission\SetProgress\SetAcademicInfo;
 use App\Action\Admission\SetProgress\SetDeclaration;
 use App\Action\Admission\SetProgress\SetPaymentInfo;
@@ -113,6 +114,8 @@ return function (App $app) {
             $admissionProgressGroup->group('/personal_info', function (RouteCollectorProxy $personalInfoGroup){
                 $personalInfoGroup->get('', GetPersonalInfo::class);
                 $personalInfoGroup->post('', SetPersonalInfo::class);
+                $personalInfoGroup->get('/image', ImageUploadAction::class);
+                $personalInfoGroup->post('/image', ImageUploadAction::class);
             });
             $admissionProgressGroup->group('/academic_info', function (RouteCollectorProxy $academicInfoGroup){
                 $academicInfoGroup->get('', GetAcademicInfo::class);
