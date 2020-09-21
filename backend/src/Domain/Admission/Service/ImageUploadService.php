@@ -51,19 +51,22 @@ final class ImageUploadService
         }
     }
 
-    public function getFileName(UploadedFileInterface $uploadedFile): string{
+    public function imageUploadOrUpdate(string $application_no, UploadedFileInterface $image){
+        $res = $this->imageUploadRepository->isImageExists($application_no);
+        if (sizeof($res) > 0){
+            //Update image
+            $this->uploader->deleteFile($res['image_name']);
+            $file_name = $this->getFileName($image);
+            $this->imageUploadRepository->updateImageName($application_no, $file_name);
+        }else{
+            //Upload image
+            $file_name = $this->getFileName($image);
+            $this->imageUploadRepository->uploadImageName($application_no, $file_name);
+        }
+    }
+
+    private function getFileName(UploadedFileInterface $uploadedFile): string{
         return $this->uploader->uploadFile($uploadedFile);
     }
 
-    public function isImageExists(int $application_no): array{
-        return $this->imageUploadRepository->isImageExists($application_no);
-    }
-
-    public function uploadImageName(int $application_no, string $image_name): void{
-        $this->imageUploadRepository->uploadImageName($application_no, $image_name);
-    }
-
-    public function updateImageName(int $application_no, string $image_name): void{
-        $this->imageUploadRepository->updateImageName($application_no, $image_name);
-    }
 }
