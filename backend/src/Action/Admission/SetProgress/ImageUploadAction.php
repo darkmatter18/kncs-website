@@ -15,11 +15,11 @@ final class ImageUploadAction
     /**
      * @var ImageUploadService
      */
-    private $imageUploadService;
+    private ImageUploadService $imageUploadService;
     /**
      * @var FileUploaderFactory
      */
-    private $uploader;
+    private FileUploaderFactory $uploader;
 
     public function __construct(ImageUploadService $imageUploadService, FileUploaderFactory $uploaderFactory)
     {
@@ -39,20 +39,17 @@ final class ImageUploadAction
             //input image
             $image = $request->getUploadedFiles()['image'];
 
-            //TODO Checking of image file is empty or not
-
-            //Get file name
-            $file_name = $this->uploader->uploadFile($image);
+            $this->imageUploadService->checkInputFile($image);
 
             //Check if image already exists or not
             $result = $this->imageUploadService->isImageExists($application_no);
             if (sizeof($result) > 0){
                 //Update image
                 $this->uploader->deleteFile($result['image_name']);
-                $this->imageUploadService->updateImageName($application_no, $file_name);
+                $this->imageUploadService->updateImageName($application_no, $image);
             }else{
                 //Upload image
-                $this->imageUploadService->uploadImageName($application_no, $file_name);
+                $this->imageUploadService->uploadImageName($application_no, $image);
             }
 
             //Returning response
