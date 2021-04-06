@@ -49,7 +49,7 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/styles": "^4.10.0",
+    "@material-ui/styles": "^4.11.3",
     "cross-env": "^7.0.3",
     "http-proxy-middleware": "^1.0.6"
   }
