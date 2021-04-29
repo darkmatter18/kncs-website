@@ -1,0 +1,64 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/frontend"
+  schedule:
+    interval: daily
+    time: "23:30"
+    timezone: Asia/Calcutta
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@testing-library/user-event"
+    versions:
+    - 12.6.2
+    - 12.6.3
+    - 12.7.0
+    - 12.7.1
+    - 12.7.2
+    - 12.7.3
+    - 12.8.0
+    - 12.8.1
+    - 12.8.3
+    - 13.0.1
+    - 13.0.10
+    - 13.0.15
+    - 13.0.16
+    - 13.0.5
+    - 13.0.7
+    - 13.1.1
+    - 13.1.2
+    - 13.1.5
+  - dependency-name: http-proxy-middleware
+    versions:
+    - 1.1.0
+    - 1.1.1
+    - 1.2.0
+  - dependency-name: date-fns
+    versions:
+    - 2.18.0
+    - 2.19.0
+    - 2.20.0
+    - 2.20.1
+    - 2.20.2
+    - 2.20.3
+    - 2.21.0
+  - dependency-name: react-to-print
+    versions:
+    - 2.12.3
+  - dependency-name: react-scripts
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: cross-env
+    versions:
+    - 7.0.3
+  - dependency-name: "@date-io/core"
+    versions:
+    - 2.10.6
+- package-ecosystem: composer
+  directory: "/backend"
+  schedule:
+    interval: daily
+    time: "23:30"
+    timezone: Asia/Calcutta
+  open-pull-requests-limit: 10
