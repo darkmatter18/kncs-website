@@ -19,7 +19,7 @@
     "material-table": "^1.69.3",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
-    "react-auth-jwt": "^2.0.2",
+    "react-auth-jwt": "^2.0.3",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
